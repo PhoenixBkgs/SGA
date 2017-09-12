@@ -59,13 +59,14 @@ string CardNumToString(int CardNum);
 tagDeck SetupGameTable();
 tagDeck CreateDeck();
 void ShuffleDeck_Yates(tagDeck* Deck);
-void PrintCards(tagCard* Cards);
 void PrintDeck(tagDeck* Deck);
 void InitPlayer(tagPlayer* Player);
 
 //	In game
 bool HitCard(tagPlayer* Player, tagDeck* Deck);
 tagCard DrawCard(tagDeck* Deck);
+void ShowInterface();
+
 
 //	End play
 int CheckScore(tagCard* Cards);
@@ -118,10 +119,21 @@ int main()
 		
 		cout << "HIT THE CARD !!!" << endl;
 		cout << "TURN : " << curTurn << endl;
+		try
+		{
+			tagCard tmpCard = DrawCard(&stDeck);
+			cout << EShapeToString(tmpCard.Shape) << CardNumToString(tmpCard.Number) << endl;
+			stPlayer.PlayerDeck.Cards.push_back(tmpCard);
+		}
+		catch (const std::exception&)
+		{
+			break;
+		}
 
-		tagCard tmpCard = DrawCard(&stDeck);
-		cout << EShapeToString(tmpCard.Shape) << CardNumToString(tmpCard.Number) << endl;
-		stPlayer.PlayerDeck.Cards.push_back(tmpCard);
+		//	1. 딜러와 플레이어 카드를 뽑는다
+		//	2. 딜러 카드 1장 공개/ 플레이어 카드 2장 공개
+		//	3. 플레이어 턴
+		//	4-1. 플레이어는 액션 선택
 
 		/*
 		HitCard(&stPlayer, &stDeck);
@@ -293,6 +305,7 @@ bool HitCard(tagPlayer* Player, tagDeck* Deck)
 	return true;
 }
 
+//	Draw card from deck
 tagCard DrawCard(tagDeck* Deck)
 {
 	//	사용안한 첫번째 카드 찾기
@@ -306,6 +319,21 @@ tagCard DrawCard(tagDeck* Deck)
 
 	return retCard;
 }
+
+//	Show game interface
+void ShowInterface()
+{
+	//	보유 금액
+	//	딜러 이름
+	//	딜러 카드1 / 카드2 (???)
+	//-------------------------------------
+	//	플레이어 이름
+	//	플레이어 카드1 / 카드2 / ...
+	//-------------------------------------
+	//	명령 입력. 1.힛  2.스테이  3.스테이
+
+}
+
 
 //	END PLAY FUNCTIONS
 //	check card number
