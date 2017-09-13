@@ -57,6 +57,7 @@ string CardNumToString(int CardNum);
 void PrintDeck(tagDeck* Deck);
 void PrintCard(tagCard tagCard);
 void BubbleSort(tagDeck* Deck, bool IsIncrease);
+void EloCalc(int EloRating1, int EloRating2, int Winner);
 
 //	Prepare for play
 tagDeck SetupGameTable();
@@ -83,6 +84,9 @@ const string szClub		= "♣";
 
 int bettingMoney = 100;
 int buriedMoney = 0;
+
+int elo1 = 1500;
+int elo2 = 1500;
 
 int main()
 {
@@ -182,18 +186,23 @@ int main()
 			}
 		}
 
+		vector<int> tempEloRating;
+
 		switch (winner)
 		{
 		case DEALER:
 			cout << "DEALER WIN !!!" << endl;
+			EloCalc(elo1, elo2, 1);
 			Sleep(1000);
 			break;
 		case PLAYER:
 			cout << "PLAYER WIN !!!" << endl;
+			EloCalc(elo1, elo2, 2);
 			Sleep(1000);
 			break;
 		case DRAW:
 			cout << "DRAW !!!" << endl;
+			EloCalc(elo1, elo2, 3);
 			Sleep(1000);
 			break;
 		case NONE:
@@ -356,6 +365,43 @@ void BubbleSort(tagDeck* Deck, bool IsIncrease)
 		}
 	}
 }
+
+void EloCalc(int EloRating1, int EloRating2, int Winner)
+{
+	int constK = 32;
+	double varR1 = 10 ^ (EloRating1 / 400);
+	double varR2 = 10 ^ (EloRating2 / 400);
+	double varE1 = varR1 / (varR1 + varR2);
+	double varE2 = varR2 / (varR1 + varR2);
+	double varWDL1 = 0.0f;
+	double varWDL2 = 0.0f;
+	switch (Winner)
+	{
+	case 1:
+		//	P1 Win
+		varWDL1 = 1.0f;
+		break;
+	case 2:
+		//	P2 Win
+		varWDL2 = 1.0f;
+		break;
+	case 3:
+		//	Draw
+		varWDL1 = 0.5f;
+		varWDL2 = 0.5f;
+	default:
+		break;
+	}
+
+	double varRating1 = EloRating1 + (constK * (varWDL1 - varE1));
+	double varRating2 = EloRating2 + (constK * (varWDL2 - varE2));
+
+	vector<int> retResult;
+	elo1 = varRating1;
+	elo2 = varRating2;
+}
+
+
 //	SPADE	♠
 //	DIA		◆
 //	HEART	♥
@@ -471,6 +517,8 @@ E_ACTION ShowInterface(tagPlayer Dealer, tagPlayer Player, bool IgnoreInput)
 
 	//	보유 금액
 	cout << "$ : " << Player.Budget << endl;
+	cout << "D Rating : " << elo1 << endl;
+	cout << "P Rating : " << elo2 << endl;
 
 	//	딜러 이름
 	cout << "------------------------------------------------------------------" << endl;
@@ -528,7 +576,7 @@ int CheckScore(tagDeck* Deck)
 	int deckSize = 0;
 	bool IsJQK = false;
 	//	카드 정렬(내림차순, JQK = 10)
-	BubbleSort(Deck, false);
+	//BubbleSort(Deck, false);
 
 	//	카드 숫자의 합
 	deckSize = Deck->Cards.size();
