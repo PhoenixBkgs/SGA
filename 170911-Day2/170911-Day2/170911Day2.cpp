@@ -86,28 +86,6 @@ int buriedMoney = 0;
 
 int main()
 {
-	//	VECTOR EXAMPLE
-	/*
-	vector<int> vecInt;
-	vector<int>::iterator iter;
-
-	vecInt.push_back(1);
-	vecInt.push_back(3);
-	vecInt.push_back(5);
-	cout << vecInt[0] << endl;
-
-	cout << vecInt.size() << endl;
-	vecInt.pop_back();	//	last value pop out
-	cout << vecInt.size() << endl;
-
-	cout << *(vecInt.begin() + 1) << endl;
-
-	for (iter = vecInt.begin(); iter != vecInt.end(); iter++)
-	{
-		cout << *iter << endl;
-	}
-	*/
-
 	tagPlayer stDealer;
 	tagPlayer stPlayer;
 	tagDeck stDeck;
