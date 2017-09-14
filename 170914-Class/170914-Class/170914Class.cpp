@@ -2,13 +2,20 @@
 //
 
 #include "stdafx.h"
-#include "Player.h"
+#include "MainGame.h"
 
 int main()
 {
-	Player player;
-	player.GetName();
-    player.GetDamage(20);
+    srand(time(NULL));
+    rand();
+
+    MainGame* game = new MainGame;
+    bool isPlaying = true;
+
+    while (isPlaying)
+    {
+        isPlaying = game->MainPlay();
+    }
 
     return 0;
 }

@@ -8,17 +8,29 @@
 
 enum LOCATION
 {
-    L_TOWN, L_SHOP, L_INVEN, L_DUNGEON
+    L_TOWN, L_SHOP, L_INVEN, L_DUNGEON, L_END
 };
 
 class MainGame
 {
 private:
-    Player m_player;
-    Monster m_monster;
+    LOCATION m_curLoc;  //  current location
+    LOCATION m_preLoc;  //  previous location
+
+    Player* m_player;
+    Monster* m_monster;
+    Inventory* m_inven;
+
+    void InTown();
+    void InShop();
+    void OpenInven();
+    void InDungeon();
+
 
 public:
     MainGame();
     ~MainGame();
+
+    bool MainPlay();
 };
 
