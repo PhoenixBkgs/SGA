@@ -574,7 +574,6 @@ int CheckScore(tagDeck* Deck)
 	int score = 0;
 	int tempScore = 0;
 	int deckSize = 0;
-	bool IsJQK = false;
 	//	카드 정렬(내림차순, JQK = 10)
 	//BubbleSort(Deck, false);
 
@@ -586,7 +585,6 @@ int CheckScore(tagDeck* Deck)
 		if (cardNum > 10)	//	JQK 처리
 		{
 			cardNum = 10;
-			IsJQK = true;
 		}
 		tempScore += cardNum;
 	}
@@ -594,7 +592,7 @@ int CheckScore(tagDeck* Deck)
 	//	JQK + A = 블랙잭
 	//	블랙잭 반환 = -1
 	//	받은 카드 2장 && A + JQK)
-	if (deckSize == 2 && tempScore == 11 && IsJQK)
+	if (deckSize == 2 && tempScore == 11)
 	{
 		score = -1;
 	}
@@ -617,7 +615,6 @@ int CheckScore(tagDeck* Deck)
 			if (cardNum > 10)	//	JQK 처리
 			{
 				cardNum = 10;
-				IsJQK = true;
 			}
 
 			if (cardNum == 1)
