@@ -14,14 +14,14 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
+Player cPlayer;
+Bullet cBullet;
+
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
-//RECT rt;
-int moveX = 10;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -113,7 +113,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-
+   
    return TRUE;
 }
 
@@ -149,44 +149,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_CREATE:     //  창이 생성될때
-        static RECT rt;
+        cPlayer.CreatePlayer();             //  Player RECT 생성
+        cBullet.CreateBulletRain(5);     //  Bullet vector<RECT> 생성
+        
         SetTimer(hWnd, 1, 10, NULL);
-        rt.left = 10;
-        rt.top = 10;
-        rt.right = 110;
-        rt.bottom = 110;
         break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다.
-            /*
-            MoveToEx(hdc, 10, 10, NULL);
-            LineTo(hdc, 100, 100);
-
-            Rectangle(hdc, 200, 200, 300, 300);
-            Ellipse(hdc, 200, 200, 300, 300);
-            */
-            Rectangle(hdc, rt.left, rt.top, rt.right, rt.bottom);
+            //  DRAW PLAYER & BULLET RAIN
+            cPlayer.DrawPlayer(hdc);
+            cBullet.DrawBulletRain(hdc);
 
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_TIMER:
-        /*
-        rt.left += moveX;
-        rt.right += moveX;
+        //  Bullet 하강 시키는 코드
+        cBullet.DropBulletRain(&cPlayer);
 
-        if (rt.right >= WIDTH - 100)
+        //  Player 생사 확인
+        if (cPlayer.GetPlayerAliveFlag())      //  == TRUE / PLAYER IS ALIVE
         {
-            moveX = -10;
+            //  DO NOTHING
         }
-        else if (rt.left <= 0)
+        else                                   //  == FALSE / PLAYER IS DEAD
         {
-            moveX = 10;
+            PostQuitMessage(0);
         }
-        */
+
+        if (cBullet.GetRemainBullet() <= 0)
+        {
+            //  PLAYER WIN
+            PostQuitMessage(0);
+        }
+
         InvalidateRect(hWnd, NULL, true);
         break;
     case WM_KEYDOWN:
@@ -196,12 +195,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PostQuitMessage(0);
             break;
         case VK_LEFT:
-            rt.left -= 10;
-            rt.right -= 10;
+            cPlayer.MovePlayer(-cPlayer.m_playerSpeed);
             break;
         case VK_RIGHT:
-            rt.left += 10;
-            rt.right += 10;
+            cPlayer.MovePlayer(cPlayer.m_playerSpeed);
             break;
         default:
             break;
