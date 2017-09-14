@@ -20,7 +20,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-RECT rt;
+//RECT rt;
 int moveX = 10;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -149,6 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_CREATE:     //  창이 생성될때
+        static RECT rt;
         SetTimer(hWnd, 1, 10, NULL);
         rt.left = 10;
         rt.top = 10;
