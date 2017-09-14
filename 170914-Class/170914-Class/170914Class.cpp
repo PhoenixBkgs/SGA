@@ -2,10 +2,14 @@
 //
 
 #include "stdafx.h"
-
+#include "Player.h"
 
 int main()
 {
+	Player player;
+	player.GetName();
+    player.GetDamage(20);
+
     return 0;
 }
 

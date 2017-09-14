@@ -9,6 +9,13 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <string>
+
+#include <time.h>
+#include <windows.h>
+
+using namespace std;
+
 
 
 
