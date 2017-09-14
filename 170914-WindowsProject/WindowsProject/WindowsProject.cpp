@@ -177,12 +177,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         else                                   //  == FALSE / PLAYER IS DEAD
         {
+            //KillTimer(hWnd, 1);
+            //MessageBox(hWnd, L"PLAYER LOSE", L"GAME OVER", MB_OK);
             PostQuitMessage(0);
         }
 
         if (cBullet.GetRemainBullet() <= 0)
         {
             //  PLAYER WIN
+            //KillTimer(hWnd, 1);
+            //MessageBox(hWnd, L"PLAYER WIN", L"GAME OVER", MB_OK);
             PostQuitMessage(0);
         }
 
