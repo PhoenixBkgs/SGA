@@ -1,4 +1,4 @@
-// stdafx.h : 자주 사용하지만 자주 변경되지는 않는
+﻿// stdafx.h : 자주 사용하지만 자주 변경되지는 않는
 // 표준 시스템 포함 파일 또는 프로젝트 관련 포함 파일이
 // 들어 있는 포함 파일입니다.
 //
@@ -27,5 +27,14 @@
 
 using namespace std;
 
+#define WINNAME L"HELLO"
+#define WIN_START_X 0
+#define WIN_START_Y 0
+#define WIN_WIDTH 1280
+#define WIN_HEIGHT 720
+#define WINSTYLE WS_CAPTION | WS_OVERLAPPED
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+extern HINSTANCE g_Inst;
+extern HWND g_hWnd;
+extern POINT g_ptMouse;
