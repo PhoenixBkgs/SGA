@@ -1,19 +1,27 @@
 #pragma once
 
-#define PLAYER_WIDTH 10
-#define PLAYER_HEIGHT 10
+using namespace std;
 
 class Player
 {
 private:
     RECT m_player;
     bool m_isAlive = true;
+    vector<int> m_windowSize;
+    vector<int> m_playerSize;
+    vector<int> m_playerSpawnPos;
 
 public:
     Player();
     ~Player();
     
     const int m_playerSpeed = 10;
+
+    void SetWindowSize(int Width, int Height);
+    void SetPlayerSize(int Width, int Height);
+    void SetPlayerSpawnPos(int PosX, int PosY);
+
+    bool ValidatePlayerInfo();
 
     void CreatePlayer();
     void DrawPlayer(HDC hdc);

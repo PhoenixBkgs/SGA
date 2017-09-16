@@ -16,15 +16,21 @@ int Bullet::GetRemainBullet()
     return m_remainBullet;
 }
 
+void Bullet::SetWindowSize(int Width, int Height)
+{
+    m_windowWidth = Width;
+    m_windowHeight = Height;
+}
+
 void Bullet::CreateBulletRain(int BulletCount)
 {
     m_remainBullet = BulletCount;
     for (int i = 0; i < BulletCount; i++)
     {
         int K = rand();
-        srand(time(NULL) * i * K);
-        int xPos = rand() % 1200;
-        int yPos = rand() % (BulletCount * 3);
+        srand((int)time(NULL) * i * K);
+        int xPos = rand() % m_windowWidth;
+        int yPos = rand() % (BulletCount * 6);
         RECT rectBullet;
         rectBullet.left = xPos;
         rectBullet.right = xPos + BULLET_WIDTH;
@@ -75,34 +81,6 @@ void Bullet::DropBulletRain(Player* player)
             iter++;
         }
     }
-    /*
-    for (int i = 0; i < vecBulletSize; i++)
-    {
-        RECT playerRect = player->GetPlayerRect();
-        int playerTopPosY = playerRect.top;
-        int playerBotPosY = playerRect.bottom;
-        int bulletBotPosY = m_vecBullet[i].bottom;
-        int bulletTopPosY = m_vecBullet[i].top;
-        bool isCollide = false;
-        if (bulletTopPosY > playerBotPosY)
-        {
-            //  바닥을 지나간 총알
-            m_remainBullet -= 1;
-        }
-        //  총알 바닥면이 플레이어 머리 고도 보다 낮을때
-        else if (bulletBotPosY > playerTopPosY)
-        {
-            isCollide = CollisionValidate(playerRect, m_vecBullet[i]);
-            if (isCollide)  //  충돌 감지!
-            {
-                player->SetPlayerAliveFlag(!isCollide);
-                break;
-            }
-        }
-        m_vecBullet[i].top += GRAVITY;
-        m_vecBullet[i].bottom += GRAVITY;
-    }
-    */
 }
 
 void Bullet::DrawBulletRain(HDC hdc)
@@ -116,44 +94,13 @@ void Bullet::DrawBulletRain(HDC hdc)
 
 bool Bullet::CollisionValidate(RECT Player, RECT Bullet)
 {
+    //  Check Collision
     bool retIsCollide = false;
-
-    int playerLeft = Player.left;
-    int playerRight = Player.right;
-    int bulletLeft = Bullet.left;
-    int bulletRight = Bullet.right;
-
-    if ((playerLeft < bulletRight) && (playerRight > bulletRight))
+    RECT CheckCollideRect;
+    retIsCollide = IntersectRect(&CheckCollideRect, &Player, &Bullet);
+    if (retIsCollide)
     {
-        //  COLLISION !!
-        //  [ ]       BULLET
-        //   [ ]      PLAYER
-        retIsCollide = true;
-    }
-    else if ((playerLeft < bulletLeft) && (playerRight > bulletLeft))
-    {
-        //  COLLISION !!
-        //    [ ]     BULLET
-        //   [ ]      PLAYER
-        retIsCollide = true;
-    }
-    else if ((playerLeft > bulletLeft) && (playerRight < bulletRight))
-    {
-        //  COLLISION !!
-        //  [   ]    BULLET
-        //   [ ]     PLAYER
-        retIsCollide = true;
-    }
-    else if ((playerLeft < bulletLeft) && (playerRight > bulletRight))
-    {
-        //  COLLISION !!
-        //    |     BULLET
-        //   [ ]    PLAYER
-        retIsCollide = true;
-    }
-    else
-    {
-        //  NO COLLISION !!
+        //  COLLIDE
     }
 
     return retIsCollide;
