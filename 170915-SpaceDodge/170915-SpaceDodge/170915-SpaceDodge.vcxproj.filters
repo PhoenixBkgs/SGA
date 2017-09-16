@@ -28,6 +28,9 @@
     <Filter Include="GameFramework2D\GameSource">
       <UniqueIdentifier>{63a7b961-0488-4332-acbb-a00464d895cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{6d1e7db2-08f7-40ab-851b-148ed70da6bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -57,6 +60,15 @@
     <ClInclude Include="Bullet.h">
       <Filter>GameFramework2D\GameSource</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeDrawer.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MathVectorCalc.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>GameFramework2D\GameSource</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeDrawer.cpp">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="MathVectorCalc.cpp">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
