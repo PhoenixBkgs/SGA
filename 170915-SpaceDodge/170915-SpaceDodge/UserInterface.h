@@ -7,7 +7,6 @@ struct InfoBarModel
 };
 
 
-
 class UserInterface
 {
     //  VARS
@@ -23,8 +22,11 @@ public:
     ~UserInterface();
 
     void Update();
+    void Render(HDC hdc);
 
     void SetInfoBar(int GameLevel, int RemainBullet);
     void DrawInfoBar(HDC* hdc);
+
+    void PrintMessageCenter(HDC* hdc, char* Message);
 };
 

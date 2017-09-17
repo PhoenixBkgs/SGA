@@ -3,11 +3,8 @@
 
 MainGame::MainGame()
 {
-    m_isPlaying = false;
-    m_gameLvl = 1;
-    SetGameLevel(1);
-    m_eGameState = GS_LOADING;
-    m_bulletRegenCounter = (int)(500 / m_gameLvl);
+    m_eGameState = GS_READY;
+    SetGame();
 }
 
 
@@ -26,7 +23,6 @@ void MainGame::Update()
         m_eGameState = GS_READY;
         break;
     case GS_READY:
-        m_player.Setup();
         break;
     case GS_PLAYING:
         PlayGame();
@@ -36,8 +32,7 @@ void MainGame::Update()
     case GS_STAGECLEAR:
         break;
     case GS_GAMEOVER:
-        KillTimer(g_hWnd, 1);
-        PostQuitMessage(0);
+        SetGame();
         break;
     default:
         break;
@@ -54,14 +49,26 @@ void MainGame::Render(HDC hdc)
     {
         iter->Render(hdc);
     }
+    if (m_eGameState == GS_GAMEOVER)
+    {
+        m_ui.Render(hdc);
+    }
 }
 
+
+void MainGame::SetGame()
+{
+    m_player.Setup();
+    ClearRainOfBullet();
+    m_gameLvl = 1;
+    SetGameLevel(m_gameLvl);
+    m_bulletRegenCounter = (int)(500 / m_gameLvl);
+}
 
 void MainGame::SetGameLevel(int GameLevel)
 {
     int BulletCount = (GameLevel * 5);
     CreateBarrage(BulletCount);
-    //CreateBarrage(1);
 }
 
 void MainGame::GetKeyState()
@@ -75,7 +82,7 @@ void MainGame::GetKeyState()
             break;
         case GS_STAGECLEAR:
         case GS_GAMEOVER:
-            //m_eGameState = GS_READY;
+            m_eGameState = GS_READY;
             break;
         default:
             break;

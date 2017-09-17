@@ -16,7 +16,6 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
-    bool m_isPlaying;
     int m_gameLvl;
     int m_gameScore;
     int m_bulletRegenCounter;
@@ -32,6 +31,7 @@ public:
 //=======================================================
 //  FUNCTIONS
 private:
+    void SetGame();
     void SetGameLevel(int GameLevel);
     void GetKeyState();
 
