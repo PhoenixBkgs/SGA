@@ -19,6 +19,7 @@ private:
     bool m_isPlaying;
     int m_gameLvl;
     int m_gameScore;
+    int m_bulletRegenCounter;
 
     E_GAMESTATE m_eGameState;
 
@@ -39,6 +40,7 @@ private:
     void DrawBarrage(HDC hdc);                  //  Åº¸· ±×¸®±â
 
     void PlayGame();
+    bool Collider(RECT* rt1, RECT* rt2);
 
 public:
     MainGame();
