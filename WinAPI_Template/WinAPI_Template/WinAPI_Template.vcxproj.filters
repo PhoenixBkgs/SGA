@@ -54,16 +54,16 @@
     <ClInclude Include="WinAPITemplate.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameFramework2D\MainGame\GameNode.h">
+    <ClInclude Include="GameNode.h">
       <Filter>GameFramework2D\MainGame\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GameFramework2D\MainGame\MainGame.h">
+    <ClInclude Include="MainGame.h">
       <Filter>GameFramework2D\MainGame\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GameFramework2D\Manager\SingletonBase.h">
+    <ClInclude Include="KeyManager.h">
       <Filter>GameFramework2D\Manager\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GameFramework2D\Manager\KeyManager.h">
+    <ClInclude Include="SingletonBase.h">
       <Filter>GameFramework2D\Manager\Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,13 +74,13 @@
     <ClCompile Include="WinAPITemplate.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameFramework2D\MainGame\GameNode.cpp">
+    <ClCompile Include="GameNode.cpp">
       <Filter>GameFramework2D\MainGame\Source</Filter>
     </ClCompile>
-    <ClCompile Include="GameFramework2D\MainGame\MainGame.cpp">
+    <ClCompile Include="MainGame.cpp">
       <Filter>GameFramework2D\MainGame\Source</Filter>
     </ClCompile>
-    <ClCompile Include="GameFramework2D\Manager\KeyManager.cpp">
+    <ClCompile Include="KeyManager.cpp">
       <Filter>GameFramework2D\Manager\Source</Filter>
     </ClCompile>
   </ItemGroup>
