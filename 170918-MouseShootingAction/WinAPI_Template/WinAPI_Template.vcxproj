@@ -150,8 +150,11 @@
     <ClInclude Include="GameFramework2D\MainGame\GameNode.h" />
     <ClInclude Include="GameFramework2D\MainGame\MainGame.h" />
     <ClInclude Include="GameFramework2D\Manager\KeyManager.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="GameFramework2D\Manager\SingletonBase.h" />
+    <ClInclude Include="GameFramework2D\GameSource\ShootingTarget.h" />
+    <ClInclude Include="GameFramework2D\GameSource\ShootingGallery.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAPITemplate.h" />
@@ -160,6 +163,9 @@
     <ClCompile Include="GameFramework2D\MainGame\GameNode.cpp" />
     <ClCompile Include="GameFramework2D\MainGame\MainGame.cpp" />
     <ClCompile Include="GameFramework2D\Manager\KeyManager.cpp" />
+    <ClCompile Include="GameFramework2D\GameSource\ShootingTarget.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="GameFramework2D\GameSource\ShootingGallery.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

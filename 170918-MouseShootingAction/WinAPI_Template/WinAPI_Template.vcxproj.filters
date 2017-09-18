@@ -66,6 +66,15 @@
     <ClInclude Include="GameFramework2D\Manager\KeyManager.h">
       <Filter>GameFramework2D\Manager\Header</Filter>
     </ClInclude>
+    <ClInclude Include="GameFramework2D\GameSource\ShootingTarget.h">
+      <Filter>GameFramework2D\MainGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameFramework2D\MainGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework2D\GameSource\ShootingGallery.h">
+      <Filter>GameFramework2D\MainGame\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -82,6 +91,15 @@
     </ClCompile>
     <ClCompile Include="GameFramework2D\Manager\KeyManager.cpp">
       <Filter>GameFramework2D\Manager\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFramework2D\GameSource\ShootingTarget.cpp">
+      <Filter>GameFramework2D\MainGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameFramework2D\MainGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFramework2D\GameSource\ShootingGallery.cpp">
+      <Filter>GameFramework2D\MainGame\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
