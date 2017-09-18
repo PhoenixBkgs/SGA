@@ -1,5 +1,5 @@
 #pragma once
-#include "MainGame.h"
+#include "EnumSet.h"
 
 #define L_TARGET_COLOR       0
 #define M_TARGEET_COLOR      125
@@ -24,6 +24,8 @@ private:
     HBRUSH          m_targetBrush;
     bool            m_isTargetUp;              //  TRUE = ON, FALSE = OFF
     POINT           m_targetPos;
+    
+    int     m_targetScore;
 
 public:
 
@@ -35,6 +37,7 @@ public:
     ~ShootingTarget();
 
     void Setup();
+    RECT GetTargetRect() { return m_targetRect; }
     void SetTagetUpFlag(bool TargetUpFlag)  { m_isTargetUp = TargetUpFlag; }
     void SetTargetPos(POINT TargetPos)      { m_targetPos = TargetPos; }
     void SetTargetSize(E_TARGET_SIZE TargetSize) { m_eTargetSize = TargetSize; }

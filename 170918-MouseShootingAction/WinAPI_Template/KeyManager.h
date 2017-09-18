@@ -17,6 +17,6 @@ public:
     bool isOnceKeyDown(int key);
     bool isOnceKeyUp(int key);
     bool isStayKeyDown(int key);
-    bool isToggleKy(int key);
+    bool isToggleKey(int key);
 };
 

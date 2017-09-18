@@ -1,0 +1,17 @@
+#pragma once
+
+//  0b0000
+enum E_CHEAT_MODE
+{
+    CM_SHOTGUN = 0, CM_BIGHEAD, CM_CHROMIE, CM_JAINA
+};
+
+enum E_GAME_STATE
+{
+    GS_READY = 0, GS_PLAYING, GS_CLEAR, GS_GAMEOVER, GS_END
+};
+
+enum E_TARGET_SIZE
+{
+    TS_SMALL = 0, TS_MEDIUM, TS_LARGE, TS_END
+};

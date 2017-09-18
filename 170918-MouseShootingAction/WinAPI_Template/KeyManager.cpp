@@ -55,7 +55,7 @@ bool KeyManager::isStayKeyDown(int key)
     return false;
 }
 
-bool KeyManager::isToggleKy(int key)
+bool KeyManager::isToggleKey(int key)
 {
     if (GetKeyState(key) & 0x0001)
     {

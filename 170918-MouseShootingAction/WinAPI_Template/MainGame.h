@@ -1,16 +1,8 @@
 #pragma once
 #include "GameNode.h"
+#include "ShootingTarget.h"
 #include "ShootingGallery.h"
-
-enum E_GAME_STATE
-{
-    GS_READY = 0, GS_PLAYING, GS_CLEAR, GS_GAMEOVER, GS_END
-};
-
-enum E_TARGET_SIZE
-{
-    TS_SMALL = 0, TS_MEDIUM, TS_LARGE, TS_END
-};
+#include <bitset>
 
 class MainGame : public GameNode
 {
@@ -20,9 +12,16 @@ private:
     E_GAME_STATE        m_currGameState;
     ShootingGallery     m_map;
 
+    int     m_entireTargetCount;
     int     m_gameLevel;
     int     m_gameScore;
     int     m_playerLife;
+
+    int     m_targetUptime;
+    int     m_targetUpInterval;
+    bool    m_isHit;
+
+    bitset<4>  m_cheatMode;
 
 public:
 
@@ -36,6 +35,14 @@ public:
     virtual void Update() override;
     virtual void Render(HDC hdc) override;
 
+    void SetCheatMode(E_CHEAT_MODE CheatCode);
+    bitset<4> GetCheatMode() { return m_cheatMode; }
+    void InputModule();
+
     void Setup();
+
+    void PlayGame();
+
+    void TargetHitChecker();
 };
 

@@ -72,7 +72,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)GameFramework2D\MainGame\;$(ProjectDir)GameFramework2D\Manager\;$(ProjectDir)GameFramework2D\Util\;$(ProjectDir)GameFramework2D\GameSource\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -147,25 +146,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameFramework2D\MainGame\GameNode.h" />
-    <ClInclude Include="GameFramework2D\MainGame\MainGame.h" />
-    <ClInclude Include="GameFramework2D\Manager\KeyManager.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="EnumSet.h" />
+    <ClInclude Include="GameNode.h" />
+    <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="GameFramework2D\Manager\SingletonBase.h" />
-    <ClInclude Include="GameFramework2D\GameSource\ShootingTarget.h" />
-    <ClInclude Include="GameFramework2D\GameSource\ShootingGallery.h" />
+    <ClInclude Include="ShootingGallery.h" />
+    <ClInclude Include="ShootingTarget.h" />
+    <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameFramework2D\MainGame\GameNode.cpp" />
-    <ClCompile Include="GameFramework2D\MainGame\MainGame.cpp" />
-    <ClCompile Include="GameFramework2D\Manager\KeyManager.cpp" />
-    <ClCompile Include="GameFramework2D\GameSource\ShootingTarget.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="GameFramework2D\GameSource\ShootingGallery.cpp" />
+    <ClCompile Include="GameNode.cpp" />
+    <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="ShootingGallery.cpp" />
+    <ClCompile Include="ShootingTarget.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
