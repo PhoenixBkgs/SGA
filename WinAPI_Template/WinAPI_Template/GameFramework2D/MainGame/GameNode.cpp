@@ -4,11 +4,13 @@
 
 GameNode::GameNode()
 {
+    g_pKeyManager->Setup();
 }
 
 
 GameNode::~GameNode()
 {
+    g_pKeyManager->ReleaseInstance();
 }
 
 void GameNode::Update()

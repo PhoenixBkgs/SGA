@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GameFramework2D">
+      <UniqueIdentifier>{c55583b2-112c-4779-8ee1-4ce70aaa0b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\MainGame">
+      <UniqueIdentifier>{77d85270-29a6-41e2-9f00-b34efad795c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\MainGame\Header">
+      <UniqueIdentifier>{4025a30b-2ab8-4a7e-8596-5fd8b5478bc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\MainGame\Source">
+      <UniqueIdentifier>{0f126c1b-36dd-40cc-ac2f-f027e6be96c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\Util">
+      <UniqueIdentifier>{8cab1dd3-426c-444f-9787-ad57b6e5eafb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\Manager">
+      <UniqueIdentifier>{f67891c6-fda0-450c-8ab2-264a2d21bd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\Manager\Header">
+      <UniqueIdentifier>{8496d496-2e59-4aae-8bf6-b757b45acab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\Manager\Source">
+      <UniqueIdentifier>{2530f5e6-f592-4691-9d80-959d74c7c8b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -31,10 +55,16 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameFramework2D\MainGame\GameNode.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameFramework2D\MainGame\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameFramework2D\MainGame\MainGame.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameFramework2D\MainGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework2D\Manager\SingletonBase.h">
+      <Filter>GameFramework2D\Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFramework2D\Manager\KeyManager.h">
+      <Filter>GameFramework2D\Manager\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,10 +75,13 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameFramework2D\MainGame\GameNode.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameFramework2D\MainGame\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameFramework2D\MainGame\MainGame.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameFramework2D\MainGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFramework2D\Manager\KeyManager.cpp">
+      <Filter>GameFramework2D\Manager\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
