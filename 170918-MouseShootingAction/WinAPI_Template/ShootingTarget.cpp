@@ -16,7 +16,7 @@ void ShootingTarget::Setup()
     m_isTargetUp = false;
 }
 
-void ShootingTarget::CreateTargetRect(HDC* hdc)
+void ShootingTarget::CreateTargetRect()
 {
     POINT targetPos;
     int targetHalfWidth;
@@ -43,6 +43,5 @@ void ShootingTarget::CreateTargetRect(HDC* hdc)
     targetHalfWidth = (int)(targetHalfWidth * 0.5);
     m_targetRect = { m_targetPos.x - targetHalfWidth, m_targetPos.y + TARGET_THICK, m_targetPos.x + targetHalfWidth, m_targetPos.y };
     m_targetBrush = CreateSolidBrush(RGB(targetColor, targetColor, targetColor));
-    FillRect(*hdc, &m_targetRect, m_targetBrush);
 }
 

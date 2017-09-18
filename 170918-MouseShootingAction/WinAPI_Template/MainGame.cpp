@@ -3,6 +3,9 @@
 
 MainGame::MainGame()
 {
+    m_isSetup = false;
+    m_isPlaying = false;
+    Setup();
 }
 
 
@@ -13,146 +16,202 @@ MainGame::~MainGame()
 void MainGame::Update()
 {
     GameNode::Update();
-    InputModule();
-    switch (m_currGameState)
+    if (m_isPlaying)
     {
-    case GS_READY:
-        //  RESET
-        break;
-    case GS_PLAYING:
-        PlayGame();
-        break;
-    case GS_CLEAR:
+        
 
-        break;
-    case GS_GAMEOVER:
-        //  SELECT NEXT STEP
-        break;
-    case GS_END:
-        //  GAME TERMINATION
-        break;
-    default:
-        break;
+        if (m_playerLife < 1)
+        {
+            m_isPlaying = false;
+        }
+
+        if (m_isTargetUp)
+        {
+            m_vecStTarget[m_targetUpIdx].isUp = true;
+            m_targetUpTime--;
+        }
+        else
+        {
+            m_isClickable = true;
+            m_targetUpDelay--;
+        }
+
+        if (m_targetUpTime < 0)
+        {
+            if (m_vecStTarget[m_targetUpIdx].isUp)
+            {
+                m_playerLife--;
+            }
+
+            for (auto iter = m_vecStTarget.begin(); iter != m_vecStTarget.end(); iter++)
+            {
+                iter->isUp = false;
+            }
+            m_targetUpTime = TARGET_UP_TIME;
+            m_isTargetUp = false;
+            srand(time(NULL) * m_targetUpIdx * m_playerLife * m_gameScore);
+            m_targetUpIdx = rand() % 9;
+        }
+
+        if (m_targetUpDelay < 0)
+        {
+            //  delay
+            m_isTargetUp = true;
+            m_targetUpDelay = TARGET_UP_DELAY;
+        }
+        else
+        {
+        }
+
+        if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+        {
+            for (auto iter = m_vecStTarget.begin(); iter != m_vecStTarget.end(); ++iter)
+            {
+                bool isClicked = PtInRect(&iter->rtBody, g_ptMouse);
+                if (isClicked && m_isClickable)
+                {
+                    if (iter->isUp)
+                    {
+                        m_gameScore += iter->score;
+                        iter->isUp = false;
+                        m_isTargetUp = false;
+                        m_isHit = true;
+                        srand(time(NULL) * m_targetUpIdx * m_playerLife * m_gameScore);
+                        m_targetUpIdx = rand() % 9;
+                        m_maxDelay--;
+                        if (m_maxDelay <= 50)
+                        {
+                            m_maxDelay = 50;
+                        }
+                        m_maxUpTime--;
+                        if (m_maxUpTime <= 50)
+                        {
+                            m_maxUpTime = 50;
+                        }
+                        break;
+                    }
+                }
+            }
+            if (m_isHit)
+            {
+                m_isHit = false;
+                m_isClickable = true;
+            }
+            else
+            {
+                m_playerLife--;
+                m_isClickable = false;
+            }
+        }
+    }
+    else
+    {
+        if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
+        {
+            m_isPlaying = true;
+        }
     }
 }
 
 void MainGame::Render(HDC hdc)
 {
-    for (int i = 0; i < m_entireTargetCount; i++)
-    {
-        ShootingTarget target;
-        int margin = (int)(WINSIZEY * 0.25);
-        if (i < 3)
-        {
-            target.SetTargetSize(TS_SMALL);
-        }
-        else if (i < 6)
-        {
-            target.SetTargetSize(TS_MEDIUM);
-        }
-        else
-        {
-            target.SetTargetSize(TS_LARGE);
-        }
-        target.SetTagetUpFlag(false);
-        //target.SetTargetPos(POINT);
-        target.CreateTargetRect(&hdc);
-    }
-}
+    Rectangle(hdc, 0, 0, WINSIZEX, WINSIZEY);
+    char infoMsg[100];
+    sprintf_s(infoMsg, "점수 : %d         Life : %d", m_gameScore, m_playerLife);
+    TextOut(hdc, 10, 10, infoMsg, strlen(infoMsg));
 
-void MainGame::SetCheatMode(E_CHEAT_MODE CheatCode)
-{
-    switch (CheatCode)
+    for (auto iter = m_vecStTarget.begin(); iter != m_vecStTarget.end(); iter++)
     {
-    case CM_SHOTGUN:
-        m_cheatMode.flip(3);
-        break;
-    case CM_BIGHEAD:
-        m_cheatMode.flip(2);
-        break;
-    case CM_CHROMIE:
-        m_cheatMode.flip(1);
-        break;
-    case CM_JAINA:
-        m_cheatMode.flip(0);
-        break;
-    }
-}
-
-void MainGame::InputModule()
-{
-    if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
-    {
-        switch (m_currGameState)
+        if (iter->isUp)
         {
-        case GS_READY:
-            m_currGameState = GS_PLAYING;
-            break;
-        case GS_PLAYING:
-            break;
-        case GS_CLEAR:
-            m_currGameState = GS_READY;
-            break;
-        case GS_GAMEOVER:
-            m_currGameState = GS_READY;
-            break;
-        case GS_END:
-            break;
+            Rectangle(hdc, iter->rtBody.left, iter->rtBody.top, iter->rtBody.right, iter->rtBody.bottom);
+            FillRect(hdc, &iter->rtBody, m_colorBlack);
         }
     }
 
-    if (g_pKeyManager->isOnceKeyDown('S'))
+    for (auto iter = m_vecBar.begin(); iter != m_vecBar.end(); iter++)
     {
-        SetCheatMode(CM_SHOTGUN);
-    }
-    else if (g_pKeyManager->isOnceKeyDown('B'))
-    {
-        SetCheatMode(CM_BIGHEAD);
-    }
-    else if (g_pKeyManager->isOnceKeyDown('C'))
-    {
-        SetCheatMode(CM_CHROMIE);
-    }
-    else if (g_pKeyManager->isOnceKeyDown('J'))
-    {
-        SetCheatMode(CM_JAINA);
+        Rectangle(hdc, iter->rtBody.left, iter->rtBody.top, iter->rtBody.right, iter->rtBody.bottom);
+        FillRect(hdc, &iter->rtBody, iter->brush);
     }
 }
 
 void MainGame::Setup()
 {
-    m_gameLevel = 1;
-    m_gameScore = 0;
-    m_playerLife = 10;
-    m_map.SetShootingGallery(3, 3, 3);
-    m_currGameState = GS_READY;
-
-    m_entireTargetCount = m_map.GetEntireTargetCount();
-
-}
-
-void MainGame::PlayGame()
-{
-    if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+    if (m_isSetup)
     {
-        TargetHitChecker();
+
+    }
+    else
+    {
+        m_gameLevel = 1;
+        m_gameScore = 0;
+        m_playerLife = 10;
+        m_maxDelay = TARGET_UP_DELAY;
+        m_maxUpTime = TARGET_UP_TIME;
+        m_targetUpDelay = TARGET_UP_DELAY;
+        m_targetUpTime = TARGET_UP_TIME;
+        m_currGameState = GS_READY;
+        m_colorBlack = CreateSolidBrush(RGB(0, 0, 0));
+        m_colorWhite = CreateSolidBrush(RGB(255, 255, 255));
+        CreateTargets();
+        m_isSetup = true;
+        m_isClickable = true;
+        m_targetUpIdx = rand() % 9;
     }
 }
 
-void MainGame::TargetHitChecker()
+void MainGame::CreateTargets()
 {
-    //  마우스 위치
-    //  RECT 와 비교
-    RECT ptRect;
-    RECT tRect;
-    ptRect = { g_ptMouse.x, g_ptMouse.y, g_ptMouse.x + 1, g_ptMouse.y + 1 };
-
-    for (auto iter = m_map.m_vecTarget.begin(); iter != m_map.m_vecTarget.end(); iter++)
+    for (int i = 0; i < 9; i++)
     {
-        if (IntersectRect(&tRect, &ptRect, &iter->GetTargetRect()))
+        Target stTarget;
+        RECT tRect;
+        POINT targetPos;
+        int tWidth = 0;
+        int tHeight = 80;
+        int score = 0;
+        int marginX = (int)(WINSIZEX * 0.25);
+        int marginY = (int)(WINSIZEY * 0.25);
+        targetPos.x = marginX * ((i % 3) + 1);
+
+        if (i < 3)
         {
-            //  HIT
-            m_isHit = true;
+            targetPos.y = marginY;
+            tWidth = 40;
+            score = 5;
         }
+        else if (i < 6)
+        {
+            targetPos.y = marginY * 2;
+            tWidth = 80;
+            score = 3;
+        }
+        else
+        {
+            targetPos.y = marginY * 3;
+            tWidth = 120;
+            score = 1;
+        }
+
+        tRect.left = targetPos.x - tWidth * 0.5;
+        tRect.right = tRect.left + tWidth;
+        tRect.top = targetPos.y - tHeight;
+        tRect.bottom = targetPos.y;
+        stTarget.rtBody = tRect;
+        stTarget.isUp = false;
+        stTarget.score = score;
+        stTarget.brush = m_colorWhite;
+
+        m_vecStTarget.push_back(stTarget);
+
+        Target bar;
+        bar.brush = m_colorBlack;
+        targetPos.x -= 50;
+        bar.rtBody.left = tRect.left - 10;
+        bar.rtBody.right = tRect.right + 10;
+        bar.rtBody.top = tRect.bottom - 20;
+        bar.rtBody.bottom = tRect.bottom;
+        m_vecBar.push_back(bar);
     }
 }

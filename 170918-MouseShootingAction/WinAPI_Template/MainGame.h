@@ -4,22 +4,45 @@
 #include "ShootingGallery.h"
 #include <bitset>
 
+#define TARGET_UP_DELAY 100
+#define TARGET_UP_TIME 200
+
+struct Target
+{
+    RECT rtBody;
+    bool isUp;
+    int score;
+    HBRUSH brush;
+};
+
 class MainGame : public GameNode
 {
 //=======================================================
 //  VARIABLES
 private:
     E_GAME_STATE        m_currGameState;
-    ShootingGallery     m_map;
+    vector<Target>      m_vecStTarget;
+    vector<Target>      m_vecBar;
+    HBRUSH              m_colorWhite;
+    HBRUSH              m_colorBlack;
 
-    int     m_entireTargetCount;
+    bool    m_isPlaying;
+    bool    m_isSetup;
+    bool    m_isHit;
+    bool    m_isTargetUp;
+    bool    m_isClickable;
+
+    int     m_targetUpIdx;
+
     int     m_gameLevel;
     int     m_gameScore;
     int     m_playerLife;
 
-    int     m_targetUptime;
-    int     m_targetUpInterval;
-    bool    m_isHit;
+    int     m_targetUpDelay;
+    int     m_targetUpTime;
+
+    int     m_maxDelay;
+    int     m_maxUpTime;
 
     bitset<4>  m_cheatMode;
 
@@ -40,8 +63,10 @@ public:
     void InputModule();
 
     void Setup();
+    void CreateTargets();
 
     void PlayGame();
+    void SetTargetUpFlag(vector<int> TargetIdx, bool Flag);
 
     void TargetHitChecker();
 };
