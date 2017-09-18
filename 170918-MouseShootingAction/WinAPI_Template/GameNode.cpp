@@ -2,6 +2,13 @@
 #include "GameNode.h"
 
 
+
+HDC          hdcMem;
+HBITMAP      hbmMem;
+HANDLE       hOld;
+PAINTSTRUCT  ps;
+HDC          hdc;
+
 GameNode::GameNode()
 {
     g_pKeyManager->Setup();
@@ -43,11 +50,16 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 1;
     case WM_PAINT:
     {
-        BITMAP bm;
-        PAINTSTRUCT ps;
-
         hdc = BeginPaint(hWnd, &ps);
-        HDC hdcMem = CreateCompatibleDC(hdc);
+        hdcMem = CreateCompatibleDC(hdc);
+        hbmMem = CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+
+        hOld = SelectObject(hdcMem, hbmMem);
+        BitBlt(hdc, 0, 0, WINSIZEX, WINSIZEY, hdcMem, 0, 0, SRCCOPY);
+
+        SelectObject(hdcMem, hOld);
+        DeleteObject(hbmMem);
+        DeleteDC(hdcMem);
 
         this->Render(hdc);
         EndPaint(hWnd, &ps);
