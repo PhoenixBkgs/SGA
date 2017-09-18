@@ -56,7 +56,9 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
     //  플레이어 그리기
-    DrawRectangle(hdc, m_playerRect);
+    HBRUSH brush;
+    brush = CreateSolidBrush(RGB(0, 0, 0));
+    DrawRectangle(hdc, m_playerRect, brush);
 }
 
 POINT Player::GetPlayerPos()

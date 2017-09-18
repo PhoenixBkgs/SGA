@@ -138,6 +138,8 @@ void MainGame::PlayGame()
         }
     }
     m_ui.SetInfoBar(m_gameLvl, 0);
+
+    //if (GetAsyncKeyState(VK_LBUTTON & 0x0001))
 }
 
 bool MainGame::Collider(RECT* rt1, RECT* rt2)

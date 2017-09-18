@@ -5,6 +5,6 @@ public:
     ShapeDrawer();
     ~ShapeDrawer();
     
-    void DrawRectangle(HDC hdc, RECT rect);
+    void DrawRectangle(HDC hdc, RECT rect, HBRUSH brush);
 };
 

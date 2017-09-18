@@ -24,6 +24,7 @@ private:
     bool m_isInside;
     double m_bulletPosX;
     double m_bulletPosY;
+    HBRUSH m_brush;
 
 public:
     Bullet(Player player);

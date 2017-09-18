@@ -58,6 +58,8 @@ void Bullet::Setup(Player player)
 
     m_moveSpeed.push_back(vecDirection[0]);
     m_moveSpeed.push_back(vecDirection[1]);
+
+    m_brush = CreateSolidBrush(RGB(rand() % 255, rand() % 255, rand() % 255));
 }
 
 void Bullet::Update()
@@ -87,7 +89,7 @@ void Bullet::Update()
 
 void Bullet::Render(HDC hdc)
 {
-    DrawRectangle(hdc, m_bulletRect);
+    DrawRectangle(hdc, m_bulletRect, m_brush);
 }
 
 //  최소 속도와 최대 속도 제한
