@@ -18,7 +18,7 @@ public:
     Player();
     ~Player();
 
-    void MoveRestrictor(bool IsStop);
+    void IsInsideWindow(bool IsStop);
     Bullet Shot(int BulletSpeed, HBRUSH Brush);
     POINT GetTurretPos();
     int GetPlayerSize() { return PLAYER_SIZE; }

@@ -149,6 +149,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="EloCalculator.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnumState.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Log4Komastar.h" />

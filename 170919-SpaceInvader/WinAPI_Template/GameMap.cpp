@@ -37,16 +37,16 @@ bool GameMap::IsEnemyArrive(RECT * EnemyRect)
     return IsCollision(&EnemyDestWall, EnemyRect);
 }
 
-bool GameMap::IsPlayerOutside(RECT * PlayerRect, int LeftRight)
+bool GameMap::IsRectOutside(RECT * Rect, int LeftRight)
 {
     if (LeftRight == 0)
     {
         //  LEFT
-        return IsCollision(&LeftWall, PlayerRect);
+        return IsCollision(&LeftWall, Rect);
     }
     else
     {
-        return IsCollision(&RightWall, PlayerRect);
+        return IsCollision(&RightWall, Rect);
     }
 }
 

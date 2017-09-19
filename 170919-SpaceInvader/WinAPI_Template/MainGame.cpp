@@ -13,42 +13,85 @@ MainGame::~MainGame()
 
 void MainGame::Update()
 {
+    PlayerControl();
+    if (m_isPlaying == false)
+    {
+        return;
+    }
     GameNode::Update();
     m_player.Move();
-    for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end();)
+    for (auto bulletIter = m_vecBullet.begin(); bulletIter != m_vecBullet.end();)
     {
-        iter->Move();
-        for (auto iter2 = m_vecEnemy.begin(); iter2 != m_vecEnemy.end();)
+        bulletIter->Move();
+        for (auto enemyIterColl = m_vecEnemy.begin(); enemyIterColl != m_vecEnemy.end();)
         {
-            RECT tRt1 = *iter->GetBodyRect();
-            RECT tRt2 = *iter2->GetBodyRect();
+            RECT tRt1 = *bulletIter->GetBodyRect();
+            RECT tRt2 = *enemyIterColl->GetBodyRect();
 
             if (m_map.IsCollision(&tRt1, &tRt2))
             {
-                iter->m_isHit = true;
-                iter2 = m_vecEnemy.erase(iter2);
+                bulletIter->m_isHit = true;
+                enemyIterColl = m_vecEnemy.erase(enemyIterColl);
                 break;
             }
             else
             {
-                iter2++;
+                enemyIterColl++;
             }
         }
 
-        if (m_map.IsBulletArrive(iter->GetBodyRect()) ||
-            iter->m_isHit)
+        if (m_map.IsBulletArrive(bulletIter->GetBodyRect()) ||
+            bulletIter->m_isHit)
         {
             //  BULLET END
-            iter = m_vecBullet.erase(iter);
+            bulletIter = m_vecBullet.erase(bulletIter);
         }
         else
         {
-            iter++;
+            bulletIter++;
         }
     }
 
-    PlayGame();
-    m_player.MoveRestrictor(false);
+    E_EDGE collEdge;
+    for (auto enemyIterMove = m_vecEnemy.begin(); enemyIterMove != m_vecEnemy.end(); enemyIterMove++)
+    {
+        collEdge = enemyIterMove->IsInsideWindow(false);
+        switch (collEdge)
+        {
+        case LEFT_EDGE:
+        case RIGHT_EDGE:
+            m_isEnemyArriveWall = true;
+            break;
+        case BOTTOM_EDGE:
+            //  GAME OVER
+            m_isPlaying = false;
+            break;
+        }
+        if (m_isEnemyArriveWall)
+        {
+            break;
+        }
+    }
+
+    if (m_isEnemyArriveWall)
+    {
+        for (auto enemyIterMove = m_vecEnemy.begin(); enemyIterMove != m_vecEnemy.end(); enemyIterMove++)
+        {
+            POINT ptEnemyMoveDir = enemyIterMove->GetMoveDir();
+            ptEnemyMoveDir.x = -ptEnemyMoveDir.x;
+            enemyIterMove->m_rtBody.top += ENEMY_SPEED;
+            enemyIterMove->m_rtBody.bottom += ENEMY_SPEED;
+            enemyIterMove->SetMoveDir(ptEnemyMoveDir);
+        }
+        m_isEnemyArriveWall = false;
+    }
+
+    for (auto enemyIterMove = m_vecEnemy.begin(); enemyIterMove != m_vecEnemy.end(); enemyIterMove++)
+    {
+        enemyIterMove->Move();
+    }
+
+    m_player.IsInsideWindow(false);
 }
 
 void MainGame::Render(HDC hdc)
@@ -69,6 +112,7 @@ void MainGame::Render(HDC hdc)
 
 void MainGame::Setup()
 {
+    m_isPlaying = false;
     PlayerSetup();
     EnemySetup(MAX_ENEMY);
     m_brushBullet = CreateSolidBrush(RGB(100, 0, 0));
@@ -90,6 +134,7 @@ void MainGame::PlayerSetup()
 
 void MainGame::EnemySetup(int EnemyCount)
 {
+    m_isEnemyArriveWall = false;
     if (EnemyCount > MAX_ENEMY)
     {
         EnemyCount = MAX_ENEMY;
@@ -100,18 +145,18 @@ void MainGame::EnemySetup(int EnemyCount)
         for (int rowIdx = 0; rowIdx < ENEMY_ROW; rowIdx++)
         {
             Enemy tempEnemy;
-            tempEnemy.SetBodyRect(POINT{ colIdx * ENEMY_SIZE * 3, rowIdx * ENEMY_SIZE * 3 }, POINT{ ENEMY_SIZE, ENEMY_SIZE });
+            tempEnemy.SetBodyRect(POINT{ ENEMY_SIZE + colIdx * ENEMY_SIZE * 3, ENEMY_SIZE + rowIdx * ENEMY_SIZE * 3 }, POINT{ ENEMY_SIZE, ENEMY_SIZE });
             HBRUSH enemyBrush;
             enemyBrush = CreateSolidBrush(RGB(rowIdx * 20, colIdx * 10, 50));
             tempEnemy.SetBrush(enemyBrush);
             tempEnemy.SetLifeCount(1);
-            tempEnemy.SetMoveDir(POINT{ 0, 0 });
+            tempEnemy.SetMoveDir(POINT{ ENEMY_SPEED, 0 });
             m_vecEnemy.push_back(tempEnemy);
         }
     }
 }
 
-void MainGame::PlayGame()
+void MainGame::PlayerControl()
 {
     POINT pt;
     pt.x = 0;
@@ -130,13 +175,18 @@ void MainGame::PlayGame()
     }
     else
     {
-        m_player.MoveRestrictor(true);
+        m_player.IsInsideWindow(true);
     }
 
     if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
     {
         Bullet shotBullet = m_player.Shot(BULLET_SPEED, m_brushBullet);
         m_vecBullet.push_back(shotBullet);
+    }
+
+    if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
+    {
+        m_isPlaying = !m_isPlaying;
     }
 }
 

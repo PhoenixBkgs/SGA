@@ -19,7 +19,7 @@ public:
     void Setup();
     bool IsCollision(RECT* Rect1, RECT* Rect2);
     bool IsEnemyArrive(RECT* EnemyRect);
-    bool IsPlayerOutside(RECT* PlayerRect, int LeftRight);
+    bool IsRectOutside(RECT* PlayerRect, int LeftRight);
     bool IsBulletArrive(RECT* BulletRect);
 };
 

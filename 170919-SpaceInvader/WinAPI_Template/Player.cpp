@@ -11,16 +11,16 @@ Player::~Player()
 {
 }
 
-void Player::MoveRestrictor(bool IsStop)
+void Player::IsInsideWindow(bool IsStop)
 {
-    if (m_map.IsPlayerOutside(&m_rtBody, 0))
+    if (m_map.IsRectOutside(&m_rtBody, 0))
     {
         if (m_ptMoveDir.x < 0)
         {
             m_ptMoveDir.x = 0;
         }
     }
-    if (m_map.IsPlayerOutside(&m_rtBody, 1))
+    if (m_map.IsRectOutside(&m_rtBody, 1))
     {
         if (m_ptMoveDir.x > 0)
         {

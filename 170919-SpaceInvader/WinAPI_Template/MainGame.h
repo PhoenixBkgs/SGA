@@ -12,11 +12,14 @@ class MainGame : public GameNode
     
 
 public:
-    GameMap m_map;
-    Player m_player;
-    vector<Bullet> m_vecBullet;
-    vector<Enemy> m_vecEnemy;
-    HBRUSH m_brushBullet;
+    GameMap         m_map;
+    Player          m_player;
+    vector<Bullet>  m_vecBullet;
+    vector<Enemy>   m_vecEnemy;
+    HBRUSH          m_brushBullet;
+
+    bool            m_isPlaying;
+    bool            m_isEnemyArriveWall;
 
 //=======================================================
 //  FUNCTIONS
@@ -32,7 +35,7 @@ public:
     void PlayerSetup();
     void EnemySetup(int EnemyCount);
 
-    void PlayGame();
+    void PlayerControl();
 
     void DrawRect(HDC hdc, RECT* Rect);
 };
