@@ -5,12 +5,15 @@
 GameNode::GameNode()
 {
     g_pKeyManager->Setup();
+    g_pLog4K->Setup("\\Log\\");
+    g_pLog4K->WriteLog(EL_INFO, "Test");
 }
 
 
 GameNode::~GameNode()
 {
     g_pKeyManager->ReleaseInstance();
+    g_pLog4K->ReleaseInstance();
 }
 
 void GameNode::Update()

@@ -19,23 +19,14 @@
     <Filter Include="GameFramework2D\MainGame">
       <UniqueIdentifier>{77d85270-29a6-41e2-9f00-b34efad795c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameFramework2D\MainGame\Header">
-      <UniqueIdentifier>{4025a30b-2ab8-4a7e-8596-5fd8b5478bc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameFramework2D\MainGame\Source">
-      <UniqueIdentifier>{0f126c1b-36dd-40cc-ac2f-f027e6be96c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework2D\Util">
       <UniqueIdentifier>{8cab1dd3-426c-444f-9787-ad57b6e5eafb}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameFramework2D\Manager">
       <UniqueIdentifier>{f67891c6-fda0-450c-8ab2-264a2d21bd58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameFramework2D\Manager\Header">
-      <UniqueIdentifier>{8496d496-2e59-4aae-8bf6-b757b45acab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameFramework2D\Manager\Source">
-      <UniqueIdentifier>{2530f5e6-f592-4691-9d80-959d74c7c8b3}</UniqueIdentifier>
+    <Filter Include="GameFramework2D\Source">
+      <UniqueIdentifier>{29244c4a-56cb-4285-8ecf-433ab4b5b5e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,16 +46,25 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameNode.h">
-      <Filter>GameFramework2D\MainGame\Header</Filter>
+      <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
     <ClInclude Include="MainGame.h">
-      <Filter>GameFramework2D\MainGame\Header</Filter>
+      <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
     <ClInclude Include="KeyManager.h">
-      <Filter>GameFramework2D\Manager\Header</Filter>
+      <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
     <ClInclude Include="SingletonBase.h">
-      <Filter>GameFramework2D\Manager\Header</Filter>
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EloCalculator.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Log4Komastar.h">
+      <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,14 +74,23 @@
     <ClCompile Include="WinAPITemplate.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameNode.cpp">
-      <Filter>GameFramework2D\MainGame\Source</Filter>
-    </ClCompile>
     <ClCompile Include="MainGame.cpp">
-      <Filter>GameFramework2D\MainGame\Source</Filter>
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
     <ClCompile Include="KeyManager.cpp">
-      <Filter>GameFramework2D\Manager\Source</Filter>
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="EloCalculator.cpp">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Log4Komastar.cpp">
+      <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

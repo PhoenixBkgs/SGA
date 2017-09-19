@@ -80,7 +80,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = NULL;
-    wcex.lpszClassName  = WINNAME;
+    wcex.lpszClassName  = W_NAME;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
@@ -100,15 +100,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(WINNAME, WINNAME, WINSTYLE,
-       WINSTARTX, WINSTARTY, WINSIZEX, WINSIZEY, nullptr, nullptr, hInstance, nullptr);
+   HWND hWnd = CreateWindowW(W_NAME, W_NAME, WINDOW_STYLE,
+       W_START_POS_X, W_START_POS_Y, W_WIDTH, W_HEIGHT, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
 
-   setWindowSize(WINSTARTX, WINSTARTY, WINSIZEX, WINSIZEY);
+   setWindowSize(W_START_POS_X, W_START_POS_Y, W_WIDTH, W_HEIGHT);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -143,7 +143,7 @@ void setWindowSize(int x, int y, int width, int height)
     rc.bottom = height;
 
     //실제 윈도우 크기 조정
-    AdjustWindowRect(&rc, WINSTYLE, false);
+    AdjustWindowRect(&rc, WINDOW_STYLE, false);
     //위 렉트 정보로 윈도우 클라이언트 사이즈 세팅
     SetWindowPos(g_hWnd, NULL, x, y, (rc.right - rc.left), (rc.bottom - rc.top),
         SWP_NOZORDER | SWP_NOMOVE);

@@ -18,19 +18,21 @@
 #include <tchar.h>
 #include <vector>
 #include <time.h>
+#include <chrono>
+#include <iostream>
 
 using namespace std;
 
 //==================================================================
 //		## 디파인문 - 메크로 ## (윈도우창 초기화)
 //==================================================================
-#define WINNAME (LPCWSTR)(TEXT("TITLE"))
-#define WINSTARTX		0
-#define WINSTARTY		0
-#define WINSIZEX		640
-#define WINSIZEY		720
-#define WINSTYLE		WS_CAPTION | WS_SYSMENU
-#define PURE			= 0
+#define W_NAME (LPCWSTR)(TEXT("TITLE"))
+#define W_START_POS_X		0
+#define W_START_POS_Y		0
+#define W_WIDTH		        640
+#define W_HEIGHT		    720
+#define WINDOW_STYLE		WS_CAPTION | WS_SYSMENU
+#define PURE			    = 0
 
 //==================================================================
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
@@ -41,8 +43,10 @@ using namespace std;
 //		## 매니져 추가 ##
 //==================================================================
 #include "KeyManager.h"
+#include "Log4Komastar.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
+#define g_pLog4K Log4Komastar::GetInstance()
 
 //==================================================================
 //		## 전역변수 ##
