@@ -146,12 +146,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="EloCalculator.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Log4Komastar.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="GameUnit.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="stdafx.h" />
@@ -159,12 +163,16 @@
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EloCalculator.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="Log4Komastar.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

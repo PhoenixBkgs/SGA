@@ -66,6 +66,18 @@
     <ClInclude Include="Log4Komastar.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +103,18 @@
     </ClCompile>
     <ClCompile Include="Log4Komastar.cpp">
       <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

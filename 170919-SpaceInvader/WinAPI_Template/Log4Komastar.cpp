@@ -77,7 +77,7 @@ void Log4Komastar::WriteLog(LOG_LEVEL LogLevel, string Message)
     szLog.append(szJoint);
     szLog.append(Message + "\n");
 
-    ofstream writeLog;
-    writeLog.open(m_szLogFilename, ios_base::app);
-    writeLog << szLog;
+    m_streamLog.open(m_szLogFilename, ios_base::app);
+    m_streamLog << szLog;
+    m_streamLog.close();
 }

@@ -6,7 +6,7 @@ GameNode::GameNode()
 {
     g_pKeyManager->Setup();
     g_pLog4K->Setup("\\Log\\");
-    g_pLog4K->WriteLog(EL_INFO, "Test");
+    g_pLog4K->WriteLog(EL_INFO, "CreateInstance -> GameNode::GameNode");
 }
 
 

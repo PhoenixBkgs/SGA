@@ -40,6 +40,6 @@ void EloCalculator::EloCalc(int * Rating1, int * Rating2, int Winner)
     double varRating1 = *Rating1 + (CONST_K * (varWDL1 - varE1));
     double varRating2 = *Rating2 + (CONST_K * (varWDL2 - varE2));
 
-    *Rating1 = varRating1;
-    *Rating2 = varRating2;
+    *Rating1 = (int)varRating1;
+    *Rating2 = (int)varRating2;
 }

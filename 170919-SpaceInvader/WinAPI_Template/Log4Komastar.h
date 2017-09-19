@@ -11,6 +11,7 @@ enum LOG_LEVEL
 class Log4Komastar : public SingletonBase<Log4Komastar>
 {
 private:
+    ofstream m_streamLog;
     string m_szLogPath;
     string m_szLogFilename;
 

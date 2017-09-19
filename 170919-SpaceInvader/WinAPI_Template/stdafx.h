@@ -26,11 +26,11 @@ using namespace std;
 //==================================================================
 //		## 디파인문 - 메크로 ## (윈도우창 초기화)
 //==================================================================
-#define W_NAME (LPCWSTR)(TEXT("TITLE"))
+#define W_NAME (LPCWSTR)(TEXT("SPACE INVADER"))
 #define W_START_POS_X		0
 #define W_START_POS_Y		0
-#define W_WIDTH		        640
-#define W_HEIGHT		    720
+#define W_WIDTH		        1000
+#define W_HEIGHT		    700
 #define WINDOW_STYLE		WS_CAPTION | WS_SYSMENU
 #define PURE			    = 0
 
