@@ -4,14 +4,16 @@
 #include "Bullet.h"
 
 #define PLAYER_SIZE     40
+#define PLAYER_SPEED    5
 
 class Player : public GameUnit
 {
 //  VARS
 public:
     GameMap m_map;
-    int     m_playerSpeed;
     POINT   m_ptPlayerPos;
+
+    int     m_playerSpeed;
 
 //  FUNCS
 public:

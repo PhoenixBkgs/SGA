@@ -20,6 +20,7 @@ public:
 
     bool            m_isPlaying;
     bool            m_isEnemyArriveWall;
+    int             m_level;
 
 //=======================================================
 //  FUNCTIONS
@@ -31,7 +32,10 @@ public:
     virtual void Update() override;
     virtual void Render(HDC hdc) override;
 
-    void Setup();
+    void Setup(int Level);
+    void Clear();
+    void Reset();
+    void ScreenMessgae(HDC hdc, string Message);
     void PlayerSetup();
     void EnemySetup(int EnemyCount);
 

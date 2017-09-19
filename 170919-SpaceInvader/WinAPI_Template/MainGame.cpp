@@ -3,7 +3,7 @@
 
 MainGame::MainGame()
 {
-    Setup();
+    Setup(1);
 }
 
 
@@ -18,6 +18,14 @@ void MainGame::Update()
     {
         return;
     }
+
+    if (m_vecEnemy.size() <= 0)
+    {
+        Clear();
+        Reset();
+        m_isPlaying = false;
+    }
+
     GameNode::Update();
     m_player.Move();
     for (auto bulletIter = m_vecBullet.begin(); bulletIter != m_vecBullet.end();)
@@ -96,6 +104,10 @@ void MainGame::Update()
 
 void MainGame::Render(HDC hdc)
 {
+    char infoMsg[100];
+    sprintf_s(infoMsg, "LEVEL : %d", m_level);
+    TextOut(hdc, 10, 10, infoMsg, strlen(infoMsg));
+    
     DrawRect(hdc, m_player.GetBodyRect());
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
@@ -110,12 +122,32 @@ void MainGame::Render(HDC hdc)
     }
 }
 
-void MainGame::Setup()
+void MainGame::Setup(int Level)
 {
+    m_level = Level;
     m_isPlaying = false;
     PlayerSetup();
     EnemySetup(MAX_ENEMY);
     m_brushBullet = CreateSolidBrush(RGB(100, 0, 0));
+}
+
+void MainGame::Clear()
+{
+    m_vecBullet.clear();
+    m_vecEnemy.clear();
+}
+
+void MainGame::Reset()
+{
+    m_level++;
+    Setup(m_level);
+}
+
+void MainGame::ScreenMessgae(HDC hdc, string Message)
+{
+    char infoMsg[100];
+    sprintf_s(infoMsg, "LEVEL : %d", m_level);
+    TextOut(hdc, 10, 10, infoMsg, strlen(infoMsg));
 }
 
 void MainGame::PlayerSetup()
@@ -129,7 +161,7 @@ void MainGame::PlayerSetup()
     m_player.SetBodyRect(ptPlayerPos, ptPlayerSize);
     m_player.SetBrush(brush);
     m_player.SetLifeCount(1);
-    m_player.m_playerSpeed = 5;
+    m_player.m_playerSpeed = PLAYER_SPEED;
 }
 
 void MainGame::EnemySetup(int EnemyCount)
@@ -145,12 +177,12 @@ void MainGame::EnemySetup(int EnemyCount)
         for (int rowIdx = 0; rowIdx < ENEMY_ROW; rowIdx++)
         {
             Enemy tempEnemy;
-            tempEnemy.SetBodyRect(POINT{ ENEMY_SIZE + colIdx * ENEMY_SIZE * 3, ENEMY_SIZE + rowIdx * ENEMY_SIZE * 3 }, POINT{ ENEMY_SIZE, ENEMY_SIZE });
+            tempEnemy.SetBodyRect(POINT{ ENEMY_SIZE + colIdx * ENEMY_SIZE * 3, 50 + ENEMY_SIZE + rowIdx * ENEMY_SIZE * 3 }, POINT{ ENEMY_SIZE, ENEMY_SIZE });
             HBRUSH enemyBrush;
             enemyBrush = CreateSolidBrush(RGB(rowIdx * 20, colIdx * 10, 50));
             tempEnemy.SetBrush(enemyBrush);
             tempEnemy.SetLifeCount(1);
-            tempEnemy.SetMoveDir(POINT{ ENEMY_SPEED, 0 });
+            tempEnemy.SetMoveDir(POINT{ ENEMY_SPEED * m_level, 0 });
             m_vecEnemy.push_back(tempEnemy);
         }
     }
@@ -178,7 +210,8 @@ void MainGame::PlayerControl()
         m_player.IsInsideWindow(true);
     }
 
-    if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+    if (g_pKeyManager->isOnceKeyDown(VK_SPACE) ||
+        g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
     {
         Bullet shotBullet = m_player.Shot(BULLET_SPEED, m_brushBullet);
         m_vecBullet.push_back(shotBullet);
