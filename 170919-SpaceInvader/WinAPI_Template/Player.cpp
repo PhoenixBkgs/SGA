@@ -35,17 +35,30 @@ void Player::IsInsideWindow(bool IsStop)
     }
 }
 
-Bullet Player::Shot(int BulletSpeed, HBRUSH Brush)
+vector<Bullet> Player::Shot(int BulletSpeed, E_WEAPON_TYPE WeaponType, HBRUSH Brush)
 {
     g_pLog4K->WriteLog(EL_INFO, "SHOT");
     Bullet shotBullet;
     shotBullet.SetBodyRect(GetTurretPos());
     shotBullet.SetMoveDir(POINT{ 0, -BulletSpeed });
     shotBullet.SetBrush(Brush);
+    shotBullet.m_shotType = WeaponType;
     shotBullet.m_isHit = false;
 
-    return shotBullet;
+    vector<Bullet> retBullet;
+    retBullet.push_back(shotBullet);
+    if (WeaponType == WEAPON_BUCKSHOT)
+    {
+        shotBullet.SetMoveDir(POINT{ -1, -BulletSpeed });
+        retBullet.push_back(shotBullet);
+        shotBullet.SetMoveDir(POINT{ 1, -BulletSpeed });
+        retBullet.push_back(shotBullet);
+    }
+
+    return retBullet;
 }
+
+
 
 POINT Player::GetTurretPos()
 {

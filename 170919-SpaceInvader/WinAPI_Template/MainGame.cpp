@@ -38,9 +38,29 @@ void MainGame::Update()
 
             if (m_map.IsCollision(&tRt1, &tRt2))
             {
+                //  HIT THE ENEMY
                 bulletIter->m_isHit = true;
                 enemyIterColl = m_vecEnemy.erase(enemyIterColl);
-                break;
+                E_WEAPON_TYPE wType = bulletIter->m_shotType;
+                switch (wType)
+                {
+                case WEAPON_BULLET:
+                    //  NORMAL SHOT
+                    break;
+                case WEAPON_BUCKSHOT:
+                    break;
+                case WEAPON_TSAR:
+                    {
+                    //  SPECIAL BOMB
+                    bulletIter->m_rtBody.left -= 100;
+                    bulletIter->m_rtBody.right += 100;
+                    bulletIter->m_rtBody.top -= 100;
+                    bulletIter->m_rtBody.bottom += 100;
+                    bulletIter->m_shotType = WEAPON_BULLET;
+                    enemyIterColl = m_vecEnemy.begin();
+                    break;
+                    }
+                }
             }
             else
             {
@@ -108,6 +128,8 @@ void MainGame::Render(HDC hdc)
     sprintf_s(infoMsg, "LEVEL : %d", m_level);
     TextOut(hdc, 10, 10, infoMsg, strlen(infoMsg));
     
+    DrawRect(hdc, &m_map.EnemyDestWall);
+    //FillRect(hdc, &m_map.EnemyDestWall, CreateSolidBrush(RGB(10, 5, 5)));
     DrawRect(hdc, m_player.GetBodyRect());
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
@@ -213,8 +235,21 @@ void MainGame::PlayerControl()
     if (g_pKeyManager->isOnceKeyDown(VK_SPACE) ||
         g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
     {
-        Bullet shotBullet = m_player.Shot(BULLET_SPEED, m_brushBullet);
-        m_vecBullet.push_back(shotBullet);
+        vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_BULLET, m_brushBullet);
+        m_vecBullet.push_back(shotBullet[0]);
+    }
+    else if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+    {
+        vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_TSAR, m_brushBullet);
+        m_vecBullet.push_back(shotBullet[0]);
+    }
+    else if (g_pKeyManager->isOnceKeyDown('Q'))
+    {
+        vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_BUCKSHOT, m_brushBullet);
+        for (auto bulletIter = shotBullet.begin(); bulletIter != shotBullet.end(); bulletIter++)
+        {
+            m_vecBullet.push_back(*bulletIter);
+        }
     }
 
     if (g_pKeyManager->isOnceKeyDown(VK_RETURN))

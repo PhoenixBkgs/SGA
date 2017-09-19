@@ -8,6 +8,7 @@ class Bullet : public GameUnit
 {
 public:
     bool m_isHit;
+    E_WEAPON_TYPE m_shotType;
 
 public:
     Bullet();

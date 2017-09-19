@@ -21,7 +21,7 @@ public:
     ~Player();
 
     void IsInsideWindow(bool IsStop);
-    Bullet Shot(int BulletSpeed, HBRUSH Brush);
+    vector<Bullet> Shot(int BulletSpeed, E_WEAPON_TYPE WeaponType, HBRUSH Brush);
     POINT GetTurretPos();
     int GetPlayerSize() { return PLAYER_SIZE; }
 };
