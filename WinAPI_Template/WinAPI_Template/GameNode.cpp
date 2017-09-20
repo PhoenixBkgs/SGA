@@ -23,7 +23,6 @@ void GameNode::Update()
 LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
-    HDC hdc;
 
     switch (message)
     {
@@ -42,8 +41,8 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_PAINT:
-        hdc = BeginPaint(hWnd, &ps);
-        this->Render(hdc);
+        g_hDC = BeginPaint(hWnd, &ps);
+        this->Render();
         EndPaint(hWnd, &ps);
         break;
     case WM_MOUSEMOVE:

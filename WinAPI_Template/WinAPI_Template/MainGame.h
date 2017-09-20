@@ -1,12 +1,13 @@
 #pragma once
 #include "GameNode.h"
+#include "Player.h"
 
 class MainGame : public GameNode
 {
 //=======================================================
 //  VARIABLES
 private:
-
+    Player m_player;
 public:
 
 //=======================================================
@@ -16,7 +17,8 @@ public:
     MainGame();
     ~MainGame();
 
+    virtual void Start() override;
     virtual void Update() override;
-    virtual void Render(HDC hdc) override;
+    virtual void Render() override;
 };
 
