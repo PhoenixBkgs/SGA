@@ -50,12 +50,32 @@ void GameUnit::SetBodyRect(POINT GenPos, POINT BodySize)
     m_rtBody = { LT.x, LT.y, RB.x, RB.y };
 }
 
+void GameUnit::SetColor(int R, int G, int B)
+{
+    m_bBrush = CreateSolidBrush(RGB(R, G, B));
+}
+
 void GameUnit::Move()
 {
     m_rtBody.left += m_ptMoveDir.x;
     m_rtBody.right += m_ptMoveDir.x;
     m_rtBody.top += m_ptMoveDir.y;
     m_rtBody.bottom += m_ptMoveDir.y;
+}
+
+void GameUnit::Draw(bool DrawForce)
+{
+    if (DrawForce)
+    {
+        DrawRect(g_hDC, m_rtBody);
+    }
+    else
+    {
+        if (m_LifeCount > 0)
+        {
+            DrawRect(g_hDC, m_rtBody);
+        }
+    }
 }
 
 void GameUnit::Destroy()

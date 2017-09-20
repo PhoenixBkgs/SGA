@@ -55,3 +55,12 @@ extern HINSTANCE	g_hInst;
 extern HWND			g_hWnd;
 extern POINT		g_ptMouse;
 extern HDC          g_hDC;
+
+
+
+
+struct UnitSpeed
+{
+    double      x;
+    double      y;
+};

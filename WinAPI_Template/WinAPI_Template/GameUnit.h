@@ -1,4 +1,6 @@
 #pragma once
+#include "DrawHelper.h"
+
 class GameUnit
 {
 //  VARS
@@ -26,8 +28,10 @@ public:
     void SetLifeCount(int Life) { m_LifeCount = Life; }
     
     void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
+    void SetColor(int R, int G, int B);
 
     void Move();
+    void Draw(bool DrawForce);
     void Destroy();
     bool Collider(RECT* TargetRect);
 };
