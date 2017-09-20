@@ -19,6 +19,16 @@ void MainGame::Update()
         return;
     }
 
+    m_tsarCooldown += 1.0f;
+    if (m_tsarCooldown >= 100.0f)
+    {
+        m_tsarCooldown = 100.0f;
+        m_tsarIsUp = true;
+    }
+    
+    m_playerColor = (int)(250 * m_tsarCooldown * 0.01f);
+    m_brushPlayer = CreateSolidBrush(RGB(0, m_playerColor, 0));
+
     if (m_vecEnemy.size() <= 0)
     {
         Clear();
@@ -131,6 +141,7 @@ void MainGame::Render(HDC hdc)
     DrawRect(hdc, &m_map.EnemyDestWall);
     //FillRect(hdc, &m_map.EnemyDestWall, CreateSolidBrush(RGB(10, 5, 5)));
     DrawRect(hdc, m_player.GetBodyRect());
+    FillRect(hdc, m_player.GetBodyRect(), m_brushPlayer);
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
         DrawRect(hdc, iter->GetBodyRect());
@@ -148,8 +159,11 @@ void MainGame::Setup(int Level)
 {
     m_level = Level;
     m_isPlaying = false;
+    m_tsarCooldown = 0.0f;
+    m_tsarIsUp = false;
     PlayerSetup();
     EnemySetup(MAX_ENEMY);
+    m_brushPlayer = CreateSolidBrush(RGB(0, m_playerColor, 0));
     m_brushBullet = CreateSolidBrush(RGB(100, 0, 0));
 }
 
@@ -238,10 +252,14 @@ void MainGame::PlayerControl()
         vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_BULLET, m_brushBullet);
         m_vecBullet.push_back(shotBullet[0]);
     }
-    else if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+    else if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON) &&
+        m_tsarIsUp)
     {
         vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_TSAR, m_brushBullet);
         m_vecBullet.push_back(shotBullet[0]);
+        m_tsarIsUp = false;
+        m_tsarCooldown = 0.0f;
+        m_playerColor = 0;
     }
     else if (g_pKeyManager->isOnceKeyDown('Q'))
     {

@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include "GameMap.h"
 
+#define TSAR_UP 100.0f
+
 class MainGame : public GameNode
 {
 //=======================================================
@@ -17,10 +19,14 @@ public:
     vector<Bullet>  m_vecBullet;
     vector<Enemy>   m_vecEnemy;
     HBRUSH          m_brushBullet;
+    HBRUSH          m_brushPlayer;
 
     bool            m_isPlaying;
     bool            m_isEnemyArriveWall;
+    bool            m_tsarIsUp;
     int             m_level;
+    double          m_tsarCooldown;
+    int             m_playerColor;
 
 //=======================================================
 //  FUNCTIONS
