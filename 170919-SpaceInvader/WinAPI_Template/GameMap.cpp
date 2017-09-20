@@ -16,7 +16,7 @@ void GameMap::Setup()
 {
     LeftWall = { -MAP_DEFAULT_SIZE, 0, 0, W_HEIGHT };
     RightWall = { W_WIDTH, 0, W_WIDTH + MAP_DEFAULT_SIZE, W_HEIGHT };
-    TopWall = { 0, -MAP_DEFAULT_SIZE, W_WIDTH, 0 };
+    TopWall = { -MAP_DEFAULT_SIZE, -MAP_DEFAULT_SIZE, W_WIDTH + MAP_DEFAULT_SIZE, 0 };
     BottomWall = { 0, W_HEIGHT, W_WIDTH, W_HEIGHT + MAP_DEFAULT_SIZE };
 
     POINT ptEnemyDest;
@@ -52,5 +52,5 @@ bool GameMap::IsRectOutside(RECT * Rect, int LeftRight)
 
 bool GameMap::IsBulletArrive(RECT * BulletRect)
 {
-    return IsCollision(&TopWall, BulletRect);
+    return IsCollision(&LeftWall, BulletRect) || IsCollision(&RightWall, BulletRect) || IsCollision(&TopWall, BulletRect);
 }
