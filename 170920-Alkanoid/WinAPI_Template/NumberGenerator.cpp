@@ -30,7 +30,7 @@ int NumberGenerator::GetRandomNumber(bool IsReverseSign)
 
 int NumberGenerator::GetRandomNumber(int Max, bool IsReverseSign)
 {
-    int retRandomNumber = GetRandomNumber() % Max;
+    int retRandomNumber = GetRandomNumber() % (Max + 1);
     if (IsReverseSign)
     {
         retRandomNumber = -retRandomNumber;

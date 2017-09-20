@@ -15,7 +15,7 @@ Player::~Player()
 void Player::Start()
 {
     m_isRender = true;
-    SetBodyRect(POINT{ 0, 0 }, POINT{ 100, 40 });
+    SetBodyRect(UnitPos{ 0, 0 }, UnitSize{ 100, 40 });
     SetColor(0, 0, 0);
 }
 

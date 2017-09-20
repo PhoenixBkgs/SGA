@@ -6,7 +6,7 @@ GameUnit::GameUnit()
 {
 }
 
-GameUnit::GameUnit(POINT Position, HBRUSH Brush)
+GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)
 {
     m_isRender = true;
     SetBodyRect(Position, POINT{1, 1});
@@ -14,7 +14,7 @@ GameUnit::GameUnit(POINT Position, HBRUSH Brush)
     m_ptPos = Position;
 }
 
-GameUnit::GameUnit(POINT Position, POINT Size, HBRUSH Brush, int Life)
+GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life)
 {
     m_isRender = true;
     SetBodyRect(Position, Size);
@@ -28,7 +28,7 @@ GameUnit::~GameUnit()
 {
 }
 
-void GameUnit::SetBodyRect(POINT GenPos)
+void GameUnit::SetBodyRect(UnitPos GenPos)
 {
     POINT LT;
     POINT RB;
@@ -40,12 +40,12 @@ void GameUnit::SetBodyRect(POINT GenPos)
     m_rtBody = { LT.x, LT.y, RB.x, RB.y };
 }
 
-void GameUnit::SetBodyRect(POINT GenPos, POINT BodySize)
+void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
 {
     POINT LT;
     POINT RB;
-    int halfWidth = (int)(BodySize.x * 0.5);
-    int halfHeight = (int)(BodySize.y * 0.5);
+    double halfWidth = BodySize.x * 0.5;
+    double halfHeight = BodySize.y * 0.5;
     LT.x = GenPos.x - halfWidth;
     LT.y = GenPos.y - halfHeight;
     RB.x = GenPos.x + halfWidth;
@@ -54,14 +54,27 @@ void GameUnit::SetBodyRect(POINT GenPos, POINT BodySize)
     m_rtBody = { LT.x, LT.y, RB.x, RB.y };
 }
 
-void GameUnit::SetPosition(POINT Pos)
+void GameUnit::SetPosition(UnitPos Pos)
 {
-    m_rtBody.left   += Pos.x;
-    m_rtBody.right  += Pos.x;
-    m_rtBody.top    += Pos.y;
-    m_rtBody.bottom += Pos.y;
-    m_ptPos.x += Pos.x;
-    m_ptPos.y += Pos.y;
+    int Width = m_rtBody.right - m_rtBody.left;
+    int Height = m_rtBody.bottom - m_rtBody.top;
+    double halfWidth = Width * 0.5;
+    double halfHeight = Height * 0.5;
+    m_rtBody.left   = Pos.x - halfWidth;
+    m_rtBody.right  = Pos.x + halfWidth;
+    m_rtBody.top    = Pos.y - halfHeight;
+    m_rtBody.bottom = Pos.y + halfHeight;
+}
+
+UnitPos GameUnit::GetPosition()
+{
+    int width = m_rtBody.right - m_rtBody.left;
+    int height = m_rtBody.bottom - m_rtBody.top;
+
+    double posX = m_rtBody.left + width * 0.5;
+    double posY = m_rtBody.top + height * 0.5;
+
+    return UnitPos{ posX, posY };
 }
 
 void GameUnit::SetMoveDirReverse(E_REFLECT_DIR Dir)
@@ -88,10 +101,12 @@ void GameUnit::SetColor(int R, int G, int B)
 
 void GameUnit::Move()
 {
+    m_unitSize.x = m_rtBody.right - m_rtBody.left;
     m_rtBody.left += m_ptMoveDir.x;
-    m_rtBody.right += m_ptMoveDir.x;
+    m_rtBody.right = m_rtBody.left + m_unitSize.x;
+    m_unitSize.y = m_rtBody.bottom - m_rtBody.top;
     m_rtBody.top += m_ptMoveDir.y;
-    m_rtBody.bottom += m_ptMoveDir.y;
+    m_rtBody.bottom = m_rtBody.top + m_unitSize.y;
 }
 
 void GameUnit::Stop()

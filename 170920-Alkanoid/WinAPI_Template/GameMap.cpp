@@ -26,27 +26,27 @@ void GameMap::Setup()
     EnemyDestWall = { ptEnemyDest.x, ptEnemyDest.y, W_WIDTH, ptEnemyDest.y + MAP_DEFAULT_SIZE };
 }
 
-bool GameMap::IsCollision(RECT * Rect1, RECT * Rect2)
+bool GameMap::IsCollision(RECT Rect1, RECT Rect2)
 {
     RECT rt;
-    return IntersectRect(&rt, Rect1, Rect2);
+    return IntersectRect(&rt, &Rect1, &Rect2);
 }
 
-E_EDGE GameMap::IsInsideWindow(RECT * Rect)
+E_EDGE GameMap::IsInsideWindow(RECT Rect)
 {
-    if (IsCollision(&LeftWall, Rect))
+    if (IsCollision(LeftWall, Rect))
     {
         return LEFT_EDGE;
     }
-    else if (IsCollision(&RightWall, Rect))
+    else if (IsCollision(RightWall, Rect))
     {
         return RIGHT_EDGE;
     }
-    else if (IsCollision(&TopWall, Rect))
+    else if (IsCollision(TopWall, Rect))
     {
         return TOP_EDGE;
     }
-    else if (IsCollision(&BottomWall, Rect))
+    else if (IsCollision(BottomWall, Rect))
     {
         return BOTTOM_EDGE;
     }
@@ -54,26 +54,21 @@ E_EDGE GameMap::IsInsideWindow(RECT * Rect)
     return END_EDGE;
 }
 
-bool GameMap::IsEnemyArrive(RECT * EnemyRect)
+bool GameMap::IsEnemyArrive(RECT EnemyRect)
 {
-    return IsCollision(&EnemyDestWall, EnemyRect);
+    return IsCollision(EnemyDestWall, EnemyRect);
 }
 
-bool GameMap::IsRectOutside(RECT * Rect, int LeftRight)
+bool GameMap::IsRectOutside(RECT Rect, int LeftRight)
 {
     if (LeftRight == 0)
     {
         //  LEFT
-        return IsCollision(&LeftWall, Rect);
+        return IsCollision(LeftWall, Rect);
     }
     else
     {
         //  RIGHT
-        return IsCollision(&RightWall, Rect);
+        return IsCollision(RightWall, Rect);
     }
-}
-
-bool GameMap::IsBulletArrive(RECT * BulletRect)
-{
-    return IsCollision(&LeftWall, BulletRect) || IsCollision(&RightWall, BulletRect) || IsCollision(&TopWall, BulletRect);
 }

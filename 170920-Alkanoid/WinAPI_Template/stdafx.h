@@ -57,10 +57,18 @@ extern POINT		g_ptMouse;
 extern HDC          g_hDC;
 
 
+struct UnitPos
+{
+    double      x;
+    double      y;
+};
 
-
+typedef UnitPos UnitSpeed;
+typedef POINT UnitSize;
+/*
 struct UnitSpeed
 {
     double      x;
     double      y;
 };
+*/

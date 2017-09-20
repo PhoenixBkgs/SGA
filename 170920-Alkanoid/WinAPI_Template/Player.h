@@ -2,7 +2,7 @@
 #include "GameNode.h"
 #include "GameUnit.h"
 
-#define PLAYER_SPEED    5.0f
+#define PLAYER_SPEED    7.0f
 
 class Player : public GameNode, public GameUnit
 {

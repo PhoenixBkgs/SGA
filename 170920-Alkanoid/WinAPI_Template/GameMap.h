@@ -18,10 +18,9 @@ public:
     ~GameMap();
 
     void Setup();
-    bool IsCollision(RECT* Rect1, RECT* Rect2);
-    E_EDGE IsInsideWindow(RECT* Rect);
-    bool IsEnemyArrive(RECT* EnemyRect);
-    bool IsRectOutside(RECT* PlayerRect, int LeftRight);
-    bool IsBulletArrive(RECT* BulletRect);
+    bool IsCollision(RECT Rect1, RECT Rect2);
+    E_EDGE IsInsideWindow(RECT Rect);
+    bool IsEnemyArrive(RECT EnemyRect);
+    bool IsRectOutside(RECT PlayerRect, int LeftRight);
 };
 
