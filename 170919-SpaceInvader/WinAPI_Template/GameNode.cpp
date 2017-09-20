@@ -29,7 +29,7 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
     case WM_CREATE:
-        SetTimer(hWnd, 1, 10, NULL);
+        SetTimer(hWnd, 1, 20, NULL);
         rand();
         break;
     case WM_TIMER:

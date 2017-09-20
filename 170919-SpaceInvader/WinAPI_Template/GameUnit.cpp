@@ -30,8 +30,8 @@ void GameUnit::SetBodyRect(POINT GenPos)
     POINT RB;
     LT.x = GenPos.x;
     LT.y = GenPos.y;
-    RB.x = GenPos.x + 2;
-    RB.y = GenPos.y + 2;
+    RB.x = GenPos.x + 4;
+    RB.y = GenPos.y + 4;
 
     m_rtBody = { LT.x, LT.y, RB.x, RB.y };
 }

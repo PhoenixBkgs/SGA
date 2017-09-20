@@ -42,7 +42,6 @@ void MainGame::Update()
     }
 
     GameNode::Update();
-    m_player.Move();
     for (auto bulletIter = m_vecBullet.begin(); bulletIter != m_vecBullet.end();)
     {
         bulletIter->Move();
@@ -139,6 +138,7 @@ void MainGame::Update()
     }
 
     m_player.IsInsideWindow(false);
+    m_player.Move();
 }
 
 void MainGame::Render(HDC hdc)
@@ -238,13 +238,15 @@ void MainGame::PlayerControl()
     POINT pt;
     pt.x = 0;
     pt.y = 0;
-    if (g_pKeyManager->isStayKeyDown('A'))
+    if (g_pKeyManager->isStayKeyDown('A') ||
+        g_pKeyManager->isStayKeyDown(VK_LEFT))
     {
         //  Move Left
         pt.x = -m_player.m_playerSpeed;
         m_player.SetMoveDir(pt);
     }
-    else if (g_pKeyManager->isStayKeyDown('D'))
+    else if (g_pKeyManager->isStayKeyDown('D') ||
+        g_pKeyManager->isStayKeyDown(VK_RIGHT))
     {
         //  Move right
         pt.x = m_player.m_playerSpeed;
@@ -261,7 +263,7 @@ void MainGame::PlayerControl()
         vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_BULLET, m_brushBullet);
         m_vecBullet.push_back(shotBullet[0]);
     }
-    else if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON) &&
+    else if (g_pKeyManager->isOnceKeyDown('R') &&
         m_tsarIsUp)
     {
         vector<Bullet> shotBullet = m_player.Shot(BULLET_SPEED, WEAPON_TSAR, m_brushBullet);
