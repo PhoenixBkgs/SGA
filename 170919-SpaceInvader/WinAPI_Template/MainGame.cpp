@@ -18,15 +18,20 @@ void MainGame::Update()
     {
         return;
     }
-
-    m_tsarCooldown += 1.0f;
-    if (m_tsarCooldown >= 100.0f)
+    m_enemyMoveCount += 1;
+    if (m_enemyMoveCount > 50)
     {
-        m_tsarCooldown = 100.0f;
+        m_enemyMoveTurn = true;
+        m_enemyMoveCount = 0;
+    }
+    m_tsarCooldown += TSAR_CHARGE;
+    if (m_tsarCooldown >= TSAR_UP)
+    {
+        m_tsarCooldown = TSAR_UP;
         m_tsarIsUp = true;
     }
     
-    m_playerColor = (int)(250 * m_tsarCooldown * 0.01f);
+    m_playerColor = (int)(255 * m_tsarCooldown * TO_PERCENT);
     m_brushPlayer = CreateSolidBrush(RGB(0, m_playerColor, 0));
 
     if (m_vecEnemy.size() <= 0)
@@ -124,9 +129,13 @@ void MainGame::Update()
         m_isEnemyArriveWall = false;
     }
 
-    for (auto enemyIterMove = m_vecEnemy.begin(); enemyIterMove != m_vecEnemy.end(); enemyIterMove++)
+    if (m_enemyMoveTurn)
     {
-        enemyIterMove->Move();
+        for (auto enemyIterMove = m_vecEnemy.begin(); enemyIterMove != m_vecEnemy.end(); enemyIterMove++)
+        {
+            enemyIterMove->Move();
+        }
+        m_enemyMoveTurn = false;
     }
 
     m_player.IsInsideWindow(false);
@@ -215,7 +224,7 @@ void MainGame::EnemySetup(int EnemyCount)
             Enemy tempEnemy;
             tempEnemy.SetBodyRect(POINT{ ENEMY_SIZE + colIdx * ENEMY_SIZE * 3, 50 + ENEMY_SIZE + rowIdx * ENEMY_SIZE * 3 }, POINT{ ENEMY_SIZE, ENEMY_SIZE });
             HBRUSH enemyBrush;
-            enemyBrush = CreateSolidBrush(RGB(rowIdx * 20, colIdx * 10, 50));
+            enemyBrush = CreateSolidBrush(RGB(rowIdx * 50, rowIdx * 10, 50));
             tempEnemy.SetBrush(enemyBrush);
             tempEnemy.SetLifeCount(1);
             tempEnemy.SetMoveDir(POINT{ ENEMY_SPEED * m_level, 0 });

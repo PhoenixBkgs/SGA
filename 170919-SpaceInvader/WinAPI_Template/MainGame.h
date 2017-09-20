@@ -6,6 +6,8 @@
 #include "GameMap.h"
 
 #define TSAR_UP 100.0f
+#define TSAR_CHARGE 0.4f
+#define TO_PERCENT 0.01f
 
 class MainGame : public GameNode
 {
@@ -24,9 +26,11 @@ public:
     bool            m_isPlaying;
     bool            m_isEnemyArriveWall;
     bool            m_tsarIsUp;
+    bool            m_enemyMoveTurn;
     int             m_level;
     double          m_tsarCooldown;
     int             m_playerColor;
+    int             m_enemyMoveCount;
 
 //=======================================================
 //  FUNCTIONS
