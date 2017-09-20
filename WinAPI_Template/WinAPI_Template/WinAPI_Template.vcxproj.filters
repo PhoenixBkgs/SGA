@@ -66,6 +66,15 @@
     <ClInclude Include="Log4Komastar.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="EnumState.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUnit.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="Log4Komastar.cpp">
       <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMap.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUnit.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

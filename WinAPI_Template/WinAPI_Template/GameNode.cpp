@@ -6,7 +6,6 @@ GameNode::GameNode()
 {
     g_pKeyManager->Setup();
     g_pLog4K->Setup("\\Log\\");
-    g_pLog4K->WriteLog(EL_INFO, "Test");
 }
 
 
@@ -30,7 +29,6 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_CREATE:
         SetTimer(hWnd, 1, 10, NULL);
-        rand();
         break;
     case WM_TIMER:
         this->Update();
