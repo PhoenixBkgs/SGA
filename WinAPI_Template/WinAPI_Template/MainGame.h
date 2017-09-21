@@ -1,6 +1,7 @@
 #pragma once
 #include "GameNode.h"
 #include "Player.h"
+#include "Draw2DKomastar.h"
 
 class MainGame : public GameNode
 {

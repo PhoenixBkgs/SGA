@@ -6,13 +6,13 @@ GameUnit::GameUnit()
 {
 }
 
-GameUnit::GameUnit(POINT Position, HBRUSH Brush)
+GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2
 {
-    SetBodyRect(Position, POINT{1, 1});
+    SetBodyRect(Position, UnitSize{2, 2});
     m_bBrush = Brush;
 }
 
-GameUnit::GameUnit(POINT Position, POINT Size, HBRUSH Brush, int Life)
+GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  custom size
 {
     SetBodyRect(Position, Size);
     SetLifeCount(Life);
@@ -24,30 +24,15 @@ GameUnit::~GameUnit()
 {
 }
 
-void GameUnit::SetBodyRect(POINT GenPos)
+void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
 {
-    POINT LT;
-    POINT RB;
-    LT.x = GenPos.x;
-    LT.y = GenPos.y;
-    RB.x = GenPos.x + 2;
-    RB.y = GenPos.y + 2;
-
-    m_rtBody = { LT.x, LT.y, RB.x, RB.y };
-}
-
-void GameUnit::SetBodyRect(POINT GenPos, POINT BodySize)
-{
-    POINT LT;
-    POINT RB;
-    int halfWidth = (int)(BodySize.x * 0.5);
-    int halfHeight = (int)(BodySize.y * 0.5);
-    LT.x = GenPos.x - halfWidth;
-    LT.y = GenPos.y - halfHeight;
-    RB.x = GenPos.x + halfWidth;
-    RB.y = GenPos.y + halfHeight;
-
-    m_rtBody = { LT.x, LT.y, RB.x, RB.y };
+    int halfWidth = (int)(BodySize.w * 0.5);
+    int halfHeight = (int)(BodySize.h * 0.5);
+    
+    m_rtBody.left =     (int)GenPos.x - halfWidth;
+    m_rtBody.top =      (int)GenPos.y - halfHeight;
+    m_rtBody.right =    m_rtBody.left + BodySize.w;
+    m_rtBody.bottom =   m_rtBody.top + BodySize.h;
 }
 
 void GameUnit::SetColor(int R, int G, int B)
@@ -55,25 +40,32 @@ void GameUnit::SetColor(int R, int G, int B)
     m_bBrush = CreateSolidBrush(RGB(R, G, B));
 }
 
+void GameUnit::UpdateBodyPos(UnitPos GenPos)
+{
+    m_rtBody.left =     (int)(GenPos.x - (m_unitSize.w * 0.5));
+    m_rtBody.top =      (int)(GenPos.y - (m_unitSize.w * 0.5));
+    m_rtBody.right =    m_rtBody.left + m_unitSize.w;
+    m_rtBody.bottom =   m_rtBody.top + m_unitSize.h;
+}
+
 void GameUnit::Move()
 {
-    m_rtBody.left += m_ptMoveDir.x;
-    m_rtBody.right += m_ptMoveDir.x;
-    m_rtBody.top += m_ptMoveDir.y;
-    m_rtBody.bottom += m_ptMoveDir.y;
+    m_unitPos.x += m_moveSpeed.x;
+    m_unitPos.y += m_moveSpeed.y;
+    UpdateBodyPos(m_unitPos);
 }
 
 void GameUnit::Draw(bool DrawForce)
 {
     if (DrawForce)
     {
-        DrawRect(g_hDC, m_rtBody);
+        m_drawHelper.DrawRect(GetPosition(), GetSize(), m_bBrush);
     }
     else
     {
         if (m_LifeCount > 0)
         {
-            DrawRect(g_hDC, m_rtBody);
+            m_drawHelper.DrawRect(GetPosition(), GetSize(), m_bBrush);
         }
     }
 }
@@ -81,16 +73,4 @@ void GameUnit::Draw(bool DrawForce)
 void GameUnit::Destroy()
 {
     m_LifeCount = 0;
-}
-
-bool GameUnit::Collider(RECT * TargetRect)
-{
-    RECT rt;
-    if (IntersectRect(&rt, TargetRect, &m_rtBody))
-    {
-        //  COLLISION DETECTED !
-        return true;
-    }
-    //  NO COLLISION !
-    return false;
 }

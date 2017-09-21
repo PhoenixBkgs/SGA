@@ -146,7 +146,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawHelper.h" />
+    <ClInclude Include="DataStructure.h" />
+    <ClInclude Include="Draw2DKomastar.h" />
     <ClInclude Include="EloCalculator.h" />
     <ClInclude Include="EnumState.h" />
     <ClInclude Include="GameMap.h" />
@@ -165,7 +166,7 @@
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DrawHelper.cpp" />
+    <ClCompile Include="Draw2DKomastar.cpp" />
     <ClCompile Include="EloCalculator.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameNode.cpp" />

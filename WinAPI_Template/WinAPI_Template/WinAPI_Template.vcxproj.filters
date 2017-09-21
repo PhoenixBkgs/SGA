@@ -75,13 +75,16 @@
     <ClInclude Include="GameUnit.h">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
-    <ClInclude Include="DrawHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClInclude>
     <ClInclude Include="NumberGenerator.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
     <ClInclude Include="Physics2DKomastar.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Draw2DKomastar.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,13 +119,13 @@
     <ClCompile Include="GameUnit.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="DrawHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClCompile>
     <ClCompile Include="NumberGenerator.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
     <ClCompile Include="Physics2DKomastar.cpp">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw2DKomastar.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
   </ItemGroup>

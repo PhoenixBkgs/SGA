@@ -13,7 +13,7 @@ NumberGenerator::~NumberGenerator()
 
 int NumberGenerator::GetRandomNumber()
 {
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     return rand();
 }
 
