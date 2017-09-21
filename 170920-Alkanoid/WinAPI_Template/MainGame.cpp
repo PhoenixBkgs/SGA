@@ -130,6 +130,7 @@ void MainGame::SetupGame(int Level)
 
 void MainGame::SetupPlayer()
 {
+    m_player.Start();
     m_player.SetPosition(m_ptPlayerPos);
 }
 
