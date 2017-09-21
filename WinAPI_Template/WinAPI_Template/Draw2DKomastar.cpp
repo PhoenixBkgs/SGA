@@ -28,6 +28,17 @@ bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, 
     return false;
 }
 
+bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, RGBA Color)
+{
+    HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));
+    SelectObject(g_hDC, hPen);
+    MoveToEx(g_hDC, Pos1.x, Pos1.y, NULL);
+    LineTo(g_hDC, Pos2.x, Pos2.y);
+    DeleteObject(hPen);
+
+    return true;
+}
+
 RECT Draw2DKomastar::DrawRect(UnitPos Position, UnitSize Size, HBRUSH Brush)
 {
     RECT rt;
@@ -69,6 +80,7 @@ RECT Draw2DKomastar::DrawCircle(UnitPos Position, UnitSize Size, RGBA Color)
     Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
     DeleteObject(hPen);
     GetStockObject(WHITE_BRUSH);
+
     return rt;
 }
 

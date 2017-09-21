@@ -2,12 +2,17 @@
 #include "GameNode.h"
 #include "Player.h"
 #include "Draw2DKomastar.h"
+#include "Geometry2DKomastar.h"
+#include "Physics2DKomastar.h"
 
 class MainGame : public GameNode
 {
 //=======================================================
 //  VARIABLES
 private:
+    Draw2DKomastar      m_drawHelper;
+    Geometry2DKomastar  m_geoHelper;
+    Physics2DKomastar   m_physicsHelper;
     Player m_player;
 public:
 
