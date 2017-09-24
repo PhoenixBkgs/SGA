@@ -90,6 +90,9 @@
     <ClInclude Include="Ball.h">
       <Filter>GameFramework2D\Source</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry2DKomastar.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Ball.cpp">
       <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry2DKomastar.cpp">
+      <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

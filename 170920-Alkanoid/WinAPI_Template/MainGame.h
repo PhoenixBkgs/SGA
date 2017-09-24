@@ -17,6 +17,7 @@ class MainGame : public GameNode
 private:
     E_GAME_STATE    m_currGameState;
     Physics2DKomastar m_physics;
+    Geometry2DKomastar m_geoHelper;
 
     Player          m_player;
     Ball            m_ball;

@@ -28,9 +28,9 @@ double Geometry2DKomastar::GetVectorSpeed(UnitPos BeginPos, UnitPos DestPos)
 
 UnitPos Geometry2DKomastar::GetCoordFromAngle(double Degree, double Length)
 {
-    double x = Length * sin(Degree2Rad(Degree));
-    double y = Length * cos(Degree2Rad(Degree));
-    return UnitPos{ x, y };
+    double x = Length * cos(Degree2Rad(Degree));
+    double y = Length * sin(Degree2Rad(Degree));
+    return UnitPos{ x, y * -1.0f };
 }
 
 double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
@@ -40,7 +40,7 @@ double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
 
     double angle = atan2(y, x);
     angle = Rad2Degree(angle);
-    angle *= -1.0f;
+    
     angle += 90.0f;
     return angle;
 }

@@ -7,7 +7,7 @@
 class Player : public GameNode, public GameUnit
 {
 private:
-
+    UnitPos m_barDestPos;
 public:
     Player();
     ~Player();

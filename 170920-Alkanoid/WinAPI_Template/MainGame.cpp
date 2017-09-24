@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MainGame.h"
+#define _BALL_GUIDE_SYSTEM
 
 MainGame::MainGame()
 {
@@ -117,6 +118,44 @@ void MainGame::PlayerControl()
     {
         m_player.Stop();
     }
+
+    if (g_pKeyManager->isStayKeyDown('A'))
+    {
+        //  Ball Guider going left
+        m_player.m_angle += 0.5f;
+    }
+    else if (g_pKeyManager->isStayKeyDown('D'))
+    {
+        //  Ball Guider going right
+        m_player.m_angle -= 0.5f;
+    }
+
+    if (g_pKeyManager->isStayKeyDown('W'))
+    {
+        m_player.m_speed += 5.0f;
+    }
+    else if (g_pKeyManager->isStayKeyDown('S'))
+    {
+        m_player.m_speed -= 5.0f;
+    }
+
+    if (m_player.m_angle < 10.0f)
+    {
+        m_player.m_angle = 10.0f;
+    }
+    else if (m_player.m_angle > 170.0f)
+    {
+        m_player.m_angle = 170.0f;
+    }
+
+    if (m_player.m_speed > 100.0f)
+    {
+        m_player.m_speed = 100.0f;
+    }
+    else if (m_player.m_speed < 5.0f)
+    {
+        m_player.m_speed = 5.0f;
+    }
 }
 
 void MainGame::SetupGame(int Level)
@@ -132,6 +171,8 @@ void MainGame::SetupPlayer()
 {
     m_player.Start();
     m_player.SetPosition(m_ptPlayerPos);
+    m_player.Update();
+    m_player.Render();
 }
 
 void MainGame::SetupBall()
@@ -245,6 +286,7 @@ void MainGame::PlayGame()
     }
 
     Refresh();
+    IsEnd();
 }
 
 void MainGame::IsEnd()
@@ -298,6 +340,10 @@ void MainGame::BallPlayerCollision()
 
     if (bpCollision)
     {
+#ifdef _BALL_GUIDE_SYSTEM
+        UnitPos directionPos = m_geoHelper.GetCoordFromAngle(m_player.m_angle, 5.0f);
+        m_ball.SetMoveDir(directionPos);
+#else
         if (m_player.m_rtBody.left <= ballPos.x &&
             ballPos.x <= m_player.m_rtBody.right)
         {
@@ -319,12 +365,13 @@ void MainGame::BallPlayerCollision()
             //  측면 충돌
             m_ball.m_ptMoveDir.x = m_player.m_ptMoveDir.x - m_ball.m_ptMoveDir.x;
         }
+#endif // _BALL_GUIDE_SYSTEM
     }
 }
 
 E_REFLECT_DIR MainGame::BallBlockCollision(Block BlockRect)
 {
-    //  Ball - Player 충돌
+    //  Ball - Block 충돌
     UnitPos ballPos = m_ball.GetPosition();
 
     RECT rt;

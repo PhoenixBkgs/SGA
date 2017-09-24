@@ -1,23 +1,29 @@
 #pragma once
 #include "EnumState.h"
 #include "DrawHelper.h"
+#include "Geometry2DKomastar.h"
 
 class GameUnit
 {
 //  VARS
 public:
+    DrawHelper  m_drawHelper;
+    Geometry2DKomastar m_geoHelper;
+
     RECT        m_rtBody;
     UnitSpeed   m_ptMoveDir;
     int         m_LifeCount;
     HBRUSH      m_bBrush;
     bool        m_isRender;
-    UnitPos     m_ptPos;
+    UnitPos     m_unitPos;
     UnitSize    m_unitSize;
+
+    double      m_angle;
+    double      m_speed;
 
 //  FUNCS
 public:
     GameUnit();
-    GameUnit(UnitPos Position, HBRUSH Brush);       //  1x1 RECT
     GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
     ~GameUnit();
 

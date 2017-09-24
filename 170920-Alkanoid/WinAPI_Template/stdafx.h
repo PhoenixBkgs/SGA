@@ -37,7 +37,7 @@ using namespace std;
 //==================================================================
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 //==================================================================
-
+#include "DataStructure.h"
 
 //==================================================================
 //		## 매니져 추가 ##
@@ -55,20 +55,3 @@ extern HINSTANCE	g_hInst;
 extern HWND			g_hWnd;
 extern POINT		g_ptMouse;
 extern HDC          g_hDC;
-
-
-struct UnitPos
-{
-    double      x;
-    double      y;
-};
-
-typedef UnitPos UnitSpeed;
-typedef POINT UnitSize;
-/*
-struct UnitSpeed
-{
-    double      x;
-    double      y;
-};
-*/
