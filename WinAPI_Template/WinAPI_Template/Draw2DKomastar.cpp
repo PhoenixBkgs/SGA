@@ -11,15 +11,18 @@ Draw2DKomastar::~Draw2DKomastar()
 {
 }
 
-bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, HBRUSH Brush)
+bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, RGBA Color)
 {
     switch (eShape)
     {
     case SHAPE_RECT:
+        DrawRect(Position, Size, Color);
         break;
     case SHAPE_CIRCLE:
+        DrawCircle(Position, Size, Color);
         break;
     case SHAPE_ELLIPSE:
+        DrawEllipse(Position, Size, Color);
         break;
     default:
         break;
@@ -39,7 +42,7 @@ bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, RGBA C
     return true;
 }
 
-RECT Draw2DKomastar::DrawRect(UnitPos Position, UnitSize Size, HBRUSH Brush)
+RECT Draw2DKomastar::DrawRect(UnitPos Position, UnitSize Size, RGBA Color)
 {
     RECT rt;
     UnitPos LT;
@@ -53,11 +56,8 @@ RECT Draw2DKomastar::DrawRect(UnitPos Position, UnitSize Size, HBRUSH Brush)
     rt.right = (int)RB.x;
     rt.bottom = (int)RB.y;
     Rectangle(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
-    if (Brush != NULL)
-    {
-        FillRect(g_hDC, &rt, Brush);
-    }
-
+    FillRect(g_hDC, &rt, CreateSolidBrush(RGB(Color.R, Color.G, Color.B)));
+    
     return rt;
 }
 
@@ -74,7 +74,7 @@ RECT Draw2DKomastar::DrawCircle(UnitPos Position, UnitSize Size, RGBA Color)
     rt.top = (int)LT.y;
     rt.right = (int)RB.x;
     rt.bottom = (int)RB.y;
-    HPEN hPen = CreatePen(PS_DASHDOTDOT, 1, RGB(Color.R, Color.G, Color.B));
+    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(Color.R, Color.G, Color.B));
     SelectObject(g_hDC, hPen);
     SelectObject(g_hDC, CreateSolidBrush(RGB(0, 0, 0)));
     Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);

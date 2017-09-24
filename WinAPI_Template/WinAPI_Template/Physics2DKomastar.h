@@ -1,4 +1,5 @@
 #pragma once
+#include "GameUnit.h"
 
 #define _PERFECTLY_ELASTIC_COLLISION
 
@@ -17,7 +18,6 @@ public:
     ~Physics2DKomastar();
 
     bool PtInsideRect(UnitPos Pos, RECT Rect);
-
-    UnitSpeed CollisionAlkanoid(UnitSpeed Speed1, UnitSpeed Speed2);
+    UnitSpeed CollisionAlkanoid(GameUnit Unit1, GameUnit Unit2);
 };
 

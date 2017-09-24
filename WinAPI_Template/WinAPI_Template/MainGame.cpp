@@ -23,6 +23,7 @@ void MainGame::Update()
 void MainGame::Render()
 {
     //  SAMPLE CODES
+    /*
     UnitPos centerPoint = m_geoHelper.GetCenterPointWindow();
     UnitPos mousePos = { (double)g_ptMouse.x, (double)g_ptMouse.y };
     double angle = m_geoHelper.GetAngleFromCoord(centerPoint, mousePos);
@@ -51,4 +52,5 @@ void MainGame::Render()
     }
     Rectangle(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
     FillRect(g_hDC, &rt, CreateSolidBrush(RGB(r, 0, b)));
+    */
 }

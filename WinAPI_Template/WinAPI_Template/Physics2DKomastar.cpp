@@ -26,10 +26,7 @@ bool Physics2DKomastar::PtInsideRect(UnitPos Pos, RECT Rect)
     return false;
 }
 
-UnitSpeed Physics2DKomastar::CollisionAlkanoid(UnitSpeed Speed1, UnitSpeed Speed2)
+UnitSpeed Physics2DKomastar::CollisionAlkanoid(GameUnit Unit1, GameUnit Unit2)
 {
-    UnitSpeed retUnitSpeed = Speed2;
-    retUnitSpeed.x = Speed2.x - Speed1.x;
-
-    return retUnitSpeed;
+    return UnitSpeed();
 }
