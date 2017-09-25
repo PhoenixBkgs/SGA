@@ -76,7 +76,7 @@ RECT Draw2DKomastar::DrawCircle(UnitPos Position, UnitSize Size, RGBA Color)
     rt.bottom = (int)RB.y;
     HPEN hPen = CreatePen(PS_SOLID, 1, RGB(Color.R, Color.G, Color.B));
     SelectObject(g_hDC, hPen);
-    SelectObject(g_hDC, CreateSolidBrush(RGB(0, 0, 0)));
+    SelectObject(g_hDC, CreateSolidBrush(RGB(Color.R, Color.G, Color.B)));
     Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
     DeleteObject(hPen);
     GetStockObject(WHITE_BRUSH);
@@ -97,7 +97,12 @@ RECT Draw2DKomastar::DrawEllipse(UnitPos Position, UnitSize Size, RGBA Color)
     rt.top = (int)LT.y;
     rt.right = (int)RB.x;
     rt.bottom = (int)RB.y;
+    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(Color.R, Color.G, Color.B));
+    SelectObject(g_hDC, hPen);
+    SelectObject(g_hDC, CreateSolidBrush(RGB(Color.R, Color.G, Color.B)));
     Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
+    DeleteObject(hPen);
+    GetStockObject(WHITE_BRUSH);
 
     return rt;
 }
