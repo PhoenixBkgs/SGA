@@ -152,9 +152,9 @@ void MainGame::PlayerControl()
     {
         m_player.m_speed = 100.0f;
     }
-    else if (m_player.m_speed < 5.0f)
+    else if (m_player.m_speed < 25.0f)
     {
-        m_player.m_speed = 5.0f;
+        m_player.m_speed = 25.0f;
     }
 }
 
@@ -341,7 +341,7 @@ void MainGame::BallPlayerCollision()
     if (bpCollision)
     {
 #ifdef _BALL_GUIDE_SYSTEM
-        UnitPos directionPos = m_geoHelper.GetCoordFromAngle(m_player.m_angle, 5.0f);
+        UnitPos directionPos = m_geoHelper.GetCoordFromAngle(m_player.m_angle, m_player.m_speed * 0.1f);
         m_ball.SetMoveDir(directionPos);
 #else
         if (m_player.m_rtBody.left <= ballPos.x &&
