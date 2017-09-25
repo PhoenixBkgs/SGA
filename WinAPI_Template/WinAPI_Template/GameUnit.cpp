@@ -55,21 +55,6 @@ void GameUnit::Move()
     UpdateBodyPos(m_unitPos);
 }
 
-void GameUnit::Draw(bool DrawForce)
-{
-    if (DrawForce)
-    {
-        m_drawHelper.DrawRect(GetPosition(), GetSize(), m_bBrush);
-    }
-    else
-    {
-        if (m_LifeCount > 0)
-        {
-            m_drawHelper.DrawRect(GetPosition(), GetSize(), m_bBrush);
-        }
-    }
-}
-
 void GameUnit::Destroy()
 {
     m_LifeCount = 0;
