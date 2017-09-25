@@ -24,6 +24,17 @@ void MainGame::Render()
 {
     //  SAMPLE CODES
     /*
+    DrawShape SAMPLE
+    UnitPos pos = { 100.0f, 100.0f };
+    UnitSize size = { 50, 50 };
+    m_drawHelper.DrawShape(SHAPE_RECT, pos, size, RGBA{ 100, 0, 0, 0 });
+    pos.x += 100.0f;
+    m_drawHelper.DrawShape(SHAPE_CIRCLE, pos, size, RGBA{ 100, 50, 0, 0 });
+    pos.y += 100.0f;
+    size.w += 200;
+    m_drawHelper.DrawShape(SHAPE_ELLIPSE, pos, size, RGBA{ 100, 0, 90, 0 });
+
+    DrawLine SAMPLE
     UnitPos centerPoint = m_geoHelper.GetCenterPointWindow();
     UnitPos mousePos = { (double)g_ptMouse.x, (double)g_ptMouse.y };
     double angle = m_geoHelper.GetAngleFromCoord(centerPoint, mousePos);
