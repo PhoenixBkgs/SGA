@@ -1,7 +1,8 @@
 #pragma once
-#define MAX_CARD 10
-#define IMG_WIDTH 120
-#define IMG_HEIGHT 200
+#define MAX_CARD 140
+#define HALF_CARD 70
+#define IMG_WIDTH 60
+#define IMG_HEIGHT 100
 
 class cCard
 {

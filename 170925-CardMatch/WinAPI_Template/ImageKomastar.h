@@ -41,7 +41,6 @@ public:
     void Setup(const char* FileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
     void Render(HDC hdc);
     void Render(HDC hdc, int destX, int destY);
-    
     void SetTransColor(bool isTrans, COLORREF transColor);
 
     HDC GetMemDC() { return m_stImageInfo->hMemDC; }

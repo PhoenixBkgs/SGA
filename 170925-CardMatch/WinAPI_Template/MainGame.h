@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GameNode.h"
 #include "Player.h"
 #include "Draw2DKomastar.h"
@@ -37,6 +38,17 @@ private:
     vector<tagImage> m_vecStImages;
     vector<cCard>    m_vecCards;
     cCard* m_prevCard;
+
+    bool m_hasInsight;
+    bool m_isPlaying;
+    bool m_isEnd;
+    int m_showIdx1;
+    int m_showIdx2;
+    int m_showIdx3;
+    int m_showIdx4;
+    int m_showSleepCnt;
+    int m_showCount;
+    int m_finishCount;
 
 public:
     int m_clickCount;
