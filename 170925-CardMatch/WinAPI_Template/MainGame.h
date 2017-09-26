@@ -6,6 +6,8 @@
 #include "Physics2DKomastar.h"
 #include "ImageKomastar.h"
 
+#include "cCard.h"
+
 #define MAX_CARD 10
 #define IMG_WIDTH 120
 #define IMG_HEIGHT 200
@@ -18,6 +20,13 @@ struct Card
     bool IsOpen;
     bool IsFinished;
     int cardId;
+};
+
+struct tagImage
+{
+    ImageKomastar* ImageFront;
+    ImageKomastar* ImageBack;
+    int cId;
 };
 
 class MainGame : public GameNode
@@ -35,11 +44,15 @@ private:
                                       "images/CardFront-Liming.bmp",
                                       "images/CardFront_Jaina.bmp",
                                       "images/CardFront-Malfurion.bmp" };
+
+    vector<tagImage> m_vecStImages;
+    vector<cCard>    m_vecCards;
 public:
     int m_clickCount;
     int m_prevCardIdx = -1;
     int m_gameScore;
     bool m_isMatchFail;
+
 //=======================================================
 //  FUNCTIONS
 private:

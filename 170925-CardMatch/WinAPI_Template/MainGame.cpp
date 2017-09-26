@@ -28,6 +28,7 @@ void MainGame::Start()
         }
         rt.right = rt.left + 120;
         rt.bottom = rt.top + IMG_HEIGHT;
+
         Card tCard;
         tCard.ImageFront = new ImageKomastar;
         tCard.ImageFront->Setup(m_imageNames[i % 5].data(), IMG_WIDTH, IMG_HEIGHT);
@@ -40,6 +41,23 @@ void MainGame::Start()
         tCard.cardId = i % 5;
         
         m_cards[i] = tCard;
+    }
+
+    srand(time(NULL));
+    //  Shuffle
+    for (int i = 0; i < 10; i++)
+    {
+        int idx = rand() % 10;
+
+        ImageKomastar* exImg;
+        exImg = m_cards[i].ImageFront;
+        m_cards[i].ImageFront = m_cards[idx].ImageFront;
+        m_cards[idx].ImageFront = exImg;
+
+        int exId;
+        exId = m_cards[i].cardId;
+        m_cards[i].cardId = m_cards[idx].cardId;
+        m_cards[idx].cardId = exId;
     }
 }
 
