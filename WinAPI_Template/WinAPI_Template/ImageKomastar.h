@@ -31,14 +31,14 @@ private:
     LPIMAGE_INFO m_stImageInfo;
     char* m_szFileName;
     bool m_isTrans;
-    COLORREF m_transColor;  //  255, 0, 255
+    COLORREF m_transColor;  //  255, 0, 255 = TRANSPARENT COLOR (MAGENTA)
 
 public:
     ImageKomastar();
     ~ImageKomastar();
 
     void Setup(int width, int height);
-    void Setup(const char* FileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(255, 0, 255));
+    void Setup(const char* FileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
     void Render(HDC hdc);
     void Render(HDC hdc, int destX, int destY);
     

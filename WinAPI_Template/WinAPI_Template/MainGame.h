@@ -14,13 +14,7 @@ private:
     Draw2DKomastar      m_drawHelper;
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
-    Player m_player;
-    ImageKomastar* m_image;
-    ImageKomastar* m_image2;
 
-
-public:
-    int x;
 //=======================================================
 //  FUNCTIONS
 private:

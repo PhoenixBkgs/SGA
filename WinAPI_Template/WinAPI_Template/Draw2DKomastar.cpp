@@ -11,7 +11,7 @@ Draw2DKomastar::~Draw2DKomastar()
 {
 }
 
-bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, RGBA Color)
+bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, _RGBA Color)
 {
     RECT rt;
     UnitPos LT;
@@ -67,7 +67,7 @@ bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, 
     return false;
 }
 
-bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, RGBA Color)
+bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color)
 {
     HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));
     SelectObject(g_hDC, hPen);

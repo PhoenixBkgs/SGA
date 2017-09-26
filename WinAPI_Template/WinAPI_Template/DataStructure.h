@@ -15,17 +15,10 @@ struct UnitSize
     int h;
 };
 
-struct RGBA
+struct _RGBA
 {
     int R;
     int G;
     int B;
     int A;
 };
-
-//class DataStructure
-//{
-//public:
-//    DataStructure();
-//    ~DataStructure();
-//};
