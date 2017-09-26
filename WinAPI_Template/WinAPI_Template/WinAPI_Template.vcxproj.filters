@@ -88,7 +88,10 @@
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
     <ClInclude Include="Geometry2DKomastar.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageKomastar.h">
+      <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +135,10 @@
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
     <ClCompile Include="Geometry2DKomastar.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageKomastar.cpp">
+      <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

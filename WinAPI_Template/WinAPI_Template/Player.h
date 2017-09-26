@@ -1,6 +1,8 @@
 #pragma once
 #include "GameNode.h"
 #include "GameUnit.h"
+#include "ImageKomastar.h"
+
 
 class Player : public GameNode, GameUnit
 {

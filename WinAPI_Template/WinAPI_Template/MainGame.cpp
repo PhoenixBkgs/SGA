@@ -4,6 +4,11 @@
 MainGame::MainGame()
 {
     Start();
+    m_image2 = new ImageKomastar;
+    m_image2->Setup("images/ChloeBennet.bmp", W_WIDTH, W_HEIGHT);
+
+    m_image = new ImageKomastar;
+    m_image->Setup("images/magenta.bmp", W_WIDTH, W_HEIGHT, true, RGB(255, 0, 255));
 }
 
 
@@ -18,21 +23,27 @@ void MainGame::Start()
 void MainGame::Update()
 {
     GameNode::Update();
+    x += 1;
 }
 
 void MainGame::Render()
 {
-    //  SAMPLE CODES
-    /*
-    DrawShape SAMPLE
+    PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
+    m_image2->Render(g_hDC);
+
     UnitPos pos = { 100.0f, 100.0f };
     UnitSize size = { 50, 50 };
-    m_drawHelper.DrawShape(SHAPE_RECT, pos, size, RGBA{ 100, 0, 0, 0 });
+    m_drawHelper.DrawShape(SHAPE_RECT, UnitPos{ (double)x, (double)x }, size, RGBA{ 100, 0, 0, 0 });
     pos.x += 100.0f;
     m_drawHelper.DrawShape(SHAPE_CIRCLE, pos, size, RGBA{ 100, 50, 0, 0 });
     pos.y += 100.0f;
     size.w += 200;
     m_drawHelper.DrawShape(SHAPE_ELLIPSE, pos, size, RGBA{ 100, 0, 90, 0 });
+    m_image->Render(g_hDC);
+
+    //  SAMPLE CODES
+    /*
+    DrawShape SAMPLE
 
     DrawLine SAMPLE
     UnitPos centerPoint = m_geoHelper.GetCenterPointWindow();

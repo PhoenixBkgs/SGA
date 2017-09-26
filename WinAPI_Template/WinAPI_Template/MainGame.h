@@ -4,6 +4,7 @@
 #include "Draw2DKomastar.h"
 #include "Geometry2DKomastar.h"
 #include "Physics2DKomastar.h"
+#include "ImageKomastar.h"
 
 class MainGame : public GameNode
 {
@@ -14,8 +15,12 @@ private:
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
     Player m_player;
-public:
+    ImageKomastar* m_image;
+    ImageKomastar* m_image2;
 
+
+public:
+    int x;
 //=======================================================
 //  FUNCTIONS
 private:

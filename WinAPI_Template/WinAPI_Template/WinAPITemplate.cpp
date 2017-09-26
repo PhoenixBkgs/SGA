@@ -101,18 +101,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(W_NAME, W_NAME, WINDOW_STYLE,
+   g_hWnd = CreateWindowW(W_NAME, W_NAME, WINDOW_STYLE,
        W_START_POS_X, W_START_POS_Y, W_WIDTH, W_HEIGHT, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
+   if (!g_hWnd)
    {
       return FALSE;
    }
 
    setWindowSize(W_START_POS_X, W_START_POS_Y, W_WIDTH, W_HEIGHT);
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   ShowWindow(g_hWnd, nCmdShow);
+   UpdateWindow(g_hWnd);
 
    return TRUE;
 }

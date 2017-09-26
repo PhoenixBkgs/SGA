@@ -6,6 +6,9 @@ GameNode::GameNode()
 {
     g_pKeyManager->Setup();
     g_pLog4K->Setup("\\Log\\");
+
+    m_backBuffer = new ImageKomastar;
+    m_backBuffer->Setup(W_WIDTH, W_HEIGHT);
 }
 
 
@@ -13,16 +16,21 @@ GameNode::~GameNode()
 {
     g_pKeyManager->ReleaseInstance();
     g_pLog4K->ReleaseInstance();
+
+    delete m_backBuffer;
 }
 
 void GameNode::Update()
 {
-    InvalidateRect(g_hWnd, NULL, true);
+    InvalidateRect(g_hWnd, NULL, false);
 }
 
 LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
+    HDC hdc;
+
+    g_hDC = this->GetBackbuffer()->GetMemDC();
 
     switch (message)
     {
@@ -41,8 +49,9 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_PAINT:
-        g_hDC = BeginPaint(hWnd, &ps);
+        hdc = BeginPaint(hWnd, &ps);
         this->Render();
+        this->GetBackbuffer()->Render(hdc);
         EndPaint(hWnd, &ps);
         break;
     case WM_MOUSEMOVE:
