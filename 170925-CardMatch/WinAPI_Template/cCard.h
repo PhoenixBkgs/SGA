@@ -1,5 +1,5 @@
 #pragma once
-
+#define MAX_CARD 10
 #define IMG_WIDTH 120
 #define IMG_HEIGHT 200
 

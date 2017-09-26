@@ -8,10 +8,6 @@
 
 #include "cCard.h"
 
-#define MAX_CARD 10
-#define IMG_WIDTH 120
-#define IMG_HEIGHT 200
-
 struct Card
 {
     ImageKomastar* ImageFront;
@@ -38,18 +34,12 @@ private:
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
 
-    Card m_cards[MAX_CARD];
-    string m_imageNames[MAX_CARD] = { "images/CardFront_Illidan.bmp",
-                                      "images/CardFront_Tyrande.bmp",
-                                      "images/CardFront-Liming.bmp",
-                                      "images/CardFront_Jaina.bmp",
-                                      "images/CardFront-Malfurion.bmp" };
-
     vector<tagImage> m_vecStImages;
     vector<cCard>    m_vecCards;
+    cCard* m_prevCard;
+
 public:
     int m_clickCount;
-    int m_prevCardIdx = -1;
     int m_gameScore;
     bool m_isMatchFail;
 
