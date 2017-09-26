@@ -72,7 +72,7 @@ bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA 
     HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));
     SelectObject(g_hDC, hPen);
     MoveToEx(g_hDC, Pos1.x, Pos1.y, NULL);
-    LineTo(g_hDC, Pos2.x, Pos2.y);
+    LineTo(g_hDC, (int)Pos2.x, (int)Pos2.y);
     DeleteObject(hPen);
 
     return true;
