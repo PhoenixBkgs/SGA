@@ -13,6 +13,7 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_prevUid = -1;
     m_finishCount = 0;
     m_showCount = 15;
     m_gameScore = 0;
@@ -65,6 +66,7 @@ void MainGame::Start()
 
         tempCard.m_isFinished = false;
         tempCard.m_isOpen = false;
+        tempCard.m_uId = i;
         tempCard.m_cId = i % HALF_CARD;
         
         m_vecCards.push_back(tempCard);
@@ -120,9 +122,16 @@ void MainGame::Update()
                 if (isClicked)
                 {
                     iter->m_isOpen = true;
+                    if (m_prevUid == iter->m_uId)
+                    {
+                        iter->m_isOpen = false;
+                        break;
+                    }
+
                     if (m_clickCount == 0 && iter->m_isFinished == false)
                     {
                         m_prevCard = iter._Ptr;
+                        m_prevUid = iter->m_uId;
                         m_clickCount++;
                         break;
                     }

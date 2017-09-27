@@ -49,6 +49,7 @@ private:
     int m_showSleepCnt;
     int m_showCount;
     int m_finishCount;
+    int m_prevUid;
 
 public:
     int m_clickCount;
