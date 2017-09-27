@@ -26,6 +26,9 @@ void Player::Start()
 
 void Player::Update()
 {
+    m_barrelPos[1] = m_geoHelper.GetCoordFromAngle(m_barrelAngle, m_barrelLength);
+    m_barrelPos[1].x += m_barrelPos[0].x;
+    m_barrelPos[1].y += m_barrelPos[0].y;
 }
 
 void Player::Render()

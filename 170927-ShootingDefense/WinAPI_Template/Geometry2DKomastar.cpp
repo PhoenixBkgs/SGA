@@ -30,7 +30,7 @@ UnitPos Geometry2DKomastar::GetCoordFromAngle(double Degree, double Length)
 {
     double x = Length * sin(Degree2Rad(Degree));
     double y = Length * cos(Degree2Rad(Degree));
-    return UnitPos{ x, y };
+    return UnitPos{ y, -x };
 }
 
 double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
