@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "MainGame.h"
 
 MainGame::MainGame()
@@ -116,8 +116,8 @@ void MainGame::Update()
 
         if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
         {
-            //  ���콺 ��Ŭ��
-            //  �浹 üũ
+            //  마우스 좌클릭
+            //  충돌 체크
             for (auto iter = m_vecCards.begin(); iter != m_vecCards.end(); iter++)
             {
                 bool isClicked = m_physicsHelper.PtInsideRect(UnitPos{ (double)g_ptMouse.x, (double)g_ptMouse.y }, iter->m_rtBody);
