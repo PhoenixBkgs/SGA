@@ -13,6 +13,8 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_comboFactor = 1.0f;
+    m_comboCount = 0;
     m_prevUid = -1;
     m_finishCount = 0;
     m_showCount = 15;
@@ -141,12 +143,16 @@ void MainGame::Update()
                         {
                             iter->m_isFinished = true;
                             m_prevCard->m_isFinished = true;
-                            m_gameScore += 10;
+                            m_gameScore += (int)(10 * m_comboFactor);
+                            m_comboFactor *= 1.5f;
                             m_finishCount += 2;
+                            m_comboCount++;
                         }
                         else
                         {
                             m_gameScore -= 5;
+                            m_comboFactor = 1.0f;
+                            m_comboCount = 0;
                             m_isMatchFail = true;
                         }
                         m_clickCount = 0;
@@ -177,7 +183,10 @@ void MainGame::Update()
             if (m_showCount <= 0)
             {
                 m_isPlaying = true;
-                Sleep(1000);
+                if (m_isEnd)
+                {
+                    Sleep(1000);
+                }
             }
             m_showCount--;
         }
@@ -193,6 +202,8 @@ void MainGame::Update()
 
     if (m_isEnd)
     {
+        m_comboCount = 0;
+        m_comboFactor = 1.0f;
         for (auto iter = m_vecCards.begin(); iter != m_vecCards.end(); iter++)
         {
             iter->m_isFinished = false;
@@ -219,7 +230,7 @@ void MainGame::Render()
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
 
     char infoMsg[100];
-    sprintf_s(infoMsg, "GAMESCORE : %d", m_gameScore);
+    sprintf_s(infoMsg, "GAMESCORE : %d                 COMBO : %d              COMBO FACTOR : %.0f %%", m_gameScore, m_comboCount, m_comboFactor * 100.0f);
     TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
 
     for (auto iter = m_vecCards.begin(); iter != m_vecCards.end(); iter++)
