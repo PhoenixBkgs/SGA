@@ -10,6 +10,10 @@
 #include "Bullet.h"
 #include "Enemy.h"
 
+#define MAX_DELAY 100
+#define MAX_TIMER 10000
+#define LEVELING_FACTOR 0.5
+
 class MainGame : public GameNode
 {
 //=======================================================
@@ -23,8 +27,18 @@ private:
     vector<Bullet>  m_vecBullet;
     vector<Enemy>   m_vecEnemy;
 
+    int     m_gameLevel;
+    int     m_gameScore;
     int     m_enemyGenDelay;
+    bool    m_isGenEnemy;
+    int     m_enemyCount;
+    int     m_lifeTimeCount;
 
+    bool    m_isPause;
+
+    HBRUSH*  m_playerBrush;
+    HBRUSH*  m_bulletBrush;
+    HBRUSH*  m_enemyBrush;
 //=======================================================
 //  FUNCTIONS
 private:

@@ -13,6 +13,7 @@ Bullet::Bullet(UnitPos GenPos)
 
     SetBodyRect(GenPos, m_unitSize);
     m_unitPos = GenPos;
+    m_LifeCount = 1;
 }
 
 
@@ -27,5 +28,7 @@ void Bullet::Update()
 
 void Bullet::Render()
 {
-    m_drawHelper.DrawShape(SHAPE_RECT, m_unitPos, m_unitSize, _RGBA{ 0, 0, 0, 0 });
+    //m_drawHelper.DrawShape(SHAPE_RECT, m_unitPos, m_unitSize, _RGBA{ 0, 0, 0, 0 });
+    Rectangle(g_hDC, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
+    FillRect(g_hDC, &m_rtBody, *m_bBrush);
 }

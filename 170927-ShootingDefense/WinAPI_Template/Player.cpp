@@ -33,6 +33,8 @@ void Player::Update()
 
 void Player::Render()
 {
-    m_drawHelper.DrawShape(SHAPE_RECT, m_unitPos, m_unitSize, _RGBA{ 100, 100, 100, 0 });
+    //m_drawHelper.DrawShape(SHAPE_RECT, m_unitPos, m_unitSize, _RGBA{ 100, 100, 100, 0 });
+    Rectangle(g_hDC, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
+    FillRect(g_hDC, &m_rtBody, *m_bBrush);
     m_drawHelper.DrawLine2D(m_barrelPos[0], m_barrelPos[1], 5, _RGBA{ 0, 0, 0, 0 });
 }

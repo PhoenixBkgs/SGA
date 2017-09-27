@@ -6,6 +6,9 @@
 class Enemy : public GameUnit
 {
 public:
+    int     m_score;
+
+public:
     Enemy();
     ~Enemy();
 

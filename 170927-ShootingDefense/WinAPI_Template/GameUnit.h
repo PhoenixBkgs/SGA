@@ -12,15 +12,15 @@ public:
     UnitSize        m_unitSize;
     UnitSpeed       m_moveSpeed;
     
-    HBRUSH          m_bBrush;
+    HBRUSH*          m_bBrush;
 
     int             m_LifeCount;
 
 //  FUNCS
 public:
     GameUnit();
-    GameUnit(UnitPos Position, HBRUSH Brush);
-    GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
+    GameUnit(UnitPos Position, HBRUSH* Brush);
+    GameUnit(UnitPos Position, UnitSize Size, HBRUSH* Brush, int Life);
     ~GameUnit();
 
     RECT* GetBodyRect() { return &m_rtBody; }
@@ -40,8 +40,8 @@ public:
     int GetLifeCount() { return m_LifeCount; }
     void SetLifeCount(int Life) { m_LifeCount = Life; }
     
-    HBRUSH GetBrush() { return m_bBrush; }
-    void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
+    HBRUSH* GetBrush() { return m_bBrush; }
+    void SetBrush(HBRUSH* Brush) { m_bBrush = Brush; }
 
 
     void SetColor(int R, int G, int B);

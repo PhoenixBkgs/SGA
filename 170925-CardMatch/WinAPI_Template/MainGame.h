@@ -52,6 +52,7 @@ private:
     int m_prevUid;
     int m_comboCount;
     double m_comboFactor;
+
 public:
     int m_clickCount;
     int m_gameScore;
