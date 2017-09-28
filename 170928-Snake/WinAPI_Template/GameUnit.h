@@ -10,17 +10,17 @@ public:
     RECT            m_rtBody;
     UnitPos         m_unitPos;
     UnitSize        m_unitSize;
-    UnitSpeed       m_moveSpeed;
+    UnitSpeed       m_moveSpeedXY;
     
-    HBRUSH          m_bBrush;
+    HBRUSH*         m_bBrush;
 
     int             m_LifeCount;
 
 //  FUNCS
 public:
     GameUnit();
-    GameUnit(UnitPos Position, HBRUSH Brush);
-    GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
+    GameUnit(UnitPos Position, HBRUSH* Brush);
+    GameUnit(UnitPos Position, UnitSize Size, HBRUSH* Brush, int Life);
     ~GameUnit();
 
     RECT* GetBodyRect() { return &m_rtBody; }
@@ -34,20 +34,20 @@ public:
     UnitSize GetSize() { return m_unitSize; }
     void SetSize(UnitSize Size) { m_unitSize = Size; }
 
-    UnitSpeed GetMoveSpeed() { return m_moveSpeed; }
-    void SetMoveSpeed(UnitSpeed Speed) { m_moveSpeed = Speed; }
+    UnitSpeed GetMoveSpeed() { return m_moveSpeedXY; }
+    void SetMoveSpeed(UnitSpeed Speed) { m_moveSpeedXY = Speed; }
 
     int GetLifeCount() { return m_LifeCount; }
     void SetLifeCount(int Life) { m_LifeCount = Life; }
     void SumLifeCount(int Life) { m_LifeCount += Life; }
     
-    HBRUSH GetBrush() { return m_bBrush; }
-    void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
+    HBRUSH* GetBrush() { return m_bBrush; }
+    void SetBrush(HBRUSH* Brush) { m_bBrush = Brush; }
 
 
     void SetColor(int R, int G, int B);
 
-    void Move();
+    virtual void Move();
     void Draw(bool DrawForce);
     void Destroy();
 };

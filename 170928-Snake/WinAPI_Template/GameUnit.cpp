@@ -6,13 +6,13 @@ GameUnit::GameUnit()
 {
 }
 
-GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2
+GameUnit::GameUnit(UnitPos Position, HBRUSH* Brush)  //  2x2
 {
     SetBodyRect(Position, UnitSize{2, 2});
     m_bBrush = Brush;
 }
 
-GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  custom size
+GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH* Brush, int Life) //  custom size
 {
     SetBodyRect(Position, Size);
     SetLifeCount(Life);
@@ -37,7 +37,7 @@ void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
 
 void GameUnit::SetColor(int R, int G, int B)
 {
-    m_bBrush = CreateSolidBrush(RGB(R, G, B));
+    *m_bBrush = CreateSolidBrush(RGB(R, G, B));
 }
 
 void GameUnit::UpdateBodyPos(UnitPos GenPos)
@@ -50,8 +50,8 @@ void GameUnit::UpdateBodyPos(UnitPos GenPos)
 
 void GameUnit::Move()
 {
-    m_unitPos.x += m_moveSpeed.x;
-    m_unitPos.y += m_moveSpeed.y;
+    m_unitPos.x += m_moveSpeedXY.x;
+    m_unitPos.y += m_moveSpeedXY.y;
     UpdateBodyPos(m_unitPos);
 }
 

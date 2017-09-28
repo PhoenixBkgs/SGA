@@ -14,8 +14,6 @@ private:
     Draw2DKomastar      m_drawHelper;
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
-
-    RECT m_rt;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -26,5 +24,8 @@ public:
     virtual void Start() override;
     virtual void Update() override;
     virtual void Render() override;
+
+    void PlayerController();
+    void SystemController();
 };
 
