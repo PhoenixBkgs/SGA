@@ -3,7 +3,9 @@
 #include "GameUnit.h"
 #include "Geometry2DKomastar.h"
 
-#define UNIT_SIZE 20
+#define UNIT_SIZE 40
+#define MIN_SPEED 7.5f
+#define MAX_SPEED 20.0f
 
 class Player : public GameUnit
 {
@@ -15,7 +17,6 @@ private:
     Player* m_pForwardPlayer;
     Player* m_pBackwardPlayer;
 
-    UnitPos m_unitPos;
     double m_moveDirAngle;
     double m_moveSpeed;
 
@@ -25,16 +26,28 @@ private:
 
 public:
     Player();
+    Player(HBRUSH* Brush);
+    Player(UnitPos Position, HBRUSH * Brush);
     ~Player();
 
     void Start();
     void Update();
     void Render();
 
-    void Move() override;
+    void MoveTo(UnitPos Pos);
 
+    void SetForwardPlayer(Player* ForwardPlayer) { m_pForwardPlayer = ForwardPlayer; }
+    void SumAngle(double Angle) { m_moveDirAngle += Angle; }
+    void SetType(E_UNIT_TYPE Type) { m_type = Type; }
+    void SetMoveSpeed(double Speed) { m_moveSpeed = Speed; }
+    void SetDirAngle(double Angle) { m_moveDirAngle = Angle; }
+
+    double GetDirAngle() { return m_moveDirAngle; }
+    double GetMoveSpeed() { return m_moveSpeed; }
 private:
     void MoveToAngle();     //  HEAD ONLY
     void MoveToLinear();    //  BODY, TAIL ONLY
+    void ValidateAngle();
+    void CalcVectorSpeed();
 };
 

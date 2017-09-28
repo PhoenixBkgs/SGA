@@ -6,6 +6,15 @@
 #include "Physics2DKomastar.h"
 #include "ImageKomastar.h"
 
+#define GENERATION_DELAY    50
+
+struct tagItem
+{
+    RECT    rtBody;
+    int     addition;
+    double  slower;
+};
+
 class MainGame : public GameNode
 {
 //=======================================================
@@ -14,6 +23,12 @@ private:
     Draw2DKomastar      m_drawHelper;
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
+
+    bool    m_isPlaying;
+    int     m_generationDelay;
+
+    vector<Player>  m_vecPlayer;
+    vector<tagItem> m_vecItem;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -27,5 +42,7 @@ public:
 
     void PlayerController();
     void SystemController();
+
+    void GenItem();
 };
 

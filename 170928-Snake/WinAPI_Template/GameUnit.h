@@ -34,8 +34,8 @@ public:
     UnitSize GetSize() { return m_unitSize; }
     void SetSize(UnitSize Size) { m_unitSize = Size; }
 
-    UnitSpeed GetMoveSpeed() { return m_moveSpeedXY; }
-    void SetMoveSpeed(UnitSpeed Speed) { m_moveSpeedXY = Speed; }
+    UnitSpeed GetMoveSpeedXY() { return m_moveSpeedXY; }
+    void SetMoveSpeedXY(UnitSpeed Speed) { m_moveSpeedXY = Speed; }
 
     int GetLifeCount() { return m_LifeCount; }
     void SetLifeCount(int Life) { m_LifeCount = Life; }

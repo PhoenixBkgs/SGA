@@ -7,6 +7,18 @@ Player::Player()
     Start();
 }
 
+Player::Player(HBRUSH * Brush)
+{
+    m_bBrush = Brush;
+    Start();
+}
+
+Player::Player(UnitPos Position, HBRUSH * Brush)
+{
+    m_bBrush = Brush;
+    Start();
+}
+
 
 Player::~Player()
 {
@@ -14,26 +26,40 @@ Player::~Player()
 
 void Player::Start()
 {
-
+    m_unitSize = { UNIT_SIZE , UNIT_SIZE };
+    SetBodyRect(m_unitPos, m_unitSize);
 }
 
 void Player::Update()
 {
+    if (m_moveSpeed <= MIN_SPEED)
+    {
+        m_moveSpeed = MIN_SPEED;
+    }
+
+    if (m_moveSpeed >= MAX_SPEED)
+    {
+        m_moveSpeed = MAX_SPEED;
+    }
+    ValidateAngle();
+    if (m_type == UNIT_HEAD)
+    {
+        MoveToAngle();
+    }
     Move();
-    UpdateBodyPos(m_unitPos);
 }
 
 void Player::Render()
 {
-    HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-    SelectObject(g_hDC, hPen);
-    SelectObject(g_hDC, *m_bBrush);
+//    HPEN hPen = CreatePen(PS_NULL, 1, RGB(0, 0, 0));
+//    SelectObject(g_hDC, hPen);
+//    SelectObject(g_hDC, *m_bBrush);
     Ellipse(g_hDC, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
-    DeleteObject(hPen);
-    GetStockObject(WHITE_BRUSH);
+//    DeleteObject(hPen);
+//    GetStockObject(WHITE_BRUSH);
 }
 
-void Player::Move()
+void Player::MoveTo(UnitPos Pos)
 {
     switch (m_type)
     {
@@ -42,7 +68,7 @@ void Player::Move()
         break;
     case UNIT_BODY:
     case UNIT_TAIL:
-        MoveToLinear();
+        Move();
         break;
     }
 }
@@ -52,8 +78,7 @@ void Player::MoveToAngle()
     //  Get vector speed by calculation
     UnitSpeed moveVectorXY = m_geoHelper.GetCoordFromAngle(m_moveDirAngle, m_moveSpeed);
     //  Apply vector speed
-    m_unitPos.x += moveVectorXY.x;
-    m_unitPos.y += moveVectorXY.y;
+    m_moveSpeedXY = moveVectorXY;
 }
 
 void Player::MoveToLinear()
@@ -62,4 +87,23 @@ void Player::MoveToLinear()
     UnitPos followNodePos = m_pForwardPlayer->GetPosition();
     //  Apply position of current node
     m_unitPos = followNodePos;
+}
+
+void Player::ValidateAngle()
+{
+    while (true)
+    {
+        if (m_moveDirAngle > 360.0f)
+        {
+            m_moveDirAngle -= 360.0f;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+void Player::CalcVectorSpeed()
+{
 }
