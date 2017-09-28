@@ -114,7 +114,7 @@ void MainGame::Update()
         if (bulletUpdateIter->GetBodyRect()->bottom <= -10)
         {
             bulletUpdateIter->m_LifeCount = 0;
-            m_lifeTimeCount -= 50;
+            m_lifeTimeCount -= 50 * m_gameLevel;
         }
     }
 
@@ -184,8 +184,8 @@ void MainGame::Collider()
             if (IntersectRect(&rt, bulletCollIter->GetBodyRect(), enemyCollIter->GetBodyRect()))
             {
                 m_gameScore += enemyCollIter->m_score;
-                enemyCollIter->m_LifeCount -= 1;
-                bulletCollIter->m_LifeCount -= 1;
+                enemyCollIter->m_LifeCount -= bulletCollIter->m_LifeCount;
+                bulletCollIter->m_LifeCount -= enemyCollIter->m_LifeCount;
                 m_lifeTimeCount += 25;
             }
         }
