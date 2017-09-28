@@ -39,6 +39,7 @@ public:
 
     int GetLifeCount() { return m_LifeCount; }
     void SetLifeCount(int Life) { m_LifeCount = Life; }
+    void SumLifeCount(int Life) { m_LifeCount += Life; }
     
     HBRUSH GetBrush() { return m_bBrush; }
     void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }

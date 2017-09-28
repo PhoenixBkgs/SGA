@@ -56,3 +56,14 @@ double Geometry2DKomastar::Rad2Degree(double Rad)
     double retVal = Rad * 180 / M_PI;
     return retVal;
 }
+
+double Geometry2DKomastar::GetDistance(UnitPos Pos1, UnitPos Pos2)
+{
+    double dX = abs(Pos1.x - Pos2.x);
+    double dY = abs(Pos1.y - Pos2.y);
+
+    dX *= dX;
+    dY *= dY;
+
+    return sqrt(dX + dY);
+}

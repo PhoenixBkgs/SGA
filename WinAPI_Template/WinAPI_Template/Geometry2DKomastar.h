@@ -19,5 +19,7 @@ public:
     double GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos);
     double Degree2Rad(double Degree);
     double Rad2Degree(double Rad);
+
+    double GetDistance(UnitPos Pos1, UnitPos Pos2);
 };
 

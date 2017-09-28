@@ -53,7 +53,7 @@ void ImageKomastar::Setup(const char * FileName, int width, int height, bool isT
     m_stImageInfo->nWidth = width;
     m_stImageInfo->nHeight = height;
 
-    int len = strlen(FileName);
+    int len = (int)strlen(FileName);
     m_szFileName = new char[len + 1];
     strcpy_s(m_szFileName, len + 1, FileName);
 
