@@ -51,12 +51,12 @@ void Player::Update()
 
 void Player::Render()
 {
-//    HPEN hPen = CreatePen(PS_NULL, 1, RGB(0, 0, 0));
-//    SelectObject(g_hDC, hPen);
-//    SelectObject(g_hDC, *m_bBrush);
+    HPEN hPen = CreatePen(PS_NULL, 1, RGB(0, 0, 0));
+    SelectObject(g_hDC, hPen);
+    SelectObject(g_hDC, *m_bBrush);
     Ellipse(g_hDC, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
-//    DeleteObject(hPen);
-//    GetStockObject(WHITE_BRUSH);
+    DeleteObject(hPen);
+    GetStockObject(WHITE_BRUSH);
 }
 
 void Player::MoveTo(UnitPos Pos)

@@ -103,3 +103,15 @@ void Draw2DKomastar::DrawCenterText(string TextString, int FontSize, _RGBA FontC
     DrawText(g_hDC, TextString.data(), -1, &rt, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
 }
+
+void Draw2DKomastar::DrawStatusText(string TextString, int FontSize, _RGBA FontColor, string FontName)
+{
+    RECT rt = { 0, 0, W_WIDTH, 50 };
+    HFONT hFont, hTmp;
+    SetTextColor(g_hDC, RGB(FontColor.R, FontColor.G, FontColor.B));
+    hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, FontName.data());
+    hTmp = (HFONT)SelectObject(g_hDC, hFont);
+    SetBkMode(g_hDC, TRANSPARENT);
+    DrawText(g_hDC, TextString.data(), -1, &rt, DT_SINGLELINE | DT_LEFT | DT_VCENTER);
+    DeleteObject(SelectObject(g_hDC, hTmp));
+}

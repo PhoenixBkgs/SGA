@@ -25,3 +25,8 @@ enum E_UNIT_TYPE
 {
     UNIT_HEAD = 0, UNIT_BODY, UNIT_TAIL
 };
+
+enum E_ITEM_TYPE
+{
+    ITEM_TYPE_1 = 0, ITEM_TYPE_2, ITEM_TYPE_3
+};

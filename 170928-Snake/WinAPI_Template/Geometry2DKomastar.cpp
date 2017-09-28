@@ -38,7 +38,7 @@ double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
     double x = DestPos.x - BeginPos.x;
     double y = DestPos.y - BeginPos.y;
 
-    double angle = atan2(y, x);
+    double angle = atan2(-y, x);
     angle = Rad2Degree(angle);
     return angle;
 }
