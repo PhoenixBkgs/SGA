@@ -4,8 +4,8 @@
 #include "Geometry2DKomastar.h"
 
 #define UNIT_SIZE 40
-#define MIN_SPEED 7.5f
-#define MAX_SPEED 20.0f
+#define MIN_SPEED 5.0f
+#define MAX_SPEED 15.0f
 
 class Player : public GameUnit
 {

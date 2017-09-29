@@ -30,6 +30,7 @@ private:
 
     bool    m_isPlaying;
     bool    m_isAutoPlaying;
+    bool    m_isReal;
     int     m_generationDelay;
     int     m_prevGameScore;
     int     m_gameScore;

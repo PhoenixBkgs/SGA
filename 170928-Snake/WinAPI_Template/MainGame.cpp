@@ -29,6 +29,7 @@ void MainGame::Start()
     player.SetBrush(&m_brushPlayer);
     m_vecPlayer.push_back(player);
 
+    m_isReal = false;
     m_isAutoPlaying = false;
     m_prevGameScore = -1;
     m_gameScore = 0;
@@ -44,7 +45,7 @@ void MainGame::Update()
     if (m_isPlaying)
     {
         int randNum = rand() % 10000;
-        if (randNum < 250)
+        if (randNum < 750)
         {
             //  gen item
             GenItem();
@@ -55,9 +56,31 @@ void MainGame::Update()
         for (auto iter = m_vecPlayer.begin(); iter != m_vecPlayer.end(); iter++)
         {
             tPos2 = iter->GetPosition();
-            iter->SetPosition(tPos);
-            iter->SetBodyRect(tPos, iter->m_unitSize);
-            tPos = tPos2;
+            double dLen = m_geoHelper.GetDistance(tPos, tPos2);
+            double dAngle = m_geoHelper.GetAngleFromCoord(tPos2, tPos);
+            iter->SetMoveSpeedXY(m_geoHelper.GetCoordFromAngle(dAngle, dLen));
+            if (m_isReal)
+            {
+                if (dLen > UNIT_SIZE * 0.7f)
+                {
+                    iter->Move();
+                }
+                tPos = tPos2;
+            }
+            else
+            {
+                if (dLen > UNIT_SIZE * 0.5f)
+                {
+                    iter->Move();
+                }
+                tPos = tPos2;
+                /*
+                tPos2 = iter->GetPosition();
+                iter->SetPosition(tPos);
+                iter->SetBodyRect(tPos, iter->m_unitSize);
+                tPos = tPos2;
+                */
+            }
         }
 
         for (auto collIter = m_vecItem.begin(); collIter != m_vecItem.end();)
@@ -67,7 +90,7 @@ void MainGame::Update()
             {
                 m_vecPlayer[0].SetMoveSpeed(m_vecPlayer[0].GetMoveSpeed() * collIter->accel);
 
-                m_prevGameScore -= 1;
+                m_prevGameScore = -1;
                 if (collIter->addition > 0)
                 {
                     Player tPlayer;
@@ -87,28 +110,28 @@ void MainGame::Update()
         }
 
         m_vecPlayer.begin()->Update();
-        m_vecPlayer.begin()->SetMoveSpeed(m_vecPlayer.begin()->GetMoveSpeed() + 0.001f);
+        m_vecPlayer.begin()->SetMoveSpeed(m_vecPlayer.begin()->GetMoveSpeed() + 0.01f);
         Player player = m_vecPlayer[0];
         RECT rt = *player.GetBodyRect();
         if (rt.right >= W_WIDTH)
         {
             m_vecPlayer[0].SetDirAngle(180.0f - player.GetDirAngle());
-            m_prevGameScore -= 1;
+            m_prevGameScore = -1;
         }
         if (rt.top <= 0)
         {
             m_vecPlayer[0].SetDirAngle(-player.GetDirAngle());
-            m_prevGameScore -= 1;
+            m_prevGameScore = -1;
         }
         if (rt.left <= 0)
         {
             m_vecPlayer[0].SetDirAngle(180.0f - player.GetDirAngle());
-            m_prevGameScore -= 1;
+            m_prevGameScore = -1;
         }
         if (rt.bottom >= W_HEIGHT)
         {
             m_vecPlayer[0].SetDirAngle(-player.GetDirAngle());
-            m_prevGameScore -= 1;
+            m_prevGameScore = -1;
         }
         m_gameScore = m_vecPlayer.size();
     }
@@ -177,8 +200,11 @@ void MainGame::PlayerController()
                     targetPos = iter->Pos;
                 }
             }
+            if (m_vecItem.size() > 0)
+            {
+                m_targetAngle = m_geoHelper.GetAngleFromCoord(headPos, targetPos);
+            }
 
-            m_targetAngle = m_geoHelper.GetAngleFromCoord(headPos, targetPos);
             m_prevGameScore = m_gameScore;
             m_aiWaitCount = MAX_AI_WAIT;
         }
@@ -186,12 +212,15 @@ void MainGame::PlayerController()
         {
             if (m_aiWaitCount <= 0)
             {
-                m_prevGameScore--;
+                m_prevGameScore = -1;
                 m_aiWaitCount = MAX_AI_WAIT;
             }
 
             double dirAngle = m_vecPlayer[0].GetDirAngle();
-            m_vecPlayer[0].SetDirAngle(m_targetAngle);
+            if (m_vecItem.size() > 0)
+            {
+                m_vecPlayer[0].SetDirAngle(m_targetAngle);
+            }
             /*
             if (m_targetAngle >= m_vecPlayer[0].GetDirAngle())
             {
@@ -229,6 +258,10 @@ void MainGame::SystemController()
     if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
     {
         m_isAutoPlaying = !m_isAutoPlaying;
+    }
+    if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+    {
+        m_isReal = !m_isReal;
     }
 }
 
