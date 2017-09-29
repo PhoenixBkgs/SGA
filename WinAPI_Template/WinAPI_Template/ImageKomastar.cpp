@@ -87,6 +87,18 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY)
     }
 }
 
+void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH)
+{
+    if (m_isTrans)
+    {
+        GdiTransparentBlt(hdc, destX, destY, srcW, srcH, m_stImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_transColor);
+    }
+    else
+    {
+        BitBlt(hdc, destX, destY, srcW, srcH, m_stImageInfo->hMemDC, srcX, srcY, SRCCOPY);
+    }
+}
+
 void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;

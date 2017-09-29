@@ -15,7 +15,6 @@ private:
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
 
-    RECT m_rt;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -27,4 +26,3 @@ public:
     virtual void Update() override;
     virtual void Render() override;
 };
-
