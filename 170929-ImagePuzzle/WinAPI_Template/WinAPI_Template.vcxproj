@@ -161,6 +161,7 @@
     <ClInclude Include="Physics2DKomastar.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="NumberGenerator.h" />
+    <ClInclude Include="PuzzleUnit.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="stdafx.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Physics2DKomastar.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="NumberGenerator.cpp" />
+    <ClCompile Include="PuzzleUnit.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
