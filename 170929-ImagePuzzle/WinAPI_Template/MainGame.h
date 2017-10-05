@@ -12,7 +12,7 @@
 #define MAX_PUZZLE_PCS 18
 #define WIN_MARGIN 100
 #define PUZZLE_SIZE 200
-#define SHUFFLE_LIMITER 100
+#define SHUFFLE_LIMITER 200
 
 class MainGame : public GameNode
 {
