@@ -7,6 +7,13 @@
 #include "ImageKomastar.h"
 #include "PuzzleUnit.h"
 
+#define COL_COUNT 6
+#define ROW_COUNT 3
+#define MAX_PUZZLE_PCS 18
+#define WIN_MARGIN 100
+#define PUZZLE_SIZE 200
+#define SHUFFLE_LIMITER 100
+
 class MainGame : public GameNode
 {
 //=======================================================
@@ -16,10 +23,13 @@ private:
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
 
-    ImageKomastar* m_img;
-    PuzzleUnit m_puzzleUnit;
+    ImageKomastar*      m_img;
+    vector<PuzzleUnit>  m_vecPuzzle;
 
-    PuzzleUnit m_puzzleUnit2;
+    bool                m_isPlaying;
+    int                 m_shuffleIdx;
+    int                 m_prevShuffleIdx;
+    int                 m_shuffleCount;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -30,4 +40,10 @@ public:
     virtual void Start() override;
     virtual void Update() override;
     virtual void Render() override;
+
+    void PlayerController();
+    void SystemController();
+
+    void PuzzleShuffle();
+    void PuzzleExchange(PuzzleUnit* Puzzle1, PuzzleUnit* Puzzle2);
 };

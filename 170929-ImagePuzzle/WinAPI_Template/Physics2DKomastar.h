@@ -17,7 +17,6 @@ public:
     Physics2DKomastar();
     ~Physics2DKomastar();
 
-    bool PtInsideRect(UnitPos Pos, RECT Rect);
     UnitSpeed CollisionAlkanoid(GameUnit Unit1, GameUnit Unit2);
     void MutualCollider(vector<GameUnit> vecUnit1, vector<GameUnit> vecUnit2);
     void UnitCleaner(vector<GameUnit> vecUnit);
