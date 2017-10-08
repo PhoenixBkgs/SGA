@@ -7,12 +7,12 @@
 #include "ImageKomastar.h"
 #include "PuzzleUnit.h"
 
+//  IMAGE SIZE 1200 x 600
 #define COL_COUNT 6
 #define ROW_COUNT 3
 #define MAX_PUZZLE_PCS 18
-#define WIN_MARGIN 100
 #define PUZZLE_SIZE 200
-#define SHUFFLE_LIMITER 200
+#define SHUFFLE_LIMITER 10
 
 class MainGame : public GameNode
 {
@@ -26,10 +26,22 @@ private:
     ImageKomastar*      m_img;
     vector<PuzzleUnit>  m_vecPuzzle;
 
+    bool                m_isClear;
     bool                m_isPlaying;
+    bool                m_isShowImage;
+    bool                m_isShuffling;
+
+    int                 m_matchCount;
+    int                 m_moveCount;
+
     int                 m_shuffleIdx;
     int                 m_prevShuffleIdx;
     int                 m_shuffleCount;
+    int                 m_marginLeft;
+    int                 m_marginTop;
+
+    double              m_txtPosY;
+    double              m_clearScreenOpacity;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -44,6 +56,8 @@ public:
     void PlayerController();
     void SystemController();
 
-    void PuzzleShuffle();
+    void PuzzleMove(int Direction);
     void PuzzleExchange(PuzzleUnit* Puzzle1, PuzzleUnit* Puzzle2);
+
+    void MatchChecker();
 };

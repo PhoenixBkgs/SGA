@@ -90,16 +90,20 @@ RECT Draw2DKomastar::MakeRect(UnitPos LT, UnitPos RB)
     return rt;
 }
 
-void Draw2DKomastar::DrawCenterText(string TextString, int FontSize, _RGBA FontColor, string FontName)
+void Draw2DKomastar::DrawCenterText(string TextString, int FontSize, int PosY, _RGBA FontColor, string FontName)
 {
-    PatBlt(g_hDC, 0, (int)(W_HEIGHT * 0.33), W_WIDTH, (int)(W_HEIGHT * 0.33), BLACKNESS);
+    //PatBlt(g_hDC, 0, PosY, W_WIDTH, PosY + (int)(W_HEIGHT * 0.33), BLACKNESS);
+    SetBkMode(g_hDC, TRANSPARENT);
 
-    RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
+    RECT rt = { 0, PosY, W_WIDTH, PosY + FontSize };
     HFONT hFont, hTmp;
     SetTextColor(g_hDC, RGB(FontColor.R, FontColor.G, FontColor.B));
     hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, FontName.data());
     hTmp = (HFONT)SelectObject(g_hDC, hFont);
-    SetBkMode(g_hDC, TRANSPARENT);
+    
     DrawText(g_hDC, TextString.data(), -1, &rt, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+    
     DeleteObject(SelectObject(g_hDC, hTmp));
+    SetTextColor(g_hDC, BLACKNESS);
+    SetBkMode(g_hDC, BKMODE_LAST);
 }

@@ -42,11 +42,13 @@ public:
     void Render(HDC hdc);
     void Render(HDC hdc, int destX, int destY);
     void Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH);
+    void Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha);
     
     void SetTransColor(bool isTrans, COLORREF transColor);
 
     HDC GetMemDC() { return m_stImageInfo->hMemDC; }
     int GetWidth() { return m_stImageInfo->nWidth; }
     int GetHeight() { return m_stImageInfo->nHeight; }
+    HBITMAP GetHBitmap() { return m_stImageInfo->hBit; }
 };
 

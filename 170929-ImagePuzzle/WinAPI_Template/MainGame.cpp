@@ -4,11 +4,17 @@
 MainGame::MainGame()
 {
     m_img = new ImageKomastar;
-    m_img->Setup("images/hots-splash-img.bmp", 1200, 600, true, MAGENTA_COLOR);
+    m_img->Setup("images/hots-splash-img-alpha.bmp", 1200, 600, true, MAGENTA_COLOR);
 
     Start();
+    m_txtPosY = W_HEIGHT * 0.33f;
+    m_moveCount = 0;
+    m_clearScreenOpacity = 5.0f;
     m_shuffleIdx = MAX_PUZZLE_PCS - 1;
+    m_isClear = false;
     m_isPlaying = false;
+    m_isShowImage = false;
+    m_isShuffling = true;
     srand((int)time(NULL) * 50 * rand());
 }
 
@@ -20,6 +26,9 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_marginLeft = (W_WIDTH - (COL_COUNT * PUZZLE_SIZE)) * 0.5;
+    m_marginTop =  (W_HEIGHT - (ROW_COUNT * PUZZLE_SIZE)) * 0.5;
+
     int rowCnt = -1;
     for (int i = 0; i < MAX_PUZZLE_PCS; i++)
     {
@@ -32,15 +41,13 @@ void MainGame::Start()
         unit.SetPuzzleInitPos(UnitSize{ (i % COL_COUNT) * PUZZLE_SIZE, rowCnt * PUZZLE_SIZE });
         unit.SetPuzzleUid(i);
         unit.SetPuzzlePosId(i);
-        unit.SetPuzzlePos(UnitSize{ (i % COL_COUNT) * PUZZLE_SIZE, rowCnt * PUZZLE_SIZE });
+        unit.SetPuzzlePos(UnitSize{ (i % COL_COUNT) * PUZZLE_SIZE + m_marginLeft, rowCnt * PUZZLE_SIZE  + m_marginTop });
         unit.SetPuzzleSize(UnitSize{ PUZZLE_SIZE, PUZZLE_SIZE });
         unit.Start();
         unit.Update();
         m_vecPuzzle.push_back(unit);
     }
     m_vecPuzzle[MAX_PUZZLE_PCS - 1].Hide();
-
-    PuzzleShuffle();
 }
 
 void MainGame::Update()
@@ -48,18 +55,27 @@ void MainGame::Update()
     GameNode::Update();
     if (m_shuffleCount < SHUFFLE_LIMITER)
     {
-        PuzzleShuffle();
+        PuzzleMove(-1);
         Sleep(50);
         m_shuffleCount++;
     }
     else
     {
+        m_isShuffling = false;
         m_isPlaying = true;
     }
 
     if (m_isPlaying)
     {
-        PlayerController();
+        if (m_isClear)
+        {
+
+        }
+        else
+        {
+            MatchChecker();
+            PlayerController();
+        }
     }
 }
 
@@ -71,6 +87,45 @@ void MainGame::Render()
     {
         iter->Render();
     }
+
+    if (m_isShuffling)
+    {
+        PatBlt(g_hDC, 0, (int)(W_HEIGHT * 0.5) - 100, W_WIDTH, 100, BLACKNESS);
+        m_drawHelper.DrawCenterText("Å¸ÀÏ ¼¯´Â Áß...", 100, (int)(W_HEIGHT * 0.33) + 50, _RGBA{ 200, 200, 200, 0 }, "Consolas");
+    }
+
+    if (m_isShowImage)
+    {
+        m_img->Render(g_hDC, m_marginLeft, m_marginTop, 0, 0, PUZZLE_SIZE * COL_COUNT, PUZZLE_SIZE * ROW_COUNT);
+    }
+
+    if (m_isClear)
+    {
+        PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
+
+        m_img->Render(g_hDC, m_marginLeft, m_marginTop, 0, 0, PUZZLE_SIZE * COL_COUNT, PUZZLE_SIZE * ROW_COUNT, m_clearScreenOpacity);
+        m_drawHelper.DrawCenterText("COMPLETE !!!", 100, m_txtPosY, _RGBA{ 50, 50, 50, 0 }, "Consolas");
+        m_isPlaying = false;
+        m_isShowImage = false;
+
+        m_clearScreenOpacity += (255.0f - m_clearScreenOpacity) * 0.01f;
+        if ((int)m_clearScreenOpacity >= 255)
+        {
+            m_clearScreenOpacity = 255.0f;
+        }
+
+        m_txtPosY += ((0.0f - m_txtPosY) * 0.03f);
+        if (m_txtPosY <= 0.0f)
+        {
+            m_txtPosY = 0.0f;
+        }
+    }
+
+    char infoMsg[100];
+    sprintf_s(infoMsg, "¸ÂÃá ÆÛÁñ °³¼ö : %d", m_matchCount, m_moveCount);
+    TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
+    sprintf_s(infoMsg, "¿òÁ÷ÀÎ È½¼ö : %d", m_moveCount);
+    TextOut(g_hDC, W_WIDTH - 300, 10, infoMsg, (int)strlen(infoMsg));
 }
 
 void MainGame::PlayerController()
@@ -115,15 +170,49 @@ void MainGame::PlayerController()
             }
         }
     }
+
+    
+    if (g_pKeyManager->isOnceKeyDown(VK_LEFT))
+    {
+        PuzzleMove(0);
+    }
+    else if (g_pKeyManager->isOnceKeyDown(VK_RIGHT))
+    {
+        PuzzleMove(1);
+    }
+    else if (g_pKeyManager->isOnceKeyDown(VK_UP))
+    {
+        PuzzleMove(2);
+    }
+    else if (g_pKeyManager->isOnceKeyDown(VK_DOWN))
+    {
+        PuzzleMove(3);
+    }
+    
+    if (g_pKeyManager->isStayKeyDown(VK_RBUTTON) ||
+        g_pKeyManager->isStayKeyDown(VK_SPACE))
+    {
+        //  show target image
+        m_isShowImage = true;
+    }
+    else
+    {
+        m_isShowImage = false;
+    }
 }
 
 void MainGame::SystemController()
 {
 }
 
-void MainGame::PuzzleShuffle()
+void MainGame::PuzzleMove(int Direction)
 {
     int randDir = rand() % 4;
+    if (Direction >= 0)
+    {
+        randDir = Direction;
+        m_moveCount++;
+    }
     switch (randDir)
     {
     case 0: //  swap left
@@ -178,4 +267,24 @@ void MainGame::PuzzleExchange(PuzzleUnit * Puzzle1, PuzzleUnit * Puzzle2)
     int tUid = Puzzle1->GetPuzzleUid();
     Puzzle1->SetPuzzleUid(Puzzle2->GetPuzzleUid());
     Puzzle2->SetPuzzleUid(tUid);
+}
+
+void MainGame::MatchChecker()
+{
+    int solPosId = 0;
+    m_matchCount = 0;
+    for (auto iter = m_vecPuzzle.begin(); iter != m_vecPuzzle.end(); iter++)
+    {
+        int currUid = iter->GetPuzzleUid();
+        if (currUid == solPosId)
+        {
+            m_matchCount++;
+        }
+        solPosId++;
+    }
+
+    if (m_matchCount == MAX_PUZZLE_PCS)
+    {
+        m_isClear = true;
+    }
 }
