@@ -8,11 +8,11 @@
 #include "PuzzleUnit.h"
 
 //  IMAGE SIZE 1200 x 600
-#define COL_COUNT 6
-#define ROW_COUNT 3
-#define MAX_PUZZLE_PCS 18
-#define PUZZLE_SIZE 200
-#define SHUFFLE_LIMITER 100
+#define COL_COUNT 15
+#define PUZZLE_SIZE (1200 / COL_COUNT)
+#define ROW_COUNT (COL_COUNT / 2)
+#define MAX_PUZZLE_PCS (COL_COUNT * ROW_COUNT)
+#define SHUFFLE_LIMITER 200
 
 class MainGame : public GameNode
 {

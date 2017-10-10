@@ -56,7 +56,7 @@ void MainGame::Update()
     if (m_shuffleCount < SHUFFLE_LIMITER)
     {
         PuzzleMove(-1);
-        Sleep(50);
+        Sleep(10);
         m_shuffleCount++;
     }
     else
@@ -64,7 +64,7 @@ void MainGame::Update()
         m_isShuffling = false;
         m_isPlaying = true;
     }
-
+    
     if (m_isPlaying)
     {
         if (m_isClear)
