@@ -8,7 +8,7 @@
 #include "PuzzleUnit.h"
 
 //  IMAGE SIZE 1200 x 600
-#define COL_COUNT 15
+#define COL_COUNT 6
 #define PUZZLE_SIZE (1200 / COL_COUNT)
 #define ROW_COUNT (COL_COUNT / 2)
 #define MAX_PUZZLE_PCS (COL_COUNT * ROW_COUNT)

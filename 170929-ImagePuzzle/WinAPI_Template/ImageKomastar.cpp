@@ -111,6 +111,18 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, in
     bool result = GdiAlphaBlend(hdc, destX, destY, srcW, srcH, m_stImageInfo->hMemDC, srcX, srcY, srcW, srcH, bf);
 }
 
+void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
+{
+    BLENDFUNCTION bf;
+
+    bf.AlphaFormat = AC_SRC_ALPHA;
+    bf.BlendFlags = 0;
+    bf.BlendOp = 0;
+    bf.SourceConstantAlpha = alpha;
+
+    bool result = GdiAlphaBlend(hdc, destX, destY, destW, destH, m_stImageInfo->hMemDC, srcX, srcY, srcW, srcH, bf);
+}
+
 void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;

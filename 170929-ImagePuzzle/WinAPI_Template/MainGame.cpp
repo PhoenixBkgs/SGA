@@ -83,6 +83,12 @@ void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
 
+    m_img->Render(g_hDC, m_marginLeft, m_marginTop, 0, 0, PUZZLE_SIZE * COL_COUNT, PUZZLE_SIZE * ROW_COUNT, 128);
+
+    m_img->Render(g_hDC, W_WIDTH - 200, 100, 200, 100, 0, 0, PUZZLE_SIZE * COL_COUNT, PUZZLE_SIZE * ROW_COUNT, 128);
+
+    m_img->Render(g_hDC, W_WIDTH - 200, 225, 200, 100, 0, 0, PUZZLE_SIZE * COL_COUNT, PUZZLE_SIZE * ROW_COUNT, 255);
+
     for (auto iter = m_vecPuzzle.begin(); iter != m_vecPuzzle.end(); iter++)
     {
         iter->Render();
