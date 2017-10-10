@@ -48,7 +48,6 @@ public:
     void SetColor(int R, int G, int B);
 
     void Move();
-    void Draw(bool DrawForce);
     void Destroy();
 };
 

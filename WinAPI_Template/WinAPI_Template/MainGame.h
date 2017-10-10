@@ -15,6 +15,8 @@ private:
     Geometry2DKomastar  m_geoHelper;
     Physics2DKomastar   m_physicsHelper;
 
+    ImageKomastar* m_img;
+    Player m_player;
 //=======================================================
 //  FUNCTIONS
 private:
