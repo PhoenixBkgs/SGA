@@ -93,6 +93,9 @@
     <ClInclude Include="ImageKomastar.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="ImageKomastar.cpp">
       <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>GameFramework2D\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
