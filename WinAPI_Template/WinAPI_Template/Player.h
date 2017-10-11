@@ -3,15 +3,14 @@
 #include "GameUnit.h"
 #include "ImageKomastar.h"
 
-#define IDLE_FRAME 10
+#define GRAVITY 9.8f
 
 class Player : public GameUnit
 {
 private:
+
 public:
     ImageKomastar* m_pImg;
-    int     m_idleSpriteIdx;
-    int     m_idleDelay;
 
     Player();
     ~Player();
