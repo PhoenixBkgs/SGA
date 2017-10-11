@@ -96,6 +96,9 @@
     <ClInclude Include="Obstacle.h">
       <Filter>GameFramework2D\Source</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -144,6 +147,9 @@
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>GameFramework2D\Source</Filter>
     </ClCompile>
   </ItemGroup>

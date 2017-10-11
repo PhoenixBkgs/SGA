@@ -83,5 +83,6 @@ public:
     void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
     int GetMaxFrameX() { return m_maxFrameX; }
     int GetMaxFrameY() { return m_maxFrameY; }
+    void Refresh();
 };
 

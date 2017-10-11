@@ -159,24 +159,20 @@ void ImageKomastar::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWid
     m_maxFrameX = MaxFrameX;
     m_maxFrameY = MaxFrameY;
     m_spritesWidth = SpritesWidth;
-    m_spritesHeight = SpritesWidth;
+    m_spritesHeight = SpritesHeight;
 }
 
 void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 {
+#ifdef _DEBUG
+    Rectangle(g_hDC, SpritesBox.left, SpritesBox.top, SpritesBox.right, SpritesBox.bottom);
+#endif
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, boxSize.x, boxSize.y, m_pImageInfo->hMemDC, m_spritesWidth * m_currFrameX, 0, boxSize.x, boxSize.y, m_transColor);
-
-    m_spritesDelayCount--;
-    if (m_spritesDelayCount < 0)
-    {
-        m_spritesDelayCount = m_spritesInitDelay;
-        m_currFrameX++;
-        if (m_currFrameX > m_maxFrameX - 1)
-        {
-            m_currFrameX = 0;
-        }
-    }
+    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, 
+                           boxSize.x, boxSize.y, 
+                           m_pImageInfo->hMemDC, 
+                           m_spritesWidth * m_currFrameX, 0, 
+                           m_spritesWidth, m_spritesHeight, m_transColor);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
@@ -193,4 +189,21 @@ void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;
     m_transColor = transColor;
+}
+
+void ImageKomastar::Refresh()
+{
+    m_spritesDelayCount++;
+    if (m_spritesDelayCount > m_spritesInitDelay)
+    {
+        m_spritesDelayCount = 0;
+        if (m_maxFrameX > 0)
+        {
+            m_currFrameX++;
+            if (m_currFrameX > m_maxFrameX - 1)
+            {
+                m_currFrameX = 0;
+            }
+        }
+    }
 }

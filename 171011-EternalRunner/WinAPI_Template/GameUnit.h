@@ -15,7 +15,7 @@ public:
     HBRUSH          m_bBrush;
 
     int             m_LifeCount;
-
+    bool            m_isImmortal;
 //  FUNCS
 public:
     GameUnit();
@@ -44,10 +44,12 @@ public:
     HBRUSH GetBrush() { return m_bBrush; }
     void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
 
-
     void SetColor(int R, int G, int B);
 
     void Move();
     void Destroy();
+
+    //  COLLIDER
+    void BoxCollider2D(vector<GameUnit> MultipleUnit);
 };
 

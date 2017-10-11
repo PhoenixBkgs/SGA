@@ -59,3 +59,23 @@ void GameUnit::Destroy()
 {
     m_LifeCount = 0;
 }
+
+void GameUnit::BoxCollider2D(vector<GameUnit> MultipleUnit)
+{
+    for (auto iter = MultipleUnit.begin(); iter != MultipleUnit.end(); iter++)
+    {
+        RECT rt;
+        if (IntersectRect(&rt, &m_rtBody, iter->GetBodyRect()))
+        {
+            if (m_isImmortal == false)
+            {
+                m_LifeCount -= 1;
+            }
+            
+            if (iter->m_isImmortal == false)
+            {
+                iter->m_LifeCount -= 1;
+            }
+        }
+    }
+}

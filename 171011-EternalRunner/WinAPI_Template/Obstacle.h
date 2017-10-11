@@ -9,7 +9,7 @@ class Obstacle : public GameUnit
 public:
     ImageKomastar* m_pImg;
     Player* m_playerRef;
-
+    
     Obstacle();
     ~Obstacle();
 
