@@ -27,7 +27,7 @@ void MainGame::Start()
     m_bgImg = new ImageKomastar;
     m_bgImg->Setup("images/bg.bmp", BG_WIDTH, BG_HEIGHT);
     m_bgPosX = 0.0f;
-    m_runSpeed = 4.0f;
+    m_runSpeed = GAME_SPEED;
 
     //  Set Player Sprites
     m_playerImg = new ImageKomastar;
@@ -38,6 +38,11 @@ void MainGame::Start()
     
     m_heartImg = new ImageKomastar;
     m_heartImg->Setup("images/heart.bmp", 100, 100, true, MAGENTA_COLOR);
+
+    m_whiteImg = new ImageKomastar;
+    m_whiteImg->Setup("images/blackBg.bmp", 1920, 1080, true, MAGENTA_COLOR);
+    m_whiteImg->SetupForAlphaBlend();
+    m_uiHelper.SetImg(m_whiteImg);
 
     //  Set Item sprites
     m_scoreItemImg = new ImageKomastar;
@@ -74,7 +79,10 @@ void MainGame::Update()
     case GAME_READY:
         break;
     case GAME_PLAYING:
+    {
+        Play();
         break;
+    }
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
@@ -83,74 +91,40 @@ void MainGame::Update()
         break;
     }
 
-    if (m_player.GetLifeCount() < 0)
-    {
-        m_currGameState = GAME_OVER;
-        return;
-    }
+    
 
-    m_bgPosX -= m_runSpeed;
-    if (m_bgPosX < -BG_WIDTH)
+    if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
     {
-        m_bgPosX = 0.0f;
-    }
-
-    m_player.Update();
-
-    m_obsGenDelayCount++;
-    if (m_obsGenDelayCount > OBS_GEN_DELAY)
-    {
-        GenerateObstacle();
-        m_obsGenDelayCount = 0;
-    }
-
-    m_itemGenDelayCount++;
-    if (m_itemGenDelayCount > ITEM_GEN_DELAY)
-    {
-        GenerateItem();
-        m_itemGenDelayCount = 0;
-    }
-
-    for (auto obstacleUpdateIter = m_vecObstacles.begin(); obstacleUpdateIter != m_vecObstacles.end(); obstacleUpdateIter++)
-    {
-        if (obstacleUpdateIter->GetLifeCount() > 0)
+        if (m_player.GetPlayerState() == PLAYER_RUN)
         {
-            obstacleUpdateIter->SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
+            m_player.SetPlayerState(PLAYER_JUMP);
+            m_player.m_moveSpeed.y = -20.0f;
         }
-        obstacleUpdateIter->Update();
-    }
-
-    for (auto itemUpdateIter = m_vecItems.begin(); itemUpdateIter != m_vecItems.end(); itemUpdateIter++)
-    {
-        if (m_player.GetPlayerBuff() == ITEM_MAGNET)
+        else if (m_player.GetPlayerState() == PLAYER_JUMP)
         {
-
-        }
-        else
-        {
-            itemUpdateIter->SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
-        }
-        
-        itemUpdateIter->Update();
-    }
-
-    for (auto itemUpdateIter = m_vecItems.begin(); itemUpdateIter != m_vecItems.end();)
-    {
-        if (itemUpdateIter->GetLifeCount() <= 0)
-        {
-            itemUpdateIter = m_vecItems.erase(itemUpdateIter);
-        }
-        else
-        {
-            itemUpdateIter++;
+            m_player.SetPlayerState(PLAYER_DJUMP);
+            m_player.m_moveSpeed.y = -20.0f;
         }
     }
 
-    if (g_pKeyManager->isStayKeyDown(VK_SPACE))
+    if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
     {
-        UnitPos pPos = m_player.GetPosition();
-        pPos.y -= 5.0f;
-        m_player.SetPosition(pPos);
+        switch (m_currGameState)
+        {
+        case GAME_READY:
+            m_currGameState = GAME_PLAYING;
+            break;
+        case GAME_PLAYING:
+            break;
+        case GAME_PAUSE:
+            break;
+        case GAME_CLEAR:
+            break;
+        case GAME_OVER:
+            break;
+        default:
+            break;
+        }
     }
 
     if (g_pKeyManager->isOnceKeyDown(VK_UP))
@@ -165,56 +139,207 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
+    PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
+    
+    switch (m_currGameState)
+    {
+    case GAME_READY:
+    {
+        m_uiHelper.SetGameState(m_currGameState);
+        m_uiHelper.Render();
+        break;
+    }
+    case GAME_PLAYING:
+    {
+        if (m_player.GetLifeCount() < 0)
+        {
+            return;
+        }
+
+        //  Draw BG
+        m_bgImg->Render(g_hDC, (int)m_bgPosX, W_HEIGHT - BG_HEIGHT);
+        //  Next BG
+        m_bgImg->Render(g_hDC, (int)m_bgPosX + BG_WIDTH, W_HEIGHT - BG_HEIGHT);
+
+        DrawPlayer();
+        DrawObstacles();
+        DrawItems();
+
+        E_ITEM_TYPE itemType = m_player.GetPlayerBuff();
+        RECT buffIcon = m_player.m_rtBody;
+        buffIcon.left -= 50;
+        buffIcon.top -= 50;
+        buffIcon.right = buffIcon.left + 50;
+        buffIcon.bottom = buffIcon.top + 50;
+        switch (itemType)
+        {
+        case ITEM_IMMORTAL:
+            m_immortalItemImg->SpritesRender(g_hDC, buffIcon, 255);
+            break;
+        case ITEM_MAGNET:
+            m_magnetItemImg->SpritesRender(g_hDC, buffIcon, 255);
+            break;
+        case ITEM_GIANT:
+            m_giantItemImg->SpritesRender(g_hDC, buffIcon, 255);
+            break;
+        }
+
+        //  HEALTH BAR
+        for (int i = 0; i < m_player.GetLifeCount(); i++)
+        {
+            m_heartImg->Render(g_hDC, 100 + (100 * i), 10);
+        }
+
+        char infoMsg[100];
+        sprintf_s(infoMsg, "SCORE : %d", m_player.GetScore());
+
+        string scoreTxt = infoMsg;
+        RECT txtBox = { W_WIDTH - scoreTxt.size() * 25, 30, W_WIDTH, 80 };
+        m_drawHelper.DrawTextBox(txtBox, infoMsg, _RGBA{ 0, 0, 0, 0 }, TEXT("Consolas"));
+#ifdef _DEBUG
+        sprintf_s(infoMsg, "SPEED : %f  / BG_POS : %f / Life : %d / Buff Timer : %d", m_runSpeed, m_bgPosX, m_player.GetLifeCount(), m_player.m_buffTimer);
+        TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
+        sprintf_s(infoMsg, "PlayerJump : %f / PosX : %f / PosY : %f / Score : %d", m_player.GetMoveSpeed().y, m_player.GetPosition().x, m_player.GetPosition().y, m_player.GetScore());
+        TextOut(g_hDC, 10, 30, infoMsg, (int)strlen(infoMsg));
+        sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d", m_vecObstacles.size(), m_vecItems.size());
+        TextOut(g_hDC, 10, 50, infoMsg, (int)strlen(infoMsg));
+#endif // _DEBUG
+        break;
+    }
+    case GAME_PAUSE:
+        break;
+    case GAME_CLEAR:
+        break;
+    case GAME_OVER:
+        break;
+    default:
+        break;
+    }
+}
+
+void MainGame::Play()
+{
     if (m_player.GetLifeCount() < 0)
     {
+        m_currGameState = GAME_OVER;
         return;
     }
-    PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    //  Draw BG
-    m_bgImg->Render(g_hDC, (int)m_bgPosX, W_HEIGHT - BG_HEIGHT);
-    //  Next BG
-    m_bgImg->Render(g_hDC, (int)m_bgPosX + BG_WIDTH, W_HEIGHT - BG_HEIGHT);
-    m_player.Render();
 
+    m_bgPosX -= m_runSpeed;
+    if (m_bgPosX < -BG_WIDTH)
+    {
+        m_bgPosX = 0.0f;
+    }
+
+    m_player.Update();
+
+    m_obsGenDelayCount += (int)m_runSpeed * 0.2;
+    if (m_obsGenDelayCount > OBS_GEN_DELAY)
+    {
+        GenerateObstacle();
+        m_obsGenDelayCount = 0;
+    }
+
+    m_itemGenDelayCount += m_runSpeed * 0.2;
+    if (m_itemGenDelayCount > ITEM_GEN_DELAY)
+    {
+        GenerateItem();
+        m_itemGenDelayCount = 0;
+    }
+
+
+
+    for (auto obstacleUpdateIter = m_vecObstacles.begin(); obstacleUpdateIter != m_vecObstacles.end(); obstacleUpdateIter++)
+    {
+        if (obstacleUpdateIter->GetLifeCount() > 0)
+        {
+            obstacleUpdateIter->SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
+        }
+
+        if (obstacleUpdateIter->GetPosition().x < -200.0f)
+        {
+            obstacleUpdateIter->SetLifeCount(0);
+        }
+
+        obstacleUpdateIter->Update();
+    }
+
+    for (auto itemUpdateIter = m_vecItems.begin(); itemUpdateIter != m_vecItems.end(); itemUpdateIter++)
+    {
+        if (m_player.GetPlayerBuff() == ITEM_MAGNET)
+        {
+
+        }
+        else
+        {
+            for (auto iter = m_vecObstacles.begin(); iter != m_vecObstacles.end(); iter++)
+            {
+                double distance = m_geoHelper.GetDistance(itemUpdateIter->GetPosition(), iter->GetPosition());
+                double obsHeight = iter->GetSize().h;
+                double itemHeightOffset = obsHeight - distance;
+                itemHeightOffset += 30.0f;
+                if (distance < obsHeight)
+                {
+                    if (itemUpdateIter->GetPosition().x > W_WIDTH)
+                    {
+                        itemUpdateIter->SetPosition(UnitPos{ itemUpdateIter->GetPosition().x, FLOOR_POS_Y - itemHeightOffset });
+                    }
+                }
+            }
+            itemUpdateIter->SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
+        }
+
+        if (itemUpdateIter->GetPosition().x < -200.0f)
+        {
+            itemUpdateIter->SetLifeCount(0);
+        }
+        itemUpdateIter->Update();
+    }
+
+    for (auto obsEraseIter = m_vecObstacles.begin(); obsEraseIter != m_vecObstacles.end();)
+    {
+        if (obsEraseIter->GetLifeCount() <= 0)
+        {
+            obsEraseIter = m_vecObstacles.erase(obsEraseIter);
+        }
+        else
+        {
+            obsEraseIter++;
+        }
+    }
+
+    for (auto itemUpdateIter = m_vecItems.begin(); itemUpdateIter != m_vecItems.end();)
+    {
+        if (itemUpdateIter->GetLifeCount() <= 0)
+        {
+            itemUpdateIter = m_vecItems.erase(itemUpdateIter);
+        }
+        else
+        {
+            itemUpdateIter++;
+        }
+    }
+}
+
+void MainGame::DrawPlayer()
+{
+    m_player.Render();
+}
+
+void MainGame::DrawObstacles()
+{
     for (auto obstacleRenderIter = m_vecObstacles.begin(); obstacleRenderIter != m_vecObstacles.end(); obstacleRenderIter++)
     {
         obstacleRenderIter->Render();
     }
+}
 
+void MainGame::DrawItems()
+{
     for (auto itemRenderIter = m_vecItems.begin(); itemRenderIter != m_vecItems.end(); itemRenderIter++)
     {
         itemRenderIter->Render();
     }
-
-    E_ITEM_TYPE itemType = m_player.GetPlayerBuff();
-    RECT buffIcon = m_player.m_rtBody;
-    buffIcon.left -= 25;
-    buffIcon.top -= 25;
-    buffIcon.right = buffIcon.left + 25;
-    buffIcon.bottom = buffIcon.top + 25;
-    switch (itemType)
-    {
-    case ITEM_IMMORTAL:
-        m_immortalItemImg->SpritesRender(g_hDC, buffIcon, 255);
-        break;
-    case ITEM_MAGNET:
-        m_magnetItemImg->SpritesRender(g_hDC, buffIcon, 255);
-        break;
-    case ITEM_GIANT:
-        m_giantItemImg->SpritesRender(g_hDC, buffIcon, 255);
-        break;
-    }
-    
-    //  HEALTH BAR
-    for (int i = 0; i < m_player.GetLifeCount(); i++)
-    {
-        m_heartImg->Render(g_hDC, 100 + (100 * i), 10);
-    }
-#ifdef _DEBUG
-    char infoMsg[100];
-    sprintf_s(infoMsg, "SPEED : %f  / BG_POS : %f / Life : %d / Buff Timer : %d", m_runSpeed, m_bgPosX, m_player.GetLifeCount(), m_player.m_buffTimer);
-    TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
-#endif // _DEBUG
 }
 
 void MainGame::GenerateObstacle()
@@ -224,7 +349,7 @@ void MainGame::GenerateObstacle()
     int objHeight = (rand() % 200) + 50;
 
     tObstacle.SetSize(UnitSize{ objWidth, objHeight });
-    tObstacle.SetPosition(UnitPos{ W_WIDTH, W_HEIGHT - (double)objHeight });
+    tObstacle.SetPosition(UnitPos{ W_WIDTH + OBJ_GEN_OFFSET, W_HEIGHT - (double)objHeight });
     tObstacle.SetBodyRect(tObstacle.GetPosition(), tObstacle.GetSize());
     tObstacle.SetMoveSpeed(UnitSpeed{ -m_runSpeed , 0.0f });
     tObstacle.SetLifeCount(1);
@@ -243,10 +368,11 @@ void MainGame::GenerateItem()
         itemType = ITEM_IMMORTAL;
         tItem.SetItemImg(m_immortalItemImg);
     }
-    else if (itemChance > 98.0f)
+    else if (itemChance > 90.0f)
     {
         //  MAGNET
-        itemType = ITEM_MAGNET;
+        //itemType = ITEM_MAGNET;
+        itemType = ITEM_SCORE;
         tItem.SetItemImg(m_magnetItemImg);
     }
     else if (itemChance > 95.0f)
@@ -263,7 +389,7 @@ void MainGame::GenerateItem()
 
     tItem.SetItemType(itemType);
     tItem.SetSize(UnitSize{ 50, 50 });
-    tItem.SetPosition(UnitPos{ (double)W_WIDTH, W_HEIGHT * 0.75f });
+    tItem.SetPosition(UnitPos{ (double)W_WIDTH + OBJ_GEN_OFFSET, FLOOR_POS_Y });
     tItem.SetBodyRect(tItem.GetPosition(), tItem.GetSize());
     tItem.SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
     tItem.SetLifeCount(1);

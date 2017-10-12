@@ -9,6 +9,9 @@
 
 #define BUFF_DURING_TIME 200
 #define GRAVITY 9.8f
+#define INIT_DOWNFORCE 1.0f
+
+#define FLOOR_POS_Y 550.0f
 
 class Obstacle;
 class Item;
@@ -23,6 +26,7 @@ private:
     double          m_currDownForce;
 
     string          m_headUpMsg;
+    int             m_score;
 public:
     int             m_buffTimer;
 
@@ -43,6 +47,7 @@ public:
     E_ITEM_TYPE GetPlayerBuff() { return m_playerBuff; }
     void        SetPlayerBuff(E_ITEM_TYPE ItemType) { m_playerBuff = ItemType; }
 
+    int     GetScore() { return m_score; }
     void    Reset();
 };
 

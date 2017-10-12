@@ -13,4 +13,5 @@ public:
     RECT MakeRect(UnitPos LT, UnitPos RB);
 
     void DrawCenterText(string TextString, int FontSize, _RGBA FontColor = { 0, 0, 0, 0 }, string FontName = "SYSTEM_FIXED_FONT");
+    void DrawTextBox(RECT TxtBox, string TextString, _RGBA FontColor = { 0, 0, 0, 0 }, string FontName = "SYSTEM_FIXED_FONT");
 };

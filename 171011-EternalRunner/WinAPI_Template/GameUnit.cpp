@@ -35,6 +35,22 @@ void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
     m_rtBody.bottom =   m_rtBody.top + BodySize.h;
 }
 
+RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
+{
+    RECT tRetRect;
+    BodySize.w -= Margin;
+    BodySize.h -= Margin;
+    int halfWidth = (int)((BodySize.w) * 0.5);
+    int halfHeight = (int)((BodySize.h) * 0.5);
+
+    tRetRect.left = (int)GenPos.x - halfWidth;
+    tRetRect.top = (int)GenPos.y - halfHeight;
+    tRetRect.right = tRetRect.left + BodySize.w;
+    tRetRect.bottom = tRetRect.top + BodySize.h;
+
+    return tRetRect;
+}
+
 void GameUnit::SetColor(int R, int G, int B)
 {
     m_bBrush = CreateSolidBrush(RGB(R, G, B));

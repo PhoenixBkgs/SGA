@@ -177,11 +177,13 @@ void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
+    m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, srcW, srcH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
+    m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
 }
 

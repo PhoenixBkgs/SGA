@@ -8,6 +8,7 @@ public:
     Draw2DKomastar  m_drawHelper;
 
     RECT            m_rtBody;
+    RECT            m_hitBox;
     UnitPos         m_unitPos;
     UnitSize        m_unitSize;
     UnitSpeed       m_moveSpeed;
@@ -25,6 +26,7 @@ public:
 
     RECT* GetBodyRect() { return &m_rtBody; }
     void SetBodyRect(UnitPos GenPos, UnitSize BodySize);
+    RECT SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin);
     
     void UpdateBodyPos(UnitPos GenPos);
 
