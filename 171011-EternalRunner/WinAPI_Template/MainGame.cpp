@@ -121,7 +121,9 @@ void MainGame::Update()
     }
     case GAME_OVER:
     {
-        ClearScreen("GAME OVER");
+        char tMsg[100];
+        sprintf_s(tMsg, "GAME OVER Max Lvl : %d", m_gameLevel);
+        ClearScreen(tMsg);
         break;
     }
     }
@@ -203,8 +205,14 @@ void MainGame::Render()
         RECT txtBox = { W_WIDTH - (int)scoreTxt.size() * 25, 30, W_WIDTH, 80 };
         m_drawHelper.DrawTextBox(txtBox, infoMsg, _RGBA{ 0, 0, 0, 0 }, TEXT("Consolas"));
 
-        UnitPos endPos = UnitPos{ (double)(W_WIDTH - m_flagImg->GetWidth() - 50), 150.0f };
-        UnitPos startPos = UnitPos{ (endPos.x - 300.0f), 150.0f };
+        txtBox.top = txtBox.top + 50;
+        txtBox.bottom = txtBox.top + 50;
+        sprintf_s(infoMsg, "Level : %d", m_gameLevel);
+        scoreTxt = infoMsg;
+        m_drawHelper.DrawTextBox(txtBox, infoMsg, _RGBA{ 0, 0, 0, 0 }, TEXT("Consolas"));
+
+        UnitPos endPos = UnitPos{ (double)(W_WIDTH - m_flagImg->GetWidth() - 10), 200.0f };
+        UnitPos startPos = UnitPos{ (endPos.x - 300.0f), 200.0f };
         int miniPlayerSize = 50;
         RECT miniPlayer = { (int)(startPos.x + (m_progress * 2.0f) - miniPlayerSize / 2), (int)(startPos.y - miniPlayerSize), 0, 0 };
         miniPlayer.right = miniPlayer.left + miniPlayerSize;
@@ -578,7 +586,7 @@ void MainGame::ClearScreen(string szText)
         m_showTimer = INIT_SHOW_TIMER;
     }
 
-    RECT rt = { 0, (int)(W_HEIGHT * 0.3f), W_WIDTH, (int)(W_HEIGHT * 0.5f) };
+    RECT rt = { 0, (int)(W_HEIGHT * 0.4f), W_WIDTH, (int)(W_HEIGHT * 0.5f) };
     string scoreTxt = szText;
      if (m_showCount >= 1)
     {
@@ -587,7 +595,7 @@ void MainGame::ClearScreen(string szText)
     
     if(m_showCount >= 2)
     {
-        rt = { 0, (int)(W_HEIGHT * 0.5f), W_WIDTH, (int)(W_HEIGHT * 0.8f) };
+        rt = { 0, (int)(W_HEIGHT * 0.5f), W_WIDTH, (int)(W_HEIGHT * 0.6f) };
         char infoMsg[100];
         sprintf_s(infoMsg, "SCORE : %d", m_player.GetScore());
         scoreTxt = infoMsg;
