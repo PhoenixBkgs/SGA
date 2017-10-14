@@ -17,6 +17,9 @@ public:
 
     int             m_LifeCount;
     bool            m_isImmortal;
+    bool            m_isActive;
+    bool            m_isMovable;
+
 //  FUNCS
 public:
     GameUnit();
@@ -47,6 +50,13 @@ public:
     void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
 
     void SetColor(int R, int G, int B);
+
+    void Activate() { m_isActive = true; }
+    void Deactivate() { m_isActive = false; }
+    bool IsActive() { return m_isActive; }
+
+    void SetMovable(bool Movable) { m_isMovable = Movable; }
+    bool GetMovable() { return m_isMovable; }
 
     void Move();
     void Destroy();

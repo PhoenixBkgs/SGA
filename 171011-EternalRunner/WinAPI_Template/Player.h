@@ -11,7 +11,7 @@
 #define GRAVITY 9.8f
 #define INIT_DOWNFORCE 1.0f
 
-#define FLOOR_POS_Y 550.0f
+#define FLOOR_POS_Y (W_HEIGHT - 100)
 
 class Obstacle;
 class Item;

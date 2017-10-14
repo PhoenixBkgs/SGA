@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "ImageKomastar.h"
-
+#include "Draw2DKomastar.h"
 
 ImageKomastar::ImageKomastar()
-    :m_pImageInfo(NULL), m_szFileName(NULL), m_isTrans(false), m_transColor(RGB(0, 0, 0))
+    :m_pImageInfo(NULL)
+    ,m_szFileName(NULL)
+    ,m_isTrans(false)
+    ,m_transColor(RGB(0, 0, 0))
+    ,m_drawHelper(NULL)
 {
 }
-
 
 ImageKomastar::~ImageKomastar()
 {
@@ -165,7 +168,10 @@ void ImageKomastar::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWid
 void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 {
 #ifdef _DEBUG
-    Rectangle(g_hDC, SpritesBox.left, SpritesBox.top, SpritesBox.right, SpritesBox.bottom);
+    if (m_drawHelper != NULL)
+    {
+        m_drawHelper->DrawBoxLine2D(SpritesBox, 5, _RGBA{ 0, 255, 0, 0 });
+    }
 #endif
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
     GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, 

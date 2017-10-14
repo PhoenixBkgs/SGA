@@ -35,7 +35,9 @@ private:
     ImageKomastar*      m_immortalItemImg;  //  Item immortal image 50 x 50 x 8 x 1px
     ImageKomastar*      m_giantItemImg;     //  Item giant image 50 x 50 x 8 x 1px
     ImageKomastar*      m_heartImg;
-    ImageKomastar*      m_whiteImg;
+    ImageKomastar*      m_splashImg;
+    ImageKomastar*      m_slideTestImg;
+    ImageKomastar*      m_numberTestImg;
 
     vector<ImageKomastar*> m_vecSpritesImgs;
     Player              m_player;
@@ -45,9 +47,12 @@ private:
     double              m_bgPosX;
     double              m_bgPosX2;
     double              m_runSpeed;
+    double              m_PosX;
 
     int                 m_obsGenDelayCount;
     int                 m_itemGenDelayCount;
+
+    bool                m_isShowSlide;
 
 //=======================================================
 //  FUNCTIONS
@@ -60,6 +65,8 @@ public:
     virtual void Update() override;
     virtual void Render() override;
 
+    void LoadImages();
+
     void Play();
     void DrawPlayer();
     void DrawObstacles();
@@ -68,4 +75,7 @@ public:
     void GenerateObstacle();
     void GenerateItem();
     void SpritesRefresh();
+
+    void SystemControl();
+    void PlayerControl();
 };

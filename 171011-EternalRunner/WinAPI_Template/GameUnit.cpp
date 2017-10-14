@@ -4,6 +4,7 @@
 
 GameUnit::GameUnit()
 {
+    m_isMovable = true;
 }
 
 GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2

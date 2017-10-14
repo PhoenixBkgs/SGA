@@ -60,8 +60,8 @@ void Player::Update()
             m_headUpMsg = "NORMAL";
             Reset();
         }
-    }
         break;
+    }
     }
 
     //  COLLISION OBSTACLE
@@ -70,16 +70,18 @@ void Player::Update()
         RECT rt;
         if (IntersectRect(&rt, &m_hitBox, obsIter->GetBodyRect()))
         {
-            if (obsIter->GetLifeCount() > 0)
+            //  HAS COLLISION
+            if (m_playerBuff == ITEM_IMMORTAL)
             {
-                //  HAS COLLISION
-                if (m_playerBuff == ITEM_IMMORTAL)
+                obsIter->SetMoveSpeed(UnitSpeed{ -200.0f, -200.0f });
+                obsIter->SetMovable(false);
+            }
+            else
+            {
+                if (obsIter->IsActive())
                 {
-                    obsIter->SetMoveSpeed(UnitSpeed{ -200.0f, -200.0f });
-                }
-                else
-                {
-                    //m_LifeCount -= 1;
+                    m_LifeCount -= 1;
+                    obsIter->Deactivate();
                 }
             }
         }
@@ -159,12 +161,11 @@ void Player::Render()
     }
     m_pImg->SpritesRender(g_hDC, m_rtBody, 255);
 #ifdef _DEBUG
-    FillRect(g_hDC, &m_hitBox, m_bBrush);
+    m_drawHelper.DrawBoxLine2D(m_hitBox, 3, _RGBA{ 100, 255, 100, 0 });
     char infoMsg[100];
     sprintf_s(infoMsg, m_headUpMsg.data());
     TextOut(g_hDC, (int)m_unitPos.x, (int)m_unitPos.y, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
-
 }
 
 void Player::Reset()

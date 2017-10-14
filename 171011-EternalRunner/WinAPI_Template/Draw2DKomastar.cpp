@@ -52,6 +52,17 @@ bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA 
     return true;
 }
 
+void Draw2DKomastar::DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color)
+{
+    UnitPos lt = { (double)rt.left, (double)rt.top };
+    UnitPos rb = { (double)rt.right, (double)rt.bottom };
+
+    DrawLine2D(lt, UnitPos{ rb.x, lt.y }, LineWidth, Color);
+    DrawLine2D(lt, UnitPos{ lt.x, rb.y }, LineWidth, Color);
+    DrawLine2D(rb, UnitPos{ rb.x, lt.y }, LineWidth, Color);
+    DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, Color);
+}
+
 RECT Draw2DKomastar::MakeRect(UnitPos LT, UnitPos RB)
 {
     RECT rt;
