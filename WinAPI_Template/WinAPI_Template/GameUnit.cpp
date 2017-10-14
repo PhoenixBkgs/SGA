@@ -4,6 +4,7 @@
 
 GameUnit::GameUnit()
 {
+    m_isMovable = true;
 }
 
 GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2
@@ -35,6 +36,22 @@ void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
     m_rtBody.bottom =   m_rtBody.top + BodySize.h;
 }
 
+RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
+{
+    RECT tRetRect;
+    BodySize.w -= Margin;
+    BodySize.h -= Margin;
+    int halfWidth = (int)((BodySize.w) * 0.5);
+    int halfHeight = (int)((BodySize.h) * 0.5);
+
+    tRetRect.left = (int)GenPos.x - halfWidth;
+    tRetRect.top = (int)GenPos.y - halfHeight;
+    tRetRect.right = tRetRect.left + BodySize.w;
+    tRetRect.bottom = tRetRect.top + BodySize.h;
+
+    return tRetRect;
+}
+
 void GameUnit::SetColor(int R, int G, int B)
 {
     m_bBrush = CreateSolidBrush(RGB(R, G, B));
@@ -58,4 +75,24 @@ void GameUnit::Move()
 void GameUnit::Destroy()
 {
     m_LifeCount = 0;
+}
+
+void GameUnit::BoxCollider2D(vector<GameUnit> MultipleUnit)
+{
+    for (auto iter = MultipleUnit.begin(); iter != MultipleUnit.end(); iter++)
+    {
+        RECT rt;
+        if (IntersectRect(&rt, &m_rtBody, iter->GetBodyRect()))
+        {
+            if (m_isImmortal == false)
+            {
+                m_LifeCount -= 1;
+            }
+            
+            if (iter->m_isImmortal == false)
+            {
+                iter->m_LifeCount -= 1;
+            }
+        }
+    }
 }

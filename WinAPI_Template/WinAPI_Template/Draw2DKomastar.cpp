@@ -36,34 +36,6 @@ bool Draw2DKomastar::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, 
         FillRect(g_hDC, &rt, *Brush);
         break;
     }
-    /*
-    case SHAPE_CIRCLE:
-    {
-        LT.y = Position.y - (Size.w * 0.5);
-        RB.y = LT.y + Size.w;
-        rt = MakeRect(LT, RB);
-        HPEN hPen = CreatePen(PS_SOLID, 1, RGB(Color.R, Color.G, Color.B));
-        SelectObject(g_hDC, hPen);
-        SelectObject(g_hDC, *Brush);
-        Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
-        DeleteObject(hPen);
-        GetStockObject(WHITE_BRUSH);
-        break;
-    }
-    case SHAPE_ELLIPSE:
-    {
-        rt = MakeRect(LT, RB);
-        HPEN hPen = CreatePen(PS_SOLID, 1, RGB(Color.R, Color.G, Color.B));
-        SelectObject(g_hDC, hPen);
-        SelectObject(g_hDC, CreateSolidBrush(RGB(Color.R, Color.G, Color.B)));
-        Ellipse(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
-        DeleteObject(hPen);
-        GetStockObject(WHITE_BRUSH);
-        break;
-    }
-    default:
-        break;
-    */
     }
 
     return false;
@@ -78,6 +50,17 @@ bool Draw2DKomastar::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA 
     DeleteObject(hPen);
 
     return true;
+}
+
+void Draw2DKomastar::DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color)
+{
+    UnitPos lt = { (double)rt.left, (double)rt.top };
+    UnitPos rb = { (double)rt.right, (double)rt.bottom };
+
+    DrawLine2D(lt, UnitPos{ rb.x, lt.y }, LineWidth, Color);
+    DrawLine2D(lt, UnitPos{ lt.x, rb.y }, LineWidth, Color);
+    DrawLine2D(rb, UnitPos{ rb.x, lt.y }, LineWidth, Color);
+    DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, Color);
 }
 
 RECT Draw2DKomastar::MakeRect(UnitPos LT, UnitPos RB)
@@ -101,5 +84,17 @@ void Draw2DKomastar::DrawCenterText(string TextString, int FontSize, _RGBA FontC
     hTmp = (HFONT)SelectObject(g_hDC, hFont);
     SetBkMode(g_hDC, TRANSPARENT);
     DrawText(g_hDC, TextString.data(), -1, &rt, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+    DeleteObject(SelectObject(g_hDC, hTmp));
+}
+
+void Draw2DKomastar::DrawTextBox(RECT TxtBox, string TextString, _RGBA FontColor, string FontName)
+{
+    HFONT hFont, hTmp;
+    int FontSize = TxtBox.bottom - TxtBox.top;
+    SetTextColor(g_hDC, RGB(FontColor.R, FontColor.G, FontColor.B));
+    hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, FontName.data());
+    hTmp = (HFONT)SelectObject(g_hDC, hFont);
+    SetBkMode(g_hDC, TRANSPARENT);
+    DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
 }

@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "ImageKomastar.h"
-
+#include "Draw2DKomastar.h"
 
 ImageKomastar::ImageKomastar()
-    :m_pImageInfo(NULL), m_szFileName(NULL), m_isTrans(false), m_transColor(RGB(0, 0, 0))
+    :m_pImageInfo(NULL)
+    ,m_szFileName(NULL)
+    ,m_isTrans(false)
+    ,m_transColor(RGB(0, 0, 0))
+    ,m_drawHelper(NULL)
 {
 }
-
 
 ImageKomastar::~ImageKomastar()
 {
@@ -159,33 +162,34 @@ void ImageKomastar::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWid
     m_maxFrameX = MaxFrameX;
     m_maxFrameY = MaxFrameY;
     m_spritesWidth = SpritesWidth;
-    m_spritesHeight = SpritesWidth;
+    m_spritesHeight = SpritesHeight;
 }
 
 void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 {
-    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, boxSize.x, boxSize.y, m_pImageInfo->hMemDC, m_spritesWidth * m_currFrameX, 0, boxSize.x, boxSize.y, m_transColor);
-
-    m_spritesDelayCount--;
-    if (m_spritesDelayCount < 0)
+#ifdef _DEBUG
+    if (m_drawHelper != NULL)
     {
-        m_spritesDelayCount = m_spritesInitDelay;
-        m_currFrameX++;
-        if (m_currFrameX > m_maxFrameX - 1)
-        {
-            m_currFrameX = 0;
-        }
+        m_drawHelper->DrawBoxLine2D(SpritesBox, 5, _RGBA{ 0, 255, 0, 0 });
     }
+#endif
+    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
+    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, 
+                           boxSize.x, boxSize.y, 
+                           m_pImageInfo->hMemDC, 
+                           m_spritesWidth * m_currFrameX, 0, 
+                           m_spritesWidth, m_spritesHeight, m_transColor);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
+    m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, srcW, srcH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
+    m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
 }
 
@@ -193,4 +197,21 @@ void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;
     m_transColor = transColor;
+}
+
+void ImageKomastar::Refresh()
+{
+    m_spritesDelayCount++;
+    if (m_spritesDelayCount > m_spritesInitDelay)
+    {
+        m_spritesDelayCount = 0;
+        if (m_maxFrameX > 0)
+        {
+            m_currFrameX++;
+            if (m_currFrameX > m_maxFrameX - 1)
+            {
+                m_currFrameX = 0;
+            }
+        }
+    }
 }

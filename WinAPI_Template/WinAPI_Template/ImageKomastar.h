@@ -1,6 +1,6 @@
 #pragma once
 #include "EnumState.h"
-
+class Draw2DKomastar;
 class ImageKomastar
 {
 public:
@@ -28,6 +28,8 @@ public:
     }  IMAGE_INFO, *LPIMAGE_INFO;
 
 private:
+    Draw2DKomastar* m_drawHelper;
+
     LPIMAGE_INFO    m_pImageInfo;
     char*           m_szFileName;
     bool            m_isTrans;
@@ -51,6 +53,8 @@ private:
 public:
     ImageKomastar();
     ~ImageKomastar();
+
+    void SetHelper(Draw2DKomastar* Drawer) { m_drawHelper = Drawer; }
 
     void Setup(int width, int height);
     void Setup(const char* FileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
@@ -83,5 +87,6 @@ public:
     void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
     int GetMaxFrameX() { return m_maxFrameX; }
     int GetMaxFrameY() { return m_maxFrameY; }
+    void Refresh();
 };
 

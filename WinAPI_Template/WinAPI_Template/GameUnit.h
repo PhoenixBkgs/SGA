@@ -8,6 +8,7 @@ public:
     Draw2DKomastar  m_drawHelper;
 
     RECT            m_rtBody;
+    RECT            m_hitBox;
     UnitPos         m_unitPos;
     UnitSize        m_unitSize;
     UnitSpeed       m_moveSpeed;
@@ -15,6 +16,9 @@ public:
     HBRUSH          m_bBrush;
 
     int             m_LifeCount;
+    bool            m_isImmortal;
+    bool            m_isActive;
+    bool            m_isMovable;
 
 //  FUNCS
 public:
@@ -25,6 +29,7 @@ public:
 
     RECT* GetBodyRect() { return &m_rtBody; }
     void SetBodyRect(UnitPos GenPos, UnitSize BodySize);
+    RECT SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin);
     
     void UpdateBodyPos(UnitPos GenPos);
 
@@ -44,10 +49,19 @@ public:
     HBRUSH GetBrush() { return m_bBrush; }
     void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
 
-
     void SetColor(int R, int G, int B);
+
+    void Activate() { m_isActive = true; }
+    void Deactivate() { m_isActive = false; }
+    bool IsActive() { return m_isActive; }
+
+    void SetMovable(bool Movable) { m_isMovable = Movable; }
+    bool GetMovable() { return m_isMovable; }
 
     void Move();
     void Destroy();
+
+    //  COLLIDER
+    void BoxCollider2D(vector<GameUnit> MultipleUnit);
 };
 
