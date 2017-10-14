@@ -5,16 +5,17 @@
 #include "Geometry2DKomastar.h"
 
 #define PLAYER_WIDTH 108
-#define PLAYER_HEIGHT 140
+#define PLAYER_HEIGHT 120
 
 #define BUFF_DURING_TIME 200
 #define GRAVITY 9.8f
 #define INIT_DOWNFORCE 1.0f
 
-#define FLOOR_POS_Y (W_HEIGHT - 100)
+#define FLOOR_POS_Y (W_HEIGHT - FLOOR)
 
 class Obstacle;
 class Item;
+class Hole;
 
 class Player : public GameUnit
 {
@@ -27,12 +28,17 @@ private:
 
     string          m_headUpMsg;
     int             m_score;
+    int             m_money;
+
+    bool            m_isFloorExist;
+
 public:
     int             m_buffTimer;
 
     ImageKomastar* m_pImg;
     vector<Obstacle>* m_vecObstacles;
     vector<Item>* m_vecItems;
+    vector<Hole>* m_vecHoles;
 
     Player();
     ~Player();
@@ -49,5 +55,8 @@ public:
 
     int     GetScore() { return m_score; }
     void    Reset();
+
+    int     GetMoney() { return m_money; }
+    void    SetMoney(int Money) { m_money = Money; }
 };
 

@@ -154,6 +154,7 @@
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="Geometry2DKomastar.h" />
+    <ClInclude Include="Hole.h" />
     <ClInclude Include="ImageKomastar.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Log4Komastar.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="Geometry2DKomastar.cpp" />
+    <ClCompile Include="Hole.cpp" />
     <ClCompile Include="ImageKomastar.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Log4Komastar.cpp" />

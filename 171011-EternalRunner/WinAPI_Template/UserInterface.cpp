@@ -105,7 +105,7 @@ void UserInterface::SlideScreen(ImageKomastar * Image, double Acceleration, int 
         for (int divCount = 0; divCount < Divide; divCount++)
         {
             double pieceHeight = Image->GetHeight() / Divide;
-            Image->Render(g_hDC, -renderPosX, renderPosY, 0, pieceHeight * divCount, Image->GetWidth(), pieceHeight, 255);
+            Image->Render(g_hDC, -(int)renderPosX, (int)renderPosY, 0, (int)(pieceHeight * divCount), Image->GetWidth(), pieceHeight, 255);
 
             renderPosX = -renderPosX;
             renderPosY += pieceHeight;

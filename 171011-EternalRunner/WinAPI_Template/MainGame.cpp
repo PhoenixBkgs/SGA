@@ -19,6 +19,8 @@ MainGame::~MainGame()
     delete m_giantItemImg;
     delete m_immortalItemImg;
     delete m_magnetItemImg;
+    delete m_landBlockImg;
+    delete m_slideTestImg;
 }
 
 void MainGame::Start()
@@ -30,10 +32,12 @@ void MainGame::Start()
     m_bgImg->Setup("images/bg.bmp", BG_WIDTH, BG_HEIGHT);
     m_bgPosX = 0.0f;
     m_runSpeed = GAME_SPEED;
+    m_holeGenLimitCount = 0;
+    m_holeBrush = CreateSolidBrush(RGB(0, 0, 0));
 
     //  Set Player Sprites
     m_playerImg = new ImageKomastar;
-    m_playerImg->Setup("images/sprites-player.bmp", 864, 280, true, MAGENTA_COLOR);
+    m_playerImg->Setup("images/sprites-player.bmp", 864, PLAYER_HEIGHT, true, MAGENTA_COLOR);
     m_player.m_pImg = m_playerImg;
     m_player.Start();
     m_player.m_pImg->SetHelper(&m_drawHelper);
@@ -79,6 +83,7 @@ void MainGame::Start()
 
     m_player.m_vecObstacles = &m_vecObstacles;
     m_player.m_vecItems = &m_vecItems;
+    m_player.m_vecHoles = &m_vecHoles;
 }
 
 void MainGame::Update()
@@ -122,8 +127,6 @@ void MainGame::Render()
             m_uiHelper.ResetSlide();
             m_uiHelper.Render();
         }
-        m_numberTestImg->SpritesRender(g_hDC, RECT{ 100, 100, 200, 200 }, 255);
-        m_numberTestImg->Refresh();
         break;
     }
     case GAME_PLAYING:
@@ -139,9 +142,10 @@ void MainGame::Render()
         //  Next BG
         m_bgImg->Render(g_hDC, (int)m_bgPosX + BG_WIDTH, W_HEIGHT - BG_HEIGHT);
 
-        DrawPlayer();
         DrawObstacles();
         DrawItems();
+        DrawHoles();
+        DrawPlayer();
 
         E_ITEM_TYPE itemType = m_player.GetPlayerBuff();
         RECT buffIcon = m_player.m_rtBody;
@@ -179,7 +183,7 @@ void MainGame::Render()
         TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
         sprintf_s(infoMsg, "PlayerJump : %f / PosX : %f / PosY : %f / Score : %d", m_player.GetMoveSpeed().y, m_player.GetPosition().x, m_player.GetPosition().y, m_player.GetScore());
         TextOut(g_hDC, 10, 30, infoMsg, (int)strlen(infoMsg));
-        sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d", m_vecObstacles.size(), m_vecItems.size());
+        sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d / CurrGravity : %f", m_vecObstacles.size(), m_vecItems.size(), m_player.GetMoveSpeed().y);
         TextOut(g_hDC, 10, 50, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
         break;
@@ -201,11 +205,9 @@ void MainGame::LoadImages()
     m_slideTestImg->Setup("images/splash-ana.bmp", 1600, 730, true, MAGENTA_COLOR);
     m_slideTestImg->SetupForAlphaBlend();
 
-    m_numberTestImg = new ImageKomastar;
-    m_numberTestImg->Setup("images/sprites-number.bmp", 500, 40, true, MAGENTA_COLOR);
-    m_numberTestImg->SetupForAlphaBlend();
-    m_numberTestImg->SetupForSprites(10, 1, 50, 40, 1);
-
+    m_landBlockImg = new ImageKomastar;
+    m_landBlockImg->Setup("images/sprites-landblock.bmp", 170, 170, true, MAGENTA_COLOR);
+    m_landBlockImg->SetupForAlphaBlend();
 }
 
 void MainGame::Play()
@@ -238,7 +240,12 @@ void MainGame::Play()
         m_itemGenDelayCount = 0;
     }
 
-
+    m_holeGenLimitCount += (int)m_runSpeed * 0.2;
+    if (m_holeGenLimitCount > HOLE_GEN_LIMITER)
+    {
+        GenerateHole();
+        m_holeGenLimitCount = 0;
+    }
 
     for (auto obstacleUpdateIter = m_vecObstacles.begin(); obstacleUpdateIter != m_vecObstacles.end(); obstacleUpdateIter++)
     {
@@ -268,7 +275,7 @@ void MainGame::Play()
                 double distance = m_geoHelper.GetDistance(itemUpdateIter->GetPosition(), iter->GetPosition());
                 double obsHeight = iter->GetSize().h;
                 double itemHeightOffset = obsHeight - distance;
-                itemHeightOffset += 30.0f;
+                itemHeightOffset += 100.0f;
                 if (distance < obsHeight)
                 {
                     if (itemUpdateIter->GetPosition().x > W_WIDTH)
@@ -285,6 +292,15 @@ void MainGame::Play()
             itemUpdateIter->SetLifeCount(0);
         }
         itemUpdateIter->Update();
+    }
+
+    for (auto holeUpdateIter = m_vecHoles.begin(); holeUpdateIter != m_vecHoles.end(); holeUpdateIter++)
+    {
+        holeUpdateIter->Update();
+        if (holeUpdateIter->GetPosition().x < 0 - holeUpdateIter->GetSize().w)
+        {
+            holeUpdateIter->SetLifeCount(0);
+        }
     }
 
     for (auto obsEraseIter = m_vecObstacles.begin(); obsEraseIter != m_vecObstacles.end();)
@@ -310,6 +326,18 @@ void MainGame::Play()
             itemUpdateIter++;
         }
     }
+
+    for (auto holeEraseIter = m_vecHoles.begin(); holeEraseIter != m_vecHoles.end();)
+    {
+        if (holeEraseIter->GetLifeCount() <= 0)
+        {
+            holeEraseIter = m_vecHoles.erase(holeEraseIter);
+        }
+        else
+        {
+            holeEraseIter++;
+        }
+    }
 }
 
 void MainGame::DrawPlayer()
@@ -333,6 +361,14 @@ void MainGame::DrawItems()
     }
 }
 
+void MainGame::DrawHoles()
+{
+    for (auto iter = m_vecHoles.begin(); iter != m_vecHoles.end(); iter++)
+    {
+        iter->Render();
+    }
+}
+
 void MainGame::GenerateObstacle()
 {
     Obstacle tObstacle;
@@ -340,7 +376,7 @@ void MainGame::GenerateObstacle()
     int objHeight = (rand() % 200) + 50;
 
     tObstacle.SetSize(UnitSize{ objWidth, objHeight });
-    tObstacle.SetPosition(UnitPos{ W_WIDTH + OBJ_GEN_OFFSET, W_HEIGHT - (double)objHeight });
+    tObstacle.SetPosition(UnitPos{ W_WIDTH + OBJ_GEN_OFFSET, (W_HEIGHT - FLOOR) - (double)objHeight * 0.5f });
     tObstacle.SetBodyRect(tObstacle.GetPosition(), tObstacle.GetSize());
     tObstacle.SetMoveSpeed(UnitSpeed{ -m_runSpeed , 0.0f });
     tObstacle.SetLifeCount(1);
@@ -380,7 +416,7 @@ void MainGame::GenerateItem()
 
     tItem.SetItemType(itemType);
     tItem.SetSize(UnitSize{ 50, 50 });
-    tItem.SetPosition(UnitPos{ (double)W_WIDTH + OBJ_GEN_OFFSET, FLOOR_POS_Y });
+    tItem.SetPosition(UnitPos{ (double)W_WIDTH + OBJ_GEN_OFFSET, FLOOR_POS_Y - 100.0f });
     tItem.SetBodyRect(tItem.GetPosition(), tItem.GetSize());
     tItem.SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
     tItem.SetLifeCount(1);
@@ -388,6 +424,19 @@ void MainGame::GenerateItem()
     tItem.Activate();
 
     m_vecItems.push_back(tItem);
+}
+
+void MainGame::GenerateHole()
+{
+    Hole tHole;
+    tHole.SetPosition(UnitPos{ (double)(W_WIDTH + tHole.GetSize().w), (double)(W_HEIGHT - (tHole.GetSize().h * 0.5f)) });
+    tHole.SetBodyRect(tHole.GetPosition(), tHole.GetSize());
+    tHole.SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
+    tHole.SetLifeCount(1);
+    tHole.SetBrush(&m_holeBrush);
+    tHole.SetImg(m_landBlockImg);
+
+    m_vecHoles.push_back(tHole);
 }
 
 void MainGame::SpritesRefresh()
@@ -422,8 +471,10 @@ void MainGame::SystemControl()
             m_currGameState = GAME_PLAYING;
             break;
         case GAME_PLAYING:
+            m_currGameState = GAME_PAUSE;
             break;
         case GAME_PAUSE:
+            m_currGameState = GAME_PLAYING;
             break;
         case GAME_CLEAR:
             break;

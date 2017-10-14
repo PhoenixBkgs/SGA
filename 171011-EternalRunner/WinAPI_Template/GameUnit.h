@@ -13,7 +13,7 @@ public:
     UnitSize        m_unitSize;
     UnitSpeed       m_moveSpeed;
     
-    HBRUSH          m_bBrush;
+    HBRUSH*         m_bBrush;
 
     int             m_LifeCount;
     bool            m_isImmortal;
@@ -23,14 +23,15 @@ public:
 //  FUNCS
 public:
     GameUnit();
-    GameUnit(UnitPos Position, HBRUSH Brush);
-    GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
+    GameUnit(UnitPos Position, HBRUSH* Brush);
+    GameUnit(UnitPos Position, UnitSize Size, HBRUSH* Brush, int Life);
     ~GameUnit();
 
     RECT* GetBodyRect() { return &m_rtBody; }
     void SetBodyRect(UnitPos GenPos, UnitSize BodySize);
     RECT SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin);
-    
+    void RenderBodyRect(HDC hdc);
+
     void UpdateBodyPos(UnitPos GenPos);
 
     UnitPos GetPosition() { return m_unitPos; }
@@ -46,8 +47,8 @@ public:
     void SetLifeCount(int Life) { m_LifeCount = Life; }
     void SumLifeCount(int Life) { m_LifeCount += Life; }
     
-    HBRUSH GetBrush() { return m_bBrush; }
-    void SetBrush(HBRUSH Brush) { m_bBrush = Brush; }
+    HBRUSH* GetBrush() { return m_bBrush; }
+    void SetBrush(HBRUSH* Brush) { m_bBrush = Brush; }
 
     void SetColor(int R, int G, int B);
 

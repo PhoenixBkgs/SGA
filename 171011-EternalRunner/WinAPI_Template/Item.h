@@ -9,6 +9,8 @@ private:
     E_ITEM_TYPE         m_itemType;
     ImageKomastar*      m_itemImg;
     BYTE                m_imgAlpha;
+    int                 m_money;
+
 public:
     Item();
     ~Item();
@@ -24,5 +26,8 @@ public:
 
     BYTE GetImgAlpha() { return m_imgAlpha; }
     void SetImgAlpha(BYTE Alpha) { m_imgAlpha = Alpha; }
+
+    int GetMoney() { return m_money; }
+    void SetMoney(int Money) { m_money = Money; }
 };
 

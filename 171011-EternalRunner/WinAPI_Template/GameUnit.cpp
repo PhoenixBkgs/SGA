@@ -7,13 +7,13 @@ GameUnit::GameUnit()
     m_isMovable = true;
 }
 
-GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2
+GameUnit::GameUnit(UnitPos Position, HBRUSH* Brush)  //  2x2
 {
     SetBodyRect(Position, UnitSize{2, 2});
     m_bBrush = Brush;
 }
 
-GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  custom size
+GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH* Brush, int Life) //  custom size
 {
     SetBodyRect(Position, Size);
     SetLifeCount(Life);
@@ -52,15 +52,26 @@ RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
     return tRetRect;
 }
 
+void GameUnit::RenderBodyRect(HDC hdc)
+{
+#ifdef _DEBUG
+    char infoMsg[100];
+    sprintf_s(infoMsg, "X : %f / Y : %f", m_unitPos.x, m_unitPos.y);
+    Rectangle(hdc, m_rtBody.left, m_rtBody.top - 20, m_rtBody.right, m_rtBody.top);
+    TextOut(g_hDC, m_rtBody.left, m_rtBody.top - 20, infoMsg, (int)strlen(infoMsg));
+#endif // _DEBUG
+    Rectangle(hdc, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
+}
+
 void GameUnit::SetColor(int R, int G, int B)
 {
-    m_bBrush = CreateSolidBrush(RGB(R, G, B));
+    *m_bBrush = CreateSolidBrush(RGB(R, G, B));
 }
 
 void GameUnit::UpdateBodyPos(UnitPos GenPos)
 {
     m_rtBody.left =     (int)(GenPos.x - (m_unitSize.w * 0.5));
-    m_rtBody.top =      (int)(GenPos.y - (m_unitSize.w * 0.5));
+    m_rtBody.top =      (int)(GenPos.y - (m_unitSize.h * 0.5));
     m_rtBody.right =    m_rtBody.left + m_unitSize.w;
     m_rtBody.bottom =   m_rtBody.top + m_unitSize.h;
 }

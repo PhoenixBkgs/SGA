@@ -2,40 +2,78 @@
 #include "Player.h"
 #include "Obstacle.h"
 #include "Item.h"
+#include "Hole.h"
 
 Player::Player()
-    :m_playerBuff(ITEM_END)
+    : m_playerBuff(ITEM_END)
     , m_headUpMsg("NORMAL")
+    , m_money(0)
+    , m_isFloorExist(true)
 {
     m_unitPos.x = W_WIDTH  * 0.3f;
     m_unitPos.y = FLOOR_POS_Y;
     m_unitSize = { PLAYER_WIDTH, PLAYER_HEIGHT };
     SetBodyRect(m_unitPos, m_unitSize);
     m_currDownForce = INIT_DOWNFORCE;
+    m_bBrush = new HBRUSH;
 }
 
 
 Player::~Player()
 {
+    delete m_bBrush;
 }
 
 void Player::Start()
 {
     m_pImg->SetupForSprites(8, 0, PLAYER_WIDTH, PLAYER_HEIGHT, 10);
     m_playerState = PLAYER_RUN;
-    m_bBrush = CreateSolidBrush(RGB(0, 255, 0));
+    *m_bBrush = CreateSolidBrush(RGB(0, 255, 0));
 }
 
 void Player::Update()
 {
     Move();
-    if (m_unitPos.y > FLOOR_POS_Y)
+    m_isFloorExist = true;
+    for (auto holeCollIter = m_vecHoles->begin(); holeCollIter != m_vecHoles->end(); holeCollIter++)
     {
-        m_unitPos.y = FLOOR_POS_Y;
-        m_currDownForce = INIT_DOWNFORCE;
-        m_playerState = PLAYER_RUN;
-        m_moveSpeed.y = 0.0f;
+        RECT holeRt = holeCollIter->m_rtBody;
+        RECT rt;
+        if (IntersectRect(&rt, &m_rtBody, &holeRt))
+        {
+            m_isFloorExist = false;
+        }
+
+        if ((int)m_unitPos.x > holeRt.left &&
+            (int)m_unitPos.x < holeRt.right)
+        {
+            m_isFloorExist = false;
+        }
+
+        if (m_rtBody.left < holeRt.right &&
+            m_rtBody.left > holeRt.left)
+        {
+            if (m_rtBody.bottom > holeRt.top)
+            {
+                m_isFloorExist = false;
+            }
+        }
     }
+
+    if (m_unitPos.y + m_moveSpeed.y > FLOOR_POS_Y - m_unitSize.h / 2)
+    {
+        if (m_isFloorExist)
+        {
+            m_playerState = PLAYER_RUN;
+            m_currDownForce = INIT_DOWNFORCE;
+            m_unitPos.y = FLOOR_POS_Y - m_unitSize.h / 2;
+            m_moveSpeed.y = 0.0f;
+        }
+        else
+        {
+        }
+    }
+
 
     if (m_unitPos.y < 0.0f)
     {
@@ -98,6 +136,7 @@ void Player::Update()
             if (itemType == ITEM_SCORE)
             {
                 m_score += 100;
+                m_money += iter->GetMoney();
                 return;
             }
 
@@ -128,6 +167,8 @@ void Player::Update()
         }
     }
 
+    
+
     if (m_playerBuff == ITEM_MAGNET)
     {
         for (auto iter = m_vecItems->begin(); iter != m_vecItems->end(); iter++)
@@ -142,6 +183,12 @@ void Player::Update()
             }
         }
     }
+
+    if (m_unitPos.y > (double)W_HEIGHT)
+    {
+        //  PLAYER DEAD
+        SetLifeCount(0);
+    }
 }
 
 void Player::Render()
@@ -153,7 +200,7 @@ void Player::Render()
     case ITEM_GIANT:
     {
         RECT tRect = { m_rtBody.left, m_rtBody.top - 25, m_rtBody.right - (int)(m_buffTimer * 0.5f), m_rtBody.top };
-        FillRect(g_hDC, &tRect, m_bBrush);
+        FillRect(g_hDC, &tRect, *m_bBrush);
         break;
     }
     default:

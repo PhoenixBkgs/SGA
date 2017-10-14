@@ -102,6 +102,9 @@
     <ClInclude Include="UserInterface.h">
       <Filter>GameFramework2D\Source</Filter>
     </ClInclude>
+    <ClInclude Include="Hole.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -156,6 +159,9 @@
       <Filter>GameFramework2D\Source</Filter>
     </ClCompile>
     <ClCompile Include="UserInterface.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Hole.cpp">
       <Filter>GameFramework2D\Source</Filter>
     </ClCompile>
   </ItemGroup>

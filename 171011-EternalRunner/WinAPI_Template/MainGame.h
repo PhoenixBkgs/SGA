@@ -1,13 +1,17 @@
 #pragma once
 #include "EnumState.h"
 #include "GameNode.h"
+
 #include "ImageKomastar.h"
+#include "Draw2DKomastar.h"
+#include "Geometry2DKomastar.h"
+
+#include "UserInterface.h"
+
 #include "Player.h"
 #include "Obstacle.h"
 #include "Item.h"
-#include "Draw2DKomastar.h"
-#include "Geometry2DKomastar.h"
-#include "UserInterface.h"
+#include "Hole.h"
 
 #define BG_WIDTH 6600
 #define BG_HEIGHT 675
@@ -15,8 +19,9 @@
 #define OBJ_GEN_OFFSET  1000.0f
 #define OBS_GEN_DELAY   200
 #define ITEM_GEN_DELAY  15
+#define HOLE_GEN_LIMITER  500
 
-#define GAME_SPEED 20.0f
+#define GAME_SPEED 5.0f
 
 class MainGame : public GameNode
 {
@@ -36,13 +41,14 @@ private:
     ImageKomastar*      m_giantItemImg;     //  Item giant image 50 x 50 x 8 x 1px
     ImageKomastar*      m_heartImg;
     ImageKomastar*      m_splashImg;
+    ImageKomastar*      m_landBlockImg;
     ImageKomastar*      m_slideTestImg;
-    ImageKomastar*      m_numberTestImg;
 
     vector<ImageKomastar*> m_vecSpritesImgs;
     Player              m_player;
     vector<Obstacle>    m_vecObstacles;
     vector<Item>        m_vecItems;
+    vector<Hole>        m_vecHoles;
 
     double              m_bgPosX;
     double              m_bgPosX2;
@@ -51,8 +57,11 @@ private:
 
     int                 m_obsGenDelayCount;
     int                 m_itemGenDelayCount;
+    int                 m_holeGenLimitCount;
 
     bool                m_isShowSlide;
+
+    HBRUSH              m_holeBrush;
 
 //=======================================================
 //  FUNCTIONS
@@ -71,9 +80,11 @@ public:
     void DrawPlayer();
     void DrawObstacles();
     void DrawItems();
+    void DrawHoles();
 
     void GenerateObstacle();
     void GenerateItem();
+    void GenerateHole();
     void SpritesRefresh();
 
     void SystemControl();
