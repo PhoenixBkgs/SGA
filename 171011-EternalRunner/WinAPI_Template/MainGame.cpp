@@ -176,14 +176,14 @@ void MainGame::Render()
         sprintf_s(infoMsg, "SCORE : %d", m_player.GetScore());
 
         string scoreTxt = infoMsg;
-        RECT txtBox = { W_WIDTH - scoreTxt.size() * 25, 30, W_WIDTH, 80 };
+        RECT txtBox = { W_WIDTH - (int)scoreTxt.size() * 25, 30, W_WIDTH, 80 };
         m_drawHelper.DrawTextBox(txtBox, infoMsg, _RGBA{ 0, 0, 0, 0 }, TEXT("Consolas"));
 #ifdef _DEBUG
         sprintf_s(infoMsg, "SPEED : %f  / BG_POS : %f / Life : %d / Buff Timer : %d", m_runSpeed, m_bgPosX, m_player.GetLifeCount(), m_player.m_buffTimer);
         TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
         sprintf_s(infoMsg, "PlayerJump : %f / PosX : %f / PosY : %f / Score : %d", m_player.GetMoveSpeed().y, m_player.GetPosition().x, m_player.GetPosition().y, m_player.GetScore());
         TextOut(g_hDC, 10, 30, infoMsg, (int)strlen(infoMsg));
-        sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d / CurrGravity : %f", m_vecObstacles.size(), m_vecItems.size(), m_player.GetMoveSpeed().y);
+        sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d / CurrGravity : %f", (int)m_vecObstacles.size(), (int)m_vecItems.size(), m_player.GetMoveSpeed().y);
         TextOut(g_hDC, 10, 50, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
         break;
@@ -230,21 +230,21 @@ void MainGame::Play()
 
     m_player.Update();
 
-    m_obsGenDelayCount += (int)m_runSpeed * 0.2;
+    m_obsGenDelayCount += (int)(m_runSpeed * 0.2f);
     if (m_obsGenDelayCount > OBS_GEN_DELAY)
     {
         GenerateObstacle();
         m_obsGenDelayCount = 0;
     }
 
-    m_itemGenDelayCount += m_runSpeed * 0.2;
+    m_itemGenDelayCount += (int)(m_runSpeed * 0.2f);
     if (m_itemGenDelayCount > ITEM_GEN_DELAY)
     {
         GenerateItem();
         m_itemGenDelayCount = 0;
     }
 
-    m_holeGenLimitCount += (int)m_runSpeed * 0.2;
+    m_holeGenLimitCount += (int)(m_runSpeed * 0.2f);
     if (m_holeGenLimitCount > HOLE_GEN_LIMITER)
     {
         GenerateHole();
