@@ -115,8 +115,6 @@ void UserInterface::SlideScreen(ImageKomastar * Image, double Acceleration, int 
             renderPosY += pieceHeight;
         }
 
-        
-
         if (m_slidePosX > m_slideSpeed)
         {
             

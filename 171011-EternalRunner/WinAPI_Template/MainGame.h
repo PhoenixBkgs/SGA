@@ -21,7 +21,10 @@
 #define ITEM_GEN_DELAY  15
 #define HOLE_GEN_LIMITER  500
 
-#define GAME_SPEED 5.0f
+#define GAME_SPEED 10.0f
+#define INIT_GAME_TIMER 500
+#define INIT_SHOW_TIMER 50
+#define INIT_COUNT_DOWN 3
 
 class MainGame : public GameNode
 {
@@ -43,6 +46,8 @@ private:
     ImageKomastar*      m_splashImg;
     ImageKomastar*      m_landBlockImg;
     ImageKomastar*      m_holeBlockImg;
+    ImageKomastar*      m_bkBg;
+    ImageKomastar*      m_flagImg;
     ImageKomastar*      m_slideTestImg;
 
     vector<ImageKomastar*> m_vecSpritesImgs;
@@ -55,11 +60,17 @@ private:
     double              m_bgPosX2;
     double              m_runSpeed;
     double              m_PosX;
+    double              m_progress;
 
+    int                 m_gameTimer;
+    int                 m_gameLevel;
+    int                 m_showTimer;
+    int                 m_showCount;
     int                 m_obsGenDelayCount;
     int                 m_itemGenDelayCount;
     int                 m_holeGenLimitCount;
 
+    bool                m_isCounting;
     bool                m_isShowSlide;
 
     HBRUSH              m_holeBrush;
@@ -75,6 +86,8 @@ public:
     virtual void Update() override;
     virtual void Render() override;
 
+    void Reset();
+    void ShowTimerReset();
     void LoadImages();
 
     void Play();
@@ -87,6 +100,9 @@ public:
     void GenerateItem();
     void GenerateHole();
     void SpritesRefresh();
+
+    void CountDown();
+    void ClearScreen(string szText);
 
     void SystemControl();
     void PlayerControl();

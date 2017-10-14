@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "MainGame.h"
 
-MainGame::MainGame() :
-    m_itemGenDelayCount(0),
-    m_obsGenDelayCount(0),
-    m_isShowSlide(false),
-    m_PosX((double)W_WIDTH)
+MainGame::MainGame()
+    : m_itemGenDelayCount(0)
+    , m_obsGenDelayCount(0)
+    , m_isShowSlide(false)
+    , m_PosX((double)W_WIDTH)
+    , m_gameLevel(1)
 {
     Start();
 }
@@ -92,9 +93,20 @@ void MainGame::Update()
     switch (m_currGameState)
     {
     case GAME_READY:
+    {
+        Reset();
+        if (m_gameLevel > 1)
+        {
+            m_currGameState = GAME_PLAYING;
+        }
         break;
+    }
     case GAME_PLAYING:
     {
+        if (m_isCounting)
+        {
+            return;
+        }
         SpritesRefresh();
         Play();
         PlayerControl();
@@ -103,9 +115,15 @@ void MainGame::Update()
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
+    {
+        ClearScreen("Clear !");
         break;
+    }
     case GAME_OVER:
+    {
+        ClearScreen("GAME OVER");
         break;
+    }
     }
     SystemControl();
 }
@@ -131,6 +149,12 @@ void MainGame::Render()
     }
     case GAME_PLAYING:
     {
+        if (m_isCounting)
+        {
+            m_uiHelper.PaintBlack();
+            CountDown();
+            return;
+        }
         m_uiHelper.PaintWhite();
         if (m_player.GetLifeCount() < 0)
         {
@@ -178,6 +202,16 @@ void MainGame::Render()
         string scoreTxt = infoMsg;
         RECT txtBox = { W_WIDTH - (int)scoreTxt.size() * 25, 30, W_WIDTH, 80 };
         m_drawHelper.DrawTextBox(txtBox, infoMsg, _RGBA{ 0, 0, 0, 0 }, TEXT("Consolas"));
+
+        UnitPos endPos = UnitPos{ (double)(W_WIDTH - m_flagImg->GetWidth() - 50), 150.0f };
+        UnitPos startPos = UnitPos{ (endPos.x - 300.0f), 150.0f };
+        int miniPlayerSize = 50;
+        RECT miniPlayer = { (int)(startPos.x + (m_progress * 2.0f) - miniPlayerSize / 2), (int)(startPos.y - miniPlayerSize), 0, 0 };
+        miniPlayer.right = miniPlayer.left + miniPlayerSize;
+        miniPlayer.bottom = miniPlayer.top + miniPlayerSize;
+        m_playerImg->SpritesRender(g_hDC, miniPlayer, 255);
+        m_flagImg->Render(g_hDC, (int)endPos.x, (int)endPos.y - m_flagImg->GetHeight());
+        m_drawHelper.DrawLine2D(startPos, endPos, 5, _RGBA{ 0, 0, 0, 0 });
 #ifdef _DEBUG
         sprintf_s(infoMsg, "SPEED : %f  / BG_POS : %f / Life : %d / Buff Timer : %d", m_runSpeed, m_bgPosX, m_player.GetLifeCount(), m_player.m_buffTimer);
         TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
@@ -185,6 +219,8 @@ void MainGame::Render()
         TextOut(g_hDC, 10, 30, infoMsg, (int)strlen(infoMsg));
         sprintf_s(infoMsg, "ItemCount : %d / ObsCount : %d / CurrGravity : %f", (int)m_vecObstacles.size(), (int)m_vecItems.size(), m_player.GetMoveSpeed().y);
         TextOut(g_hDC, 10, 50, infoMsg, (int)strlen(infoMsg));
+        sprintf_s(infoMsg, "GameTimer : %d / GameLevel : %d", m_gameTimer, m_gameLevel);
+        TextOut(g_hDC, 10, 70, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
         break;
     }
@@ -197,6 +233,36 @@ void MainGame::Render()
     default:
         break;
     }
+}
+
+void MainGame::Reset()
+{
+    m_bgPosX = 0.0f;
+    m_bgPosX2 = 0.0f;
+    m_progress = 0.0f;
+    m_gameTimer = INIT_GAME_TIMER * m_gameLevel;
+    m_showTimer = INIT_SHOW_TIMER;
+    m_showCount = 0;
+    m_runSpeed = GAME_SPEED + (double)m_gameLevel * 0.5f;
+    m_isCounting = true;
+    m_itemGenDelayCount= 0;
+    m_obsGenDelayCount = 0;
+    m_holeGenLimitCount = 0;
+    m_isShowSlide = false;
+    m_PosX = (double)W_WIDTH;
+
+    m_player.Start();
+    m_vecItems.clear();
+    m_vecObstacles.clear();
+    m_vecHoles.clear();
+
+    m_uiHelper.ResetSlide();
+}
+
+void MainGame::ShowTimerReset()
+{
+    m_showTimer = INIT_SHOW_TIMER;
+    m_showCount = 0;
 }
 
 void MainGame::LoadImages()
@@ -212,10 +278,29 @@ void MainGame::LoadImages()
     m_holeBlockImg = new ImageKomastar;
     m_holeBlockImg->Setup("images/img-holeblock.bmp", 200, 200, true, MAGENTA_COLOR);
     m_holeBlockImg->SetupForAlphaBlend();
+
+    m_bkBg = new ImageKomastar;
+    m_bkBg->Setup("images/blackBg.bmp", 1920, 1080, true, MAGENTA_COLOR);
+    m_bkBg->SetupForAlphaBlend();
+
+    m_flagImg = new ImageKomastar;
+    m_flagImg->Setup("images/img-flag.bmp", 25, 50, true, MAGENTA_COLOR);
+    m_flagImg->SetupForAlphaBlend();
 }
 
 void MainGame::Play()
 {
+    m_gameTimer--;
+    m_progress = (double)((INIT_GAME_TIMER * m_gameLevel) - m_gameTimer) / (double)(INIT_GAME_TIMER * m_gameLevel);
+    m_progress *= 100.0f;
+    if (m_gameTimer < 0)
+    {
+        m_gameLevel++;
+        m_gameTimer = INIT_GAME_TIMER * m_gameLevel;
+        m_currGameState = GAME_CLEAR;
+        return;
+    }
+
     if (m_player.GetLifeCount() < 1)
     {
         m_currGameState = GAME_OVER;
@@ -452,6 +537,64 @@ void MainGame::SpritesRefresh()
     }
 }
 
+void MainGame::CountDown()
+{
+    if (m_showCount == 0)
+    {
+        m_showCount++;
+        m_showTimer = INIT_SHOW_TIMER;
+    }
+    else if (m_showCount > INIT_COUNT_DOWN)
+    {
+        m_isCounting = false;
+        return;
+    }
+
+    m_showTimer--;
+    if (m_showTimer < 0)
+    {
+        m_showCount++;
+        m_showTimer = INIT_SHOW_TIMER;
+    }
+
+    RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
+    char countMsg[100];
+    string szCount = "";
+    sprintf_s(countMsg, "%d", (INIT_COUNT_DOWN + 1) - m_showCount);
+    szCount = countMsg;
+    m_drawHelper.DrawTextBox(rt, szCount, _RGBA{ 150, 0, 0, 0 }, TEXT("Consolas"));
+}
+
+void MainGame::ClearScreen(string szText)
+{
+    m_uiHelper.SlideScreen(m_bkBg, 10.0f, 2, true, 100.0f);
+    if (m_showCount < 3)
+    {
+        m_showTimer--;
+    }
+    if (m_showTimer < 0)
+    {
+        m_showCount++;
+        m_showTimer = INIT_SHOW_TIMER;
+    }
+
+    RECT rt = { 0, (int)(W_HEIGHT * 0.3f), W_WIDTH, (int)(W_HEIGHT * 0.5f) };
+    string scoreTxt = szText;
+     if (m_showCount >= 1)
+    {
+        m_drawHelper.DrawTextBox(rt, scoreTxt, _RGBA{ 120, 120, 120, 0 }, TEXT("Consolas"));
+    }
+    
+    if(m_showCount >= 2)
+    {
+        rt = { 0, (int)(W_HEIGHT * 0.5f), W_WIDTH, (int)(W_HEIGHT * 0.8f) };
+        char infoMsg[100];
+        sprintf_s(infoMsg, "SCORE : %d", m_player.GetScore());
+        scoreTxt = infoMsg;
+        m_drawHelper.DrawTextBox(rt, scoreTxt, _RGBA{ 200, 200, 200, 0 }, TEXT("Consolas"));
+    }
+}
+
 void MainGame::SystemControl()
 {
     if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
@@ -482,7 +625,17 @@ void MainGame::SystemControl()
             m_currGameState = GAME_PLAYING;
             break;
         case GAME_CLEAR:
+        {
+            if (m_showCount < 2)
+            {
+
+            }
+            else
+            {
+                m_currGameState = GAME_READY;
+            }
             break;
+        }
         case GAME_OVER:
             break;
         default:

@@ -16,6 +16,7 @@ Player::Player()
     SetBodyRect(m_unitPos, m_unitSize);
     m_currDownForce = INIT_DOWNFORCE;
     m_bBrush = new HBRUSH;
+    *m_bBrush = CreateSolidBrush(RGB(0, 255, 0));
 }
 
 
@@ -26,9 +27,13 @@ Player::~Player()
 
 void Player::Start()
 {
+    m_unitPos.x = W_WIDTH  * 0.3f;
+    m_unitPos.y = FLOOR_POS_Y;
+    m_unitSize = { PLAYER_WIDTH, PLAYER_HEIGHT };
+    m_currDownForce = INIT_DOWNFORCE;
+    SetBodyRect(m_unitPos, m_unitSize);
     m_pImg->SetupForSprites(8, 0, PLAYER_WIDTH, PLAYER_HEIGHT, 10);
     m_playerState = PLAYER_RUN;
-    *m_bBrush = CreateSolidBrush(RGB(0, 255, 0));
 }
 
 void Player::Update()
