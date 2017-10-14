@@ -3,6 +3,7 @@
 
 
 Hole::Hole()
+    : m_img(NULL)
 {
     m_unitSize.w = 0;
     m_unitSize.h = FLOOR;
@@ -43,6 +44,11 @@ void Hole::Render()
     }
     if (m_img != NULL)
     {
-        m_img->Render(g_hDC, m_rtBody.left, m_rtBody.top, m_unitSize.w, m_unitSize.h, 0, 0, m_img->GetWidth(), m_img->GetHeight(), 255);
+        m_img->Render(g_hDC
+                    , m_rtBody.left, m_rtBody.top
+                    , m_unitSize.w, m_unitSize.h
+                    , 0, 0
+                    , m_img->GetWidth(), m_img->GetHeight()
+                    , 255);
     }
 }

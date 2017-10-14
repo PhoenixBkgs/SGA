@@ -54,13 +54,13 @@ RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
 
 void GameUnit::RenderBodyRect(HDC hdc)
 {
+    Rectangle(hdc, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
 #ifdef _DEBUG
     char infoMsg[100];
     sprintf_s(infoMsg, "X : %f / Y : %f", m_unitPos.x, m_unitPos.y);
-    Rectangle(hdc, m_rtBody.left, m_rtBody.top - 20, m_rtBody.right, m_rtBody.top);
-    TextOut(g_hDC, m_rtBody.left, m_rtBody.top - 20, infoMsg, (int)strlen(infoMsg));
+    Rectangle(hdc, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.top + 20);
+    TextOut(g_hDC, m_rtBody.left, m_rtBody.top, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
-    Rectangle(hdc, m_rtBody.left, m_rtBody.top, m_rtBody.right, m_rtBody.bottom);
 }
 
 void GameUnit::SetColor(int R, int G, int B)

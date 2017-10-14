@@ -42,6 +42,7 @@ private:
     ImageKomastar*      m_heartImg;
     ImageKomastar*      m_splashImg;
     ImageKomastar*      m_landBlockImg;
+    ImageKomastar*      m_holeBlockImg;
     ImageKomastar*      m_slideTestImg;
 
     vector<ImageKomastar*> m_vecSpritesImgs;

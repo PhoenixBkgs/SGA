@@ -208,6 +208,10 @@ void MainGame::LoadImages()
     m_landBlockImg = new ImageKomastar;
     m_landBlockImg->Setup("images/sprites-landblock.bmp", 170, 170, true, MAGENTA_COLOR);
     m_landBlockImg->SetupForAlphaBlend();
+
+    m_holeBlockImg = new ImageKomastar;
+    m_holeBlockImg->Setup("images/img-holeblock.bmp", 200, 200, true, MAGENTA_COLOR);
+    m_holeBlockImg->SetupForAlphaBlend();
 }
 
 void MainGame::Play()
@@ -380,6 +384,7 @@ void MainGame::GenerateObstacle()
     tObstacle.SetBodyRect(tObstacle.GetPosition(), tObstacle.GetSize());
     tObstacle.SetMoveSpeed(UnitSpeed{ -m_runSpeed , 0.0f });
     tObstacle.SetLifeCount(1);
+    tObstacle.m_pImg = m_landBlockImg;
     tObstacle.Activate();
 
     m_vecObstacles.push_back(tObstacle);
@@ -433,8 +438,8 @@ void MainGame::GenerateHole()
     tHole.SetBodyRect(tHole.GetPosition(), tHole.GetSize());
     tHole.SetMoveSpeed(UnitSpeed{ -m_runSpeed, 0.0f });
     tHole.SetLifeCount(1);
+    tHole.SetImg(m_holeBlockImg);
     tHole.SetBrush(&m_holeBrush);
-    tHole.SetImg(m_landBlockImg);
 
     m_vecHoles.push_back(tHole);
 }
