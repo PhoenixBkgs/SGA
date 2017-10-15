@@ -47,8 +47,14 @@ double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
 
 double Geometry2DKomastar::Degree2Rad(double Degree)
 {
+#ifdef _DEBUG
     double retVal = Degree * M_PI / 180;
     return retVal;
+#else
+    //  RELEASE
+    return Degree * M_PI / 180;
+#endif
+
 }
 
 double Geometry2DKomastar::Rad2Degree(double Rad)
@@ -66,4 +72,20 @@ double Geometry2DKomastar::GetDistance(UnitPos Pos1, UnitPos Pos2)
     dY *= dY;
 
     return sqrt(dX + dY);
+}
+
+UnitPos Geometry2DKomastar::GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree)
+{
+#ifdef _DEBUG
+    double dist = GetDistance(StartPos, DestPos);
+    double currAngle = GetAngleFromCoord(StartPos, DestPos);
+    double destAngle = currAngle + DeltaDegree;
+    UnitPos resultPos = GetCoordFromAngle(destAngle, dist);
+    resultPos.x += StartPos.x;
+    resultPos.y += StartPos.y;
+    return resultPos;
+#else
+    //  RELEASE
+    return GetCoordFromAngle(GetAngleFromCoord(StartPos, DestPos) + DeltaDegree, GetDistance(StartPos, DestPos));
+#endif
 }

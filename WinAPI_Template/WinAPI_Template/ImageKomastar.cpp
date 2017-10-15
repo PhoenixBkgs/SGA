@@ -5,9 +5,10 @@
 ImageKomastar::ImageKomastar()
     :m_pImageInfo(NULL)
     ,m_szFileName(NULL)
-    ,m_isTrans(false)
-    ,m_transColor(RGB(0, 0, 0))
+    ,m_isTrans(true)
+    ,m_transColor(RGB(255, 0, 255))
     ,m_drawHelper(NULL)
+    ,m_pBlendImage(NULL)
 {
 }
 
@@ -29,21 +30,22 @@ ImageKomastar::~ImageKomastar()
 
 void ImageKomastar::Setup(int width, int height)
 {
-    HDC hdc = GetDC(g_hWnd);
-
-    m_pImageInfo = new IMAGE_INFO;
-    m_pImageInfo->btLoadType = LOAD_EMPTY;
-    m_pImageInfo->resID = 0;
-    m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
-    m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
-    m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
-    m_pImageInfo->nWidth = width;
-    m_pImageInfo->nHeight = height;
-
-    ReleaseDC(g_hWnd, hdc);
+//    HDC hdc = GetDC(g_hWnd);
+//
+//    m_pImageInfo = new IMAGE_INFO;
+//    m_pImageInfo->btLoadType = LOAD_EMPTY;
+//    m_pImageInfo->resID = 0;
+//    m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
+//    m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
+//    m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
+//    m_pImageInfo->nWidth = width;
+//    m_pImageInfo->nHeight = height;
+//
+//    ReleaseDC(g_hWnd, hdc);
+    Setup(NULL, width, height);
 }
 
-void ImageKomastar::Setup(const char * FileName, int width, int height, bool isTrans, COLORREF transColor)
+void ImageKomastar::Setup(const char * FileName, int width, int height)
 {
     HDC hdc = GetDC(g_hWnd);
 
@@ -51,17 +53,27 @@ void ImageKomastar::Setup(const char * FileName, int width, int height, bool isT
     m_pImageInfo->btLoadType = LOAD_FILE;
     m_pImageInfo->resID = 0;
     m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
-    m_pImageInfo->hBit = (HBITMAP)LoadImage(g_hInst, FileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+    if (FileName == NULL)
+    {
+        m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
+    }
+    else
+    {
+        m_pImageInfo->hBit = (HBITMAP)LoadImage(g_hInst, FileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+        int len = (int)strlen(FileName);
+        m_szFileName = new char[len + 1];
+        strcpy_s(m_szFileName, len + 1, FileName);
+    }
     m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
     m_pImageInfo->nWidth = width;
     m_pImageInfo->nHeight = height;
 
-    int len = (int)strlen(FileName);
-    m_szFileName = new char[len + 1];
-    strcpy_s(m_szFileName, len + 1, FileName);
+    m_isTrans = true;
+    m_transColor = RGB(255, 0, 255);
 
-    m_isTrans = isTrans;
-    m_transColor = transColor;
+    m_stBlendFunc.BlendOp = AC_SRC_OVER;
+    m_stBlendFunc.BlendFlags = 0;
+    m_stBlendFunc.AlphaFormat = 0;
 
     ReleaseDC(g_hWnd, hdc);
 }
@@ -69,25 +81,23 @@ void ImageKomastar::Setup(const char * FileName, int width, int height, bool isT
 void ImageKomastar::SetupForAlphaBlend()
 {
     // 알파블렌드 구조체 초기화 (기본 값을 바꿀 일이 없음)
-    m_stBlendFunc.BlendOp = AC_SRC_OVER;
-    m_stBlendFunc.BlendFlags = 0;
-    m_stBlendFunc.AlphaFormat = 0;
+    
 
     // DC 가져오기
-    //HDC hdc = GetDC(g_hWnd);
+    HDC hdc = GetDC(g_hWnd);
 
     // 이미지 정보 새로 생성 및 초기화
-    //m_pBlendImage = new IMAGE_INFO;
-    //m_pBlendImage->btLoadType = LOAD_EMPTY;
-    //m_pBlendImage->resID = 0;
-    //m_pBlendImage->hMemDC = CreateCompatibleDC(hdc);
-    //m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
-    //m_pBlendImage->hOldBit = (HBITMAP)SelectObject(m_pBlendImage->hMemDC, m_pBlendImage->hBit);
-    //m_pBlendImage->nWidth = W_WIDTH;
-    //m_pBlendImage->nHeight = W_HEIGHT;
+    m_pBlendImage = new IMAGE_INFO;
+    m_pBlendImage->btLoadType = LOAD_EMPTY;
+    m_pBlendImage->resID = 0;
+    m_pBlendImage->hMemDC = CreateCompatibleDC(hdc);
+    m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
+    m_pBlendImage->hOldBit = (HBITMAP)SelectObject(m_pBlendImage->hMemDC, m_pBlendImage->hBit);
+    m_pBlendImage->nWidth = W_WIDTH;
+    m_pBlendImage->nHeight = W_HEIGHT;
 
     // DC 해제
-    //ReleaseDC(g_hWnd, hdc);
+    ReleaseDC(g_hWnd, hdc);
 }
 
 void ImageKomastar::Render(HDC hdc)
@@ -129,7 +139,10 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, in
 void ImageKomastar::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
     // 알파블렌드 처음 사용시 초기화
-    if (!m_pBlendImage) SetupForAlphaBlend();
+    if (!m_pBlendImage)
+    {
+        SetupForAlphaBlend();
+    }
 
     // 알파값 초기화
     m_stBlendFunc.SourceConstantAlpha = alpha;
@@ -183,8 +196,7 @@ void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
-    m_stBlendFunc.SourceConstantAlpha = alpha;
-    GdiAlphaBlend(hdc, destX, destY, srcW, srcH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
+    Render(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight, srcX, srcY, srcW, srcH, alpha);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)

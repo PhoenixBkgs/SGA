@@ -57,7 +57,7 @@ public:
     void SetHelper(Draw2DKomastar* Drawer) { m_drawHelper = Drawer; }
 
     void Setup(int width, int height);
-    void Setup(const char* FileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
+    void Setup(const char* FileName, int width, int height);
 
     void Render(HDC hdc);
     void Render(HDC hdc, int destX, int destY);

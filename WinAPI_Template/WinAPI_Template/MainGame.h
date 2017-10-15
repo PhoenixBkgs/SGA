@@ -2,6 +2,7 @@
 #include "GameNode.h"
 #include "Player.h"
 #include "ImageKomastar.h"
+#include "Geometry2DKomastar.h"
 
 #define BG_WIDTH 6600
 #define BG_HEIGHT 675
@@ -11,14 +12,16 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
-    ImageKomastar* m_bgImg;     //  6600 x 675
+    Geometry2DKomastar m_geoHelper;
     ImageKomastar* m_img;
-
-    Player m_player;
-
-    double              m_bgPosX;
-    double              m_bgPosX2;
-    double              m_runSpeed;
+    ImageKomastar* m_img2;
+    
+    UnitPos pos;
+    UnitPos pt1;
+    UnitPos pt2;
+    UnitPos pt3;
+    double  dAngle;
+    int count;
 //=======================================================
 //  FUNCTIONS
 private:
