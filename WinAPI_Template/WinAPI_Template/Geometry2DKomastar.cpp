@@ -77,6 +77,7 @@ double Geometry2DKomastar::GetDistance(UnitPos Pos1, UnitPos Pos2)
 UnitPos Geometry2DKomastar::GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree)
 {
 #ifdef _DEBUG
+    //DeltaDegree = Degree2Rad(DeltaDegree);
     double dist = GetDistance(StartPos, DestPos);
     double currAngle = GetAngleFromCoord(StartPos, DestPos);
     double destAngle = currAngle + DeltaDegree;

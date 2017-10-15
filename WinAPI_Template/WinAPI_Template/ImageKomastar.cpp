@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ImageKomastar.h"
 #include "Draw2DKomastar.h"
+#include "Geometry2DKomastar.h"
 
 ImageKomastar::ImageKomastar()
     :m_pImageInfo(NULL)
@@ -30,18 +31,6 @@ ImageKomastar::~ImageKomastar()
 
 void ImageKomastar::Setup(int width, int height)
 {
-//    HDC hdc = GetDC(g_hWnd);
-//
-//    m_pImageInfo = new IMAGE_INFO;
-//    m_pImageInfo->btLoadType = LOAD_EMPTY;
-//    m_pImageInfo->resID = 0;
-//    m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
-//    m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
-//    m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
-//    m_pImageInfo->nWidth = width;
-//    m_pImageInfo->nHeight = height;
-//
-//    ReleaseDC(g_hWnd, hdc);
     Setup(NULL, width, height);
 }
 
@@ -156,6 +145,7 @@ void ImageKomastar::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
         GdiTransparentBlt(m_pBlendImage->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
             m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
         //3. 블렌드 DC를 출력해야 할 DC에 그린다
+        
         GdiAlphaBlend(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
             m_pBlendImage->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_stBlendFunc);
     }
@@ -191,7 +181,48 @@ void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
                            boxSize.x, boxSize.y, 
                            m_pImageInfo->hMemDC, 
                            m_spritesWidth * m_currFrameX, 0, 
-                           m_spritesWidth, m_spritesHeight, m_transColor);
+                           m_spritesWidth, m_spritesHeight
+                        , m_transColor);
+}
+
+
+void ImageKomastar::Render(HDC hdc, RECT SpritesBox, UnitPos KeyPos, double Angle)
+{
+    UnitPos pt1 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
+    UnitPos pt2 = UnitPos{ (KeyPos.x + m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
+    UnitPos pt3 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y + m_pImageInfo->nHeight * 0.5f) };
+    m_geoHelper = new Geometry2DKomastar;
+
+    pt1 = m_geoHelper->GetRotateCoord(KeyPos, pt1, Angle);
+    pt2 = m_geoHelper->GetRotateCoord(KeyPos, pt2, Angle);
+    pt3 = m_geoHelper->GetRotateCoord(KeyPos, pt3, Angle);
+
+    POINT Pt[3] = {
+        POINT{ (LONG)pt1.x, (LONG)pt1.y }
+        , POINT{ (LONG)pt2.x, (LONG)pt2.y }
+        , POINT{ (LONG)pt3.x, (LONG)pt3.y }
+    };
+
+    BitBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , W_WIDTH, W_HEIGHT
+                    , hdc
+                    , 0, 0
+                    , SRCCOPY);
+    
+    PlgBlt(m_pBlendImage->hMemDC, Pt, m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , NULL
+                    , 0, 0);
+    
+    GdiTransparentBlt(hdc
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_transColor);
 }
 
 void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
@@ -203,6 +234,11 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, 
 {
     m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
+}
+
+void ImageKomastar::Render(HDC hdc, POINT * Pt, UnitPos Pos, double Angle)
+{
+
 }
 
 void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
