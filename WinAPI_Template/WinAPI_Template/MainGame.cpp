@@ -48,21 +48,13 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, BLACKNESS);
-    
-    
 
     m_img->Render(g_hDC);
 
     RECT rt = { 100, 100, 200, 200 };
-    m_img2->Render(g_hDC, rt, UnitPos{ W_WIDTH / 2, W_HEIGHT / 2 }, dAngle);
+    m_img2->Render(g_hDC, UnitPos{ W_WIDTH / 2, W_HEIGHT / 2 }, dAngle);
 
     char infoMsg[128];
-    sprintf_s(infoMsg, "p1 : %f  /  %f", pt1.x, pt1.y);
-    TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
-    sprintf_s(infoMsg, "p2 : %f  /  %f", pt2.x, pt2.y);
-    TextOut(g_hDC, 10, 30, infoMsg, (int)strlen(infoMsg));
-    sprintf_s(infoMsg, "p3 : %f  /  %f", pt3.x, pt3.y);
-    TextOut(g_hDC, 10, 50, infoMsg, (int)strlen(infoMsg));
     sprintf_s(infoMsg, "angle : %f", dAngle);
-    TextOut(g_hDC, 10, 70, infoMsg, (int)strlen(infoMsg));
+    TextOut(g_hDC, 10, 10, infoMsg, (int)strlen(infoMsg));
 }

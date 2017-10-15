@@ -186,7 +186,7 @@ void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 }
 
 
-void ImageKomastar::Render(HDC hdc, RECT SpritesBox, UnitPos KeyPos, double Angle)
+void ImageKomastar::Render(HDC hdc, UnitPos KeyPos, double Angle)
 {
     UnitPos pt1 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
     UnitPos pt2 = UnitPos{ (KeyPos.x + m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
@@ -198,7 +198,7 @@ void ImageKomastar::Render(HDC hdc, RECT SpritesBox, UnitPos KeyPos, double Angl
     pt3 = m_geoHelper->GetRotateCoord(KeyPos, pt3, Angle);
 
     POINT Pt[3] = {
-        POINT{ (LONG)pt1.x, (LONG)pt1.y }
+          POINT{ (LONG)pt1.x, (LONG)pt1.y }
         , POINT{ (LONG)pt2.x, (LONG)pt2.y }
         , POINT{ (LONG)pt3.x, (LONG)pt3.y }
     };
@@ -234,11 +234,6 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, 
 {
     m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
-}
-
-void ImageKomastar::Render(HDC hdc, POINT * Pt, UnitPos Pos, double Angle)
-{
-
 }
 
 void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)

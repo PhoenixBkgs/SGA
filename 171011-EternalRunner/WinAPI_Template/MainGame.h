@@ -26,6 +26,7 @@
 #define INIT_SHOW_TIMER 50
 #define INIT_COUNT_DOWN 3
 
+#define COUNT_DOWN_RECT_MARGIN 400
 class MainGame : public GameNode
 {
 //=======================================================
@@ -38,6 +39,7 @@ private:
     E_GAME_STATE        m_currGameState;
     ImageKomastar*      m_bgImg;            //  Background image 6600 x 675px
     ImageKomastar*      m_playerImg;        //  Player sprites image 108 x 140 x 8 x 2px
+    ImageKomastar*      m_playerImmortalImg;
     ImageKomastar*      m_scoreItemImg;     //  Item score image 50 x 50 x 8 x 1px
     ImageKomastar*      m_magnetItemImg;    //  Item magnet image 50 x 50 x 8 x 1px
     ImageKomastar*      m_immortalItemImg;  //  Item immortal image 50 x 50 x 8 x 1px
@@ -75,7 +77,7 @@ private:
     bool                m_isShowSlide;
 
     HBRUSH              m_holeBrush;
-
+    RECT                m_countDownRt;
 //=======================================================
 //  FUNCTIONS
 private:

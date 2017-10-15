@@ -27,7 +27,7 @@ MainGame::~MainGame()
 void MainGame::Start()
 {
     m_currGameState = GAME_READY;
-
+    m_countDownRt = { 0, COUNT_DOWN_RECT_MARGIN, W_WIDTH, W_HEIGHT - COUNT_DOWN_RECT_MARGIN };
     //  Set BG
     m_bgImg = new ImageKomastar;
     m_bgImg->Setup("images/bg.bmp", BG_WIDTH, BG_HEIGHT);
@@ -39,6 +39,8 @@ void MainGame::Start()
     //  Set Player Sprites
     m_playerImg = new ImageKomastar;
     m_playerImg->Setup("images/sprites-player.bmp", 864, PLAYER_HEIGHT, true, MAGENTA_COLOR);
+    m_playerImmortalImg = new ImageKomastar;
+    m_playerImmortalImg->Setup("images/sprites-player-immortal.bmp", 864, PLAYER_HEIGHT, true, MAGENTA_COLOR);
     m_player.m_pImg = m_playerImg;
     m_player.Start();
     m_player.m_pImg->SetHelper(&m_drawHelper);
@@ -49,16 +51,16 @@ void MainGame::Start()
     m_heartImg->SetHelper(&m_drawHelper);
 
     m_splashBgImg = new ImageKomastar;
-    m_splashBgImg->Setup("images/hots-logo-bg.bmp", 900, 900, true, MAGENTA_COLOR);
+    m_splashBgImg->Setup("images/hots-logo-bg.bmp", 1600, 900, true, MAGENTA_COLOR);
     m_splashBgImg->SetupForAlphaBlend();
 
     m_splashBladeImg = new ImageKomastar;
-    m_splashBladeImg->Setup("images/hots-logo-blade.bmp", 900, 900, true, MAGENTA_COLOR);
+    m_splashBladeImg->Setup("images/hots-logo-blade.bmp", 1600, 900, true, MAGENTA_COLOR);
     m_splashBladeImg->SetupForAlphaBlend();
 
     m_uiHelper.SetBgImg(m_splashBgImg);
     m_uiHelper.SetBladeImg(m_splashBladeImg);
-    m_uiHelper.SetupSplash();
+    //m_uiHelper.SetupSplash();
 
     //  Set Item sprites
     m_scoreItemImg = new ImageKomastar;
@@ -272,6 +274,7 @@ void MainGame::Reset()
     m_vecHoles.clear();
 
     m_uiHelper.ResetSlide();
+    m_countDownRt = { 0, COUNT_DOWN_RECT_MARGIN, W_WIDTH, W_HEIGHT - COUNT_DOWN_RECT_MARGIN };
 }
 
 void MainGame::ShowTimerReset()
@@ -569,15 +572,20 @@ void MainGame::CountDown()
     if (m_showTimer < 0)
     {
         m_showCount++;
+        m_countDownRt = { 0, COUNT_DOWN_RECT_MARGIN, W_WIDTH, W_HEIGHT - COUNT_DOWN_RECT_MARGIN };
         m_showTimer = INIT_SHOW_TIMER;
     }
 
-    RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
+    int step = 50;
+    m_countDownRt.left -= step;
+    m_countDownRt.right += step;
+    m_countDownRt.top -= step;
+    m_countDownRt.bottom += step;
     char countMsg[100];
     string szCount = "";
     sprintf_s(countMsg, "%d", (INIT_COUNT_DOWN + 1) - m_showCount);
     szCount = countMsg;
-    m_drawHelper.DrawTextBox(rt, szCount, _RGBA{ 150, 0, 0, 0 }, TEXT("Consolas"));
+    m_drawHelper.DrawTextBox(m_countDownRt, szCount, _RGBA{ 150, 0, 0, 0 }, TEXT("Consolas"));
 }
 
 void MainGame::ClearScreen(string szText)

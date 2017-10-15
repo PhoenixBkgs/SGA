@@ -69,8 +69,7 @@ public:
     void SetupForAlphaBlend();
     void Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha);
     void Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha);
-    void Render(HDC hdc, POINT* Pt, UnitPos Pos, double Angle);
-    void Render(HDC hdc, RECT SpritesBox, UnitPos KeyPos, double Angle);
+    void Render(HDC hdc, UnitPos KeyPos, double Angle);
     void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 
     //  FOR SPRITES

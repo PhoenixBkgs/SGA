@@ -42,7 +42,6 @@ public:
     void PaintBlack();
     void PaintWhite();
 
-    void SetupSplash();
     void SplashScreen();
     void ClearScreen();
 
