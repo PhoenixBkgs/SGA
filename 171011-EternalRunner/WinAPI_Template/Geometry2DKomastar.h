@@ -21,5 +21,6 @@ public:
     double Rad2Degree(double Rad);
 
     double GetDistance(UnitPos Pos1, UnitPos Pos2);
+    UnitPos GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree);
 };
 

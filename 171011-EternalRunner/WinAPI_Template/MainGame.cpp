@@ -48,10 +48,17 @@ void MainGame::Start()
     m_heartImg->Setup("images/heart.bmp", 100, 100, true, MAGENTA_COLOR);
     m_heartImg->SetHelper(&m_drawHelper);
 
-    m_splashImg = new ImageKomastar;
-    m_splashImg->Setup("images/bg-frozenthrone.bmp", 2113, 900, true, MAGENTA_COLOR);
-    m_splashImg->SetupForAlphaBlend();
-    m_uiHelper.SetImg(m_splashImg);
+    m_splashBgImg = new ImageKomastar;
+    m_splashBgImg->Setup("images/hots-logo-bg.bmp", 900, 900, true, MAGENTA_COLOR);
+    m_splashBgImg->SetupForAlphaBlend();
+
+    m_splashBladeImg = new ImageKomastar;
+    m_splashBladeImg->Setup("images/hots-logo-blade.bmp", 900, 900, true, MAGENTA_COLOR);
+    m_splashBladeImg->SetupForAlphaBlend();
+
+    m_uiHelper.SetBgImg(m_splashBgImg);
+    m_uiHelper.SetBladeImg(m_splashBladeImg);
+    m_uiHelper.SetupSplash();
 
     //  Set Item sprites
     m_scoreItemImg = new ImageKomastar;
@@ -136,7 +143,6 @@ void MainGame::Render()
     {
     case GAME_READY:
     {
-        m_uiHelper.PaintBlack();
         m_uiHelper.SetGameState(m_currGameState);
         if (m_isShowSlide)
         {
@@ -260,6 +266,7 @@ void MainGame::Reset()
     m_PosX = (double)W_WIDTH;
 
     m_player.Start();
+    m_player.Reset();
     m_vecItems.clear();
     m_vecObstacles.clear();
     m_vecHoles.clear();
@@ -666,5 +673,10 @@ void MainGame::PlayerControl()
             m_player.SetPlayerState(PLAYER_DJUMP);
             m_player.m_moveSpeed.y = -20.0f;
         }
+    }
+
+    if (g_pKeyManager->isOnceKeyDown('Q'))
+    {
+        m_player.CastQSkill();
     }
 }

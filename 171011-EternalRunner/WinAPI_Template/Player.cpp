@@ -9,6 +9,7 @@ Player::Player()
     , m_headUpMsg("NORMAL")
     , m_money(0)
     , m_isFloorExist(true)
+    , m_qShowTimer(0)
 {
     m_unitPos.x = W_WIDTH  * 0.3f;
     m_unitPos.y = FLOOR_POS_Y;
@@ -17,6 +18,9 @@ Player::Player()
     m_currDownForce = INIT_DOWNFORCE;
     m_bBrush = new HBRUSH;
     *m_bBrush = CreateSolidBrush(RGB(0, 255, 0));
+    m_qSplashImg = new ImageKomastar;
+    m_qSplashImg->Setup("images/img-ana-barrel.bmp", 1000, 600);
+    m_qSplashImg->SetupForSprites(1, 1, m_qSplashImg->GetWidth(), m_qSplashImg->GetHeight(), 0);
 }
 
 
@@ -38,6 +42,31 @@ void Player::Start()
 
 void Player::Update()
 {
+    if (m_LifeCount > 10)
+    {
+        m_LifeCount = 10;
+    }
+    m_qCooldown++;
+    if (m_qCooldown > Q_STACK_TIMER)
+    {
+        m_qCooldown = 0;
+        m_qStack++;
+        if (m_qStack > MAX_Q_STACK)
+        {
+            m_qStack = MAX_Q_STACK;
+        }
+    }
+
+    if (m_isQCast)
+    {
+        m_qShowTimer++;
+        if (m_qShowTimer > 50)
+        {
+            m_qShowTimer = 0;
+            m_isQCast = false;
+        }
+    }
+
     Move();
     m_isFloorExist = true;
     for (auto holeCollIter = m_vecHoles->begin(); holeCollIter != m_vecHoles->end(); holeCollIter++)
@@ -101,7 +130,6 @@ void Player::Update()
             m_buffTimer = 0;
             m_playerBuff = ITEM_END;
             m_headUpMsg = "NORMAL";
-            Reset();
         }
         break;
     }
@@ -152,14 +180,12 @@ void Player::Update()
                 m_buffTimer = 0;
                 m_playerBuff = itemType;
                 m_score += 200;
-                Reset();
                 break;
             case ITEM_MAGNET:
                 m_headUpMsg = "MAGNET";
                 m_buffTimer = 0;
                 m_playerBuff = itemType;
                 m_score += 50;
-                Reset();
                 break;
             case ITEM_GIANT:
                 m_headUpMsg = "GIANT";
@@ -212,15 +238,46 @@ void Player::Render()
         break;
     }
     m_pImg->SpritesRender(g_hDC, m_rtBody, 255);
+
+    if (m_qStack > 0)
+    {
+        RECT rt = { 1100, 225, 1600, 550 };
+        m_qSplashImg->SpritesRender(g_hDC, rt, 255);
+    }
+
+    if (m_isQCast)
+    {
+        RECT rt = { 1100, 225, 1600, 550 };
+        m_qSplashImg->SpritesRender(g_hDC, rt, 255);
+        m_drawHelper.DrawLine2D(m_qTargetPos, UnitPos{ 1100.0f, 550.0f }, 5, _RGBA{ 247, 226,166,0 });
+    }
+
 #ifdef _DEBUG
     m_drawHelper.DrawBoxLine2D(m_hitBox, 3, _RGBA{ 100, 255, 100, 0 });
     char infoMsg[100];
     sprintf_s(infoMsg, m_headUpMsg.data());
     TextOut(g_hDC, (int)m_unitPos.x, (int)m_unitPos.y, infoMsg, (int)strlen(infoMsg));
+    sprintf_s(infoMsg, "q stack : %d", m_qStack);
+    TextOut(g_hDC, 10, 100, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 }
 
 void Player::Reset()
 {
     m_unitSize = { PLAYER_WIDTH, PLAYER_HEIGHT };
+    m_qStack = 0;
+    m_qCooldown = 0;
+    m_qShowTimer = 0;
+    m_isQCast = false;
+}
+
+void Player::CastQSkill()
+{
+    if (m_qStack > 0)
+    {
+        m_qStack--;
+        m_isQCast = true;
+        m_LifeCount++;
+        m_qTargetPos = m_unitPos;
+    }
 }

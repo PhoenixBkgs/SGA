@@ -43,7 +43,8 @@ private:
     ImageKomastar*      m_immortalItemImg;  //  Item immortal image 50 x 50 x 8 x 1px
     ImageKomastar*      m_giantItemImg;     //  Item giant image 50 x 50 x 8 x 1px
     ImageKomastar*      m_heartImg;
-    ImageKomastar*      m_splashImg;
+    ImageKomastar*      m_splashBgImg;
+    ImageKomastar*      m_splashBladeImg;
     ImageKomastar*      m_landBlockImg;
     ImageKomastar*      m_holeBlockImg;
     ImageKomastar*      m_bkBg;

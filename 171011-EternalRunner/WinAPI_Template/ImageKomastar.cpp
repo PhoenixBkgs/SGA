@@ -29,18 +29,7 @@ ImageKomastar::~ImageKomastar()
 
 void ImageKomastar::Setup(int width, int height)
 {
-    HDC hdc = GetDC(g_hWnd);
-
-    m_pImageInfo = new IMAGE_INFO;
-    m_pImageInfo->btLoadType = LOAD_EMPTY;
-    m_pImageInfo->resID = 0;
-    m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
-    m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
-    m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
-    m_pImageInfo->nWidth = width;
-    m_pImageInfo->nHeight = height;
-
-    ReleaseDC(g_hWnd, hdc);
+    Setup(NULL, width, height);
 }
 
 void ImageKomastar::Setup(const char * FileName, int width, int height, bool isTrans, COLORREF transColor)
@@ -51,17 +40,27 @@ void ImageKomastar::Setup(const char * FileName, int width, int height, bool isT
     m_pImageInfo->btLoadType = LOAD_FILE;
     m_pImageInfo->resID = 0;
     m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
-    m_pImageInfo->hBit = (HBITMAP)LoadImage(g_hInst, FileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+    if (FileName == NULL)
+    {
+        m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
+    }
+    else
+    {
+        m_pImageInfo->hBit = (HBITMAP)LoadImage(g_hInst, FileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+        int len = (int)strlen(FileName);
+        m_szFileName = new char[len + 1];
+        strcpy_s(m_szFileName, len + 1, FileName);
+    }
     m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
     m_pImageInfo->nWidth = width;
     m_pImageInfo->nHeight = height;
 
-    int len = (int)strlen(FileName);
-    m_szFileName = new char[len + 1];
-    strcpy_s(m_szFileName, len + 1, FileName);
+    m_isTrans = true;
+    m_transColor = RGB(255, 0, 255);
 
-    m_isTrans = isTrans;
-    m_transColor = transColor;
+    m_stBlendFunc.BlendOp = AC_SRC_OVER;
+    m_stBlendFunc.BlendFlags = 0;
+    m_stBlendFunc.AlphaFormat = 0;
 
     ReleaseDC(g_hWnd, hdc);
 }
