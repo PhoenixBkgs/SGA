@@ -222,7 +222,7 @@ void MainGame::Render()
         UnitPos endPos = UnitPos{ (double)(W_WIDTH - m_flagImg->GetWidth() - 10), 200.0f };
         UnitPos startPos = UnitPos{ (endPos.x - 300.0f), 200.0f };
         int miniPlayerSize = 50;
-        RECT miniPlayer = { (int)(startPos.x + (m_progress * 2.0f) - miniPlayerSize / 2), (int)(startPos.y - miniPlayerSize), 0, 0 };
+        RECT miniPlayer = { (int)(startPos.x + (m_progress * 3.0f) - miniPlayerSize / 2), (int)(startPos.y - miniPlayerSize), 0, 0 };
         miniPlayer.right = miniPlayer.left + miniPlayerSize;
         miniPlayer.bottom = miniPlayer.top + miniPlayerSize;
         m_playerImg->SpritesRender(g_hDC, miniPlayer, 255);

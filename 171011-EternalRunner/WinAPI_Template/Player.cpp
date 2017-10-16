@@ -265,6 +265,8 @@ void Player::Render()
 void Player::Reset()
 {
     m_unitSize = { PLAYER_WIDTH, PLAYER_HEIGHT };
+    m_playerBuff = ITEM_END;
+    m_buffTimer = 0;
     m_qStack = 0;
     m_qCooldown = 0;
     m_qShowTimer = 0;
