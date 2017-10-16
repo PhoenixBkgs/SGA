@@ -16,4 +16,3 @@ public:
     LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     ImageObject* GetBackbuffer() { return m_backBuffer; }
 };
-
