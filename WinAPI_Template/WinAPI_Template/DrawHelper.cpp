@@ -11,36 +11,6 @@ DrawHelper::~DrawHelper()
 {
 }
 
-bool DrawHelper::DrawShape(E_SHAPE eShape, UnitPos Position, UnitSize Size, HBRUSH* Brush)
-{
-    RECT rt;
-    UnitPos LT;
-    UnitPos RB;
-
-    LT.x = Position.x - (Size.w * 0.5);
-    LT.y = Position.y - (Size.h * 0.5);
-    RB.x = LT.x + Size.w;
-    RB.y = LT.y + Size.h;
-
-    rt.left = (int)LT.x;
-    rt.top = (int)LT.y;
-    rt.right = (int)RB.x;
-    rt.bottom = (int)RB.y;
-
-    switch (eShape)
-    {
-    case SHAPE_RECT:
-    {
-        rt = MakeRect(LT, RB);
-        Rectangle(g_hDC, rt.left, rt.top, rt.right, rt.bottom);
-        FillRect(g_hDC, &rt, *Brush);
-        break;
-    }
-    }
-
-    return false;
-}
-
 bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color)
 {
     HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));
@@ -63,38 +33,34 @@ void DrawHelper::DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color)
     DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, Color);
 }
 
-RECT DrawHelper::MakeRect(UnitPos LT, UnitPos RB)
+RECT DrawHelper::MakeRect(UnitPos Pos, UnitSize Size)
 {
     RECT rt;
-    rt.left = (int)LT.x;
-    rt.top = (int)LT.y;
-    rt.right = (int)RB.x;
-    rt.bottom = (int)RB.y;
+    rt.left = (int)(Pos.x - Size.w * 0.5f);
+    rt.top  = (int)(Pos.y - Size.h * 0.5f);
+    rt.right = rt.left + Size.w;
+    rt.bottom = rt.top + Size.h;
+
     return rt;
 }
 
-void DrawHelper::DrawCenterText(string TextString, int FontSize, _RGBA FontColor, string FontName)
-{
-    PatBlt(g_hDC, 0, (int)(W_HEIGHT * 0.33), W_WIDTH, (int)(W_HEIGHT * 0.33), BLACKNESS);
-
-    RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
-    HFONT hFont, hTmp;
-    SetTextColor(g_hDC, RGB(FontColor.R, FontColor.G, FontColor.B));
-    hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, FontName.data());
-    hTmp = (HFONT)SelectObject(g_hDC, hFont);
-    SetBkMode(g_hDC, TRANSPARENT);
-    DrawText(g_hDC, TextString.data(), -1, &rt, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-    DeleteObject(SelectObject(g_hDC, hTmp));
-}
-
-void DrawHelper::DrawTextBox(RECT TxtBox, string TextString, _RGBA FontColor, string FontName)
+void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
 {
     HFONT hFont, hTmp;
     int FontSize = TxtBox.bottom - TxtBox.top;
-    SetTextColor(g_hDC, RGB(FontColor.R, FontColor.G, FontColor.B));
-    hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, FontName.data());
+    SetTextColor(g_hDC, RGB(m_textBoxInfo.FontColor.R
+                            , m_textBoxInfo.FontColor.G
+                            , m_textBoxInfo.FontColor.B));
+    hFont = CreateFont(FontSize, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 2, 0, m_textBoxInfo.FontName.data());
     hTmp = (HFONT)SelectObject(g_hDC, hFont);
     SetBkMode(g_hDC, TRANSPARENT);
+    if (m_textBoxInfo.IsVisibleBox)
+    {
+        HBRUSH* pBrush = new HBRUSH;
+        *pBrush = CreateSolidBrush(RGB(m_textBoxInfo.BoxColor.R, m_textBoxInfo.BoxColor.G, m_textBoxInfo.BoxColor.B));
+        FillRect(hdc, &TxtBox, *pBrush);
+        delete pBrush;
+    }
     DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
 }
