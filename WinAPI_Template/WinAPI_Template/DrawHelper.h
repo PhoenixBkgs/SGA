@@ -1,7 +1,8 @@
 #pragma once
 #include "EnumState.h"
+#include "SingletonBase.h"
 
-class DrawHelper
+class DrawHelper : public SingletonBase<DrawHelper>
 {
 public:
     DrawHelper();

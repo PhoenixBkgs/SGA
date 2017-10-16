@@ -1,4 +1,5 @@
 #pragma once
+#include "SingletonBase.h"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -6,7 +7,7 @@
 
 inline double sq(double x) { return x * x; }
 
-class GeometryHelper
+class GeometryHelper : public SingletonBase<GeometryHelper>
 {
 public:
     GeometryHelper();

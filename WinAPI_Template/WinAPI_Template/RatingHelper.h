@@ -1,7 +1,8 @@
 #pragma once
+#include "SingletonBase.h"
 
 #define CONST_K 32
-class RatingHelper
+class RatingHelper : public SingletonBase<RatingHelper>
 {
 public:
     RatingHelper();

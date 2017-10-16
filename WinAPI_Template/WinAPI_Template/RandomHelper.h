@@ -1,5 +1,7 @@
 #pragma once
-class RandomHelper
+#include "SingletonBase.h"
+
+class RandomHelper : public SingletonBase<RandomHelper>
 {
 private:
 

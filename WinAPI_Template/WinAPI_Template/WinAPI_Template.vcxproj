@@ -159,7 +159,6 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="PhysicsHelper.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SingletonBase.h" />
@@ -180,7 +179,6 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">

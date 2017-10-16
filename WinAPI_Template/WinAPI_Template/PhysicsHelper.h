@@ -1,4 +1,6 @@
 #pragma once
+#include "SingletonBase.h"
+
 #include "GameObject.h"
 
 #define _PERFECTLY_ELASTIC_COLLISION
@@ -11,7 +13,7 @@
     #define RESTITUTION_COEF    0.75f           //  충돌계수
 #endif
 
-class PhysicsHelper
+class PhysicsHelper : public SingletonBase<PhysicsHelper>
 {
 public:
     PhysicsHelper();

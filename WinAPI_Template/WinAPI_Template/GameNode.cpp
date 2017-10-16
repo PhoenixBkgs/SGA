@@ -5,7 +5,7 @@
 GameNode::GameNode()
 {
     g_pKeyManager->Setup();
-    g_pLog4K->Setup("\\Log\\");
+    g_pLogManager->Setup("\\Log\\");
 
     m_backBuffer = new ImageObject;
     m_backBuffer->Setup(W_WIDTH, W_HEIGHT);
@@ -15,7 +15,7 @@ GameNode::GameNode()
 GameNode::~GameNode()
 {
     g_pKeyManager->ReleaseInstance();
-    g_pLog4K->ReleaseInstance();
+    g_pLogManager->ReleaseInstance();
 
     delete m_backBuffer;
 }

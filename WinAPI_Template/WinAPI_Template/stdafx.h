@@ -48,7 +48,17 @@ using namespace std;
 #include "LogManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
-#define g_pLog4K LogManager::GetInstance()
+#define g_pLogManager LogManager::GetInstance()
+
+
+//==================================================================
+//		## Helper 추가 ##
+//==================================================================
+#include "DrawHelper.h"
+#include "GeometryHelper.h"
+
+#define g_pDrawHelper DrawHelper::GetInstance()
+#define g_pGeoHelper GeometryHelper::GetInstance()
 
 //==================================================================
 //		## 전역변수 ##
