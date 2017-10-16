@@ -1,11 +1,11 @@
 #pragma once
 
 #define CONST_K 32
-class EloCalculator
+class RatingHelper
 {
 public:
-    EloCalculator();
-    ~EloCalculator();
+    RatingHelper();
+    ~RatingHelper();
 
     void EloCalc(int* Rating1, int* Rating2, int Winner);
 };

@@ -45,10 +45,10 @@ using namespace std;
 //		## 매니져 추가 ##
 //==================================================================
 #include "KeyManager.h"
-#include "Log4Komastar.h"
+#include "LogManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
-#define g_pLog4K Log4Komastar::GetInstance()
+#define g_pLog4K LogManager::GetInstance()
 
 //==================================================================
 //		## 전역변수 ##

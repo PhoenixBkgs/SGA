@@ -8,9 +8,9 @@ MainGame::MainGame()
     count = 1;
     pos = m_geoHelper.GetCenterPointWindow();
     //  Set BG
-    m_img = new ImageKomastar;
+    m_img = new ImageObject;
     m_img->Setup("images/img-ana-barrel.bmp", 1000, 600);
-    m_img2 = new ImageKomastar;
+    m_img2 = new ImageObject;
     m_img2->Setup("images/hots-logo-blade.bmp", 900, 900);
     m_img2->SetupForAlphaBlend();
 }

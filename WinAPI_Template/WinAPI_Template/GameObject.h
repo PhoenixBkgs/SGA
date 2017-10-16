@@ -1,11 +1,11 @@
 #pragma once
-#include "Draw2DKomastar.h"
+#include "DrawHelper.h"
 
-class GameUnit
+class GameObject
 {
 //  VARS
 public:
-    Draw2DKomastar  m_drawHelper;
+    DrawHelper  m_drawHelper;
 
     RECT            m_rtBody;
     RECT            m_hitBox;
@@ -22,10 +22,10 @@ public:
 
 //  FUNCS
 public:
-    GameUnit();
-    GameUnit(UnitPos Position, HBRUSH Brush);
-    GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
-    ~GameUnit();
+    GameObject();
+    GameObject(UnitPos Position, HBRUSH Brush);
+    GameObject(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life);
+    ~GameObject();
 
     RECT* GetBodyRect() { return &m_rtBody; }
     void SetBodyRect(UnitPos GenPos, UnitSize BodySize);
@@ -62,6 +62,6 @@ public:
     void Destroy();
 
     //  COLLIDER
-    void BoxCollider2D(vector<GameUnit> MultipleUnit);
+    void BoxCollider2D(vector<GameObject> MultipleUnit);
 };
 

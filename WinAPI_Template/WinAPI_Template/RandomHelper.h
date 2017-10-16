@@ -1,11 +1,11 @@
 #pragma once
-class NumberGenerator
+class RandomHelper
 {
 private:
 
 public:
-    NumberGenerator();
-    ~NumberGenerator();
+    RandomHelper();
+    ~RandomHelper();
 
     int GetRandomNumber();
     int GetRandomNumber(bool IsReverseSign);

@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "Geometry2DKomastar.h"
+#include "GeometryHelper.h"
 
-Geometry2DKomastar::Geometry2DKomastar()
+GeometryHelper::GeometryHelper()
 {
 }
 
 
-Geometry2DKomastar::~Geometry2DKomastar()
+GeometryHelper::~GeometryHelper()
 {
     
 }
 
-UnitPos Geometry2DKomastar::GetCenterPointWindow()
+UnitPos GeometryHelper::GetCenterPointWindow()
 {
     return UnitPos{ W_WIDTH * 0.5, W_HEIGHT * 0.5 };
 }
 
-double Geometry2DKomastar::GetVectorSpeed(UnitPos BeginPos, UnitPos DestPos)
+double GeometryHelper::GetVectorSpeed(UnitPos BeginPos, UnitPos DestPos)
 {
     double speedX = DestPos.x - BeginPos.x;
     double speedY = DestPos.y - BeginPos.y;
@@ -26,14 +26,14 @@ double Geometry2DKomastar::GetVectorSpeed(UnitPos BeginPos, UnitPos DestPos)
     return retVSpeed;
 }
 
-UnitPos Geometry2DKomastar::GetCoordFromAngle(double Degree, double Length)
+UnitPos GeometryHelper::GetCoordFromAngle(double Degree, double Length)
 {
     double x = Length * sin(Degree2Rad(Degree));
     double y = Length * cos(Degree2Rad(Degree));
     return UnitPos{ x, y };
 }
 
-double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
+double GeometryHelper::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
 {
     double x = DestPos.x - BeginPos.x;
     double y = DestPos.y - BeginPos.y;
@@ -45,7 +45,7 @@ double Geometry2DKomastar::GetAngleFromCoord(UnitPos BeginPos, UnitPos DestPos)
     return angle;
 }
 
-double Geometry2DKomastar::Degree2Rad(double Degree)
+double GeometryHelper::Degree2Rad(double Degree)
 {
 #ifdef _DEBUG
     double retVal = Degree * M_PI / 180;
@@ -57,13 +57,13 @@ double Geometry2DKomastar::Degree2Rad(double Degree)
 
 }
 
-double Geometry2DKomastar::Rad2Degree(double Rad)
+double GeometryHelper::Rad2Degree(double Rad)
 {
     double retVal = Rad * 180 / M_PI;
     return retVal;
 }
 
-double Geometry2DKomastar::GetDistance(UnitPos Pos1, UnitPos Pos2)
+double GeometryHelper::GetDistance(UnitPos Pos1, UnitPos Pos2)
 {
     double dX = abs(Pos1.x - Pos2.x);
     double dY = abs(Pos1.y - Pos2.y);
@@ -74,7 +74,7 @@ double Geometry2DKomastar::GetDistance(UnitPos Pos1, UnitPos Pos2)
     return sqrt(dX + dY);
 }
 
-UnitPos Geometry2DKomastar::GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree)
+UnitPos GeometryHelper::GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree)
 {
 #ifdef _DEBUG
     //DeltaDegree = Degree2Rad(DeltaDegree);

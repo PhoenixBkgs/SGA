@@ -1,16 +1,16 @@
 #pragma once
 #include "GameNode.h"
-#include "GameUnit.h"
-#include "ImageKomastar.h"
+#include "GameObject.h"
+#include "ImageObject.h"
 
 #define GRAVITY 9.8f
 
-class Player : public GameUnit
+class Player : public GameObject
 {
 private:
 
 public:
-    ImageKomastar* m_pImg;
+    ImageObject* m_pImg;
 
     Player();
     ~Player();

@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "Log4Komastar.h"
+#include "LogManager.h"
 
-Log4Komastar::Log4Komastar()
+LogManager::LogManager()
 {
 }
 
 
-Log4Komastar::~Log4Komastar()
+LogManager::~LogManager()
 {
 }
 
-void Log4Komastar::CreateLogDir()
+void LogManager::CreateLogDir()
 {
     if (CreateDirectory(m_szLogPath.c_str(), NULL) ||
         ERROR_ALREADY_EXISTS == GetLastError())
@@ -25,7 +25,7 @@ void Log4Komastar::CreateLogDir()
     }
 }
 
-string Log4Komastar::GetTimeString()
+string LogManager::GetTimeString()
 {
     time_t rawTime;
     struct tm now;
@@ -40,7 +40,7 @@ string Log4Komastar::GetTimeString()
     return retTimeString;
 }
 
-string Log4Komastar::GetCurrentPath()
+string LogManager::GetCurrentPath()
 {
     char buffer[MAX_PATH];
     GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -49,7 +49,7 @@ string Log4Komastar::GetCurrentPath()
     return string(buffer).substr(0, pos);
 }
 
-void Log4Komastar::Setup(string LogPath)
+void LogManager::Setup(string LogPath)
 {
     m_szLogPath = GetCurrentPath();
     m_szLogPath.append(LogPath);
@@ -57,7 +57,7 @@ void Log4Komastar::Setup(string LogPath)
     m_szLogFilename = m_szLogPath + "\\Log.txt";
 }
 
-void Log4Komastar::WriteLog(LOG_LEVEL LogLevel, string Message)
+void LogManager::WriteLog(LOG_LEVEL LogLevel, string Message)
 {
     string szLog = "";
     string szJoint = "";

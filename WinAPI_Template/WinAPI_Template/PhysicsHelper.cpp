@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "Physics2DKomastar.h"
+#include "PhysicsHelper.h"
 
 
-Physics2DKomastar::Physics2DKomastar()
+PhysicsHelper::PhysicsHelper()
 {
 }
 
 
-Physics2DKomastar::~Physics2DKomastar()
+PhysicsHelper::~PhysicsHelper()
 {
 }
 
-bool Physics2DKomastar::PtInsideRect(UnitPos Pos, RECT Rect)
+bool PhysicsHelper::PtInsideRect(UnitPos Pos, RECT Rect)
 {
     int rtWidth = Rect.right - Rect.left;
     int rtHeight = Rect.bottom - Rect.top;
@@ -26,12 +26,12 @@ bool Physics2DKomastar::PtInsideRect(UnitPos Pos, RECT Rect)
     return false;
 }
 
-UnitSpeed Physics2DKomastar::CollisionAlkanoid(GameUnit Unit1, GameUnit Unit2)
+UnitSpeed PhysicsHelper::CollisionAlkanoid(GameObject Unit1, GameObject Unit2)
 {
     return UnitSpeed();
 }
 
-void Physics2DKomastar::MutualCollider(vector<GameUnit> vecUnit1, vector<GameUnit> vecUnit2)
+void PhysicsHelper::MutualCollider(vector<GameObject> vecUnit1, vector<GameObject> vecUnit2)
 {
     for (auto unit1CollIter = vecUnit1.begin(); unit1CollIter != vecUnit1.end(); unit1CollIter++)
     {
@@ -48,7 +48,7 @@ void Physics2DKomastar::MutualCollider(vector<GameUnit> vecUnit1, vector<GameUni
     }
 }
 
-void Physics2DKomastar::UnitCleaner(vector<GameUnit> vecUnit)
+void PhysicsHelper::UnitCleaner(vector<GameObject> vecUnit)
 {
     for (auto eraseIter = vecUnit.begin(); eraseIter != vecUnit.end();)
     {

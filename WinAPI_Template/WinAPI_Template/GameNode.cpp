@@ -7,7 +7,7 @@ GameNode::GameNode()
     g_pKeyManager->Setup();
     g_pLog4K->Setup("\\Log\\");
 
-    m_backBuffer = new ImageKomastar;
+    m_backBuffer = new ImageObject;
     m_backBuffer->Setup(W_WIDTH, W_HEIGHT);
 }
 

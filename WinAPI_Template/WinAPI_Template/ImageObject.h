@@ -1,8 +1,8 @@
 #pragma once
 #include "EnumState.h"
-class Draw2DKomastar;
-class Geometry2DKomastar;
-class ImageKomastar
+class DrawHelper;
+class GeometryHelper;
+class ImageObject
 {
 public:
     typedef struct tagimage
@@ -29,8 +29,8 @@ public:
     }  IMAGE_INFO, *LPIMAGE_INFO;
 
 private:
-    Draw2DKomastar* m_drawHelper;
-    Geometry2DKomastar* m_geoHelper;
+    DrawHelper* m_drawHelper;
+    GeometryHelper* m_geoHelper;
 
     LPIMAGE_INFO    m_pImageInfo;
     char*           m_szFileName;
@@ -53,10 +53,10 @@ private:
     int             m_spritesInitDelay;
 
 public:
-    ImageKomastar();
-    ~ImageKomastar();
+    ImageObject();
+    ~ImageObject();
 
-    void SetHelper(Draw2DKomastar* Drawer) { m_drawHelper = Drawer; }
+    void SetHelper(DrawHelper* Drawer) { m_drawHelper = Drawer; }
 
     void Setup(int width, int height);
     void Setup(const char* FileName, int width, int height);

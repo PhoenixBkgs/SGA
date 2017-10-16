@@ -1,5 +1,5 @@
 #pragma once
-#include "GameUnit.h"
+#include "GameObject.h"
 
 #define _PERFECTLY_ELASTIC_COLLISION
 
@@ -11,14 +11,14 @@
     #define RESTITUTION_COEF    0.75f           //  충돌계수
 #endif
 
-class Physics2DKomastar
+class PhysicsHelper
 {
 public:
-    Physics2DKomastar();
-    ~Physics2DKomastar();
+    PhysicsHelper();
+    ~PhysicsHelper();
 
     bool PtInsideRect(UnitPos Pos, RECT Rect);
-    UnitSpeed CollisionAlkanoid(GameUnit Unit1, GameUnit Unit2);
-    void MutualCollider(vector<GameUnit> vecUnit1, vector<GameUnit> vecUnit2);
-    void UnitCleaner(vector<GameUnit> vecUnit);
+    UnitSpeed CollisionAlkanoid(GameObject Unit1, GameObject Unit2);
+    void MutualCollider(vector<GameObject> vecUnit1, vector<GameObject> vecUnit2);
+    void UnitCleaner(vector<GameObject> vecUnit);
 };

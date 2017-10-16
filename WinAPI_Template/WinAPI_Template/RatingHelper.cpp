@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "EloCalculator.h"
+#include "RatingHelper.h"
 
 
-EloCalculator::EloCalculator()
+RatingHelper::RatingHelper()
 {
 }
 
 
-EloCalculator::~EloCalculator()
+RatingHelper::~RatingHelper()
 {
 }
 
-void EloCalculator::EloCalc(int * Rating1, int * Rating2, int Winner)
+void RatingHelper::EloCalc(int * Rating1, int * Rating2, int Winner)
 {
     double varR1 = 10 ^ (*Rating1 / 400);
     double varR2 = 10 ^ (*Rating2 / 400);

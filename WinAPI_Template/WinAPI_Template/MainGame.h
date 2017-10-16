@@ -1,8 +1,8 @@
 #pragma once
 #include "GameNode.h"
 #include "Player.h"
-#include "ImageKomastar.h"
-#include "Geometry2DKomastar.h"
+#include "ImageObject.h"
+#include "GeometryHelper.h"
 
 #define BG_WIDTH 6600
 #define BG_HEIGHT 675
@@ -12,9 +12,9 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
-    Geometry2DKomastar m_geoHelper;
-    ImageKomastar* m_img;
-    ImageKomastar* m_img2;
+    GeometryHelper m_geoHelper;
+    ImageObject* m_img;
+    ImageObject* m_img2;
     
     UnitPos pos;
     UnitPos pt1;

@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "GameUnit.h"
+#include "GameObject.h"
 
 
-GameUnit::GameUnit()
+GameObject::GameObject()
 {
     m_isMovable = true;
 }
 
-GameUnit::GameUnit(UnitPos Position, HBRUSH Brush)  //  2x2
+GameObject::GameObject(UnitPos Position, HBRUSH Brush)  //  2x2
 {
     SetBodyRect(Position, UnitSize{2, 2});
     m_bBrush = Brush;
 }
 
-GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  custom size
+GameObject::GameObject(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  custom size
 {
     SetBodyRect(Position, Size);
     SetLifeCount(Life);
@@ -21,11 +21,11 @@ GameUnit::GameUnit(UnitPos Position, UnitSize Size, HBRUSH Brush, int Life) //  
 }
 
 
-GameUnit::~GameUnit()
+GameObject::~GameObject()
 {
 }
 
-void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
+void GameObject::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
 {
     int halfWidth = (int)(BodySize.w * 0.5);
     int halfHeight = (int)(BodySize.h * 0.5);
@@ -36,7 +36,7 @@ void GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize)
     m_rtBody.bottom =   m_rtBody.top + BodySize.h;
 }
 
-RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
+RECT GameObject::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
 {
     RECT tRetRect;
     BodySize.w -= Margin;
@@ -52,12 +52,12 @@ RECT GameUnit::SetBodyRect(UnitPos GenPos, UnitSize BodySize, int Margin)
     return tRetRect;
 }
 
-void GameUnit::SetColor(int R, int G, int B)
+void GameObject::SetColor(int R, int G, int B)
 {
     m_bBrush = CreateSolidBrush(RGB(R, G, B));
 }
 
-void GameUnit::UpdateBodyPos(UnitPos GenPos)
+void GameObject::UpdateBodyPos(UnitPos GenPos)
 {
     m_rtBody.left =     (int)(GenPos.x - (m_unitSize.w * 0.5));
     m_rtBody.top =      (int)(GenPos.y - (m_unitSize.w * 0.5));
@@ -65,19 +65,19 @@ void GameUnit::UpdateBodyPos(UnitPos GenPos)
     m_rtBody.bottom =   m_rtBody.top + m_unitSize.h;
 }
 
-void GameUnit::Move()
+void GameObject::Move()
 {
     m_unitPos.x += m_moveSpeed.x;
     m_unitPos.y += m_moveSpeed.y;
     UpdateBodyPos(m_unitPos);
 }
 
-void GameUnit::Destroy()
+void GameObject::Destroy()
 {
     m_LifeCount = 0;
 }
 
-void GameUnit::BoxCollider2D(vector<GameUnit> MultipleUnit)
+void GameObject::BoxCollider2D(vector<GameObject> MultipleUnit)
 {
     for (auto iter = MultipleUnit.begin(); iter != MultipleUnit.end(); iter++)
     {

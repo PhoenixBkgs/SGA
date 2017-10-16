@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "ImageKomastar.h"
-#include "Draw2DKomastar.h"
-#include "Geometry2DKomastar.h"
+#include "ImageObject.h"
+#include "DrawHelper.h"
+#include "GeometryHelper.h"
 
-ImageKomastar::ImageKomastar()
+ImageObject::ImageObject()
     :m_pImageInfo(NULL)
     ,m_szFileName(NULL)
     ,m_isTrans(true)
@@ -13,7 +13,7 @@ ImageKomastar::ImageKomastar()
 {
 }
 
-ImageKomastar::~ImageKomastar()
+ImageObject::~ImageObject()
 {
     if (m_pImageInfo)
     {
@@ -29,12 +29,12 @@ ImageKomastar::~ImageKomastar()
     }
 }
 
-void ImageKomastar::Setup(int width, int height)
+void ImageObject::Setup(int width, int height)
 {
     Setup(NULL, width, height);
 }
 
-void ImageKomastar::Setup(const char * FileName, int width, int height)
+void ImageObject::Setup(const char * FileName, int width, int height)
 {
     HDC hdc = GetDC(g_hWnd);
 
@@ -67,7 +67,7 @@ void ImageKomastar::Setup(const char * FileName, int width, int height)
     ReleaseDC(g_hWnd, hdc);
 }
 
-void ImageKomastar::SetupForAlphaBlend()
+void ImageObject::SetupForAlphaBlend()
 {
     // 알파블렌드 구조체 초기화 (기본 값을 바꿀 일이 없음)
     
@@ -89,7 +89,7 @@ void ImageKomastar::SetupForAlphaBlend()
     ReleaseDC(g_hWnd, hdc);
 }
 
-void ImageKomastar::Render(HDC hdc)
+void ImageObject::Render(HDC hdc)
 {
     if (m_isTrans)
     {
@@ -101,7 +101,7 @@ void ImageKomastar::Render(HDC hdc)
     }
 }
 
-void ImageKomastar::Render(HDC hdc, int destX, int destY)
+void ImageObject::Render(HDC hdc, int destX, int destY)
 {
     if (m_isTrans)
     {
@@ -113,7 +113,7 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY)
     }
 }
 
-void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH)
+void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH)
 {
     if (m_isTrans)
     {
@@ -125,7 +125,7 @@ void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, in
     }
 }
 
-void ImageKomastar::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
+void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
     // 알파블렌드 처음 사용시 초기화
     if (!m_pBlendImage)
@@ -157,7 +157,7 @@ void ImageKomastar::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
 }
 
-void ImageKomastar::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay)
+void ImageObject::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay)
 {
     m_currFrameX = 0;
     m_spritesInitDelay = SpritesDelay;
@@ -168,7 +168,7 @@ void ImageKomastar::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWid
     m_spritesHeight = SpritesHeight;
 }
 
-void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
+void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 {
 #ifdef _DEBUG
     if (m_drawHelper != NULL)
@@ -186,12 +186,12 @@ void ImageKomastar::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
 }
 
 
-void ImageKomastar::Render(HDC hdc, UnitPos KeyPos, double Angle)
+void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
 {
     UnitPos pt1 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
     UnitPos pt2 = UnitPos{ (KeyPos.x + m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
     UnitPos pt3 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y + m_pImageInfo->nHeight * 0.5f) };
-    m_geoHelper = new Geometry2DKomastar;
+    m_geoHelper = new GeometryHelper;
 
     pt1 = m_geoHelper->GetRotateCoord(KeyPos, pt1, Angle);
     pt2 = m_geoHelper->GetRotateCoord(KeyPos, pt2, Angle);
@@ -225,24 +225,24 @@ void ImageKomastar::Render(HDC hdc, UnitPos KeyPos, double Angle)
                     , m_transColor);
 }
 
-void ImageKomastar::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
+void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     Render(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight, srcX, srcY, srcW, srcH, alpha);
 }
 
-void ImageKomastar::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
+void ImageObject::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     m_stBlendFunc.SourceConstantAlpha = alpha;
     GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
 }
 
-void ImageKomastar::SetTransColor(bool isTrans, COLORREF transColor)
+void ImageObject::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;
     m_transColor = transColor;
 }
 
-void ImageKomastar::Refresh()
+void ImageObject::Refresh()
 {
     m_spritesDelayCount++;
     if (m_spritesDelayCount > m_spritesInitDelay)

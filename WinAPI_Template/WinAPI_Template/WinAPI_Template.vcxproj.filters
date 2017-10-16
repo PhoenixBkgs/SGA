@@ -57,14 +57,8 @@
     <ClInclude Include="SingletonBase.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="EloCalculator.h">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameFramework2D\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Log4Komastar.h">
-      <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
     <ClInclude Include="EnumState.h">
       <Filter>GameFramework2D\Manager</Filter>
@@ -72,25 +66,34 @@
     <ClInclude Include="GameMap.h">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
-    <ClInclude Include="GameUnit.h">
-      <Filter>GameFramework2D\MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="NumberGenerator.h">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics2DKomastar.h">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClInclude>
     <ClInclude Include="DataStructure.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Draw2DKomastar.h">
+    <ClInclude Include="GameObject.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritesObject.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="LogManager.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawHelper.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry2DKomastar.h">
+    <ClInclude Include="GeometryHelper.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
-    <ClInclude Include="ImageKomastar.h">
+    <ClInclude Include="ImageObject.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHelper.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RatingHelper.h">
+      <Filter>GameFramework2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomHelper.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,34 +113,37 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>GameFramework2D\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="EloCalculator.cpp">
-      <Filter>GameFramework2D\Util</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameFramework2D\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Log4Komastar.cpp">
-      <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
     <ClCompile Include="GameMap.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="GameUnit.cpp">
+    <ClCompile Include="GameObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
-    <ClCompile Include="NumberGenerator.cpp">
+    <ClCompile Include="SpritesObject.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="LogManager.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Physics2DKomastar.cpp">
+    <ClCompile Include="GeometryHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Draw2DKomastar.cpp">
+    <ClCompile Include="ImageObject.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Geometry2DKomastar.cpp">
+    <ClCompile Include="RatingHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
-    <ClCompile Include="ImageKomastar.cpp">
+    <ClCompile Include="RandomHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
     </ClCompile>
   </ItemGroup>

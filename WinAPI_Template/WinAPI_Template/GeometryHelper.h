@@ -6,11 +6,11 @@
 
 inline double sq(double x) { return x * x; }
 
-class Geometry2DKomastar
+class GeometryHelper
 {
 public:
-    Geometry2DKomastar();
-    ~Geometry2DKomastar();
+    GeometryHelper();
+    ~GeometryHelper();
 
     UnitPos GetCenterPointWindow();
 

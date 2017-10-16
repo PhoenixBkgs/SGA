@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "NumberGenerator.h"
+#include "RandomHelper.h"
 
 
-NumberGenerator::NumberGenerator()
+RandomHelper::RandomHelper()
 {
 }
 
 
-NumberGenerator::~NumberGenerator()
+RandomHelper::~RandomHelper()
 {
 }
 
-int NumberGenerator::GetRandomNumber()
+int RandomHelper::GetRandomNumber()
 {
     srand((unsigned int)time(NULL));
     return rand();
 }
 
-int NumberGenerator::GetRandomNumber(bool IsReverseSign)
+int RandomHelper::GetRandomNumber(bool IsReverseSign)
 {
     int retRandomNumber = GetRandomNumber();
     if (IsReverseSign)
@@ -28,7 +28,7 @@ int NumberGenerator::GetRandomNumber(bool IsReverseSign)
     return retRandomNumber;
 }
 
-int NumberGenerator::GetRandomNumber(int Max, bool IsReverseSign)
+int RandomHelper::GetRandomNumber(int Max, bool IsReverseSign)
 {
     int retRandomNumber = GetRandomNumber() % Max;
     if (IsReverseSign)
@@ -39,7 +39,7 @@ int NumberGenerator::GetRandomNumber(int Max, bool IsReverseSign)
     return retRandomNumber;
 }
 
-int NumberGenerator::GetRandomNumber(int Begin, int End, bool IsReverseSign)
+int RandomHelper::GetRandomNumber(int Begin, int End, bool IsReverseSign)
 {
     int retRandomNumber = (GetRandomNumber() % (End - Begin) + Begin);
 
