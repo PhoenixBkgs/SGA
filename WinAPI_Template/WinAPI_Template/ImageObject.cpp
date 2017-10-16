@@ -185,6 +185,17 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
                         , m_transColor);
 }
 
+void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY)
+{
+    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
+    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top,
+        boxSize.x, boxSize.y,
+        m_pImageInfo->hMemDC,
+        m_spritesWidth * FrameX, m_spritesHeight * FrameY,
+        m_spritesWidth, m_spritesHeight
+        , m_transColor);
+}
+
 
 void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
 {

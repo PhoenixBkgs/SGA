@@ -75,6 +75,7 @@ public:
     //  FOR SPRITES
     void SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay);
     void SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha);
+    void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY);
 
     //  FOR TRANSPARENT
     void SetTransColor(bool isTrans, COLORREF transColor);

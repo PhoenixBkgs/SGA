@@ -150,7 +150,6 @@
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="RatingHelper.h" />
     <ClInclude Include="EnumState.h" />
-    <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GeometryHelper.h" />
@@ -170,7 +169,6 @@
   <ItemGroup>
     <ClCompile Include="DrawHelper.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
-    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GeometryHelper.cpp" />

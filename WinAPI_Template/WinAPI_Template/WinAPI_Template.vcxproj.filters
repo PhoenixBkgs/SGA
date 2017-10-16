@@ -60,9 +60,6 @@
     <ClInclude Include="EnumState.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameMap.h">
-      <Filter>GameFramework2D\MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="DataStructure.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
@@ -109,9 +106,6 @@
     </ClCompile>
     <ClCompile Include="KeyManager.cpp">
       <Filter>GameFramework2D\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMap.cpp">
-      <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
