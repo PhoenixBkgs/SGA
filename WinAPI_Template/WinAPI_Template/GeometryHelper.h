@@ -10,8 +10,6 @@ inline double sq(double x) { return x * x; }
 class GeometryHelper : public SingletonBase<GeometryHelper>
 {
 public:
-    GeometryHelper();
-    ~GeometryHelper();
 
     UnitPos GetCenterPointWindow();
 

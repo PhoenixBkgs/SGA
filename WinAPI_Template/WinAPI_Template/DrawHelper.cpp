@@ -1,16 +1,6 @@
 #include "stdafx.h"
 #include "DrawHelper.h"
 
-
-DrawHelper::DrawHelper()
-{
-}
-
-
-DrawHelper::~DrawHelper()
-{
-}
-
 bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color)
 {
     HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));

@@ -16,9 +16,6 @@ public:
     tagTextBoxInfo  m_textBoxInfo;
 
 public:
-    DrawHelper();
-    ~DrawHelper();
-
 #pragma region SET
     void    SetColor(_RGBA FontColor, _RGBA BoxColor) { m_textBoxInfo.FontColor = FontColor; m_textBoxInfo.BoxColor = BoxColor; }
     void    SetBoxVisible() { m_textBoxInfo.IsVisibleBox = true; }

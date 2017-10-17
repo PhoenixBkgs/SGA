@@ -1,15 +1,6 @@
 #include "stdafx.h"
 #include "LogManager.h"
 
-LogManager::LogManager()
-{
-}
-
-
-LogManager::~LogManager()
-{
-}
-
 void LogManager::CreateLogDir()
 {
     if (CreateDirectory(m_szLogPath.c_str(), NULL) ||

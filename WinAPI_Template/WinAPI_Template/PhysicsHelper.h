@@ -1,8 +1,6 @@
 #pragma once
 #include "SingletonBase.h"
 
-#include "GameObject.h"
-
 #define _PERFECTLY_ELASTIC_COLLISION
 
 #ifdef _PERFECTLY_ELASTIC_COLLISION             //  완전탄성충돌
@@ -16,11 +14,9 @@
 class PhysicsHelper : public SingletonBase<PhysicsHelper>
 {
 public:
-    PhysicsHelper();
-    ~PhysicsHelper();
+    template <typedef T>
+    bool    IsCollision(T Unit1, T Unit2);
 
-    bool PtInsideRect(UnitPos Pos, RECT Rect);
-    UnitSpeed CollisionAlkanoid(GameObject Unit1, GameObject Unit2);
-    void MutualCollider(vector<GameObject> vecUnit1, vector<GameObject> vecUnit2);
-    void UnitCleaner(vector<GameObject> vecUnit);
+    template <typedef T>
+    void    BoxCollider(vector<T> VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2);
 };

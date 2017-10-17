@@ -7,20 +7,22 @@ class GameObject
 {
 //  VARS
 private:
-    int             m_uId;
-    string          m_szTagName;
-    RECT            m_rtBody;
-    ImageObject*    m_imgBody;
-    RECT            m_rtHitBox;
+    int             m_uId;          //  Unique
+    string          m_szTagName;    //  TagName
+    RECT            m_rtBody;       //  Body rectangle
+    ImageObject*    m_imgBody;      //  Image paste on body rect
+    RECT            m_rtHitBox;     //  Hit box
     
-    UnitPos         m_dPos;
-    UnitSpeed       m_dSpeed;
-    UnitSize        m_nSize;
+    UnitPos         m_dPos;         //  Center position of Object
+    UnitSpeed       m_dSpeed;       //  Move to XY each Move() function
+    UnitSize        m_nSize;        //  Width, Height of body rect
 
     bool            m_isVisible;
     bool            m_isAlive;
     double          m_dAlpha;
     double          m_dAngle;
+
+    int             m_nLife;
 
 //  FUNCS
 public:
@@ -37,6 +39,7 @@ public:
     UnitSpeed   GetSpeed() { return m_dSpeed; }
     bool        IsVisible() { return m_isVisible; }
     bool        IsAlive() { return m_isAlive; }
+    int         GetLife() { return m_nLife; }
 #pragma endregion
 
 #pragma region SET
@@ -51,6 +54,8 @@ public:
     void SetInvisible() { m_isVisible = false; }
     void SetAlive() { m_isAlive = true; }
     void SetDead() { m_isAlive = false; }
+    void SetLife(int Life) { m_nLife = Life; }
+    void SumLife(int Deal) { m_nLife += Deal; }
 #pragma endregion
 
     //  Update / Render

@@ -1,32 +1,25 @@
 #include "stdafx.h"
 #include "PhysicsHelper.h"
 
-
-PhysicsHelper::PhysicsHelper()
+template<typedef T>
+bool PhysicsHelper::IsCollision(T Unit1, T Unit2)
 {
+    RECT tempRt;
+    return IntersectRect(&tempRt, &Unit1.GetBodyRect(), &Unit2.GetBodyRect()) ? true : false;
 }
 
-
-PhysicsHelper::~PhysicsHelper()
+template<typedef T>
+void PhysicsHelper::BoxCollider(vector<T> VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2)
 {
-}
-
-bool PhysicsHelper::PtInsideRect(UnitPos Pos, RECT Rect)
-{
-    int rtWidth = Rect.right - Rect.left;
-    int rtHeight = Rect.bottom - Rect.top;
-    int dx = Rect.right - (int)Pos.x;
-    int dy = Rect.bottom - (int)Pos.y;
-
-    if ((dx > 0 && dx < rtWidth) &&
-        (dy > 0 && dy < rtHeight))
+    for (auto iter = VecUnit1.begin(); iter != VecUnit1.end(); iter++)
     {
-        return true;
+        for (auto iter2 = VecUnit2.begin(); iter2 != VecUnit2.end(); iter2++)
+        {
+            if (IsCollision(*iter, *iter2))
+            {
+                iter->SumLife(DmgDeal1);
+                iter2->SumLife(DmgDeal2);
+            }
+        }
     }
-    return false;
-}
-
-UnitSpeed PhysicsHelper::CollisionAlkanoid(GameObject Unit1, GameObject Unit2)
-{
-    return UnitSpeed();
 }

@@ -20,8 +20,6 @@ private:
     string GetCurrentPath();
 
 public:
-    LogManager();
-    ~LogManager();
 
     void Setup(string LogPath);
     void WriteLog(LOG_LEVEL LogLevel, string Message);

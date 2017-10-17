@@ -1,16 +1,6 @@
 #include "stdafx.h"
 #include "GeometryHelper.h"
 
-GeometryHelper::GeometryHelper()
-{
-}
-
-
-GeometryHelper::~GeometryHelper()
-{
-    
-}
-
 UnitPos GeometryHelper::GetCenterPointWindow()
 {
     return UnitPos{ W_WIDTH * 0.5, W_HEIGHT * 0.5 };

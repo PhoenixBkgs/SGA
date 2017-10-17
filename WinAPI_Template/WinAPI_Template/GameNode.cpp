@@ -16,6 +16,9 @@ GameNode::~GameNode()
 {
     g_pKeyManager->ReleaseInstance();
     g_pLogManager->ReleaseInstance();
+    g_pImgManager->ReleaseInstance();
+    g_pDrawHelper->ReleaseInstance();
+    g_pGeoHelper->ReleaseInstance();
 
     delete m_backBuffer;
 }
