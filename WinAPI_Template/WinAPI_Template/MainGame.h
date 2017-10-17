@@ -17,4 +17,9 @@ public:
     virtual void Start() override;
     virtual void Update() override;
     virtual void Render() override;
+    void Reset();
+
+    void LoadAllResources();
+    void LoadImageResources();
+    void LoadSoundResources();
 };

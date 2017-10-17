@@ -3,6 +3,7 @@
 
 MainGame::MainGame()
 {
+    LoadAllResources();
     Start();
 }
 
@@ -24,4 +25,22 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, BLACKNESS);
+}
+
+void MainGame::Reset()
+{
+}
+
+void MainGame::LoadAllResources()
+{
+    LoadImageResources();
+    LoadSoundResources();
+}
+
+void MainGame::LoadImageResources()
+{
+}
+
+void MainGame::LoadSoundResources()
+{
 }

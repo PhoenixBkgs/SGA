@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DrawHelper.h" />
+    <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="RatingHelper.h" />
     <ClInclude Include="EnumState.h" />
     <ClInclude Include="GameNode.h" />
@@ -168,6 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawHelper.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameObject.cpp" />

@@ -14,9 +14,9 @@
 class PhysicsHelper : public SingletonBase<PhysicsHelper>
 {
 public:
-    template <typedef T>
+    template <class T>
     bool    IsCollision(T Unit1, T Unit2);
 
-    template <typedef T>
+    template <class T>
     void    BoxCollider(vector<T> VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2);
 };

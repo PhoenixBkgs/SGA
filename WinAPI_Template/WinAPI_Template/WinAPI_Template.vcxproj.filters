@@ -90,6 +90,12 @@
     <ClInclude Include="RandomHelper.h">
       <Filter>GameFramework2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -133,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
       <Filter>GameFramework2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

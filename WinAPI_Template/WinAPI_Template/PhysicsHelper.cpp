@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "PhysicsHelper.h"
 
-template<typedef T>
+template<class T>
 bool PhysicsHelper::IsCollision(T Unit1, T Unit2)
 {
     RECT tempRt;
     return IntersectRect(&tempRt, &Unit1.GetBodyRect(), &Unit2.GetBodyRect()) ? true : false;
 }
 
-template<typedef T>
+template<class T>
 void PhysicsHelper::BoxCollider(vector<T> VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2)
 {
     for (auto iter = VecUnit1.begin(); iter != VecUnit1.end(); iter++)
