@@ -25,6 +25,11 @@ public:
     bool DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color);
     void DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color);
     RECT MakeRect(UnitPos Pos, UnitSize Size);
+    RECT MakeRectSizeMode(UnitPos Pos, UnitSize Size, double Magnifier);
 
     void DrawTextBox(HDC hdc, RECT TxtBox, string TextString);
+
+    void DrawEllipse(HDC hdc, RECT Rect);
+    void DrawRect(HDC hdc, RECT Rect);
+    void DrawRect(HDC hdc, RECT Rect, HBRUSH* Brush);
 };

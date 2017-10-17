@@ -34,6 +34,14 @@ RECT DrawHelper::MakeRect(UnitPos Pos, UnitSize Size)
     return rt;
 }
 
+RECT DrawHelper::MakeRectSizeMode(UnitPos Pos, UnitSize Size, double Magnifier)
+{
+    Size.w = (int)(Size.w * Magnifier);
+    Size.h = (int)(Size.h * Magnifier);
+
+    return MakeRect(Pos, Size);
+}
+
 void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
 {
     HFONT hFont, hTmp;
@@ -53,4 +61,20 @@ void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
     }
     DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
+}
+
+void DrawHelper::DrawEllipse(HDC hdc, RECT Rect)
+{
+    Ellipse(g_hDC, Rect.left, Rect.top, Rect.right, Rect.bottom);
+}
+
+void DrawHelper::DrawRect(HDC hdc, RECT Rect)
+{
+    Rectangle(hdc, Rect.left, Rect.top, Rect.right, Rect.bottom);
+}
+
+void DrawHelper::DrawRect(HDC hdc, RECT Rect, HBRUSH * Brush)
+{
+    DrawRect(hdc, Rect);
+    FillRect(hdc, &Rect, *Brush);
 }
