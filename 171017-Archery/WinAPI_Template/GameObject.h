@@ -6,7 +6,7 @@ class ImageObject;
 class GameObject
 {
 //  VARS
-private:
+protected:
     int             m_uId;          //  Unique
     string          m_szTagName;    //  TagName
     RECT            m_rtBody;       //  Body rectangle
@@ -64,6 +64,5 @@ public:
 
     //  Object move
     virtual void Move();
-
 };
 

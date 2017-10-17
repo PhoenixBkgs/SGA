@@ -1,13 +1,13 @@
 #pragma once
 #include "GameObject.h"
 
-class MapObject : public GameObject
+class GameMapObject : public GameObject
 {
-private:
+protected:
 
 public:
-    MapObject();
-    ~MapObject();
+    GameMapObject();
+    ~GameMapObject();
 
     void Setup();
     void Update();

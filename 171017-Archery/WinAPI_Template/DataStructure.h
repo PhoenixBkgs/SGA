@@ -13,6 +13,7 @@ struct UnitPos3D
     double y;
     double z;
 };
+typedef UnitPos3D UnitSpeed3D;
 
 
 struct UnitSize

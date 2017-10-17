@@ -93,8 +93,29 @@
     <ClInclude Include="ImageManager.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="MapObject.h">
+    <ClInclude Include="Arrow.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Target.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreBoard.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Wind.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapObject.h">
       <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcheryStadium.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject3D.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +164,29 @@
     <ClCompile Include="ImageManager.cpp">
       <Filter>GameFramework2D\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="MapObject.cpp">
+    <ClCompile Include="Player.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Target.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBoard.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Wind.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMapObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcheryStadium.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject3D.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

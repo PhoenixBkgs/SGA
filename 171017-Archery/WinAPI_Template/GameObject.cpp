@@ -27,7 +27,10 @@ void GameObject::Update()
 
 void GameObject::Render()
 {
-    m_imgBody->Render(g_hDC, m_dPos.x, m_dPos.y);
+#ifdef _DEBUG
+    g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, _RGBA{ 0, 255, 0, 0 });
+    g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 5, _RGBA{ 0, 255, 0, 0 });
+#endif // _DEBUG
 }
 
 void GameObject::Move()
@@ -35,4 +38,5 @@ void GameObject::Move()
     m_dPos.x += m_dSpeed.x;
     m_dPos.y += m_dSpeed.y;
     //  RECT UPDATE
+    m_rtBody = g_pDrawHelper->MakeRect(m_dPos, m_nSize);
 }
