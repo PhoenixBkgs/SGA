@@ -17,6 +17,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <vector>
+#include <map>
 #include <time.h>
 #include <chrono>
 #include <iostream>
@@ -36,6 +37,14 @@ using namespace std;
 
 #define REFRESH_RATE        10
 #define MAGENTA_COLOR       RGB(255, 0, 255)
+
+//==================================================================
+//		## MACRO FUNCTION ##
+//==================================================================
+#define SAFE_DELETE(p)          { if(p) { delete(p); (p) = NULL; } }
+#define SAFE_DELETE_ARRAY(p)    { if(p) { delete[]{p); (p) = NULL; } } }
+
+
 //==================================================================
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 //==================================================================
@@ -46,9 +55,11 @@ using namespace std;
 //==================================================================
 #include "KeyManager.h"
 #include "LogManager.h"
+#include "ImageManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
 #define g_pLogManager LogManager::GetInstance()
+#define g_pImgManager ImageManager::GetInstance()
 
 
 //==================================================================
@@ -56,9 +67,11 @@ using namespace std;
 //==================================================================
 #include "DrawHelper.h"
 #include "GeometryHelper.h"
+#include "PhysicsHelper.h"
 
 #define g_pDrawHelper DrawHelper::GetInstance()
 #define g_pGeoHelper GeometryHelper::GetInstance()
+#define g_pPhxsHelper PhysicsHelper::GetInstance()
 
 //==================================================================
 //		## 전역변수 ##
