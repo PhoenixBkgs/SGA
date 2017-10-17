@@ -18,5 +18,8 @@ public:
     bool    IsCollision(T Unit1, T Unit2);
 
     template <class T>
+    void BoxCollider(T VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2);
+
+    template <class T>
     void    BoxCollider(vector<T> VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2);
 };

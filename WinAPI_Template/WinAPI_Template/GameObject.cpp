@@ -22,12 +22,17 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
+    Move();
 }
 
 void GameObject::Render()
 {
+    m_imgBody->Render(g_hDC, m_dPos.x, m_dPos.y);
 }
 
 void GameObject::Move()
 {
+    m_dPos.x += m_dSpeed.x;
+    m_dPos.y += m_dSpeed.y;
+    //  RECT UPDATE
 }

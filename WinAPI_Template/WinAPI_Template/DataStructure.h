@@ -5,8 +5,14 @@ struct UnitPos
     double x;
     double y;
 };
-
 typedef UnitPos UnitSpeed;
+
+struct UnitPos3D
+{
+    double x;
+    double y;
+    double z;
+};
 
 
 struct UnitSize
