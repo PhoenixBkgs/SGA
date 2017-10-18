@@ -14,6 +14,7 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_currGameState = GAME_READY;
     m_count = 0;
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
@@ -28,6 +29,7 @@ void MainGame::Start()
     m_pEnemy->SetupForSprites(1, 1);
     m_pEnemy->LockInWnd();
     m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
+    m_pEnemy->SetPlayer(m_pPlayer);
 
     g_pScnManager->AddGameObject("game", m_pPlayer);
     g_pScnManager->AddGameObject("game", m_pEnemy);
@@ -35,57 +37,29 @@ void MainGame::Start()
 
 void MainGame::Update()
 {
-    PlayerController();
     SystemController();
-    if (m_bIsPlaying)
+    switch (m_currGameState)
     {
-        return;
-    }
-    /*
-    m_pPlayer->Update();
-    m_pEnemy->Update();
-    */
-    //g_pScnManager->Update("player");
-    //g_pScnManager->Update("enemy");
-    g_pScnManager->Update("game");
-    m_count++;
-    if (m_count > 5)
-    {
-        m_count = 0;
-        GenBullet();
-    }
-    for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
-    {
-        iter->Update();
-        UnitPos pos = iter->GetPos();
-        if (pos.x < 0)
-        {
-            iter->SetLife(0);
-        }
-        if (pos.x > W_WIDTH)
-        {
-            iter->SetLife(0);
-        }
-        if (pos.y < 0)
-        {
-            iter->SetLife(0);
-        }
-        if (pos.y > W_HEIGHT)
-        {
-            iter->SetLife(0);
-        }
-    }
-
-    for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end();)
-    {
-        if (iter->GetLife() == 0)
-        {
-            iter = m_vecBullet.erase(iter);
-        }
-        else
-        {
-            iter++;
-        }
+    case GAME_READY:
+        break;
+    case GAME_PLAYING:
+        PlayerController();
+        /*
+        m_pPlayer->Update();
+        m_pEnemy->Update();
+        g_pScnManager->Update("player");
+        g_pScnManager->Update("enemy");
+        */
+        g_pScnManager->Update("game");
+        break;
+    case GAME_PAUSE:
+        break;
+    case GAME_CLEAR:
+        break;
+    case GAME_OVER:
+        break;
+    default:
+        break;
     }
     GameNode::Update();     //  InvalidRect()
 }
@@ -93,11 +67,26 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    /*
-    g_pScnManager->Render("player");
-    g_pScnManager->Render("enemy");
-    */
-    g_pScnManager->Render("game");
+    switch (m_currGameState)
+    {
+    case GAME_READY:
+        g_pScnManager->Render("ready");
+        break;
+    case GAME_PLAYING:
+    case GAME_PAUSE:
+        /*
+        g_pScnManager->Render("player");
+        g_pScnManager->Render("enemy");
+        */
+        g_pScnManager->Render("game");
+        break;
+    case GAME_CLEAR:
+        break;
+    case GAME_OVER:
+        break;
+    default:
+        break;
+    }
 #ifdef _DEBUG
     char infoMsg[128];
     sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_pPlayer->GetPos().x, m_pPlayer->GetPos().y);
@@ -124,21 +113,6 @@ void MainGame::LoadImageResources()
 
 void MainGame::LoadSoundResources()
 {
-}
-
-void MainGame::GenBullet()
-{
-    Bullet genBullet("bullet");
-    genBullet.SetBodyPos(m_pEnemy->GetPos());
-    genBullet.SetBodySize(UnitSize{ 32, 32 });
-    genBullet.SetBodyRect(g_pDrawHelper->MakeRect(genBullet.GetPos(), genBullet.GetSize()));
-    genBullet.SetupForSprites(2, 2);
-    genBullet.SetSpritesImg(g_pImgManager->FindImage("bullet"));
-    double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_pPlayer->GetPos());
-    UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
-    genBullet.SetBodySpeed((UnitSpeed)pos);
-
-    m_pEnemy->PushBullet(genBullet);
 }
 
 void MainGame::PlayerController()
@@ -170,6 +144,23 @@ void MainGame::SystemController()
 {
     if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
     {
-        m_bIsPlaying = !m_bIsPlaying;
+        switch (m_currGameState)
+        {
+        case GAME_READY:
+            m_currGameState = GAME_PLAYING;
+            break;
+        case GAME_PLAYING:
+            m_currGameState = GAME_PAUSE;
+            break;
+        case GAME_PAUSE:
+            m_currGameState = GAME_PLAYING;
+            break;
+        case GAME_CLEAR:
+            break;
+        case GAME_OVER:
+            break;
+        default:
+            break;
+        }
     }
 }

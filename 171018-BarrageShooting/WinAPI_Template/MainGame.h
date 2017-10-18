@@ -9,6 +9,7 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
+    E_GAME_STATE            m_currGameState;
     Player*                 m_pPlayer;
     Enemy*                  m_pEnemy;
     vector<Bullet>          m_vecBullet;

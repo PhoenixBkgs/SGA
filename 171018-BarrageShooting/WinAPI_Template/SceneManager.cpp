@@ -10,15 +10,15 @@ void SceneManager::AddGameObject(GameObject * GameObj)
 void SceneManager::AddGameObject(string Key, GameObject * GameObj)
 {
     //m_mapScene.insert(pair<string, GameObject*>(Key, GameObj));
-    auto findObj = m_mapSceneTest.find(Key);
-    if (findObj != m_mapSceneTest.end())
+    auto findObj = m_mapScene.find(Key);
+    if (findObj != m_mapScene.end())
     {
         findObj->second.push_back(GameObj);
     }
     else
     {
-        m_mapSceneTest.insert(pair<string, vector<GameObject*>>(Key, m_vecGameObj));
-        findObj = m_mapSceneTest.find(Key);
+        m_mapScene.insert(pair<string, vector<GameObject*>>(Key, m_vecGameObj));
+        findObj = m_mapScene.find(Key);
         findObj->second.push_back(GameObj);
     }
 }
@@ -33,8 +33,12 @@ void SceneManager::Update(string Key)
         m_mapIter++;
     }
     */
-    vector<GameObject*> vecGameObj = m_mapSceneTest.find(Key)->second;
-    int size = vecGameObj.size();
+    if (m_mapScene.find(Key) == m_mapScene.end())
+    {
+        return;
+    }
+    vector<GameObject*> vecGameObj = m_mapScene.find(Key)->second;
+    int size = (int)vecGameObj.size();
     for (int i = 0; i < size; i++)
     {
         vecGameObj[i]->Update();
@@ -51,8 +55,12 @@ void SceneManager::Render(string Key)
         m_mapIter++;
     }
     */
-    vector<GameObject*> vecGameObj = m_mapSceneTest.find(Key)->second;
-    int size = vecGameObj.size();
+    if (m_mapScene.find(Key) == m_mapScene.end())
+    {
+        return;
+    }
+    vector<GameObject*> vecGameObj = m_mapScene.find(Key)->second;
+    int size = (int)vecGameObj.size();
     for (int i = 0; i < size; i++)
     {
         vecGameObj[i]->Render();

@@ -23,5 +23,23 @@ void Bullet::Setup()
 
 void Bullet::Update()
 {
-    GameObject::Update();
+    SpritesObject::Update();
+
+    UnitPos pos = GetPos();
+    if (pos.x < 0)
+    {
+        SetLife(0);
+    }
+    if (pos.x > W_WIDTH)
+    {
+        SetLife(0);
+    }
+    if (pos.y < 0)
+    {
+        SetLife(0);
+    }
+    if (pos.y > W_HEIGHT)
+    {
+        SetLife(0);
+    }
 }

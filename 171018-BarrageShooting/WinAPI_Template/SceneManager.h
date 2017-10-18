@@ -5,10 +5,12 @@
 class SceneManager : public SingletonBase<SceneManager>
 {
 private:
+    /*
     map<string, GameObject*>                m_mapScene;
     map<string, GameObject*>::iterator      m_mapIter;
+    */
     
-    map<string, vector<GameObject*>>        m_mapSceneTest;
+    map<string, vector<GameObject*>>        m_mapScene;
     vector<GameObject*>                     m_vecGameObj;
     vector<GameObject*>::iterator           m_vecIter;
 public:
