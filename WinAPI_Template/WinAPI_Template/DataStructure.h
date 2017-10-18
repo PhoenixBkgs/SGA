@@ -21,6 +21,14 @@ struct UnitSize
     int h;
 };
 
+struct RectMargin
+{
+    int left;
+    int top;
+    int right;
+    int bottom;
+};
+
 struct _RGBA
 {
     int R;

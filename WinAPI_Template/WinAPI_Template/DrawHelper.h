@@ -27,4 +27,7 @@ public:
     RECT MakeRect(UnitPos Pos, UnitSize Size);
 
     void DrawTextBox(HDC hdc, RECT TxtBox, string TextString);
+
+    UnitSize    GetSizeFromRect(RECT Rect);
+    UnitPos     GetPosFromRect(RECT Rect);
 };

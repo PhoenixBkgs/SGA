@@ -19,14 +19,14 @@
     <Filter Include="GameFramework2D\MainGame">
       <UniqueIdentifier>{77d85270-29a6-41e2-9f00-b34efad795c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameFramework2D\Util">
-      <UniqueIdentifier>{8cab1dd3-426c-444f-9787-ad57b6e5eafb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework2D\Manager">
       <UniqueIdentifier>{f67891c6-fda0-450c-8ab2-264a2d21bd58}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameFramework2D\Source">
       <UniqueIdentifier>{29244c4a-56cb-4285-8ecf-433ab4b5b5e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework2D\Helper">
+      <UniqueIdentifier>{8cab1dd3-426c-444f-9787-ad57b6e5eafb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,27 +73,33 @@
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
     <ClInclude Include="DrawHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClInclude>
     <ClInclude Include="GeometryHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClInclude>
     <ClInclude Include="ImageObject.h">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClInclude>
     <ClInclude Include="RatingHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClInclude>
     <ClInclude Include="RandomHelper.h">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClInclude>
     <ClInclude Include="ImageManager.h">
       <Filter>GameFramework2D\Manager</Filter>
     </ClInclude>
     <ClInclude Include="MapObject.h">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,27 +129,33 @@
       <Filter>GameFramework2D\Manager</Filter>
     </ClCompile>
     <ClCompile Include="DrawHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClCompile>
     <ClCompile Include="GeometryHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClCompile>
     <ClCompile Include="ImageObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClCompile>
     <ClCompile Include="RatingHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
-      <Filter>GameFramework2D\Util</Filter>
+      <Filter>GameFramework2D\Helper</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
       <Filter>GameFramework2D\Manager</Filter>
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
+      <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameFramework2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClCompile>
   </ItemGroup>

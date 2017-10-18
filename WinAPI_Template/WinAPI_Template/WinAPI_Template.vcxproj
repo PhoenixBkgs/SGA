@@ -162,6 +162,8 @@
     <ClInclude Include="PhysicsHelper.h" />
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SpritesObject.h" />
     <ClInclude Include="stdafx.h" />
@@ -182,6 +184,8 @@
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="RandomHelper.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -54,3 +54,15 @@ void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
     DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
 }
+
+UnitSize DrawHelper::GetSizeFromRect(RECT Rect)
+{
+    return UnitSize{ Rect.right - Rect.left, Rect.bottom - Rect.top };
+}
+
+UnitPos DrawHelper::GetPosFromRect(RECT Rect)
+{
+    UnitSize nSize = GetSizeFromRect(Rect);
+    return UnitPos{ (double)(Rect.left + (nSize.w * 0.5f))
+                  , (double)(Rect.top  + (nSize.h * 0.5f)) };
+}

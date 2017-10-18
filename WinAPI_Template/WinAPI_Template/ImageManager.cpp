@@ -18,7 +18,7 @@ ImageObject * ImageManager::AddImage(string Key, const char * Filename, int Widt
         image = new ImageObject;
         image->Setup(Filename, Width, Height);
         m_mapImage.insert(pair<string, ImageObject*>(Key, image));
-        //m_mapImage.insert(make_pair(Key, image));     //  other way
+        //m_mapImage.insert(make_pair(Key, image));     //  other way for insert
     }
 
     return image;

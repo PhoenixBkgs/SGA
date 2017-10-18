@@ -63,6 +63,7 @@ public:
 
     void Render(HDC hdc);
     void Render(HDC hdc, int destX, int destY);
+    void Render(HDC hdc, int destX, int destY, int destW, int destH);
     void Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH);
 
     //  FOR ALPHA BLEND

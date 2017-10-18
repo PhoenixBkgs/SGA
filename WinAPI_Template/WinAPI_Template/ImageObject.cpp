@@ -113,6 +113,11 @@ void ImageObject::Render(HDC hdc, int destX, int destY)
     }
 }
 
+void ImageObject::Render(HDC hdc, int destX, int destY, int destW, int destH)
+{
+    GdiTransparentBlt(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
+}
+
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH)
 {
     if (m_isTrans)
