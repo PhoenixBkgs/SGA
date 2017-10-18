@@ -102,6 +102,15 @@
     <ClInclude Include="SceneObject.h">
       <Filter>GameFramework2D\MainGame</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -157,6 +166,15 @@
     </ClCompile>
     <ClCompile Include="SceneObject.cpp">
       <Filter>GameFramework2D\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameFramework2D\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>GameFramework2D\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

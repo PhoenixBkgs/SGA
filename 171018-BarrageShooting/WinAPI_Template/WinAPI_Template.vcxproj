@@ -146,10 +146,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DrawHelper.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="MapObject.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RatingHelper.h" />
     <ClInclude Include="EnumState.h" />
     <ClInclude Include="GameNode.h" />
@@ -171,9 +174,12 @@
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GameObject.cpp" />
