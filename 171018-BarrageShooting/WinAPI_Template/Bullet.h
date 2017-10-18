@@ -9,5 +9,6 @@ public:
     ~Bullet();
 
     void Setup();
-};
 
+    virtual void Update() override;
+};

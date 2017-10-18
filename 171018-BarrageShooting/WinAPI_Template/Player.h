@@ -14,5 +14,7 @@ public:
     Player();
     Player(string szTagName);
     ~Player();
+
+    virtual void Update() override;
 };
 

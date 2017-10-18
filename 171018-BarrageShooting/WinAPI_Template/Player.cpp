@@ -15,3 +15,8 @@ Player::Player(string szTagName)
 Player::~Player()
 {
 }
+
+void Player::Update()
+{
+    GameObject::Update();
+}

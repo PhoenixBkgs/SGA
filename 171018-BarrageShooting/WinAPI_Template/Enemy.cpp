@@ -16,3 +16,21 @@ Enemy::Enemy(string szTagName)
 Enemy::~Enemy()
 {
 }
+
+void Enemy::Update()
+{
+    GameObject::Update();
+    
+}
+
+void Enemy::PatternA()
+{
+}
+
+void Enemy::PatternB()
+{
+}
+
+void Enemy::PatternC()
+{
+}

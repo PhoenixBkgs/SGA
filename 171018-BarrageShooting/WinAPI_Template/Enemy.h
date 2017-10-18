@@ -13,4 +13,10 @@ public:
     Enemy();
     Enemy(string szTagName);
     ~Enemy();
+
+    virtual void Update() override;
+
+    void PatternA();
+    void PatternB();
+    void PatternC();
 };

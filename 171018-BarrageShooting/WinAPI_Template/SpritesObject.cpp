@@ -61,18 +61,15 @@ void SpritesObject::ValidateFramePos()
 }
 
 
-void SpritesObject::Render(HDC hdc)
+void SpritesObject::Render()
 {
+    GameObject::Render();
     if (m_isVisible == true)
     {
         if (m_spritesImg != NULL)
         {
-            m_spritesImg->SpritesRender(hdc, m_rtBody, m_currFrameX, m_currFrameY);
+            m_spritesImg->SpritesRender(g_hDC, m_rtBody, m_currFrameX, m_currFrameY);
             NextFrame();
         }
-#ifdef _DEBUG
-        g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, _RGBA{ 0, 0, 0, 0 });         //  Draw body rect
-        g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 2, _RGBA{ 0, 255, 0, 0 });     //  Draw hit box rect
-#endif // _DEBUG
     }
 }

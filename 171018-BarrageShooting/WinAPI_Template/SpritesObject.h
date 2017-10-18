@@ -48,7 +48,7 @@ public:
     void ValidateFramePos();    //  Frame position ceiling
 
 #pragma region RENDER
-    void Render(HDC hdc);
+    virtual void Render() override;
 #pragma endregion
 
 };

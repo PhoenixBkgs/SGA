@@ -85,11 +85,11 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    m_pPlayer->Render(g_hDC);
-    m_pEnemy->Render(g_hDC);
+    m_pPlayer->Render();
+    m_pEnemy->Render();
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
-        iter->Render(g_hDC);
+        iter->Render();
     }
 #ifdef _DEBUG
     char infoMsg[128];

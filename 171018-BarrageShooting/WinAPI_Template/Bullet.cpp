@@ -20,3 +20,8 @@ Bullet::~Bullet()
 void Bullet::Setup()
 {
 }
+
+void Bullet::Update()
+{
+    GameObject::Update();
+}
