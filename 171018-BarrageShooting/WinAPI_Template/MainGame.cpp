@@ -15,20 +15,27 @@ MainGame::~MainGame()
 void MainGame::Start()
 {
     m_count = 0;
-    m_player.SetBodyPos(UnitPos{ W_WIDTH * 0.5f, W_HEIGHT * 0.5f - 100.0f });
-    m_player.SetBodySize(UnitSize{ 100, 100 });
-    m_player.SetBodySpeed(UnitSpeed{ 0.0f, 0.0f });
-    
-    m_enemy.SetBodyPos(UnitPos{ W_WIDTH * 0.5f, 300.0f });
-    m_enemy.SetBodySize(UnitSize{ 300, 300 });
-    m_enemy.SetBodySpeed(UnitSpeed{ 0.0f, 0.0f });
+    m_pPlayer = new Player("player");
+    m_pPlayer->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
+    m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
+    m_pPlayer->SpritesSetup(1, 3);
+
+    m_pEnemy = new Enemy("enemy");
+    m_pEnemy->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
+    m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
+    m_pEnemy->SpritesSetup(1, 1);
 }
 
 void MainGame::Update()
 {
     PlayerController();
-    m_player.Update();
-    m_enemy.Update();
+    SystemController();
+    if (m_bIsPlaying)
+    {
+        return;
+    }
+    m_pPlayer->Update();
+    m_pEnemy->Update();
     m_count++;
     if (m_count > 5)
     {
@@ -74,15 +81,15 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    m_player.Render();
-    m_enemy.Render();
+    m_pPlayer->Render();
+    m_pEnemy->Render();
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
         iter->Render();
     }
 #ifdef _DEBUG
     char infoMsg[128];
-    sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_player.GetPos().x, m_player.GetPos().y);
+    sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_pPlayer->GetPos().x, m_pPlayer->GetPos().y);
     TextOut(g_hDC, 0, 0, infoMsg, strlen(infoMsg));
 #endif // _DEBUG
 }
@@ -99,6 +106,9 @@ void MainGame::LoadAllResources()
 
 void MainGame::LoadImageResources()
 {
+    g_pImgManager->AddImage("player", "images/sprites-player.bmp", 60, 210);    //  60 x 70px _ 1 x 3
+    g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
+    g_pImgManager->AddImage("enemy",  "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
 }
 
 void MainGame::LoadSoundResources()
@@ -107,10 +117,12 @@ void MainGame::LoadSoundResources()
 
 void MainGame::GenBullet()
 {
-    Bullet genBullet;
-    genBullet.SetBodyPos(m_enemy.GetPos());
-    genBullet.SetBodySize(UnitSize{ 10, 10 });
-    double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_player.GetPos());
+    Bullet genBullet("bullet");
+    genBullet.SetBodyPos(m_pEnemy->GetPos());
+    genBullet.SetBodySize(UnitSize{ 32, 32 });
+    genBullet.SetBodyRect(g_pDrawHelper->MakeRect(genBullet.GetPos(), genBullet.GetSize()));
+    genBullet.SpritesSetup(2, 2);
+    double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_pPlayer->GetPos());
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
 
@@ -120,21 +132,32 @@ void MainGame::GenBullet()
 void MainGame::PlayerController()
 {
     UnitSpeed dPlayerSpd = { 0.0f, 0.0f };
+    m_pPlayer->m_spritesImg->SetFrameY(0);
     if (g_pKeyManager->isStayKeyDown(VK_LEFT))
     {
-        dPlayerSpd.x = -5.0f;
+        dPlayerSpd.x = -PLAYER_SPEED;
+        m_pPlayer->m_spritesImg->SetFrameY(1);
     }
     if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
     {
-        dPlayerSpd.x = 5.0f;
+        dPlayerSpd.x = PLAYER_SPEED;
+        m_pPlayer->m_spritesImg->SetFrameY(2);
     }
     if (g_pKeyManager->isStayKeyDown(VK_UP))
     {
-        dPlayerSpd.y = -5.0f;
+        dPlayerSpd.y = -PLAYER_SPEED;
     }
     if (g_pKeyManager->isStayKeyDown(VK_DOWN))
     {
-        dPlayerSpd.y = 5.0f;
+        dPlayerSpd.y = PLAYER_SPEED;
     }
-    m_player.SetBodySpeed(dPlayerSpd);
+    m_pPlayer->SetBodySpeed(dPlayerSpd);
+}
+
+void MainGame::SystemController()
+{
+    if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
+    {
+        m_bIsPlaying = !m_bIsPlaying;
+    }
 }

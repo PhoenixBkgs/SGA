@@ -1,12 +1,12 @@
 #pragma once
+#include "SpritesObject.h"
 
 //  Mutual Refernce
 class ImageObject;
-
 class GameObject
 {
     //  VARS
-private:
+protected:
     int             m_uId;              //  Unique
     string          m_szTagName;        //  TagName
 
@@ -36,9 +36,13 @@ private:
 
     int             m_nLife;
 
+public:
+    SpritesObject*  m_spritesImg;       //  Sprites image
+
     //  FUNCS
 public:
     GameObject();
+    GameObject(string szTagName);
     ~GameObject();
 #pragma region GET
     //  Identifier
@@ -73,6 +77,7 @@ public:
     void SetBodyImgByKey(string Key, bool IsOverwrite = false);
     //  HitBox
     void SetHBoxMargin(RectMargin HBoxMargin) { m_nMarginHBox = HBoxMargin; }
+    void SetHBox();
 
     void SetVisible() { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
@@ -89,5 +94,9 @@ public:
     //  Object move
     virtual void Move();
 
+    void Setup(UnitPos Pos, UnitSize Size);
+
+    //  Sprites set up
+    void SpritesSetup(int MaxFrameX, int MaxFrameY, double DelayStep = 1.0f, double DelayMax = 0.0f);
 };
 

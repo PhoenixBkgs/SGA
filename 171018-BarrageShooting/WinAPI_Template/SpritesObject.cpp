@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SpritesObject.h"
-#include "GameObject.h"
 #include "ImageObject.h"
 
 
@@ -13,6 +12,7 @@ SpritesObject::SpritesObject()
     , m_frameDelay(0.0f)
     , m_frameDelayStep(1.0f)
     , m_delayCounter(0.0f)
+    , m_spritesImg(NULL)
 {
 }
 
@@ -40,6 +40,12 @@ void SpritesObject::NextFrame()
     ValidateFramePos();
 }
 
+void SpritesObject::Setup()
+{
+    UnitSize size = g_pDrawHelper->GetSizeFromRect(m_rtBody);
+    m_spritesImg->SetupForSprites(m_maxFrameX, m_maxFrameY, m_spritesImg->GetWidth() / m_maxFrameX, m_spritesImg->GetHeight() / m_maxFrameY, 0);
+}
+
 void SpritesObject::SetupDelay()
 {
 }
@@ -52,5 +58,8 @@ void SpritesObject::ValidateFramePos()
 
 void SpritesObject::Render(HDC hdc)
 {
-    m_spritesImg->SpritesRender(hdc, m_gameObj->GetBodyRect(), m_currFrameX, m_currFrameY);
+    if (m_spritesImg != NULL)
+    {
+        m_spritesImg->SpritesRender(hdc, m_rtBody, m_currFrameX, m_currFrameY);
+    }
 }

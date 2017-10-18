@@ -9,10 +9,11 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
-    Player                  m_player;
-    Enemy                   m_enemy;
+    Player*                 m_pPlayer;
+    Enemy*                  m_pEnemy;
     vector<Bullet>          m_vecBullet;
     int                     m_count;
+    bool                    m_bIsPlaying;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -33,4 +34,5 @@ public:
     void GenBullet();
 
     void PlayerController();
+    void SystemController();
 };

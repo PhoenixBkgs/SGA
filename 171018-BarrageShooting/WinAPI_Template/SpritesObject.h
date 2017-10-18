@@ -1,14 +1,13 @@
 #pragma once
 
 #define DELAY_RESET_VAL 0.0f
-class GameObject;
+
 class ImageObject;
 class SpritesObject
 {
-private:
-    GameObject*  m_gameObj;
+protected:
     ImageObject* m_spritesImg;
-
+    RECT    m_rtBody;
     int     m_currFrameX;           //  Current sprites X position
     int     m_currFrameY;           //  Current sprites Y position
     int     m_maxFrameX;            //  Current sprites max of X
@@ -33,7 +32,7 @@ public:
 #pragma endregion
 
 #pragma region SET
-    void SetGameObject(GameObject* GameObj) { m_gameObj; }
+    void SetBodyRect(RECT Rt) { m_rtBody = Rt; }
     void SetSpritesImg(ImageObject* Image) { m_spritesImg = Image; }
     void SetFrameX(int FrameX) { m_currFrameX = FrameX; }
     void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
@@ -45,6 +44,7 @@ public:
     void NextFrame();           //  Automatic move next frame
 #pragma endregion
 
+    void Setup();
     void SetupDelay();          //  Ready for use delay
     void ValidateFramePos();    //  Frame position ceiling
 

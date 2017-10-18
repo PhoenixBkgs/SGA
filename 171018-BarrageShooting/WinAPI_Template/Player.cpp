@@ -6,6 +6,11 @@ Player::Player()
 {
 }
 
+Player::Player(string szTagName)
+{
+    m_szTagName = szTagName;
+    SetBodyImgAuto();
+}
 
 Player::~Player()
 {

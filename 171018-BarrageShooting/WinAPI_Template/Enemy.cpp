@@ -6,6 +6,12 @@ Enemy::Enemy()
 {
 }
 
+Enemy::Enemy(string szTagName)
+{
+    m_szTagName = szTagName;
+    SetBodyImgAuto();
+}
+
 
 Enemy::~Enemy()
 {
