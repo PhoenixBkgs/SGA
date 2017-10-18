@@ -8,7 +8,5 @@ public:
     Bullet(string szTagName);
     ~Bullet();
 
-    void Setup();
-
     virtual void Update() override;
 };

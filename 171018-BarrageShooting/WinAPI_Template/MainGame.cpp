@@ -22,6 +22,7 @@ void MainGame::Start()
     m_pPlayer->LockInWnd();
     m_pPlayer->SetupForSprites(1, 3);
     m_pPlayer->SetSpritesImg(g_pImgManager->FindImage("player"));
+    m_pPlayer->SetLife(10);
 
     m_pEnemy = new Enemy("enemy");
     m_pEnemy->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
@@ -29,8 +30,12 @@ void MainGame::Start()
     m_pEnemy->SetupForSprites(1, 1);
     m_pEnemy->LockInWnd();
     m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
-    m_pEnemy->SetPlayer(m_pPlayer);
+    m_pEnemy->SetLife(10);
 
+    //  MUTUAL REF
+    m_pPlayer->SetEnemy(m_pEnemy);
+    m_pEnemy->SetPlayer(m_pPlayer);
+    
     g_pScnManager->AddGameObject("game", m_pPlayer);
     g_pScnManager->AddGameObject("game", m_pEnemy);
 }
@@ -138,6 +143,11 @@ void MainGame::PlayerController()
         dPlayerSpd.y = PLAYER_SPEED;
     }
     m_pPlayer->SetBodySpeed(dPlayerSpd);
+
+    if (g_pKeyManager->isStayKeyDown(VK_SPACE))
+    {
+        m_pPlayer->Shoot();
+    }
 }
 
 void MainGame::SystemController()

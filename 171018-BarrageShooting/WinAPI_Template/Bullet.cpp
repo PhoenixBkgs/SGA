@@ -17,10 +17,6 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::Setup()
-{
-}
-
 void Bullet::Update()
 {
     SpritesObject::Update();

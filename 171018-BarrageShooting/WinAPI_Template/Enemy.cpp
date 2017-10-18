@@ -32,11 +32,23 @@ void Enemy::Update()
     for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
     {
         iter->Update();
+        if (m_pPlayer != NULL)
+        {
+            if (iter->IsAlive())
+            {
+                RECT rt;
+                if (IntersectRect(&rt, &iter->GetHBoxRect(), &m_pPlayer->GetHBoxRect()))
+                {
+                    m_pPlayer->SetLife(m_pPlayer->GetLife() - 1);
+                    iter->SetDead();
+                }
+            }
+        }
     }
 
     for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end();)
     {
-        if (iter->GetLife() == 0)
+        if (iter->IsAlive() == false)
         {
             iter = m_vecBullets.erase(iter);
         }
@@ -56,7 +68,7 @@ void Enemy::Render()
     }
 #ifdef _DEBUG
     char infoMsg[128];
-    sprintf_s(infoMsg, "bullet count : %d", (int)m_vecBullets.size());
+    sprintf_s(infoMsg, "enemy bullet count : %d // HEALTH : %d", (int)m_vecBullets.size(), GetLife());
     TextOut(g_hDC, 0, 15, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 }
@@ -75,6 +87,9 @@ void Enemy::Shoot()
     double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_pPlayer->GetPos());
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
+    genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
+    genBullet.SetHBox();
+    //genBullet.SetAlive();
 
     m_vecBullets.push_back(genBullet);
 }

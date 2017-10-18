@@ -67,6 +67,7 @@ void GameObject::SetHBox()
 {
     m_rtHitBox = { m_rtBody.left + m_nMarginHBox.left, m_rtBody.top + m_nMarginHBox.top
                  , m_rtBody.right - m_nMarginHBox.right, m_rtBody.bottom - m_nMarginHBox.bottom };
+    m_nSizeHBox = g_pDrawHelper->GetSizeFromRect(m_rtHitBox);
 }
 
 void GameObject::SetBodyImgAuto()

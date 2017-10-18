@@ -1,9 +1,12 @@
 #pragma once
 #include "SpritesObject.h"
 #include "Bullet.h"
-#define MAX_SHOOT_DELAY 10
+
+#define MAX_SHOOT_DELAY 20
+
 #define BOSS_WIDTH      480
 #define BOSS_HEIGHT     351
+
 #define BOSS_INIT_POS_X (W_WIDTH * 0.5f)
 #define BOSS_INIT_POS_Y (BOSS_HEIGHT + 50.0f) 
 
