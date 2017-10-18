@@ -2,7 +2,6 @@
 class SceneObject
 {
 public:
-    SceneObject();
-    ~SceneObject();
-};
 
+    void Update();
+};

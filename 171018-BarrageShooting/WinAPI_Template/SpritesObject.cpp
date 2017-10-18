@@ -61,6 +61,12 @@ void SpritesObject::ValidateFramePos()
 }
 
 
+void SpritesObject::Update()
+{
+    GameObject::Update();
+    NextFrame();
+}
+
 void SpritesObject::Render()
 {
     GameObject::Render();
@@ -69,7 +75,6 @@ void SpritesObject::Render()
         if (m_spritesImg != NULL)
         {
             m_spritesImg->SpritesRender(g_hDC, m_rtBody, m_currFrameX, m_currFrameY);
-            NextFrame();
         }
     }
 }

@@ -28,6 +28,9 @@ void MainGame::Start()
     m_pEnemy->SetupForSprites(1, 1);
     m_pEnemy->LockInWnd();
     m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
+
+    g_pScnManager->AddGameObject("game", m_pPlayer);
+    g_pScnManager->AddGameObject("game", m_pEnemy);
 }
 
 void MainGame::Update()
@@ -38,8 +41,13 @@ void MainGame::Update()
     {
         return;
     }
+    /*
     m_pPlayer->Update();
     m_pEnemy->Update();
+    */
+    //g_pScnManager->Update("player");
+    //g_pScnManager->Update("enemy");
+    g_pScnManager->Update("game");
     m_count++;
     if (m_count > 5)
     {
@@ -85,12 +93,11 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    m_pPlayer->Render();
-    m_pEnemy->Render();
-    for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
-    {
-        iter->Render();
-    }
+    /*
+    g_pScnManager->Render("player");
+    g_pScnManager->Render("enemy");
+    */
+    g_pScnManager->Render("game");
 #ifdef _DEBUG
     char infoMsg[128];
     sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_pPlayer->GetPos().x, m_pPlayer->GetPos().y);
@@ -131,7 +138,7 @@ void MainGame::GenBullet()
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
 
-    m_vecBullet.push_back(genBullet);
+    m_pEnemy->PushBullet(genBullet);
 }
 
 void MainGame::PlayerController()

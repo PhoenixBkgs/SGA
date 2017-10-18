@@ -17,11 +17,29 @@ Enemy::~Enemy()
 {
 }
 
+void Enemy::PushBullet(Bullet Bullet)
+{
+    m_vecBullets.push_back(Bullet);
+}
+
 void Enemy::Update()
 {
-    GameObject::Update();
-    
+    SpritesObject::Update();
+    for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
+    {
+        iter->Update();
+    }
 }
+
+void Enemy::Render()
+{
+    SpritesObject::Render();
+    for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
+    {
+        iter->Render();
+    }
+}
+
 
 void Enemy::PatternA()
 {

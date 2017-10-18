@@ -18,5 +18,10 @@ Player::~Player()
 
 void Player::Update()
 {
-    GameObject::Update();
+    SpritesObject::Update();
+}
+
+void Player::Render()
+{
+    SpritesObject::Render();
 }

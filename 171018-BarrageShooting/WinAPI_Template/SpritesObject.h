@@ -47,7 +47,8 @@ public:
     void SetupDelay();          //  Ready for use delay
     void ValidateFramePos();    //  Frame position ceiling
 
-#pragma region RENDER
+#pragma region OVERRIDE
+    virtual void Update() override;
     virtual void Render() override;
 #pragma endregion
 
