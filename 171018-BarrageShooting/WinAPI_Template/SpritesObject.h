@@ -1,21 +1,21 @@
 #pragma once
+#include "GameObject.h"
 
 #define DELAY_RESET_VAL 0.0f
 
 class ImageObject;
-class SpritesObject
+class SpritesObject : public GameObject
 {
 protected:
-    ImageObject* m_spritesImg;
-    RECT    m_rtBody;
-    int     m_currFrameX;           //  Current sprites X position
-    int     m_currFrameY;           //  Current sprites Y position
-    int     m_maxFrameX;            //  Current sprites max of X
-    int     m_maxFrameY;            //  Current sprites max of Y
-    int     m_triggerPosX;          //  Event trigger frame's x position
-    double  m_delayCounter;         //  Change value each frame
-    double  m_frameDelay;           //  Delay key value each frame
-    double  m_frameDelayStep;       //  Step of delay count
+    ImageObject*    m_spritesImg;
+    int             m_currFrameX;           //  Current sprites X position
+    int             m_currFrameY;           //  Current sprites Y position
+    int             m_maxFrameX;            //  Current sprites max of X
+    int             m_maxFrameY;            //  Current sprites max of Y
+    int             m_triggerPosX;          //  Event trigger frame's x position
+    double          m_delayCounter;         //  Change value each frame
+    double          m_frameDelay;           //  Delay key value each frame
+    double          m_frameDelayStep;       //  Step of delay count
 
 public:
     SpritesObject();
@@ -32,7 +32,6 @@ public:
 #pragma endregion
 
 #pragma region SET
-    void SetBodyRect(RECT Rt) { m_rtBody = Rt; }
     void SetSpritesImg(ImageObject* Image) { m_spritesImg = Image; }
     void SetFrameX(int FrameX) { m_currFrameX = FrameX; }
     void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
@@ -44,12 +43,12 @@ public:
     void NextFrame();           //  Automatic move next frame
 #pragma endregion
 
-    void Setup();
+    void SetupForSprites(int MaxFrameX, int MaxFrameY);
     void SetupDelay();          //  Ready for use delay
     void ValidateFramePos();    //  Frame position ceiling
 
 #pragma region RENDER
-    void Render(HDC hdc);       //  Rendering Sprites
+    void Render(HDC hdc);
 #pragma endregion
 
 };

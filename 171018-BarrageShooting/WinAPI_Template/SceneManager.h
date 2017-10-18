@@ -4,6 +4,7 @@
 
 class SceneManager : public SingletonBase<SceneManager>
 {
+private:
 public:
 };
 

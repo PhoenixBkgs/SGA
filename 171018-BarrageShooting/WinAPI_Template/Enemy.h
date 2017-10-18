@@ -1,12 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "SpritesObject.h"
 
 #define BOSS_WIDTH      480
 #define BOSS_HEIGHT     351
 #define BOSS_INIT_POS_X (W_WIDTH * 0.5f)
 #define BOSS_INIT_POS_Y (BOSS_HEIGHT + 50.0f) 
 
-class Enemy : public GameObject
+class Enemy : public SpritesObject
 {
 private:
 public:
@@ -14,4 +14,3 @@ public:
     Enemy(string szTagName);
     ~Enemy();
 };
-

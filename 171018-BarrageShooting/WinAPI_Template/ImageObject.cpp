@@ -162,13 +162,8 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
 }
 
-void ImageObject::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay)
+void ImageObject::SetupForSprites(int SpritesWidth, int SpritesHeight, int SpritesDelay)
 {
-    m_currFrameX = 0;
-    m_spritesInitDelay = SpritesDelay;
-    m_spritesDelayCount = m_spritesInitDelay;
-    m_maxFrameX = MaxFrameX;
-    m_maxFrameY = MaxFrameY;
     m_spritesWidth = SpritesWidth;
     m_spritesHeight = SpritesHeight;
 }
@@ -182,12 +177,13 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
     }
 #endif
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, 
-                           boxSize.x, boxSize.y, 
-                           m_pImageInfo->hMemDC, 
-                           m_spritesWidth * m_currFrameX, 0, 
-                           m_spritesWidth, m_spritesHeight
-                        , m_transColor);
+    GdiTransparentBlt(hdc
+                    , SpritesBox.left, SpritesBox.top
+                    , boxSize.x, boxSize.y
+                    , m_pImageInfo->hMemDC
+                    , m_spritesWidth * 0, m_spritesHeight * 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_transColor);
 }
 
 void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY)
@@ -199,6 +195,36 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
                          , m_spritesWidth * FrameX, m_spritesHeight * FrameY
                          , m_spritesWidth, m_spritesHeight
                          , m_transColor);
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha)
+{
+    BitBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesWidth
+                    , hdc
+                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
+                    , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_transColor);
+    
+    GdiAlphaBlend(hdc
+                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
+                    , m_spritesWidth, m_spritesWidth
+                    , m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesWidth
+                    , m_stBlendFunc);
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos Pos, UnitSize Size, int FrameX, int FrameY)
+{
 }
 
 
@@ -256,21 +282,4 @@ void ImageObject::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;
     m_transColor = transColor;
-}
-
-void ImageObject::Refresh()
-{
-    m_spritesDelayCount++;
-    if (m_spritesDelayCount > m_spritesInitDelay)
-    {
-        m_spritesDelayCount = 0;
-        if (m_maxFrameX > 0)
-        {
-            m_currFrameX++;
-            if (m_currFrameX > m_maxFrameX - 1)
-            {
-                m_currFrameX = 0;
-            }
-        }
-    }
 }

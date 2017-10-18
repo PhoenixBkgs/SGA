@@ -18,12 +18,16 @@ void MainGame::Start()
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
     m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
-    m_pPlayer->SpritesSetup(1, 3);
+    m_pPlayer->LockInWnd();
+    m_pPlayer->SetupForSprites(1, 3);
+    m_pPlayer->SetSpritesImg(g_pImgManager->FindImage("player"));
 
     m_pEnemy = new Enemy("enemy");
     m_pEnemy->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
     m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
-    m_pEnemy->SpritesSetup(1, 1);
+    m_pEnemy->SetupForSprites(1, 1);
+    m_pEnemy->LockInWnd();
+    m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
 }
 
 void MainGame::Update()
@@ -75,22 +79,22 @@ void MainGame::Update()
             iter++;
         }
     }
-    GameNode::Update();
+    GameNode::Update();     //  InvalidRect()
 }
 
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    m_pPlayer->Render();
-    m_pEnemy->Render();
+    m_pPlayer->Render(g_hDC);
+    m_pEnemy->Render(g_hDC);
     for (auto iter = m_vecBullet.begin(); iter != m_vecBullet.end(); iter++)
     {
-        iter->Render();
+        iter->Render(g_hDC);
     }
 #ifdef _DEBUG
     char infoMsg[128];
     sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_pPlayer->GetPos().x, m_pPlayer->GetPos().y);
-    TextOut(g_hDC, 0, 0, infoMsg, strlen(infoMsg));
+    TextOut(g_hDC, 0, 0, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 }
 
@@ -121,7 +125,8 @@ void MainGame::GenBullet()
     genBullet.SetBodyPos(m_pEnemy->GetPos());
     genBullet.SetBodySize(UnitSize{ 32, 32 });
     genBullet.SetBodyRect(g_pDrawHelper->MakeRect(genBullet.GetPos(), genBullet.GetSize()));
-    genBullet.SpritesSetup(2, 2);
+    genBullet.SetupForSprites(2, 2);
+    genBullet.SetSpritesImg(g_pImgManager->FindImage("bullet"));
     double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_pPlayer->GetPos());
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
@@ -132,16 +137,16 @@ void MainGame::GenBullet()
 void MainGame::PlayerController()
 {
     UnitSpeed dPlayerSpd = { 0.0f, 0.0f };
-    m_pPlayer->m_spritesImg->SetFrameY(0);
+    m_pPlayer->SetFrameY(0);
     if (g_pKeyManager->isStayKeyDown(VK_LEFT))
     {
         dPlayerSpd.x = -PLAYER_SPEED;
-        m_pPlayer->m_spritesImg->SetFrameY(1);
+        m_pPlayer->SetFrameY(1);
     }
     if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
     {
         dPlayerSpd.x = PLAYER_SPEED;
-        m_pPlayer->m_spritesImg->SetFrameY(2);
+        m_pPlayer->SetFrameY(2);
     }
     if (g_pKeyManager->isStayKeyDown(VK_UP))
     {

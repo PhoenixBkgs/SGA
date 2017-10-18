@@ -1,11 +1,12 @@
 #pragma once
-#include "SpritesObject.h"
 
 //  Mutual Refernce
 class ImageObject;
 class GameObject
 {
     //  VARS
+private:
+    bool            m_bIsSetup;
 protected:
     int             m_uId;              //  Unique
     string          m_szTagName;        //  TagName
@@ -31,46 +32,49 @@ protected:
     bool            m_isMovable;        //  Move or not
     bool            m_isRigid;          //  Collide or not
     bool            m_isAlive;
+    bool            m_isLockInWnd;      //  Never escape window
     double          m_dAlpha;
     double          m_dAngle;
 
     int             m_nLife;
 
 public:
-    SpritesObject*  m_spritesImg;       //  Sprites image
 
     //  FUNCS
 public:
     GameObject();
     GameObject(string szTagName);
     ~GameObject();
+    void Setup();
+
 #pragma region GET
     //  Identifier
-    int         GetUid() { return m_uId; }
-    string      GetTagName() { return m_szTagName; }
+    int         GetUid()        { return m_uId; }
+    string      GetTagName()    { return m_szTagName; }
     //  Body
-    RECT        GetBodyRect() { return m_rtBody; }
-    UnitPos     GetPos() { return m_dPos; }
-    UnitSize    GetSize() { return m_nSize; }
-    UnitSpeed   GetSpeed() { return m_dSpeed; }
+    RECT        GetBodyRect()   { return m_rtBody; }
+    UnitPos     GetPos()        { return m_dPos; }
+    UnitSize    GetSize()       { return m_nSize; }
+    UnitSpeed   GetSpeed()      { return m_dSpeed; }
     //  HitBox
-    RECT        GetHBoxRect() { return m_rtHitBox; }
-    UnitSize    GetHBoxSize() { return m_nSizeHBox; }
+    RECT        GetHBoxRect()   { return m_rtHitBox; }
+    UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
 
-    bool        IsVisible() { return m_isVisible; }
-    bool        IsAlive() { return m_isAlive; }
-    int         GetLife() { return m_nLife; }
+    bool        IsVisible()     { return m_isVisible; }
+    bool        IsAlive()       { return m_isAlive; }
+    bool        IsLockInWnd()   { return m_isLockInWnd; }
+    int         GetLife()       { return m_nLife; }
 #pragma endregion
 
 #pragma region SET
     //  Identifier
-    void SetUid(int Id) { m_uId = Id; }
+    void SetUid(int Id)             { m_uId = Id; }
     void SetTagName(string TagName) { m_szTagName = TagName; }
     //  Body
     void SetBodyRect(RECT Rect);
-    void SetBodySize(UnitSize Size) { m_nSize = Size; }
-    void SetBodySpeed(UnitSpeed Speed) { m_dSpeed = Speed; }
-    void SetBodyPos(UnitPos Pos) { m_dPos = Pos; }
+    void SetBodySize(UnitSize Size)     { m_nSize = Size; }
+    void SetBodySpeed(UnitSpeed Speed)  { m_dSpeed = Speed; }
+    void SetBodyPos(UnitPos Pos)        { m_dPos = Pos; }
     //  Body image
     void SetBodyImg(ImageObject* Image) { m_imgBody = Image; }
     void SetBodyImgAuto();
@@ -79,12 +83,15 @@ public:
     void SetHBoxMargin(RectMargin HBoxMargin) { m_nMarginHBox = HBoxMargin; }
     void SetHBox();
 
-    void SetVisible() { m_isVisible = true; }
+    void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
-    void SetAlive() { m_isAlive = true; }
-    void SetDead() { m_isAlive = false; }
+    void SetAlive()     { m_isAlive = true; }
+    void SetDead()      { m_isAlive = false; }
     void SetLife(int Life) { m_nLife = Life; }
     void SumLife(int Deal) { m_nLife += Deal; }
+
+    void LockInWnd()    { m_isLockInWnd = true; }
+    void UnlockInWnd()  { m_isLockInWnd = false; }
 #pragma endregion
 
     //  Update / Render
@@ -96,7 +103,6 @@ public:
 
     void Setup(UnitPos Pos, UnitSize Size);
 
-    //  Sprites set up
-    void SpritesSetup(int MaxFrameX, int MaxFrameY, double DelayStep = 1.0f, double DelayMax = 0.0f);
+    void WndLocker();
 };
 

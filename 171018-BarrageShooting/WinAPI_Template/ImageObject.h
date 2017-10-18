@@ -45,12 +45,6 @@ private:
     bool            m_isSprites;
     int             m_spritesWidth;
     int             m_spritesHeight;
-    int             m_currFrameX;
-    int             m_currFrameY;
-    int             m_maxFrameX;
-    int             m_maxFrameY;
-    int             m_spritesDelayCount;
-    int             m_spritesInitDelay;
 
 public:
     ImageObject();
@@ -74,9 +68,11 @@ public:
     void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 
     //  FOR SPRITES
-    void SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay);
+    void SetupForSprites(int SpritesWidth, int SpritesHeight, int SpritesDelay);
     void SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha);
     void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY);
+    void SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha);
+    void SpritesRender(HDC hdc, UnitPos Pos, UnitSize Size, int FrameX, int FrameY);
 
     //  FOR TRANSPARENT
     void SetTransColor(bool isTrans, COLORREF transColor);
@@ -86,12 +82,5 @@ public:
     int GetWidth() { return m_pImageInfo->nWidth; }
     int GetHeight() { return m_pImageInfo->nHeight; }
     void SetIsSprites(bool IsSprites) { m_isSprites = IsSprites; }
-    int GetFrameX() { return m_currFrameX; }
-    int GetFrameY() { return m_currFrameY; }
-    void SetFrameX(int FrameX) { m_currFrameX = FrameX; }
-    void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
-    int GetMaxFrameX() { return m_maxFrameX; }
-    int GetMaxFrameY() { return m_maxFrameY; }
-    void Refresh();
 };
 
