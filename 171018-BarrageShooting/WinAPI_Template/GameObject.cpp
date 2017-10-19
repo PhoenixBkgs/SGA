@@ -124,8 +124,8 @@ void GameObject::WndLocker()
     double hWidth = (double)m_nSize.w * 0.5f;
     double hHeight = (double)m_nSize.h * 0.5f;
     
-    m_dPos.x = max(m_rtLockArea.left + (double)(hWidth), m_dPos.x);
-    m_dPos.y = max(m_rtLockArea.top + (double)(hWidth), m_dPos.y);
-    m_dPos.x = min(m_rtLockArea.right - ((double)W_WIDTH - hWidth), m_dPos.x);
-    m_dPos.y = min(m_rtLockArea.bottom - ((double)W_HEIGHT - hHeight), m_dPos.y);
+    m_dPos.x = max(m_rtLockArea.left + hWidth, m_dPos.x);
+    m_dPos.y = max(m_rtLockArea.top + hWidth, m_dPos.y);
+    m_dPos.x = min(m_rtLockArea.right - hWidth, m_dPos.x);
+    m_dPos.y = min(m_rtLockArea.bottom - hHeight, m_dPos.y);
 }

@@ -10,13 +10,15 @@ MainGame::MainGame()
 
 MainGame::~MainGame()
 {
+    g_pImgManager->DeleteImageAll();
+    g_pScnManager->DeleteAllScene();
 }
 
 void MainGame::Start()
 {
     m_currGameState = GAME_READY;
     m_count = 0;
-
+    SetupSplashScene();
     //  PLAYER
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
@@ -49,9 +51,9 @@ void MainGame::Start()
     m_pPlayer->SetLockArea(m_pMap->GetMapArea());
     m_pEnemy->SetLockArea(m_pMap->GetMapArea());
 
-    g_pScnManager->AddGameObject("game", m_pMap);
-    g_pScnManager->AddGameObject("game", m_pPlayer);
-    g_pScnManager->AddGameObject("game", m_pEnemy);
+    g_pScnManager->AddGameObjToScn("game", m_pMap);
+    g_pScnManager->AddGameObjToScn("game", m_pPlayer);
+    g_pScnManager->AddGameObjToScn("game", m_pEnemy);
 }
 
 void MainGame::Update()
@@ -115,6 +117,13 @@ void MainGame::LoadAllResources()
 
 void MainGame::LoadImageResources()
 {
+    g_pImgManager->AddImage("splash-bg", "images/img-splash-bg.bmp", 640, 1023);
+    g_pImgManager->AddImage("splash-deco", "images/img-splash-deco.bmp", 366, 537);
+    g_pImgManager->AddImage("title", "images/img-title.bmp", 169, 408);
+    g_pImgManager->AddImage("start-button", "images/img-start-button.bmp", 213, 65);
+
+    g_pImgManager->AddImage("menu", "images/img-menu.bmp", 144, 255);
+
     g_pImgManager->AddImage("player", "images/sprites-player.bmp", 60, 210);    //  60 x 70px _ 1 x 3
     g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
     g_pImgManager->AddImage("enemy",  "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
@@ -124,6 +133,17 @@ void MainGame::LoadImageResources()
 void MainGame::LoadSoundResources()
 {
 }
+
+void MainGame::SetupSplashScene()
+{
+    ImageObject* pImg = g_pImgManager->FindImage("splash-bg");
+    m_scnSplash.PushImage(pImg, g_pGeoHelper->GetCenterPointWindow());
+    m_scnSplash.PushImage(g_pImgManager->FindImage("splash-deco"), UnitPos{ W_WIDTH - 200.0f, 300.0f });
+    m_scnSplash.PushImage(g_pImgManager->FindImage("title"), g_pGeoHelper->GetCenterPointWindow());
+    m_scnSplash.PushImage(g_pImgManager->FindImage("start-button"), UnitPos{ W_WIDTH * 0.5f, W_HEIGHT - 100.0f });
+    g_pScnManager->AddGameObjToScn("ready", &m_scnSplash);
+}
+
 
 void MainGame::PlayerController()
 {

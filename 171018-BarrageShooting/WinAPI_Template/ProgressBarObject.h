@@ -23,6 +23,4 @@ public:
 #pragma region RENDER
     void    Render(HDC hdc);
 #pragma endregion
-
 };
-

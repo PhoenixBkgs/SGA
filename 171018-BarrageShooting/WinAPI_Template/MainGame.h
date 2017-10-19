@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "SplashScene.h"
 
 class MainGame : public GameNode
 {
@@ -17,6 +18,9 @@ private:
     vector<Bullet>          m_vecBullet;
     int                     m_count;
     bool                    m_bIsPlaying;
+
+//  SCENE
+    SplashScene             m_scnSplash;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -32,6 +36,8 @@ public:
     void LoadAllResources();
     void LoadImageResources();
     void LoadSoundResources();
+
+    void SetupSplashScene();
 
     void GenEnemy();
     void GenBullet();

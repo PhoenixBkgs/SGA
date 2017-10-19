@@ -169,6 +169,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
+    <ClInclude Include="SplashScene.h" />
     <ClInclude Include="SpritesObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,7 +1,12 @@
 #pragma once
-class SceneObject
-{
-public:
+#include "GameObject.h"
+#include "ImageObject.h"
 
-    void Update();
+class SceneObject : public GameObject
+{
+private:
+public:
+    virtual void Render() override;
+    
+    void Setup(ImageObject* Image, UnitPos Pos);
 };

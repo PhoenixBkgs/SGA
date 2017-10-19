@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 
-void SceneManager::AddGameObject(GameObject * GameObj)
+void SceneManager::AddGameObjToScn(GameObject * GameObj)
 {
     string Key = GameObj->GetTagName();
-    AddGameObject(Key, GameObj);
+    AddGameObjToScn(Key, GameObj);
 }
 
-void SceneManager::AddGameObject(string Key, GameObject * GameObj)
+void SceneManager::AddGameObjToScn(string Key, GameObject * GameObj)
 {
-    //m_mapScene.insert(pair<string, GameObject*>(Key, GameObj));
     auto findObj = m_mapScene.find(Key);
     if (findObj != m_mapScene.end())
     {
@@ -24,16 +23,33 @@ void SceneManager::AddGameObject(string Key, GameObject * GameObj)
     }
 }
 
-void SceneManager::Update(string Key)
+vector<GameObject*>* SceneManager::FindSceneByKey(string Key)
 {
-    /*
-    m_mapIter = m_mapScene.find(Key);
+    return &m_mapScene.find(Key)->second;
+}
+
+void SceneManager::DeleteSceneByKey(string Key)
+{
+    vector<GameObject*>* vecGameObj = FindSceneByKey(Key);
+    if (vecGameObj->size() > 0)
+    {
+        vecGameObj->clear();
+        m_mapScene.erase(Key);
+    }
+}
+
+void SceneManager::DeleteAllScene()
+{
+    m_mapIter = m_mapScene.begin();
     while (m_mapIter != m_mapScene.end())
     {
-        m_mapIter->second->Update();
-        m_mapIter++;
+        m_mapIter->second.clear();
+        m_mapIter = m_mapScene.erase(m_mapIter);
     }
-    */
+}
+
+void SceneManager::Update(string Key)
+{
     if (m_mapScene.find(Key) == m_mapScene.end())
     {
         return;
@@ -48,14 +64,6 @@ void SceneManager::Update(string Key)
 
 void SceneManager::Render(string Key)
 {
-    /*
-    m_mapIter = m_mapScene.find(Key);
-    while (m_mapIter != m_mapScene.end())
-    {
-        m_mapIter->second->Render();
-        m_mapIter++;
-    }
-    */
     if (m_mapScene.find(Key) == m_mapScene.end())
     {
         return;
