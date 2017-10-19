@@ -31,7 +31,7 @@ using namespace std;
 #define W_NAME (LPCWSTR)(TEXT("TITLE"))
 #define W_START_POS_X		0
 #define W_START_POS_Y		0
-#define W_WIDTH		        1024
+#define W_WIDTH		        512
 #define W_HEIGHT		    1024
 #define WINDOW_STYLE		WS_CAPTION | WS_SYSMENU
 #define PURE			    = 0

@@ -22,6 +22,7 @@ public:
     ~SpritesObject();
 
 #pragma region GET
+    ImageObject* GetSpritesImg() { return m_spritesImg; }
     int     GetFrameX() { return m_currFrameX; }
     int     GetFrameY() { return m_currFrameY; }
     int     GetMaxFrameX() { return m_maxFrameX; }
@@ -40,7 +41,8 @@ public:
     void SetTriggerPos(int Pos) { m_triggerPosX = Pos; }
     void SetFrameDelay(double Delay) { m_frameDelay = Delay; }
     void SetFrameDelayStep(double DelayStep) { m_frameDelayStep = DelayStep; }
-    void NextFrame();           //  Automatic move next frame
+    void NextFrameX();           //  Automatic move next frame
+    void NextFrameY();
 #pragma endregion
 
     void SetupForSprites(int MaxFrameX, int MaxFrameY);

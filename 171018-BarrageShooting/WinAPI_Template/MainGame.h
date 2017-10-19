@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "SplashScene.h"
+#include "ClearScene.h"
 
 class MainGame : public GameNode
 {
@@ -21,6 +22,7 @@ private:
 
 //  SCENE
     SplashScene             m_scnSplash;
+    ClearScene              m_scnClear;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -38,9 +40,7 @@ public:
     void LoadSoundResources();
 
     void SetupSplashScene();
-
-    void GenEnemy();
-    void GenBullet();
+    void SetupClearScene();
 
     void PlayerController();
     void SystemController();

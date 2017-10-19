@@ -126,6 +126,9 @@
     <ClInclude Include="SplashScene.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="ClearScene.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -201,6 +204,9 @@
       <Filter>GameFramework2D\001-MainGame</Filter>
     </ClCompile>
     <ClCompile Include="SplashScene.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>

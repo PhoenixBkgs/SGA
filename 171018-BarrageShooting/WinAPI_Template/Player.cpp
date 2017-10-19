@@ -10,15 +10,28 @@ Player::Player(string szTagName)
 {
     m_szTagName = szTagName;
     SetBodyImgAuto();
+    m_dHp = PLAYER_INIT_HP;
 }
 
 Player::~Player()
 {
 }
 
+void Player::SetupForProgressBar()
+{
+    m_hpBar.SetBodyPos(UnitPos{ W_WIDTH * 0.5f, W_HEIGHT - 50.0f });
+    m_hpBar.SetBodySize(UnitSize{ 500, 50 });
+    m_hpBar.SetBodyRect(g_pDrawHelper->MakeRect(m_hpBar.GetPos(), m_hpBar.GetSize()));
+    m_hpBar.SetSpritesBack(g_pImgManager->FindImage("hp-frame"));
+    m_hpBar.SetSpritesFront(g_pImgManager->FindImage("hp-bar"));
+    m_hpBar.SetupSprites();
+    m_hpBar.SetIsSetup();
+}
+
 void Player::Update()
 {
     SpritesObject::Update();
+    m_hpBar.SetGaugeRatio(m_dHp / PLAYER_INIT_HP);
 
     for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
     {
@@ -30,7 +43,7 @@ void Player::Update()
                 RECT rt;
                 if (IntersectRect(&rt, &iter->GetHBoxRect(), &m_pEnemy->GetHBoxRect()))
                 {
-                    m_pEnemy->SetLife(m_pEnemy->GetLife() - 1);
+                    m_pEnemy->SumHp(iter->GetDamage());
                     iter->SetDead();
                 }
             }
@@ -57,6 +70,7 @@ void Player::Render()
     {
         iter->Render();
     }
+    m_hpBar.Render(g_hDC);
 #ifdef _DEBUG
     char infoMsg[128];
     sprintf_s(infoMsg, "player bullet count : %d // HEALTH : %d", (int)m_vecBullets.size(), GetLife());
@@ -82,6 +96,7 @@ void Player::Shoot()
     genBullet.SetFrameY(1);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
     genBullet.SetHBox();
+    genBullet.SetDamage(-5.0f);
 
     m_vecBullets.push_back(genBullet);
 }

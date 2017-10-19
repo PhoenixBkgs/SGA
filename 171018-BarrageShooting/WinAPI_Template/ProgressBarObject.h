@@ -1,26 +1,32 @@
 #pragma once
-class ProgressBarObject
+#include "GameObject.h"
+#include "SpritesObject.h"
+
+class ProgressBarObject : public GameObject
 {
 private:
-    ImageObject*        m_imgBack;      //  Background img
-    ImageObject*        m_imgFront;     //  Foreground img
-    RECT                m_rt;           //  Draw position
-    UnitPos             m_nPos;         //  Center position
-    UnitSize            m_nSize;        //  Size
-    int                 m_nCurrWidth;   //  Progress bar width
-
+    bool                m_bIsSetup;
+    SpritesObject*      m_spritesBack;      //  Background img
+    SpritesObject*      m_spritesFront;     //  Foreground img
+    double              m_dGaugeRatio;
 public:
-    ProgressBarObject(string szBgImgTag, string szFgImgTag, UnitPos Pos, UnitSize Size);
+    ProgressBarObject();
     ~ProgressBarObject();
 
 #pragma region GET
-
+    double  GetGaugeRatio() { return m_dGaugeRatio; }
+    SpritesObject*  GetSpritesBack() { return m_spritesBack; }
+    SpritesObject*  GetSpritesFront() { return m_spritesFront; }
 #pragma endregion
 #pragma region SET
-    void    SetProgress(double DestProgress, double CurrProgress);
+    void    SetGaugeRatio(double Ratio) { m_dGaugeRatio = Ratio; }
+    void    SetIsSetup() { m_bIsSetup = true; }
+    void    SetSpritesBack(ImageObject* Image);
+    void    SetSpritesFront(ImageObject* Image);
 #pragma endregion
 
 #pragma region RENDER
     void    Render(HDC hdc);
 #pragma endregion
+    void    SetupSprites();
 };

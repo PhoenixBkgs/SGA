@@ -29,13 +29,24 @@ bool SpritesObject::IsTriggerFrame()
         return false;
 }
 
-void SpritesObject::NextFrame()
+void SpritesObject::NextFrameX()
 {
     m_delayCounter += m_frameDelayStep;
     if (m_delayCounter > m_frameDelay)
     {
         m_delayCounter = DELAY_RESET_VAL;
         m_currFrameX++;
+    }
+    ValidateFramePos();
+}
+
+void SpritesObject::NextFrameY()
+{
+    m_delayCounter += m_frameDelayStep;
+    if (m_delayCounter > m_frameDelay)
+    {
+        m_delayCounter = DELAY_RESET_VAL;
+        m_currFrameY++;
     }
     ValidateFramePos();
 }
@@ -64,7 +75,7 @@ void SpritesObject::ValidateFramePos()
 void SpritesObject::Update()
 {
     GameObject::Update();
-    NextFrame();
+    NextFrameX();
 }
 
 void SpritesObject::Render()
