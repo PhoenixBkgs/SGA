@@ -67,7 +67,7 @@ void Player::Render()
 void Player::Shoot()
 {
     m_nShootDelay++;
-    if (m_nShootDelay > MAX_SHOOT_DELAY)
+    if (m_nShootDelay > PLAYER_MAX_SHOOT_DELAY)
         m_nShootDelay = 0;
     else
         return;
@@ -82,7 +82,6 @@ void Player::Shoot()
     genBullet.SetFrameY(1);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
     genBullet.SetHBox();
-    //genBullet.SetAlive();
 
     m_vecBullets.push_back(genBullet);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameNode.h"
+#include "MapObject.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
@@ -10,6 +11,7 @@ class MainGame : public GameNode
 //  VARIABLES
 private:
     E_GAME_STATE            m_currGameState;
+    MapObject*              m_pMap;
     Player*                 m_pPlayer;
     Enemy*                  m_pEnemy;
     vector<Bullet>          m_vecBullet;

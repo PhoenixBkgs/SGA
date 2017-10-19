@@ -13,9 +13,15 @@ public:
     ProgressBarObject(string szBgImgTag, string szFgImgTag, UnitPos Pos, UnitSize Size);
     ~ProgressBarObject();
 
+#pragma region GET
+
+#pragma endregion
 #pragma region SET
     void    SetProgress(double DestProgress, double CurrProgress);
+#pragma endregion
 
+#pragma region RENDER
+    void    Render(HDC hdc);
 #pragma endregion
 
 };

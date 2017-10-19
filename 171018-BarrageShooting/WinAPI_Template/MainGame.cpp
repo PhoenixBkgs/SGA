@@ -16,6 +16,8 @@ void MainGame::Start()
 {
     m_currGameState = GAME_READY;
     m_count = 0;
+
+    //  PLAYER
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
     m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
@@ -24,6 +26,7 @@ void MainGame::Start()
     m_pPlayer->SetSpritesImg(g_pImgManager->FindImage("player"));
     m_pPlayer->SetLife(10);
 
+    //  ENEMY
     m_pEnemy = new Enemy("enemy");
     m_pEnemy->SetHBoxMargin(RectMargin{ 15, 15, 15, 15 });
     m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
@@ -36,6 +39,17 @@ void MainGame::Start()
     m_pPlayer->SetEnemy(m_pEnemy);
     m_pEnemy->SetPlayer(m_pPlayer);
     
+    //  MAP
+    m_pMap = new MapObject();
+    m_pMap->SetBodyImg(g_pImgManager->FindImage("map"));
+    m_pMap->SetBodyPos(g_pGeoHelper->GetCenterPointWindow());
+    m_pMap->SetBodySize(UnitSize{ m_pMap->GetBodyImg()->GetWidth(), m_pMap->GetBodyImg()->GetHeight() });
+    m_pMap->Setup(m_pMap->GetPos(), m_pMap->GetSize());
+    m_pMap->SetMapArea(g_pDrawHelper->MakeRect(m_pMap->GetPos(), m_pMap->GetSize()));
+    m_pPlayer->SetLockArea(m_pMap->GetMapArea());
+    m_pEnemy->SetLockArea(m_pMap->GetMapArea());
+
+    g_pScnManager->AddGameObject("game", m_pMap);
     g_pScnManager->AddGameObject("game", m_pPlayer);
     g_pScnManager->AddGameObject("game", m_pEnemy);
 }
@@ -49,12 +63,6 @@ void MainGame::Update()
         break;
     case GAME_PLAYING:
         PlayerController();
-        /*
-        m_pPlayer->Update();
-        m_pEnemy->Update();
-        g_pScnManager->Update("player");
-        g_pScnManager->Update("enemy");
-        */
         g_pScnManager->Update("game");
         break;
     case GAME_PAUSE:
@@ -79,10 +87,6 @@ void MainGame::Render()
         break;
     case GAME_PLAYING:
     case GAME_PAUSE:
-        /*
-        g_pScnManager->Render("player");
-        g_pScnManager->Render("enemy");
-        */
         g_pScnManager->Render("game");
         break;
     case GAME_CLEAR:
@@ -114,6 +118,7 @@ void MainGame::LoadImageResources()
     g_pImgManager->AddImage("player", "images/sprites-player.bmp", 60, 210);    //  60 x 70px _ 1 x 3
     g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
     g_pImgManager->AddImage("enemy",  "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
+    g_pImgManager->AddImage("map",    "images/img-map.bmp", 512, 1024);         //  512 x 1024px _ 1 x 1
 }
 
 void MainGame::LoadSoundResources()
@@ -129,7 +134,7 @@ void MainGame::PlayerController()
         dPlayerSpd.x = -PLAYER_SPEED;
         m_pPlayer->SetFrameY(1);
     }
-    if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
+    else if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
     {
         dPlayerSpd.x = PLAYER_SPEED;
         m_pPlayer->SetFrameY(2);
@@ -138,7 +143,7 @@ void MainGame::PlayerController()
     {
         dPlayerSpd.y = -PLAYER_SPEED;
     }
-    if (g_pKeyManager->isStayKeyDown(VK_DOWN))
+    else if (g_pKeyManager->isStayKeyDown(VK_DOWN))
     {
         dPlayerSpd.y = PLAYER_SPEED;
     }

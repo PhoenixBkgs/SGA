@@ -172,6 +172,8 @@
     <ClInclude Include="SpritesObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="TimerObject.h" />
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +203,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="TimerObject.cpp" />
     <ClCompile Include="WinAPITemplate.cpp" />
   </ItemGroup>
   <ItemGroup>

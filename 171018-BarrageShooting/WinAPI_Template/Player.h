@@ -2,7 +2,7 @@
 #include "SpritesObject.h"
 #include "Bullet.h"
 
-#define MAX_SHOOT_DELAY 10
+#define PLAYER_MAX_SHOOT_DELAY 10
 
 #define PLAYER_SPEED    10.0f
 #define PLAYER_WIDTH    60

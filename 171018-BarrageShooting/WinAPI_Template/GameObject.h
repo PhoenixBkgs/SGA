@@ -28,11 +28,15 @@ protected:
     RectMargin      m_nMarginHBox;      //  Hit box margin
 //--------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------
+//      LOCK IN 
+    RECT            m_rtLockArea;
+    bool            m_isLockInWnd;      //  Never escape window
+//--------------------------------------------------------------------------
     bool            m_isVisible;        //  Render or not
     bool            m_isMovable;        //  Move or not
     bool            m_isRigid;          //  Collide or not
     bool            m_isAlive;
-    bool            m_isLockInWnd;      //  Never escape window
     double          m_dAlpha;
     double          m_dAngle;
 
@@ -52,10 +56,11 @@ public:
     int         GetUid()        { return m_uId; }
     string      GetTagName()    { return m_szTagName; }
     //  Body
-    RECT        GetBodyRect()   { return m_rtBody; }
-    UnitPos     GetPos()        { return m_dPos; }
-    UnitSize    GetSize()       { return m_nSize; }
-    UnitSpeed   GetSpeed()      { return m_dSpeed; }
+    RECT            GetBodyRect()   { return m_rtBody; }
+    UnitPos         GetPos()        { return m_dPos; }
+    UnitSize        GetSize()       { return m_nSize; }
+    UnitSpeed       GetSpeed()      { return m_dSpeed; }
+    ImageObject*    GetBodyImg()   { return m_imgBody; }
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
@@ -82,6 +87,10 @@ public:
     //  HitBox
     void SetHBoxMargin(RectMargin HBoxMargin) { m_nMarginHBox = HBoxMargin; }
     void SetHBox();
+    //  Lock area
+    void SetLockArea(RECT Area) { m_rtLockArea = Area; }
+    void LockInWnd()    { m_isLockInWnd = true; }
+    void UnlockInWnd()  { m_isLockInWnd = false; }
 
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
@@ -90,8 +99,6 @@ public:
     void SetLife(int Life) { m_nLife = Life; }
     void SumLife(int Deal) { m_nLife += Deal; }
 
-    void LockInWnd()    { m_isLockInWnd = true; }
-    void UnlockInWnd()  { m_isLockInWnd = false; }
 #pragma endregion
 
     //  Update / Render

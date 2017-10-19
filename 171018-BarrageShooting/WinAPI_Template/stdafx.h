@@ -31,8 +31,8 @@ using namespace std;
 #define W_NAME (LPCWSTR)(TEXT("TITLE"))
 #define W_START_POS_X		0
 #define W_START_POS_Y		0
-#define W_WIDTH		        1600
-#define W_HEIGHT		    900
+#define W_WIDTH		        1024
+#define W_HEIGHT		    1024
 #define WINDOW_STYLE		WS_CAPTION | WS_SYSMENU
 #define PURE			    = 0
 
@@ -58,11 +58,13 @@ using namespace std;
 #include "LogManager.h"
 #include "ImageManager.h"
 #include "SceneManager.h"
+#include "TimerManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
 #define g_pLogManager LogManager::GetInstance()
 #define g_pImgManager ImageManager::GetInstance()
 #define g_pScnManager SceneManager::GetInstance()
+#define g_pTimerManager TimerManager::GetInstance()
 
 //==================================================================
 //		## Helper 추가 ##

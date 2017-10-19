@@ -23,7 +23,7 @@ void Enemy::Update()
 {
     SpritesObject::Update();
     m_nShootDelay++;
-    if (m_nShootDelay > MAX_SHOOT_DELAY)
+    if (m_nShootDelay > ENEMY_MAX_SHOOT_DELAY)
     {
         m_nShootDelay = 0;
         Shoot();
@@ -89,7 +89,6 @@ void Enemy::Shoot()
     genBullet.SetBodySpeed((UnitSpeed)pos);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
     genBullet.SetHBox();
-    //genBullet.SetAlive();
 
     m_vecBullets.push_back(genBullet);
 }

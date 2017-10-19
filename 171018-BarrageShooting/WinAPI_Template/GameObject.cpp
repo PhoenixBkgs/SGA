@@ -33,6 +33,7 @@ void GameObject::Setup()
     m_dAngle = 0.0f;
     m_isLockInWnd = false;
     m_bIsSetup = true;
+    m_rtLockArea = { 0, 0, W_WIDTH, W_HEIGHT };
 }
 
 void GameObject::SetBodyRect(RECT Rect)
@@ -123,8 +124,8 @@ void GameObject::WndLocker()
     double hWidth = (double)m_nSize.w * 0.5f;
     double hHeight = (double)m_nSize.h * 0.5f;
     
-    m_dPos.x = max((double)(hWidth), m_dPos.x);
-    m_dPos.y = max((double)(hWidth), m_dPos.y);
-    m_dPos.x = min(((double)W_WIDTH - hWidth), m_dPos.x);
-    m_dPos.y = min(((double)W_HEIGHT - hHeight), m_dPos.y);
+    m_dPos.x = max(m_rtLockArea.left + (double)(hWidth), m_dPos.x);
+    m_dPos.y = max(m_rtLockArea.top + (double)(hWidth), m_dPos.y);
+    m_dPos.x = min(m_rtLockArea.right - ((double)W_WIDTH - hWidth), m_dPos.x);
+    m_dPos.y = min(m_rtLockArea.bottom - ((double)W_HEIGHT - hHeight), m_dPos.y);
 }

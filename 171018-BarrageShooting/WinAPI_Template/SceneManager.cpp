@@ -17,7 +17,8 @@ void SceneManager::AddGameObject(string Key, GameObject * GameObj)
     }
     else
     {
-        m_mapScene.insert(pair<string, vector<GameObject*>>(Key, m_vecGameObj));
+        vector<GameObject*> vecGameObj;
+        m_mapScene.insert(pair<string, vector<GameObject*>>(Key, vecGameObj));
         findObj = m_mapScene.find(Key);
         findObj->second.push_back(GameObj);
     }

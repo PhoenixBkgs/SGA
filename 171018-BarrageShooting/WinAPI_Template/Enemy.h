@@ -2,13 +2,13 @@
 #include "SpritesObject.h"
 #include "Bullet.h"
 
-#define MAX_SHOOT_DELAY 20
+#define ENEMY_MAX_SHOOT_DELAY 20
 
 #define BOSS_WIDTH      480
 #define BOSS_HEIGHT     351
 
 #define BOSS_INIT_POS_X (W_WIDTH * 0.5f)
-#define BOSS_INIT_POS_Y (BOSS_HEIGHT + 50.0f) 
+#define BOSS_INIT_POS_Y (BOSS_HEIGHT * 0.5f + 10.0f) 
 
 class Player;
 class Bullet;
