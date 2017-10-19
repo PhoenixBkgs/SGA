@@ -111,7 +111,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>GameFramework2D\004-Source</Filter>
     </ClInclude>
-    <ClInclude Include="GaugeObject.h">
+    <ClInclude Include="ProgressBarObject.h">
       <Filter>GameFramework2D\001-MainGame</Filter>
     </ClInclude>
   </ItemGroup>
@@ -179,7 +179,7 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>GameFramework2D\004-Source</Filter>
     </ClCompile>
-    <ClCompile Include="GaugeObject.cpp">
+    <ClCompile Include="ProgressBarObject.cpp">
       <Filter>GameFramework2D\001-MainGame</Filter>
     </ClCompile>
   </ItemGroup>
