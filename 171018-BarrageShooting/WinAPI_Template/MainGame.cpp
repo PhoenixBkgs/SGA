@@ -19,7 +19,7 @@ void MainGame::Start()
 {
     m_currGameState = GAME_READY;
     m_count = 0;
-    SetupSplashScene();
+    SetupScene();
     SetupClearScene();
     //  PLAYER
     m_pPlayer = new Player("player");
@@ -56,8 +56,8 @@ void MainGame::Start()
     m_pEnemy->SetLockArea(m_pMap->GetMapArea());
 
     g_pScnManager->AddGameObjToScn("game", m_pMap);
-    g_pScnManager->AddGameObjToScn("game", m_pPlayer);
     g_pScnManager->AddGameObjToScn("game", m_pEnemy);
+    g_pScnManager->AddGameObjToScn("game", m_pPlayer);
 }
 
 void MainGame::Update()
@@ -66,6 +66,7 @@ void MainGame::Update()
     switch (m_currGameState)
     {
     case GAME_READY:
+        g_pScnManager->Update("ready");
         break;
     case GAME_PLAYING:
         PlayerController();
@@ -97,6 +98,10 @@ void MainGame::Render()
         if (m_pEnemy->GetHp() < 0.0f)
         {
             m_currGameState = GAME_CLEAR;
+        }
+        if (m_currGameState == GAME_PAUSE)
+        {
+            g_pScnManager->Render("pause");
         }
         break;
     case GAME_CLEAR:
@@ -149,27 +154,61 @@ void MainGame::LoadImageResources()
 
 void MainGame::LoadSoundResources()
 {
+    
 }
 
-void MainGame::SetupSplashScene()
+void MainGame::SetupScene()
 {
-    ImageObject* pImg = g_pImgManager->FindImage("splash-bg");
-/*
-    m_scnSplash.PushImage(pImg, g_pGeoHelper->GetCenterPointWindow());
-    m_scnSplash.PushImage(g_pImgManager->FindImage("splash-deco"), UnitPos{ W_WIDTH - 200.0f, 300.0f });
-    m_scnSplash.PushImage(g_pImgManager->FindImage("title"), g_pGeoHelper->GetCenterPointWindow());
-    m_scnSplash.PushImage(g_pImgManager->FindImage("start-button"), UnitPos{ W_WIDTH * 0.5f, W_HEIGHT - 100.0f });
-*/
-//    g_pScnManager->AddGameObjToScn("ready", &m_scnSplash);
+    UnitPos centerPos = g_pGeoHelper->GetCenterPointWindow();
+
+    SpritesObject* bg;
+    bg = new SpritesObject;
+    bg->Setup(centerPos, { W_WIDTH, W_HEIGHT });
+    bg->SetBodyImg(g_pImgManager->FindImage("splash-bg"));
+    bg->SetupForSprites(1, 1);
+
+    SpritesObject* bgDeco = new SpritesObject;
+    UnitSize bgDecoSize = g_pImgManager->FindImage("splash-deco")->GetSize();
+    bgDeco->SetBodyPos({ (double)(W_WIDTH - bgDecoSize.w * 0.5f), centerPos.y * 0.5f });
+    bgDeco->SetBodySize(bgDecoSize);
+    bgDeco->SetBodyRect(g_pDrawHelper->MakeRect(bgDeco->GetPos(), bgDeco->GetSize()));
+    bgDeco->SetBodyImg(g_pImgManager->FindImage("splash-deco"));
+    bgDeco->SetupForSprites(1, 1);
+
+    SpritesObject* title = new SpritesObject;
+    UnitSize titleSize = g_pImgManager->FindImage("title")->GetSize();
+    title->Setup(centerPos, titleSize);
+    title->SetBodyImg(g_pImgManager->FindImage("title"));
+    title->SetupForSprites(1, 1);
+
+    StartButton* startBtn = new StartButton;
+    startBtn->Setup({ centerPos.x, centerPos.y + 400.0f }, { 213, 65 });
+    startBtn->SetState(&m_currGameState);
+    startBtn->SetBodyImg(g_pImgManager->FindImage("start-button"));
+    startBtn->SetupForSprites(1, 1);
+    
+    g_pScnManager->AddGameObjToScn("ready", bg);
+    g_pScnManager->AddGameObjToScn("ready", bgDeco);
+    g_pScnManager->AddGameObjToScn("ready", title);
+    g_pScnManager->AddGameObjToScn("ready", startBtn);
+
+    SpritesObject* pause = new SpritesObject;
+    pause->Setup(centerPos, { W_WIDTH, W_HEIGHT });
+    pause->SetBodyImg(g_pImgManager->FindImage("splash-bg"));
+    pause->SetupForSprites(1, 1);
+    pause->SetAlpha(128.0f);
+
+    SpritesObject* menu = new SpritesObject;
+    menu->SetBodyImg(g_pImgManager->FindImage("menu"));
+    menu->Setup(centerPos, menu->GetBodyImg()->GetSize());
+    menu->SetupForSprites(1, 1);
+
+    g_pScnManager->AddGameObjToScn("pause", pause);
+    g_pScnManager->AddGameObjToScn("pause", menu);
 }
 
 void MainGame::SetupClearScene()
 {
-    ImageObject* pImg = g_pImgManager->FindImage("gameover");
-/*
-    m_scnClear.PushImage(pImg, g_pGeoHelper->GetCenterPointWindow());
-*/
-//    g_pScnManager->AddGameObjToScn("clear", &m_scnClear);
 }
 
 
@@ -205,6 +244,11 @@ void MainGame::PlayerController()
 
 void MainGame::SystemController()
 {
+    if (g_pKeyManager->isOnceKeyDown(VK_ESCAPE))
+    {
+        PostQuitMessage(0);
+    }
+
     if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
     {
         switch (m_currGameState)

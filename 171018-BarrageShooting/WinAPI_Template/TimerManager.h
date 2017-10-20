@@ -1,6 +1,5 @@
 #pragma once
 #include "SingletonBase.h"
-#include "TimerObject.h"
 
 class TimerManager : public SingletonBase<TimerManager>
 {

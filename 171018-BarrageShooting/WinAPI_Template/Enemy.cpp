@@ -118,17 +118,21 @@ void Enemy::Shoot()
     }
     else if (hpRatio > 0.6f)
     {
-        PatternB(0.0f);
+        static double angle = 0.0f;
+        angle += 1.0f;
+        PatternB(90.0f + sinf(angle) * 10.0f);
     }
     else if (hpRatio > 0.2f)
     {
         PatternA();
-        PatternB(0.0f);
+        PatternB(90.0f);
     }
     else
     {
+        static double angle = 90.0f;
+        angle += 10.0f;
         PatternA();
-        PatternB(0.0f);
+        PatternB(angle);
         PatternC();
     }
 }
@@ -143,8 +147,10 @@ void Enemy::PatternA()
     genBullet.SetBodyRect(g_pDrawHelper->MakeRect(genBullet.GetPos(), genBullet.GetSize()));
     genBullet.SetupForSprites(2, 2);
     genBullet.SetSpritesImg(g_pImgManager->FindImage("bullet"));
+    double dist = g_pGeoHelper->GetDistance(m_pPlayer->GetPos(), genBullet.GetPos());
     double angle = g_pGeoHelper->GetAngleFromCoord(genBullet.GetPos(), m_pPlayer->GetPos());
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
+    
     m_nCShootMax = 100;
     genBullet.SetBodySpeed((UnitSpeed)pos);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
@@ -182,8 +188,8 @@ void Enemy::PatternB(double angle)
     if (g_pTimerManager->TickSimpleTimer("phase-2") > 10)
     {
         g_pTimerManager->ResetSimpleTimer("phase-2");
-        PatternB(-15.0f);
-        PatternB(15.0f);
+        PatternB(-15.0f + angle);
+        PatternB(15.0f + angle);
     }    
 }
 

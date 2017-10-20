@@ -21,7 +21,15 @@ Bullet::~Bullet()
 void Bullet::Update()
 {
     SpritesObject::Update();
-
+    SetFrameX(0);
+    /*
+    UnitPos tPos;
+    UnitPos pos = g_pGeoHelper->GetCenterPointWindow();
+    m_t += 0.01f;
+    g_pGeoHelper->BezierInterpolation(tPos, GetPos(), pos, UnitPos{ (double)W_WIDTH, (double)W_HEIGHT }, m_t);
+    SetBodyPos(tPos);
+    m_rtBody = g_pDrawHelper->MakeRect(m_dPos, GetSize());
+    */
     UnitPos pos = GetPos();
     if (pos.x < 0)
     {

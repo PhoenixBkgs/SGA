@@ -58,6 +58,7 @@ public:
     //  Body
     RECT            GetBodyRect()   { return m_rtBody; }
     UnitPos         GetPos()        { return m_dPos; }
+    UnitPos*        GetPosRef()     { return &m_dPos; }
     UnitSize        GetSize()       { return m_nSize; }
     UnitSpeed       GetSpeed()      { return m_dSpeed; }
     ImageObject*    GetBodyImg()   { return m_imgBody; }
@@ -92,6 +93,8 @@ public:
     void LockInWnd()    { m_isLockInWnd = true; }
     void UnlockInWnd()  { m_isLockInWnd = false; }
 
+    //  Exterior
+    void SetAlpha(double Alpha) { m_dAlpha = Alpha; }
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
     void SetAlive()     { m_isAlive = true; }

@@ -1,9 +1,12 @@
 #pragma once
 #include "GameNode.h"
+#include "SceneObject.h"
 #include "MapObject.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "StartButton.h"
+
 
 class MainGame : public GameNode
 {
@@ -19,7 +22,7 @@ private:
     bool                    m_bIsPlaying;
 
 //  SCENE
-
+    SceneObject             m_splashScn;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -36,7 +39,7 @@ public:
     void LoadImageResources();
     void LoadSoundResources();
 
-    void SetupSplashScene();
+    void SetupScene();
     void SetupClearScene();
 
     void PlayerController();

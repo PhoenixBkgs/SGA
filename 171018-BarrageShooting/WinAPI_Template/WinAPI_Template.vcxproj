@@ -150,8 +150,10 @@
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="StartButton.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="MapObject.h" />
+    <ClInclude Include="MenuScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProgressBarObject.h" />
     <ClInclude Include="RatingHelper.h" />
@@ -167,20 +169,23 @@
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
+    <ClInclude Include="SplashScene.h" />
     <ClInclude Include="SpritesObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TimerManager.h" />
-    <ClInclude Include="TimerObject.h" />
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="StartButton.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgressBarObject.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
@@ -194,6 +199,8 @@
     <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -202,7 +209,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp" />
-    <ClCompile Include="TimerObject.cpp" />
     <ClCompile Include="WinAPITemplate.cpp" />
   </ItemGroup>
   <ItemGroup>

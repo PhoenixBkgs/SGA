@@ -31,6 +31,9 @@
     <Filter Include="GameFramework2D\004-Source\001.Scene">
       <UniqueIdentifier>{7f4876c6-f469-4778-b6f3-8dfe89a92b2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFramework2D\001-MainGame\PClass">
+      <UniqueIdentifier>{3f7f5919-50b9-4609-b813-6262151af720}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -66,12 +69,6 @@
     <ClInclude Include="DataStructure.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClInclude>
-    <ClInclude Include="SpritesObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="LogManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
@@ -80,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="GeometryHelper.h">
       <Filter>GameFramework2D\003-Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsHelper.h">
       <Filter>GameFramework2D\003-Helper</Filter>
@@ -96,9 +90,6 @@
     <ClInclude Include="ImageManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
@@ -111,14 +102,35 @@
     <ClInclude Include="Enemy.h">
       <Filter>GameFramework2D\004-Source</Filter>
     </ClInclude>
-    <ClInclude Include="ProgressBarObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="TimerManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
-    <ClInclude Include="TimerObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBarObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SpritesObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScene.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -137,12 +149,6 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="SpritesObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="LogManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
@@ -151,9 +157,6 @@
     </ClCompile>
     <ClCompile Include="GeometryHelper.cpp">
       <Filter>GameFramework2D\003-Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsHelper.cpp">
       <Filter>GameFramework2D\003-Helper</Filter>
@@ -167,9 +170,6 @@
     <ClCompile Include="ImageManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
@@ -182,14 +182,35 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>GameFramework2D\004-Source</Filter>
     </ClCompile>
-    <ClCompile Include="ProgressBarObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="TimerManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
-    <ClCompile Include="TimerObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBarObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SpritesObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScene.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

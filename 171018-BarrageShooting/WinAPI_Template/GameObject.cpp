@@ -29,7 +29,7 @@ void GameObject::Setup()
     m_nSize = UnitSize{ 1, 1 };
     m_isVisible = true;
     m_isAlive = true;
-    m_dAlpha = 0.0f;
+    m_dAlpha = 255.0f;
     m_dAngle = 0.0f;
     m_isLockInWnd = false;
     m_bIsSetup = true;

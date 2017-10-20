@@ -73,6 +73,7 @@ public:
     void SetupForSprites(int SpritesWidth, int SpritesHeight, int SpritesDelay);
     void SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha);
     void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY);
+    void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha);
     void SpritesRender(HDC hdc, UnitPos Pos, UnitSize Size, int FrameX, int FrameY);
 
@@ -83,6 +84,7 @@ public:
     HDC GetMemDC() { return m_pImageInfo->hMemDC; }
     int GetWidth() { return m_pImageInfo->nWidth; }
     int GetHeight() { return m_pImageInfo->nHeight; }
+    UnitSize GetSize() { return { GetWidth(), GetHeight() }; }
     void SetIsSprites(bool IsSprites) { m_isSprites = IsSprites; }
 };
 
