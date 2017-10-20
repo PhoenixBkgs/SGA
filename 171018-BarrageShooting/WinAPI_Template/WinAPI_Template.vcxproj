@@ -168,7 +168,6 @@
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SplashScene.h" />
     <ClInclude Include="SpritesObject.h" />
@@ -198,7 +197,6 @@
     <ClCompile Include="PhysicsHelper.cpp" />
     <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">

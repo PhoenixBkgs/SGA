@@ -12,6 +12,7 @@ MainGame::~MainGame()
 {
     g_pImgManager->DeleteImageAll();
     g_pScnManager->DeleteAllScene();
+    g_pTimerManager->DeleteTimerAll();
 }
 
 void MainGame::Start()

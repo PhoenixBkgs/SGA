@@ -6,33 +6,24 @@ class TimerManager : public SingletonBase<TimerManager>
 {
     //  VARS
 private:
-    map<string, TimerObject*>            m_mapTimer;
-    map<string, TimerObject*>::iterator  m_mapIter;
-    TimerObject*    m_timerObject;
+    map<string, int>                        m_mapSimpleTimer;
+    map<string, int>::iterator              m_mapSimpleIter;
 public:
+
     //  FUNCS
 private:
 public:
 #pragma region CRUD
     //  CREATE
-    TimerObject*    AddTimer(string Key, int MaxCount);
-    TimerObject*    AddTimer(string Key, int MaxCount, int Tick);
-    TimerObject*    AddTimer(string Key, TimerObject* TimerObj);
+    bool    AddSimpleTimer(string Key);
     //  READ
-    TimerObject*    FindTimer(string Key);
+    int     FindTick(string Key);
     //  UPDATE
-    void    TickTimer(string Key);
-    template <class T>
-    void    TickTimer(string Key, T Tick);
+    bool    SetTick(string Key, int Tick);
+    int     TickSimpleTimer(string Key);
+    bool    ResetSimpleTimer(string Key);
     //  DELETE
-    void    DeleteTimerByKey(string Key);
+    bool    DeleteTimerByKey(string Key);
     void    DeleteTimerAll();
-    
 #pragma endregion
-
 };
-
-template<class T>
-inline void TimerManager::TickTimer(string Key, T Tick)
-{
-}

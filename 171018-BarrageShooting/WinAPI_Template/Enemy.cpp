@@ -53,29 +53,12 @@ void Enemy::Update()
 
     SpritesObject::Update();
     m_hpBar.SetGaugeRatio(hpRatio);
-    m_nShootDelay++;
-    if (m_nShootDelay > m_nShootDelayMax)
+
+    g_pTimerManager->AddSimpleTimer("bShootDelay");
+    if (g_pTimerManager->TickSimpleTimer("bShootDelay") > m_nShootDelayMax)
     {
-        m_nShootDelay = 0;
-        if (m_bIsReload)
-        {
-            m_nCShootCount++;
-            if (m_nCShootCount > (int)(m_nCShootMax * 0.1f))
-            {
-                m_nCShootCount = 0;
-                m_bIsReload = false;
-            }
-        }
-        else
-        {
-            Shoot();
-            m_nCShootCount++;
-            if (m_nCShootCount > m_nCShootMax)
-            {
-                m_nCShootCount = 0;
-                m_bIsReload = true;
-            }
-        }
+        Shoot();
+        g_pTimerManager->ResetSimpleTimer("bShootDelay");
     }
 
     for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
@@ -135,17 +118,17 @@ void Enemy::Shoot()
     }
     else if (hpRatio > 0.6f)
     {
-        PatternB();
+        PatternB(0.0f);
     }
     else if (hpRatio > 0.2f)
     {
         PatternA();
-        PatternB();
+        PatternB(0.0f);
     }
     else
     {
         PatternA();
-        PatternB();
+        PatternB(0.0f);
         PatternC();
     }
 }
@@ -170,7 +153,7 @@ void Enemy::PatternA()
     m_vecBullets.push_back(genBullet);
 }
 
-void Enemy::PatternB()
+void Enemy::PatternB(double angle)
 {
     Bullet genBullet("bullet");
 
@@ -179,7 +162,7 @@ void Enemy::PatternB()
     genBullet.SetBodyRect(g_pDrawHelper->MakeRect(genBullet.GetPos(), genBullet.GetSize()));
     genBullet.SetupForSprites(2, 2);
     genBullet.SetSpritesImg(g_pImgManager->FindImage("bullet"));
-    double angle = 0.0f;
+    
     UnitPos pos = g_pGeoHelper->GetCoordFromAngle(angle, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
@@ -194,6 +177,14 @@ void Enemy::PatternB()
     pos = g_pGeoHelper->GetCoordFromAngle(angle - 10.0f, 10.0f);
     genBullet.SetBodySpeed((UnitSpeed)pos);
     m_vecBullets.push_back(genBullet);
+
+    g_pTimerManager->AddSimpleTimer("phase-2");
+    if (g_pTimerManager->TickSimpleTimer("phase-2") > 10)
+    {
+        g_pTimerManager->ResetSimpleTimer("phase-2");
+        PatternB(-15.0f);
+        PatternB(15.0f);
+    }    
 }
 
 void Enemy::PatternC()

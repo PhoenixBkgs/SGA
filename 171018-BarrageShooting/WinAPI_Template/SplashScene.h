@@ -1,18 +1,24 @@
 #pragma once
-#include "SceneObject.h"
-#include "ImageObject.h"
+#include "GameObject.h"
 
-class SplashScene : public SceneObject
+class SplashScene : public GameObject
 {
 private:
-    vector<SceneObject>    m_vecScnObj;
+    vector<GameObject>*     m_vecScnObj;
 
 public:
     SplashScene();
     ~SplashScene();
 
-    void Render();
+#pragma region SET
+    
+#pragma endregion
+#pragma region GET
+    vector<GameObject>*     GetGameObjVec() { return m_vecScnObj; }
+#pragma endregion
 
-    void PushImage(ImageObject* Image, UnitPos Pos);
+
+    virtual void Update() override;
+    virtual void Render() override;
 };
 

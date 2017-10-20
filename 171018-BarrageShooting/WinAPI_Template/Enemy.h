@@ -50,6 +50,6 @@ public:
 
     void SetupForProgressBar();
     void PatternA();
-    void PatternB();
+    void PatternB(double angle);
     void PatternC();
 };

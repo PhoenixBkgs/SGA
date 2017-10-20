@@ -102,9 +102,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>GameFramework2D\001-MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GameFramework2D\004-Source</Filter>
     </ClInclude>
@@ -181,9 +178,6 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObject.cpp">
-      <Filter>GameFramework2D\001-MainGame</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameFramework2D\004-Source</Filter>

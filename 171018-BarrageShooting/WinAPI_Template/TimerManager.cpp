@@ -1,53 +1,92 @@
 #include "stdafx.h"
 #include "TimerManager.h"
 
-TimerObject * TimerManager::AddTimer(string Key, int MaxCount)
+bool TimerManager::AddSimpleTimer(string Key)
 {
-    return AddTimer(Key, MaxCount, 1);
-}
-
-TimerObject * TimerManager::AddTimer(string Key, int MaxCount, int Tick)
-{
-    TimerObject* timerObj = FindTimer(Key);
-    if (timerObj == NULL)
+    m_mapSimpleIter = m_mapSimpleTimer.find(Key);
+    if (m_mapSimpleIter != m_mapSimpleTimer.end())
     {
-        timerObj = new TimerObject;
-        timerObj->Setup(MaxCount, Tick);
-        m_mapTimer.insert(make_pair(Key, timerObj));
+        return false;
     }
-    return timerObj;
-}
-
-TimerObject* TimerManager::AddTimer(string Key, TimerObject* TimerObj)
-{
-    TimerObject* timerObj = FindTimer(Key);
-    if (timerObj == NULL)
-    {
-        m_mapTimer.insert(make_pair(Key, TimerObj));
-    }
-    return timerObj;
-}
-
-TimerObject* TimerManager::FindTimer(string Key)
-{
-    m_mapIter = m_mapTimer.find(Key);
-    if (m_mapIter != m_mapTimer.end())
-        return m_mapIter->second;
     else
-        return NULL;
+    {
+        m_mapSimpleTimer.insert(make_pair(Key, 0));
+        return true;
+    }
 }
 
-void TimerManager::TickTimer(string Key)
+int TimerManager::FindTick(string Key)
 {
-    m_timerObject = FindTimer(Key);
-    m_timerObject->Tick();
-    m_timerObject = NULL;
+    m_mapSimpleIter = m_mapSimpleTimer.find(Key);
+    if (m_mapSimpleIter != m_mapSimpleTimer.end())
+    {
+        return m_mapSimpleIter->second;
+    }
+    else
+    {
+        return -1;  //   -1 find fail
+    }
 }
 
-void TimerManager::DeleteTimerByKey(string Key)
+bool TimerManager::SetTick(string Key, int Tick)
 {
+    m_mapSimpleIter = m_mapSimpleTimer.find(Key);
+    if (m_mapSimpleIter != m_mapSimpleTimer.end())
+    {
+        m_mapSimpleIter->second = Tick;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int TimerManager::TickSimpleTimer(string Key)
+{
+    if (SetTick(Key, FindTick(Key) + 1))
+    {
+        return FindTick(Key);
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+bool TimerManager::ResetSimpleTimer(string Key)
+{
+    m_mapSimpleIter = m_mapSimpleTimer.find(Key);
+    if (m_mapSimpleIter != m_mapSimpleTimer.end())
+    {
+        m_mapSimpleIter->second = 0;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool TimerManager::DeleteTimerByKey(string Key)
+{
+    m_mapSimpleIter = m_mapSimpleTimer.find(Key);
+    if (m_mapSimpleIter != m_mapSimpleTimer.end())
+    {
+        m_mapSimpleTimer.erase(m_mapSimpleIter);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void TimerManager::DeleteTimerAll()
 {
+    m_mapSimpleIter = m_mapSimpleTimer.begin();
+    while (m_mapSimpleIter != m_mapSimpleTimer.end())
+    {
+        m_mapSimpleIter = m_mapSimpleTimer.erase(m_mapSimpleIter);
+    }
 }
