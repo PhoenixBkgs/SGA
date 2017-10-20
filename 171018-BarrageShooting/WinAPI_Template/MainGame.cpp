@@ -154,18 +154,22 @@ void MainGame::LoadSoundResources()
 void MainGame::SetupSplashScene()
 {
     ImageObject* pImg = g_pImgManager->FindImage("splash-bg");
+/*
     m_scnSplash.PushImage(pImg, g_pGeoHelper->GetCenterPointWindow());
     m_scnSplash.PushImage(g_pImgManager->FindImage("splash-deco"), UnitPos{ W_WIDTH - 200.0f, 300.0f });
     m_scnSplash.PushImage(g_pImgManager->FindImage("title"), g_pGeoHelper->GetCenterPointWindow());
     m_scnSplash.PushImage(g_pImgManager->FindImage("start-button"), UnitPos{ W_WIDTH * 0.5f, W_HEIGHT - 100.0f });
-    g_pScnManager->AddGameObjToScn("ready", &m_scnSplash);
+*/
+//    g_pScnManager->AddGameObjToScn("ready", &m_scnSplash);
 }
 
 void MainGame::SetupClearScene()
 {
     ImageObject* pImg = g_pImgManager->FindImage("gameover");
+/*
     m_scnClear.PushImage(pImg, g_pGeoHelper->GetCenterPointWindow());
-    g_pScnManager->AddGameObjToScn("clear", &m_scnClear);
+*/
+//    g_pScnManager->AddGameObjToScn("clear", &m_scnClear);
 }
 
 

@@ -4,8 +4,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "SplashScene.h"
-#include "ClearScene.h"
 
 class MainGame : public GameNode
 {
@@ -21,8 +19,7 @@ private:
     bool                    m_bIsPlaying;
 
 //  SCENE
-    SplashScene             m_scnSplash;
-    ClearScene              m_scnClear;
+
 //=======================================================
 //  FUNCTIONS
 private:
