@@ -158,6 +158,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MapObject.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MapObject.cpp" />

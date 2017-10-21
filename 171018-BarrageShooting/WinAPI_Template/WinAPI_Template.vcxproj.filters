@@ -141,8 +141,11 @@
     <ClInclude Include="ClearScene.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>GameFramework2D\004-Source</Filter>
+    </ClInclude>
     <ClInclude Include="LobbyScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -230,10 +233,13 @@
     <ClCompile Include="ClearScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>GameFramework2D\004-Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>

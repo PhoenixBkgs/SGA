@@ -1,5 +1,6 @@
 #pragma once
 #include "SingletonBase.h"
+#include "GameObject.h"
 
 #define _PERFECTLY_ELASTIC_COLLISION
 
@@ -14,8 +15,7 @@
 class PhysicsHelper : public SingletonBase<PhysicsHelper>
 {
 public:
-    template <class T>
-    bool    IsCollision(T Unit1, T Unit2);
+    bool    IsCollision(GameObject* Unit1, GameObject* Unit2);
 
     template <class T>
     void BoxCollider(T VecUnit1, vector<T> VecUnit2, int DmgDeal1, int DmgDeal2);

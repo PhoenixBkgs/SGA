@@ -24,9 +24,6 @@ class MainGame : public GameNode
 private:
     E_GAME_STATE            m_currGameState;
     MapObject*              m_pMap;
-    Player*                 m_pPlayer;
-    Enemy*                  m_pEnemy;
-    vector<Bullet>          m_vecBullet;
     string                  m_szPlayerSelect;
 
 //  SCENE

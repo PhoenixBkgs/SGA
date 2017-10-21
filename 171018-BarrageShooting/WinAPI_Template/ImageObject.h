@@ -23,7 +23,7 @@ public:
             hOldBit = NULL;
             nWidth = 0;
             nHeight = 0;
-            btLoadType = LOAD_EMPTY;
+            btLoadType = 0;
 
         }
     }  IMAGE_INFO, *LPIMAGE_INFO;

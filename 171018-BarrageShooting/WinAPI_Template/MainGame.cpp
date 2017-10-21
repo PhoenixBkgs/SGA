@@ -137,6 +137,7 @@ void MainGame::SetupScene()
     m_gameScn->SetPlayerSelect(m_szPlayerSelect);
     m_gameScn->Setup();
     g_pScnManager->AddGameObjToScn("game", m_gameScn);
+    
  
     //  Clear scene
     m_clearScn = new ClearScene(&m_currGameState);

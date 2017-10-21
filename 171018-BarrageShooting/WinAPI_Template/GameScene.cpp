@@ -4,6 +4,7 @@
 #include "MapObject.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Item.h"
 
 GameScene::GameScene(E_GAME_STATE* State)
 {
@@ -37,6 +38,51 @@ void GameScene::Update()
     m_pPlayer->Update();
     m_pEnemy->Update();
     m_pMap->Update();
+
+    //  Bullets move
+    for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
+    {
+        iter->Update();
+    }
+
+    //  Bullets collision
+    m_iterBullets = m_vecBullets.begin();
+    while (m_iterBullets != m_vecBullets.end())
+    {
+        if (m_iterBullets->IsAlive() == true)
+        {
+            //  check collision player-bullet and enemy
+            if (m_iterBullets->GetTagName() == "player-bullet" &&
+                g_pPhxsHelper->IsCollision(m_iterBullets._Ptr, m_pEnemy))
+            {
+                m_pEnemy->SumHp(m_iterBullets->GetDamage());
+                m_iterBullets->SetDead();
+            }
+
+            //  check collision enemy-bullet and player
+            if (m_iterBullets->GetTagName() == "enemy-bullet" &&
+                g_pPhxsHelper->IsCollision(m_iterBullets._Ptr, m_pPlayer))
+            {
+                m_pPlayer->SumHp(m_iterBullets->GetDamage());
+                m_iterBullets->SetDead();
+            }
+        }
+
+        m_iterBullets++;
+    }
+
+    //  Bullets expire
+    for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end();)
+    {
+        if (iter->IsAlive() == false)
+        {
+            iter = m_vecBullets.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
+    }
 }
 
 void GameScene::Render()
@@ -44,6 +90,18 @@ void GameScene::Render()
     m_pMap->Render();
     m_pEnemy->Render();
     m_pPlayer->Render();
+
+    for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
+    {
+        iter->Render();
+    }
+
+#ifdef _DEBUG
+    char infoMsg[128];
+    sprintf_s(infoMsg, "bullet count : %d", (int)m_vecBullets.size());
+    TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
+#endif // _DEBUG
+
 }
 
 void GameScene::Setup()
@@ -70,7 +128,9 @@ void GameScene::Setup()
 
     //  MUTUAL REF
     m_pPlayer->SetEnemy(m_pEnemy);
+    m_pPlayer->SetBullet(&m_vecBullets);
     m_pEnemy->SetPlayer(m_pPlayer);
+    m_pEnemy->SetBullet(&m_vecBullets);
 
     //  MAP
     m_pMap = new MapObject();

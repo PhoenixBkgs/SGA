@@ -14,11 +14,11 @@
 #define BOSS_INIT_HP    1000.0f
 
 class Player;
-class Bullet;
 class Enemy : public SpritesObject
 {
 private:
-    vector<Bullet>      m_vecBullets;
+    vector<Bullet>*     m_vecBullets;
+    vector<Bullet>::iterator m_iterBullet;
     Player*             m_pPlayer;
     ProgressBarObject   m_hpBar;
     bool                m_bIsReload;
@@ -41,6 +41,7 @@ public:
     void    SetPlayer(Player* Player) { m_pPlayer = Player; }
     void    SetHp(double Hp) { m_dHp = Hp; }
     void    SumHp(double Hp) { m_dHp += Hp; }
+    void    SetBullet(vector<Bullet>* Bullets) { m_vecBullets = Bullets; }
 #pragma endregion
 
     virtual void Update() override;
