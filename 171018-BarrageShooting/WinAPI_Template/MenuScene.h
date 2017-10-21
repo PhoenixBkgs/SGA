@@ -1,16 +1,19 @@
 #pragma once
-class MenuScene
+#include "SceneObject.h"
+#include "SpritesObject.h"
+
+class MenuScene : public SceneObject
 {
 private:
-    vector<GameObject*>*     m_vecGameObj;
+    SpritesObject       m_pauseBgImg;
+    SpritesObject       m_menuImg;
 
 public:
-    MenuScene();
+    MenuScene(E_GAME_STATE* State);
     ~MenuScene();
 
-    void Setup();
-
-    vector<GameObject*>* GetGameObjs() { return m_vecGameObj; }
+    virtual void LoadImageResources() override;
+    virtual void Setup() override;
+    virtual void AddComponentsToScene() override;
+    virtual void DeleteScene() override;
 };
-
-

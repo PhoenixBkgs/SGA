@@ -150,7 +150,7 @@
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="StartButton.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MenuScene.h" />
@@ -182,7 +182,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="StartButton.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MenuScene.cpp" />

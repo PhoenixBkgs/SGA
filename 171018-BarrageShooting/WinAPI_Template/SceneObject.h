@@ -3,19 +3,26 @@
 
 class SceneObject : public GameObject
 {
+//------------------------------------------------------------
 //  VARS
+//------------------------------------------------------------
 protected:
-    vector<GameObject>*     m_pScnComponents;
-
+    E_GAME_STATE*   m_currGameState;
+//------------------------------------------------------------
 //  FUNCS
 public:
     SceneObject();
     ~SceneObject();
 
-#pragma region GET
-    vector<GameObject>*     GetComponents() { return m_pScnComponents; }
+#pragma region VIRTUAL
+    virtual void Setup() PURE;
+    virtual void LoadImageResources() PURE;
+    virtual void AddComponentsToScene() PURE;
+    virtual void DeleteScene() PURE;
 #pragma endregion
+
 #pragma region SET
-    void        SetComponent(GameObject GameObj);
+    void SyncGameState(E_GAME_STATE* State) { m_currGameState = State; }
 #pragma endregion
+//------------------------------------------------------------
 };

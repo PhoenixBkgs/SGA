@@ -1,11 +1,16 @@
 #pragma once
 #include "GameNode.h"
+#pragma region SCENE
 #include "SceneObject.h"
+#include "SplashScene.h"
+#include "MenuScene.h"
+#pragma endregion
+
 #include "MapObject.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "StartButton.h"
+#include "Button.h"
 
 
 class MainGame : public GameNode
@@ -22,7 +27,8 @@ private:
     bool                    m_bIsPlaying;
 
 //  SCENE
-    SceneObject             m_splashScn;
+    SplashScene*            m_splashScn;
+    MenuScene*              m_menuScn;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -40,7 +46,7 @@ public:
     void LoadSoundResources();
 
     void SetupScene();
-    void SetupClearScene();
+    void ReleaseAllScene();
 
     void PlayerController();
     void SystemController();

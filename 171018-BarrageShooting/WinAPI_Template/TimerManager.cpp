@@ -15,7 +15,24 @@ bool TimerManager::AddSimpleTimer(string Key)
     }
 }
 
-int TimerManager::FindTick(string Key)
+bool TimerManager::AddOnOffTimer(string Key, UnitPos ShiftPos, float Tick, float Multiplier)
+{
+    m_mapOnOffIter = m_mapOnOffTimer.find(Key);
+    if (m_mapOnOffIter != m_mapOnOffTimer.end())
+    {
+        return false;
+    }
+    else
+    {
+        m_mapOnOffTimer.insert(make_pair(Key, (0.0f + (float)ShiftPos.x)));
+        m_mapOnOffTick.insert(make_pair(Key, Tick));
+        m_mapOnOffMltply.insert(make_pair(Key, Multiplier));
+        m_mapOnOffShiftY.insert(make_pair(Key, (float)ShiftPos.y));
+        return true;
+    }
+}
+
+int TimerManager::FindSimpleTick(string Key)
 {
     m_mapSimpleIter = m_mapSimpleTimer.find(Key);
     if (m_mapSimpleIter != m_mapSimpleTimer.end())
@@ -28,7 +45,26 @@ int TimerManager::FindTick(string Key)
     }
 }
 
-bool TimerManager::SetTick(string Key, int Tick)
+float TimerManager::FindOnOffTick(string Key)
+{
+    m_mapOnOffIter = m_mapOnOffTimer.find(Key);
+    if (m_mapOnOffIter != m_mapOnOffTimer.end())
+    {
+        //  found
+        float angle = m_mapOnOffIter->second;
+        m_mapOnOffIter->second += m_mapOnOffTick.find(Key)->second;
+        if (m_mapOnOffIter->second > 360.0f)
+            m_mapOnOffIter->second = 0.0f;
+        float result = sinf(angle);
+        return (result * m_mapOnOffMltply.find(Key)->second ) + m_mapOnOffShiftY.find(Key)->second;
+    }
+    else
+    {
+        return 0.0f;
+    }
+}
+
+bool TimerManager::SetSimpleTick(string Key, int Tick)
 {
     m_mapSimpleIter = m_mapSimpleTimer.find(Key);
     if (m_mapSimpleIter != m_mapSimpleTimer.end())
@@ -44,9 +80,9 @@ bool TimerManager::SetTick(string Key, int Tick)
 
 int TimerManager::TickSimpleTimer(string Key)
 {
-    if (SetTick(Key, FindTick(Key) + 1))
+    if (SetSimpleTick(Key, FindSimpleTick(Key) + 1))
     {
-        return FindTick(Key);
+        return FindSimpleTick(Key);
     }
     else
     {
@@ -68,7 +104,18 @@ bool TimerManager::ResetSimpleTimer(string Key)
     }
 }
 
-bool TimerManager::DeleteTimerByKey(string Key)
+bool TimerManager::TickOnOffTimer(string Key)
+{
+    float tick = FindOnOffTick(Key);
+
+    //  -1.0f ~ tick ~ +1.0f
+    if (tick >= m_mapOnOffShiftY.find(Key)->second)
+        return true;
+    else
+        return false;
+}
+
+bool TimerManager::DeleteSimpleTimerByKey(string Key)
 {
     m_mapSimpleIter = m_mapSimpleTimer.find(Key);
     if (m_mapSimpleIter != m_mapSimpleTimer.end())

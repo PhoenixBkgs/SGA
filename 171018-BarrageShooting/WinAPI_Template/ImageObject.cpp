@@ -280,7 +280,7 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
 
 void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)
 {
-    m_stBlendFunc.SourceConstantAlpha = Alpha;
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
     BitBlt(m_pBlendImage->hMemDC
         , 0, 0

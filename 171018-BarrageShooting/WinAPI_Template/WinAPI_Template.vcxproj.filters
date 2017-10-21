@@ -129,7 +129,7 @@
     <ClInclude Include="MenuScene.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="StartButton.h">
+    <ClInclude Include="Button.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
   </ItemGroup>
@@ -209,7 +209,7 @@
     <ClCompile Include="MenuScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="StartButton.cpp">
+    <ClCompile Include="Button.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>

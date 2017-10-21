@@ -120,7 +120,7 @@ void Enemy::Shoot()
     {
         static double angle = 0.0f;
         angle += 1.0f;
-        PatternB(90.0f + sinf(angle) * 10.0f);
+        PatternB(90.0f + sinf((float)angle) * 10.0f);
     }
     else if (hpRatio > 0.2f)
     {

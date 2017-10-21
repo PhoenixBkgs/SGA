@@ -3,6 +3,7 @@
 
 MainGame::MainGame()
 {
+    m_currGameState = GAME_READY;
     LoadAllResources();
     Start();
 }
@@ -13,14 +14,15 @@ MainGame::~MainGame()
     g_pImgManager->DeleteImageAll();
     g_pScnManager->DeleteAllScene();
     g_pTimerManager->DeleteTimerAll();
+
+    ReleaseAllScene();
 }
 
 void MainGame::Start()
 {
-    m_currGameState = GAME_READY;
     m_count = 0;
     SetupScene();
-    SetupClearScene();
+
     //  PLAYER
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 25, 15, 25, 35 });
@@ -131,15 +133,6 @@ void MainGame::LoadAllResources()
 
 void MainGame::LoadImageResources()
 {
-    //  READY SCREEN
-    g_pImgManager->AddImage("splash-bg", "images/img-splash-bg.bmp", 640, 1023);
-    g_pImgManager->AddImage("splash-deco", "images/img-splash-deco.bmp", 366, 537);
-    g_pImgManager->AddImage("title", "images/img-title.bmp", 169, 408);
-    g_pImgManager->AddImage("start-button", "images/img-start-button.bmp", 213, 65);
-
-    //  MENU
-    g_pImgManager->AddImage("menu", "images/img-menu.bmp", 144, 255);
-
     //  HUD
     g_pImgManager->AddImage("hp-frame", "images/sprites-health-frame.bmp", 480, 46);    //  480 x 46px _ 1 x 2
     g_pImgManager->AddImage("hp-bar",   "images/sprites-health-bar.bmp", 456, 96);      //  456 x 96px _ 1 x 8
@@ -159,58 +152,15 @@ void MainGame::LoadSoundResources()
 
 void MainGame::SetupScene()
 {
-    UnitPos centerPos = g_pGeoHelper->GetCenterPointWindow();
-
-    SpritesObject* bg;
-    bg = new SpritesObject;
-    bg->Setup(centerPos, { W_WIDTH, W_HEIGHT });
-    bg->SetBodyImg(g_pImgManager->FindImage("splash-bg"));
-    bg->SetupForSprites(1, 1);
-
-    SpritesObject* bgDeco = new SpritesObject;
-    UnitSize bgDecoSize = g_pImgManager->FindImage("splash-deco")->GetSize();
-    bgDeco->SetBodyPos({ (double)(W_WIDTH - bgDecoSize.w * 0.5f), centerPos.y * 0.5f });
-    bgDeco->SetBodySize(bgDecoSize);
-    bgDeco->SetBodyRect(g_pDrawHelper->MakeRect(bgDeco->GetPos(), bgDeco->GetSize()));
-    bgDeco->SetBodyImg(g_pImgManager->FindImage("splash-deco"));
-    bgDeco->SetupForSprites(1, 1);
-
-    SpritesObject* title = new SpritesObject;
-    UnitSize titleSize = g_pImgManager->FindImage("title")->GetSize();
-    title->Setup(centerPos, titleSize);
-    title->SetBodyImg(g_pImgManager->FindImage("title"));
-    title->SetupForSprites(1, 1);
-
-    StartButton* startBtn = new StartButton;
-    startBtn->Setup({ centerPos.x, centerPos.y + 400.0f }, { 213, 65 });
-    startBtn->SetState(&m_currGameState);
-    startBtn->SetBodyImg(g_pImgManager->FindImage("start-button"));
-    startBtn->SetupForSprites(1, 1);
-    
-    g_pScnManager->AddGameObjToScn("ready", bg);
-    g_pScnManager->AddGameObjToScn("ready", bgDeco);
-    g_pScnManager->AddGameObjToScn("ready", title);
-    g_pScnManager->AddGameObjToScn("ready", startBtn);
-
-    SpritesObject* pause = new SpritesObject;
-    pause->Setup(centerPos, { W_WIDTH, W_HEIGHT });
-    pause->SetBodyImg(g_pImgManager->FindImage("splash-bg"));
-    pause->SetupForSprites(1, 1);
-    pause->SetAlpha(128.0f);
-
-    SpritesObject* menu = new SpritesObject;
-    menu->SetBodyImg(g_pImgManager->FindImage("menu"));
-    menu->Setup(centerPos, menu->GetBodyImg()->GetSize());
-    menu->SetupForSprites(1, 1);
-
-    g_pScnManager->AddGameObjToScn("pause", pause);
-    g_pScnManager->AddGameObjToScn("pause", menu);
+    m_splashScn = new SplashScene(&m_currGameState);
+    m_menuScn = new MenuScene(&m_currGameState);
 }
 
-void MainGame::SetupClearScene()
+void MainGame::ReleaseAllScene()
 {
+    SAFE_DELETE(m_menuScn);
+    SAFE_DELETE(m_splashScn);
 }
-
 
 void MainGame::PlayerController()
 {
