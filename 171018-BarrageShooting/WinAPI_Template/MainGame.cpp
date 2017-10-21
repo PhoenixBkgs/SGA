@@ -3,7 +3,7 @@
 
 MainGame::MainGame()
 {
-    m_currGameState = GAME_READY;
+    m_currGameState = GAME_LOADING;
     LoadAllResources();
     Start();
 }
@@ -67,6 +67,9 @@ void MainGame::Update()
     SystemController();
     switch (m_currGameState)
     {
+    case GAME_LOADING:
+        g_pScnManager->Update("loading");
+        break;
     case GAME_READY:
         g_pScnManager->Update("ready");
         break;
@@ -91,6 +94,9 @@ void MainGame::Render()
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
     switch (m_currGameState)
     {
+    case GAME_LOADING:
+        g_pScnManager->Render("loading");
+        break;
     case GAME_READY:
         g_pScnManager->Render("ready");
         break;
@@ -152,14 +158,18 @@ void MainGame::LoadSoundResources()
 
 void MainGame::SetupScene()
 {
+    m_loadingScn = new LoadingScene(&m_currGameState);
     m_splashScn = new SplashScene(&m_currGameState);
     m_menuScn = new MenuScene(&m_currGameState);
+
+    g_pScnManager->AddGameObjToScn("loading", m_loadingScn);
 }
 
 void MainGame::ReleaseAllScene()
 {
     SAFE_DELETE(m_menuScn);
     SAFE_DELETE(m_splashScn);
+    SAFE_DELETE(m_loadingScn);
 }
 
 void MainGame::PlayerController()

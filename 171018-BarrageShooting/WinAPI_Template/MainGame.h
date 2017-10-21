@@ -2,6 +2,7 @@
 #include "GameNode.h"
 #pragma region SCENE
 #include "SceneObject.h"
+#include "LoadingScene.h"
 #include "SplashScene.h"
 #include "MenuScene.h"
 #pragma endregion
@@ -27,6 +28,7 @@ private:
     bool                    m_bIsPlaying;
 
 //  SCENE
+    LoadingScene*           m_loadingScn;
     SplashScene*            m_splashScn;
     MenuScene*              m_menuScn;
 //=======================================================

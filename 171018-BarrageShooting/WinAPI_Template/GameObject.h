@@ -70,6 +70,8 @@ public:
     bool        IsAlive()       { return m_isAlive; }
     bool        IsLockInWnd()   { return m_isLockInWnd; }
     int         GetLife()       { return m_nLife; }
+
+    double      GetAlpha()      { return m_dAlpha; }
 #pragma endregion
 
 #pragma region SET
