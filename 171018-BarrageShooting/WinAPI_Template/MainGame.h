@@ -5,6 +5,7 @@
 #include "LoadingScene.h"
 #include "SplashScene.h"
 #include "MenuScene.h"
+#include "GameScene.h"
 #pragma endregion
 
 #include "MapObject.h"
@@ -24,13 +25,12 @@ private:
     Player*                 m_pPlayer;
     Enemy*                  m_pEnemy;
     vector<Bullet>          m_vecBullet;
-    int                     m_count;
-    bool                    m_bIsPlaying;
 
 //  SCENE
     LoadingScene*           m_loadingScn;
     SplashScene*            m_splashScn;
     MenuScene*              m_menuScn;
+    GameScene*              m_gameScn;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -50,6 +50,5 @@ public:
     void SetupScene();
     void ReleaseAllScene();
 
-    void PlayerController();
     void SystemController();
 };

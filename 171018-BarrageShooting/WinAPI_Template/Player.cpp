@@ -30,13 +30,13 @@ void Player::SetupForProgressBar()
 
 void Player::Update()
 {
+    PlayerController();
     SpritesObject::Update();
     m_hpBar.SetGaugeRatio(m_dHp / PLAYER_INIT_HP);
 
     for (auto iter = m_vecBullets.begin(); iter != m_vecBullets.end(); iter++)
     {
         /*
-        */
         double pX = g_ptMouse.x < 0 ? 0 : g_ptMouse.x;
         pX = g_ptMouse.x > W_WIDTH ? W_WIDTH : g_ptMouse.x;
         double pY = g_ptMouse.y < 0 ? 0: g_ptMouse.y;
@@ -48,15 +48,16 @@ void Player::Update()
         g_pGeoHelper->BezierInterpolation(*pos, startPos, viaPos, destPos, iter->m_t);
         iter->SetBodyPos(*pos);
         iter->m_t += 0.005f;
-        /*
+        */
         if (iter->m_t > 360.0f)
         {
             iter->m_t = 0.0f;
         }
         iter->m_t += 0.15f;
-        double dX = sinf(iter->m_t);
-        dX *= 150.0f;
+        float dX = sinf(iter->m_t);
+        dX *= 50.0f;
         iter->SetBodyPos({ iter->GetStartPos().x + dX, iter->GetPos().y - (iter->m_t * 0.0001f) });
+        /*
         */
         iter->Update();
         if (m_pEnemy != NULL)
@@ -94,8 +95,11 @@ void Player::Render()
         iter->Render();
     }
     m_hpBar.Render(g_hDC);
+
 #ifdef _DEBUG
     char infoMsg[128];
+    sprintf_s(infoMsg, "player pos x : %f  /  y : %f", GetPos().x, GetPos().y);
+    TextOut(g_hDC, 0, 0, infoMsg, (int)strlen(infoMsg));
     sprintf_s(infoMsg, "player bullet count : %d // HEALTH : %d", (int)m_vecBullets.size(), GetLife());
     TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
@@ -125,4 +129,36 @@ void Player::Shoot()
     genBullet.m_t = 0.0f;
 
     m_vecBullets.push_back(genBullet);
+}
+
+void Player::PlayerController()
+{
+    //  Player sprites mod
+    UnitSpeed dPlayerSpd = { 0.0f, 0.0f };
+    SetFrameY(0);
+    if (g_pKeyManager->isStayKeyDown(VK_LEFT))
+    {
+        dPlayerSpd.x = -PLAYER_SPEED;
+        SetFrameY(1);
+    }
+    else if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
+    {
+        dPlayerSpd.x = PLAYER_SPEED;
+        SetFrameY(2);
+    }
+    if (g_pKeyManager->isStayKeyDown(VK_UP))
+    {
+        dPlayerSpd.y = -PLAYER_SPEED;
+    }
+    else if (g_pKeyManager->isStayKeyDown(VK_DOWN))
+    {
+        dPlayerSpd.y = PLAYER_SPEED;
+    }
+    SetBodySpeed(dPlayerSpd);
+
+    //  Shoot
+    if (g_pKeyManager->isStayKeyDown(VK_SPACE))
+    {
+        Shoot();
+    }
 }

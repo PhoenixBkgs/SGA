@@ -42,5 +42,6 @@ public:
     virtual void Render() override;
 
     void Shoot();
+    void PlayerController();
 };
 

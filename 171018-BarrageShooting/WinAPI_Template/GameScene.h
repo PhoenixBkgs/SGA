@@ -1,17 +1,21 @@
 #pragma once
 #include "SceneObject.h"
-#include "SpritesObject.h"
 
-class LoadingScene : public SceneObject
+class MapObject;
+class Player;
+class Enemy;
+
+class GameScene : public SceneObject
 {
 private:
-    SpritesObject       m_logo;
+    MapObject*              m_pMap;
+    Player*                 m_pPlayer;
+    Enemy*                  m_pEnemy;
 public:
-    LoadingScene(E_GAME_STATE* State);
-    ~LoadingScene();
+    GameScene(E_GAME_STATE* State);
+    ~GameScene();
 
     virtual void Update() override;
-    virtual void Render() override;
 
     // SceneObject을(를) 통해 상속됨
     virtual void Setup() override;

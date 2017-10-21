@@ -135,6 +135,9 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -216,6 +219,9 @@
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>

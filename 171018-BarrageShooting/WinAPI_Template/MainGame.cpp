@@ -20,9 +20,8 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
-    m_count = 0;
     SetupScene();
-
+    /*
     //  PLAYER
     m_pPlayer = new Player("player");
     m_pPlayer->SetHBoxMargin(RectMargin{ 25, 15, 25, 35 });
@@ -60,6 +59,7 @@ void MainGame::Start()
     g_pScnManager->AddGameObjToScn("game", m_pMap);
     g_pScnManager->AddGameObjToScn("game", m_pEnemy);
     g_pScnManager->AddGameObjToScn("game", m_pPlayer);
+    */
 }
 
 void MainGame::Update()
@@ -74,7 +74,6 @@ void MainGame::Update()
         g_pScnManager->Update("ready");
         break;
     case GAME_PLAYING:
-        PlayerController();
         g_pScnManager->Update("game");
         break;
     case GAME_PAUSE:
@@ -103,10 +102,6 @@ void MainGame::Render()
     case GAME_PLAYING:
     case GAME_PAUSE:
         g_pScnManager->Render("game");
-        if (m_pEnemy->GetHp() < 0.0f)
-        {
-            m_currGameState = GAME_CLEAR;
-        }
         if (m_currGameState == GAME_PAUSE)
         {
             g_pScnManager->Render("pause");
@@ -120,11 +115,6 @@ void MainGame::Render()
     default:
         break;
     }
-#ifdef _DEBUG
-    char infoMsg[128];
-    sprintf_s(infoMsg, "player pos x : %f  /  y : %f", m_pPlayer->GetPos().x, m_pPlayer->GetPos().y);
-    TextOut(g_hDC, 0, 0, infoMsg, (int)strlen(infoMsg));
-#endif // _DEBUG
 }
 
 void MainGame::Reset()
@@ -143,12 +133,6 @@ void MainGame::LoadImageResources()
     g_pImgManager->AddImage("hp-frame", "images/sprites-health-frame.bmp", 480, 46);    //  480 x 46px _ 1 x 2
     g_pImgManager->AddImage("hp-bar",   "images/sprites-health-bar.bmp", 456, 96);      //  456 x 96px _ 1 x 8
     g_pImgManager->AddImage("gameover", "images/img-gameover.bmp", 439, 268);            //  439 x 268px _ 1 x 4
-
-    //  GAME UNIT
-    g_pImgManager->AddImage("player", "images/sprites-player.bmp", 60, 210);    //  60 x 70px _ 1 x 3
-    g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
-    g_pImgManager->AddImage("enemy",  "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
-    g_pImgManager->AddImage("map",    "images/img-map.bmp", 512, 1024);         //  512 x 1024px _ 1 x 1
 }
 
 void MainGame::LoadSoundResources()
@@ -161,7 +145,7 @@ void MainGame::SetupScene()
     m_loadingScn = new LoadingScene(&m_currGameState);
     m_splashScn = new SplashScene(&m_currGameState);
     m_menuScn = new MenuScene(&m_currGameState);
-
+    m_gameScn = new GameScene(&m_currGameState);
     g_pScnManager->AddGameObjToScn("loading", m_loadingScn);
 }
 
@@ -170,36 +154,7 @@ void MainGame::ReleaseAllScene()
     SAFE_DELETE(m_menuScn);
     SAFE_DELETE(m_splashScn);
     SAFE_DELETE(m_loadingScn);
-}
-
-void MainGame::PlayerController()
-{
-    UnitSpeed dPlayerSpd = { 0.0f, 0.0f };
-    m_pPlayer->SetFrameY(0);
-    if (g_pKeyManager->isStayKeyDown(VK_LEFT))
-    {
-        dPlayerSpd.x = -PLAYER_SPEED;
-        m_pPlayer->SetFrameY(1);
-    }
-    else if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
-    {
-        dPlayerSpd.x = PLAYER_SPEED;
-        m_pPlayer->SetFrameY(2);
-    }
-    if (g_pKeyManager->isStayKeyDown(VK_UP))
-    {
-        dPlayerSpd.y = -PLAYER_SPEED;
-    }
-    else if (g_pKeyManager->isStayKeyDown(VK_DOWN))
-    {
-        dPlayerSpd.y = PLAYER_SPEED;
-    }
-    m_pPlayer->SetBodySpeed(dPlayerSpd);
-
-    if (g_pKeyManager->isStayKeyDown(VK_SPACE))
-    {
-        m_pPlayer->Shoot();
-    }
+    SAFE_DELETE(m_gameScn);
 }
 
 void MainGame::SystemController()
