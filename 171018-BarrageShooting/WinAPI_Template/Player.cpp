@@ -123,7 +123,7 @@ void Player::Shoot()
     genBullet.SetFrameY(1);
     genBullet.SetHBoxMargin({ 0, 0, 0, 0 });
     genBullet.SetHBox();
-    genBullet.SetDamage(-5.0f);
+    genBullet.SetDamage(-50.0f);
     genBullet.SetStartPos(GetPos());
     genBullet.SetDestPos({ GetPos().x, 0.0f });
     genBullet.m_t = 0.0f;

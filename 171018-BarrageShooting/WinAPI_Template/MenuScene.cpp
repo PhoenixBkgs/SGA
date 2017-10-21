@@ -6,12 +6,22 @@ MenuScene::MenuScene(E_GAME_STATE* State)
     SyncGameState(State);
     LoadImageResources();
     Setup();
-    AddComponentsToScene();
 }
 
 
 MenuScene::~MenuScene()
 {
+}
+
+void MenuScene::Update()
+{
+
+}
+
+void MenuScene::Render()
+{
+    m_pauseBgImg.Render();
+    m_menuImg.Render();
 }
 
 void MenuScene::LoadImageResources()
@@ -31,12 +41,6 @@ void MenuScene::Setup()
     m_menuImg.SetBodyImg(g_pImgManager->FindImage("menu"));
     m_menuImg.Setup(centerPos, m_menuImg.GetBodyImg()->GetSize());
     m_menuImg.SetupForSprites(1, 1);
-}
-
-void MenuScene::AddComponentsToScene()
-{
-    g_pScnManager->AddGameObjToScn("pause", &m_pauseBgImg);
-    g_pScnManager->AddGameObjToScn("pause", &m_menuImg);
 }
 
 void MenuScene::DeleteScene()

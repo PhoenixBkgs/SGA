@@ -16,7 +16,6 @@ public:
     // SceneObject을(를) 통해 상속됨
     virtual void Setup() override;
     virtual void LoadImageResources() override;
-    virtual void AddComponentsToScene() override;
     virtual void DeleteScene() override;
 };
 

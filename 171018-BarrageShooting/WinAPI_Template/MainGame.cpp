@@ -20,46 +20,8 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_szPlayerSelect = "";
     SetupScene();
-    /*
-    //  PLAYER
-    m_pPlayer = new Player("player");
-    m_pPlayer->SetHBoxMargin(RectMargin{ 25, 15, 25, 35 });
-    m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
-    m_pPlayer->LockInWnd();
-    m_pPlayer->SetupForSprites(1, 3);
-    m_pPlayer->SetSpritesImg(g_pImgManager->FindImage("player"));
-    m_pPlayer->SetLife(10);
-    m_pPlayer->SetupForProgressBar();
-
-    //  ENEMY
-    m_pEnemy = new Enemy("enemy");
-    m_pEnemy->SetHBoxMargin(RectMargin{ 100, 15, 100, 100 });
-    m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
-    m_pEnemy->SetupForSprites(1, 1);
-    m_pEnemy->LockInWnd();
-    m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
-    m_pEnemy->SetLife(10);
-    m_pEnemy->SetupForProgressBar();
-
-    //  MUTUAL REF
-    m_pPlayer->SetEnemy(m_pEnemy);
-    m_pEnemy->SetPlayer(m_pPlayer);
-    
-    //  MAP
-    m_pMap = new MapObject();
-    m_pMap->SetBodyImg(g_pImgManager->FindImage("map"));
-    m_pMap->SetBodyPos(g_pGeoHelper->GetCenterPointWindow());
-    m_pMap->SetBodySize(UnitSize{ m_pMap->GetBodyImg()->GetWidth(), m_pMap->GetBodyImg()->GetHeight() });
-    m_pMap->Setup(m_pMap->GetPos(), m_pMap->GetSize());
-    m_pMap->SetMapArea(g_pDrawHelper->MakeRect(m_pMap->GetPos(), m_pMap->GetSize()));
-    m_pPlayer->SetLockArea(m_pMap->GetMapArea());
-    m_pEnemy->SetLockArea(m_pMap->GetMapArea());
-
-    g_pScnManager->AddGameObjToScn("game", m_pMap);
-    g_pScnManager->AddGameObjToScn("game", m_pEnemy);
-    g_pScnManager->AddGameObjToScn("game", m_pPlayer);
-    */
 }
 
 void MainGame::Update()
@@ -73,12 +35,18 @@ void MainGame::Update()
     case GAME_READY:
         g_pScnManager->Update("ready");
         break;
+    case GAME_LOBBY:
+        g_pScnManager->Update("lobby");
+        m_szPlayerSelect = m_lobbyScn->GetPlayerSelect();
+        m_gameScn->SetPlayerImg(m_szPlayerSelect);
+        break;
     case GAME_PLAYING:
         g_pScnManager->Update("game");
         break;
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
+        g_pScnManager->Update("clear");
         break;
     case GAME_OVER:
         break;
@@ -99,6 +67,9 @@ void MainGame::Render()
     case GAME_READY:
         g_pScnManager->Render("ready");
         break;
+    case GAME_LOBBY:
+        g_pScnManager->Render("lobby");
+        break;
     case GAME_PLAYING:
     case GAME_PAUSE:
         g_pScnManager->Render("game");
@@ -108,6 +79,7 @@ void MainGame::Render()
         }
         break;
     case GAME_CLEAR:
+        g_pScnManager->Render("game");
         g_pScnManager->Render("clear");
         break;
     case GAME_OVER:
@@ -132,7 +104,8 @@ void MainGame::LoadImageResources()
     //  HUD
     g_pImgManager->AddImage("hp-frame", "images/sprites-health-frame.bmp", 480, 46);    //  480 x 46px _ 1 x 2
     g_pImgManager->AddImage("hp-bar",   "images/sprites-health-bar.bmp", 456, 96);      //  456 x 96px _ 1 x 8
-    g_pImgManager->AddImage("gameover", "images/img-gameover.bmp", 439, 268);            //  439 x 268px _ 1 x 4
+    g_pImgManager->AddImage("hp-bar-2", "images/sprites-health-bar-2.bmp", 456, 96);      //  456 x 96px _ 1 x 8
+    g_pImgManager->AddImage("gameover", "images/img-gameover.bmp", 439, 268);           //  439 x 268px _ 1 x 4
 }
 
 void MainGame::LoadSoundResources()
@@ -142,17 +115,38 @@ void MainGame::LoadSoundResources()
 
 void MainGame::SetupScene()
 {
+    //  Loading scene
     m_loadingScn = new LoadingScene(&m_currGameState);
-    m_splashScn = new SplashScene(&m_currGameState);
-    m_menuScn = new MenuScene(&m_currGameState);
-    m_gameScn = new GameScene(&m_currGameState);
     g_pScnManager->AddGameObjToScn("loading", m_loadingScn);
+
+    //  Ready scene
+    m_readyScn = new SplashScene(&m_currGameState);
+    g_pScnManager->AddGameObjToScn("ready", m_readyScn);
+    
+    //  Lobby scene
+    m_lobbyScn = new LobbyScene(&m_currGameState);
+    m_lobbyScn->SetPlayerSelect(m_szPlayerSelect);
+    g_pScnManager->AddGameObjToScn("lobby", m_lobbyScn);
+
+    //  Menu scene
+    m_menuScn = new MenuScene(&m_currGameState);
+    g_pScnManager->AddGameObjToScn("pause", m_menuScn);
+
+    //  Game scene
+    m_gameScn = new GameScene(&m_currGameState);
+    m_gameScn->SetPlayerSelect(m_szPlayerSelect);
+    m_gameScn->Setup();
+    g_pScnManager->AddGameObjToScn("game", m_gameScn);
+ 
+    //  Clear scene
+    m_clearScn = new ClearScene(&m_currGameState);
+    g_pScnManager->AddGameObjToScn("clear", m_clearScn);
 }
 
 void MainGame::ReleaseAllScene()
 {
     SAFE_DELETE(m_menuScn);
-    SAFE_DELETE(m_splashScn);
+    SAFE_DELETE(m_readyScn);
     SAFE_DELETE(m_loadingScn);
     SAFE_DELETE(m_gameScn);
 }
@@ -169,7 +163,9 @@ void MainGame::SystemController()
         switch (m_currGameState)
         {
         case GAME_READY:
-            m_currGameState = GAME_PLAYING;
+            m_currGameState = GAME_LOBBY;
+            break;
+        case GAME_LOBBY:
             break;
         case GAME_PLAYING:
             m_currGameState = GAME_PAUSE;

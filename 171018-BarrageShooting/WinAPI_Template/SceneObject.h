@@ -17,7 +17,6 @@ public:
 #pragma region VIRTUAL
     virtual void Setup() PURE;
     virtual void LoadImageResources() PURE;
-    virtual void AddComponentsToScene() PURE;
     virtual void DeleteScene() PURE;
 #pragma endregion
 

@@ -30,7 +30,7 @@ void Enemy::SetupForProgressBar()
     m_hpBar.SetBodySize(UnitSize{ 500, 50 });
     m_hpBar.SetBodyRect(g_pDrawHelper->MakeRect(m_hpBar.GetPos(), m_hpBar.GetSize()));
     m_hpBar.SetSpritesBack(g_pImgManager->FindImage("hp-frame"));
-    m_hpBar.SetSpritesFront(g_pImgManager->FindImage("hp-bar"));
+    m_hpBar.SetSpritesFront(g_pImgManager->FindImage("hp-bar-2"));
     m_hpBar.SetupSprites();
     m_hpBar.SetIsSetup();
 }

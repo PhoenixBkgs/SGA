@@ -9,8 +9,6 @@ GameScene::GameScene(E_GAME_STATE* State)
 {
     SyncGameState(State);
     LoadImageResources();
-    Setup();
-    AddComponentsToScene();
 }
 
 
@@ -21,12 +19,31 @@ GameScene::~GameScene()
     SAFE_DELETE(m_pPlayer);
 }
 
+void GameScene::SetPlayerImg(string szString)
+{
+    if (szString != "")
+    {
+        m_pPlayer->SetBodyImg(g_pImgManager->FindImage(szString));
+        m_pPlayer->SetupForSprites(1, 3);
+    }
+}
+
 void GameScene::Update()
 {
     if (m_pEnemy->GetHp() < 0.0f)
     {
         *m_currGameState = GAME_CLEAR;
     }
+    m_pPlayer->Update();
+    m_pEnemy->Update();
+    m_pMap->Update();
+}
+
+void GameScene::Render()
+{
+    m_pMap->Render();
+    m_pEnemy->Render();
+    m_pPlayer->Render();
 }
 
 void GameScene::Setup()
@@ -70,16 +87,10 @@ void GameScene::LoadImageResources()
 {
     //  GAME UNIT
     g_pImgManager->AddImage("player", "images/sprites-player.bmp", 60, 210);    //  60 x 70px _ 1 x 3
+    g_pImgManager->AddImage("player2", "images/sprites-player-2.bmp", 60, 210);    //  60 x 70px _ 1 x 3
     g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
     g_pImgManager->AddImage("enemy", "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
     g_pImgManager->AddImage("map", "images/img-map.bmp", 512, 1024);         //  512 x 1024px _ 1 x 1
-}
-
-void GameScene::AddComponentsToScene()
-{
-    g_pScnManager->AddGameObjToScn("game", m_pMap);
-    g_pScnManager->AddGameObjToScn("game", m_pEnemy);
-    g_pScnManager->AddGameObjToScn("game", m_pPlayer);
 }
 
 void GameScene::DeleteScene()

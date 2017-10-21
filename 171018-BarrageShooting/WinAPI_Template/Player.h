@@ -23,18 +23,22 @@ private:
     ProgressBarObject   m_hpBar;
     int                 m_nShootDelay = 0;
     double              m_dHp;
+    int*                m_pScore;
 public:
     Player();
     Player(string szTagName);
     ~Player();
 
 #pragma region GET
-    double GetHp() { return m_dHp; }
+    double  GetHp() { return m_dHp; }
+    int*    GetScore() { return m_pScore; }
 #pragma endregion
 #pragma region SET
     void    SetEnemy(Enemy* Enemy) { m_pEnemy = Enemy; }
     void    SetHp(double Hp) { m_dHp = Hp; }
     void    SumHp(double Hp) { m_dHp += Hp; }
+    void    SetScore(int Score) { *m_pScore = Score; }
+    void    SumScore(int Score) { *m_pScore += Score; }
 #pragma endregion
 
     void SetupForProgressBar();

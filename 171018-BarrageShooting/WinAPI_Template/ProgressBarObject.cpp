@@ -30,9 +30,9 @@ void ProgressBarObject::Render(HDC hdc)
         m_spritesBack->SetBodyRect(m_rtBody);
         m_spritesBack->SetFrameY(1);
         m_spritesBack->GetSpritesImg()->Render(g_hDC, m_dPos, m_nSize, 1.0f);
-        //m_spritesFront->GetSpritesImg()->SetupForAlphaBlend();
         m_spritesFront->SetBodyRect(m_rtBody);
         m_spritesFront->GetSpritesImg()->Render(g_hDC, m_dPos, m_nSize, m_dGaugeRatio);
+        m_spritesFront->NextFrameY();
         m_spritesBack->SetFrameY(0);
         m_spritesBack->GetSpritesImg()->Render(g_hDC, m_dPos, m_nSize, 1.0f);
     }

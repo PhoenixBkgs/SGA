@@ -77,6 +77,10 @@ using namespace std;
 #define g_pGeoHelper GeometryHelper::GetInstance()
 #define g_pPhxsHelper PhysicsHelper::GetInstance()
 
+#define GLOBAL_WIN_SIZE     UnitSize{W_WIDTH, W_HEIGHT}
+#define GLOBAL_WIN_HSIZE    UnitSize{W_WIDTH * 0.5f, W_HEIGHT * 0.5f}
+#define GLOBAL_CENTER_POS   UnitPos{W_WIDTH * 0.5f, W_HEIGHT * 0.5f}
+
 //==================================================================
 //		## 전역변수 ##
 //==================================================================

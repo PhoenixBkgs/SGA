@@ -37,7 +37,7 @@ void StartButton::Update()
         m_nSize = { (int)(m_originSize.w * 1.3f), (int)(m_originSize.h * 1.3f) };
         if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
         {
-            *m_currGameState = GAME_PLAYING;
+            *m_currGameState = (E_GAME_STATE)(*m_currGameState + 1);
         }
     }
 
