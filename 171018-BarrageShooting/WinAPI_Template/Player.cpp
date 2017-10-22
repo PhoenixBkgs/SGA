@@ -11,9 +11,10 @@ Player::Player(string szTagName)
 {
     m_weaponType = WEAPON_SINGLESHOT;
     m_szTagName = szTagName;
-    //SetBodyImgAuto();
+    SetBodyImgAuto();
     m_dHp = PLAYER_INIT_HP;
     m_vecBullets = NULL;
+    g_pTimerManager->AddOnOffTimer("player-immortal", { 0.0f, 0.0f }, 1.0f, 0.5f);
 }
 
 Player::~Player()
@@ -36,6 +37,22 @@ void Player::Update()
     PlayerController();
     SpritesObject::Update();
     m_hpBar.SetGaugeRatio(m_dHp / PLAYER_INIT_HP);
+
+    if (m_isImmortal)
+    {
+        if (g_pTimerManager->TickOnOffTimer("player-immortal"))
+        {
+            m_dAlpha = 128.0f;
+        }
+        else
+        {
+            m_dAlpha = 255.0f;
+        }
+    }
+    else
+    {
+        m_dAlpha = 255.0f;
+    }
 }
 
 void Player::Render()
@@ -131,5 +148,10 @@ void Player::PlayerController()
     else if (g_pKeyManager->isOnceKeyDown('R'))
     {
         m_weaponType = WEAPON_BARRAGE;
+    }
+
+    if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+    {
+        m_isImmortal = !m_isImmortal;
     }
 }

@@ -3,6 +3,7 @@
 
 GameObject::GameObject()
     : m_bIsSetup(false)
+    , m_isImmortal(false)
 {
     Setup();
     SetBodyImgAuto();
@@ -10,6 +11,7 @@ GameObject::GameObject()
 
 GameObject::GameObject(string szTagName)
     : m_bIsSetup(false)
+    , m_isImmortal(false)
 {
     Setup();
     SetTagName(szTagName);

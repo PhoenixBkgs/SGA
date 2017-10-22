@@ -33,6 +33,7 @@ protected:
     RECT            m_rtLockArea;
     bool            m_isLockInWnd;      //  Never escape window
 //--------------------------------------------------------------------------
+    bool            m_isImmortal;
     bool            m_isVisible;        //  Render or not
     bool            m_isMovable;        //  Move or not
     bool            m_isRigid;          //  Collide or not
@@ -66,6 +67,7 @@ public:
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
 
+    bool        IsImmortal()    { return m_isImmortal; }
     bool        IsVisible()     { return m_isVisible; }
     bool        IsAlive()       { return m_isAlive; }
     bool        IsLockInWnd()   { return m_isLockInWnd; }
@@ -97,6 +99,8 @@ public:
 
     //  Exterior
     void SetAlpha(double Alpha) { m_dAlpha = Alpha; }
+    void SetImmortal()  { m_isImmortal = true; }
+    void SetMortal()    { m_isImmortal = false; }
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
     void SetAlive()     { m_isAlive = true; }

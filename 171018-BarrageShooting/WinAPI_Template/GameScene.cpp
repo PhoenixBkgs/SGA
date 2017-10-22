@@ -60,7 +60,14 @@ void GameScene::Update()
             if (m_iterBullets->GetTagName() == "player-bullet" &&
                 g_pPhxsHelper->IsCollision(m_iterBullets._Ptr, m_pEnemy))
             {
-                m_pEnemy->SumHp(m_iterBullets->GetDamage());
+                if (m_pEnemy->IsImmortal())
+                {
+
+                }
+                else
+                {
+                    m_pEnemy->SumHp(m_iterBullets->GetDamage());
+                }
                 m_iterBullets->SetDead();
             }
 
@@ -68,7 +75,14 @@ void GameScene::Update()
             if (m_iterBullets->GetTagName() == "enemy-bullet" &&
                 g_pPhxsHelper->IsCollision(m_iterBullets._Ptr, m_pPlayer))
             {
-                //m_pPlayer->SumHp(m_iterBullets->GetDamage());
+                if (m_pPlayer->IsImmortal())
+                {
+
+                }
+                else
+                {
+                    m_pPlayer->SumHp(m_iterBullets->GetDamage());
+                }
                 m_iterBullets->SetDead();
             }
         }
