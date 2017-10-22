@@ -147,6 +147,12 @@
     <ClInclude Include="LobbyScene.h">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="ProjectileObject.h">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClInclude>
+    <ClInclude Include="GameoverScene.h">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinAPITemplate.cpp">
@@ -240,6 +246,12 @@
       <Filter>GameFramework2D\004-Source</Filter>
     </ClCompile>
     <ClCompile Include="LobbyScene.cpp">
+      <Filter>GameFramework2D\004-Source\001.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileObject.cpp">
+      <Filter>GameFramework2D\001-MainGame\PClass</Filter>
+    </ClCompile>
+    <ClCompile Include="GameoverScene.cpp">
       <Filter>GameFramework2D\004-Source\001.Scene</Filter>
     </ClCompile>
   </ItemGroup>

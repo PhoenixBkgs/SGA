@@ -8,6 +8,7 @@
 #include "MenuScene.h"
 #include "GameScene.h"
 #include "ClearScene.h"
+#include "GameoverScene.h"
 #pragma endregion
 
 #include "MapObject.h"
@@ -33,6 +34,7 @@ private:
     MenuScene*              m_menuScn;
     GameScene*              m_gameScn;
     ClearScene*             m_clearScn;
+    GameoverScene*          m_gameoverScn;
 //=======================================================
 //  FUNCTIONS
 private:

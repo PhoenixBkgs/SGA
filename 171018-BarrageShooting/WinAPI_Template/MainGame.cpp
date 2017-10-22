@@ -49,6 +49,7 @@ void MainGame::Update()
         g_pScnManager->Update("clear");
         break;
     case GAME_OVER:
+        g_pScnManager->Update("gameover");
         break;
     default:
         break;
@@ -83,6 +84,8 @@ void MainGame::Render()
         g_pScnManager->Render("clear");
         break;
     case GAME_OVER:
+        g_pScnManager->Render("game");
+        g_pScnManager->Render("gameover");
         break;
     default:
         break;
@@ -105,7 +108,6 @@ void MainGame::LoadImageResources()
     g_pImgManager->AddImage("hp-frame", "images/sprites-health-frame.bmp", 480, 46);    //  480 x 46px _ 1 x 2
     g_pImgManager->AddImage("hp-bar",   "images/sprites-health-bar.bmp", 456, 96);      //  456 x 96px _ 1 x 8
     g_pImgManager->AddImage("hp-bar-2", "images/sprites-health-bar-2.bmp", 456, 96);      //  456 x 96px _ 1 x 8
-    g_pImgManager->AddImage("gameover", "images/img-gameover.bmp", 439, 268);           //  439 x 268px _ 1 x 4
 }
 
 void MainGame::LoadSoundResources()
@@ -138,10 +140,13 @@ void MainGame::SetupScene()
     m_gameScn->Setup();
     g_pScnManager->AddGameObjToScn("game", m_gameScn);
     
- 
     //  Clear scene
     m_clearScn = new ClearScene(&m_currGameState);
     g_pScnManager->AddGameObjToScn("clear", m_clearScn);
+
+    //  Game over scene
+    m_gameoverScn = new GameoverScene(&m_currGameState);
+    g_pScnManager->AddGameObjToScn("gameover", m_gameoverScn);
 }
 
 void MainGame::ReleaseAllScene()

@@ -17,11 +17,32 @@ SplashScene::~SplashScene()
 void SplashScene::Update()
 {
     m_startBtn.Update();
+    if (m_bgImg.GetBodyRect().top >= W_HEIGHT)
+    {
+        RECT rt = m_bgImg.GetBodyRect();
+        rt.top -= m_bgImg.GetSize().h;
+        rt.bottom -= m_bgImg.GetSize().h;
+        m_bgImg.SetBodyRect(rt);
+    }
+    m_bgImg.Update();
+
+    if (m_bgDecoImg.GetBodyRect().top >= W_HEIGHT)
+    {
+        RECT rt = m_bgDecoImg.GetBodyRect();
+        rt.top = -m_bgDecoImg.GetSize().h;;
+        rt.bottom = 0;
+        m_bgDecoImg.SetBodyRect(rt);
+    }
+    m_bgDecoImg.Update();
 }
 
 void SplashScene::Render()
 {
     m_bgImg.Render();
+    RECT rt = m_bgImg.GetBodyRect();
+    rt.top -= m_bgImg.GetSize().h;
+    rt.bottom -= m_bgImg.GetSize().h;
+    m_bgImg.GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_bgImg.GetAlpha());
     m_bgDecoImg.Render();
     m_titleImg.Render();
     m_startBtn.Render();
@@ -32,6 +53,7 @@ void SplashScene::Setup()
     m_bgImg.Setup(GLOBAL_CENTER_POS, GLOBAL_WIN_SIZE);
     m_bgImg.SetBodyImg(g_pImgManager->FindImage("splash-bg"));
     m_bgImg.SetupForSprites(1, 1);
+    m_bgImg.SetBodySpeed({ 0.0f, 2.0f });
 
     UnitSize bgDecoSize = g_pImgManager->FindImage("splash-deco")->GetSize();
     m_bgDecoImg.SetBodyPos({ (double)(W_WIDTH - bgDecoSize.w * 0.5f), GLOBAL_CENTER_POS.y * 0.5f });
@@ -39,6 +61,7 @@ void SplashScene::Setup()
     m_bgDecoImg.SetBodyRect(g_pDrawHelper->MakeRect(m_bgDecoImg.GetPos(), m_bgDecoImg.GetSize()));
     m_bgDecoImg.SetBodyImg(g_pImgManager->FindImage("splash-deco"));
     m_bgDecoImg.SetupForSprites(1, 1);
+    m_bgDecoImg.SetBodySpeed({ 0.0f, 5.0f });
 
     UnitSize titleSize = g_pImgManager->FindImage("title")->GetSize();
     m_titleImg.Setup(GLOBAL_CENTER_POS, titleSize);

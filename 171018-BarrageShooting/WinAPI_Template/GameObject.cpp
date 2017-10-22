@@ -90,16 +90,16 @@ void GameObject::Update()
 
 void GameObject::Render()
 {
+#ifdef _DEBUG
     if (m_bIsSetup)
     {
         if (m_isVisible == true)
         {
-#ifdef _DEBUG
             g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, _RGBA{ 0, 0, 0, 0 });         //  Draw body rect
             g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 2, _RGBA{ 0, 255, 0, 0 });     //  Draw hit box rect
-#endif // _DEBUG
         }
     }
+#endif // _DEBUG
 }
 
 void GameObject::Move()

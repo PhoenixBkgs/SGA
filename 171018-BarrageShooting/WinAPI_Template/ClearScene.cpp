@@ -32,6 +32,13 @@ void ClearScene::Update()
         }
     }
 
+    if (m_continueImg->GetBodyRect().right <= 0.0f)
+    {
+        RECT rt = m_continueImg->GetBodyRect();
+        rt.left = 0;
+        rt.right = 480;
+        m_continueImg->SetBodyRect(rt);
+    }
     m_clearBgImg->Update();
     m_continueImg->Update();
 }
@@ -39,7 +46,20 @@ void ClearScene::Update()
 void ClearScene::Render()
 {
     m_clearBgImg->Render();
+
+    UnitPos pos = m_continueImg->GetPos();
     m_continueImg->Render();
+    RECT rt = m_continueImg->GetBodyRect();
+    rt.left = rt.left - 480;
+    rt.right = rt.right - 480;
+    m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
+    rt = m_continueImg->GetBodyRect();
+    rt.left = rt.left + 480;
+    rt.right = rt.right + 480;
+    m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
+    rt.left = rt.left + 480;
+    rt.right = rt.right + 480;
+    m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
 }
 
 void ClearScene::Setup()
@@ -60,6 +80,7 @@ void ClearScene::Setup()
     m_continueImg->SetBodyRect(g_pDrawHelper->MakeRect(m_continueImg->GetPos(), m_continueImg->GetSize()));
     m_continueImg->SetAlpha(m_continueAlpha);
     m_continueImg->SetupForSprites(1, 1);
+    m_continueImg->SetBodySpeed({ -1.0f, 0.0f });
 }
 
 void ClearScene::LoadImageResources()

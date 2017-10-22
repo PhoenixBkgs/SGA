@@ -63,7 +63,7 @@ public:
 
     //  FOR ALPHA BLEND
     void SetupForAlphaBlend();
-    void Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, double Ratio);
+    void Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Ratio);
     void Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha);
     void Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha);
     void Render(HDC hdc, UnitPos KeyPos, double Angle);

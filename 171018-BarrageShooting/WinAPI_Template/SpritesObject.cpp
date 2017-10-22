@@ -67,15 +67,14 @@ void SpritesObject::SetupDelay()
 
 void SpritesObject::ValidateFramePos()
 {
-    m_currFrameX = m_currFrameX > m_maxFrameX ? 0 : m_currFrameX;
-    m_currFrameY = m_currFrameY > m_maxFrameY ? 0 : m_currFrameY;
+    m_currFrameX = m_currFrameX > m_maxFrameX - 1 ? 0 : m_currFrameX;
+    m_currFrameY = m_currFrameY > m_maxFrameY - 1 ? 0 : m_currFrameY;
 }
 
 
 void SpritesObject::Update()
 {
     GameObject::Update();
-    NextFrameX();
 }
 
 void SpritesObject::Render()

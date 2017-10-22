@@ -11,7 +11,7 @@ Player::Player(string szTagName)
 {
     m_weaponType = WEAPON_SINGLESHOT;
     m_szTagName = szTagName;
-    SetBodyImgAuto();
+    //SetBodyImgAuto();
     m_dHp = PLAYER_INIT_HP;
     m_vecBullets = NULL;
 }
@@ -85,7 +85,6 @@ void Player::PlayerController()
 {
     //  Player sprites mod
     UnitSpeed dPlayerSpd = { 0.0f, 0.0f };
-    SetFrameY(0);
     if (g_pKeyManager->isStayKeyDown(VK_LEFT))
     {
         dPlayerSpd.x = -PLAYER_SPEED;
@@ -96,6 +95,11 @@ void Player::PlayerController()
         dPlayerSpd.x = PLAYER_SPEED;
         SetFrameY(2);
     }
+    else
+    {
+        SetFrameY(0);
+    }
+
     if (g_pKeyManager->isStayKeyDown(VK_UP))
     {
         dPlayerSpd.y = -PLAYER_SPEED;

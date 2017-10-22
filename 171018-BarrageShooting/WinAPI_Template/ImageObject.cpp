@@ -89,13 +89,13 @@ void ImageObject::SetupForAlphaBlend()
     ReleaseDC(g_hWnd, hdc);
 }
 
-void ImageObject::Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, double Ratio)
+void ImageObject::Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Ratio)
 {
     GdiTransparentBlt(hdc
         , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
         , (int)(m_spritesWidth * Ratio), m_spritesHeight
         , m_pImageInfo->hMemDC
-        , 0, 0
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
         , (int)(m_spritesWidth * Ratio), m_spritesHeight
         , m_transColor);
 }
@@ -284,25 +284,25 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
     BitBlt(m_pBlendImage->hMemDC
         , 0, 0
-        , m_spritesWidth, m_spritesHeight
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
         , hdc
         , SpritesBox.left, SpritesBox.top
         , SRCCOPY);
-    //2. 출력해야 될 이미지를 블렌드에 그려준다(마젠타 값을 없애준다)
+
     GdiTransparentBlt(m_pBlendImage->hMemDC
         , 0, 0
-        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_spritesWidth, m_spritesHeight
         , m_pImageInfo->hMemDC
         , m_spritesWidth * FrameX, m_spritesHeight * FrameY
         , m_spritesWidth, m_spritesHeight
         , m_transColor);
-    //3. 블렌드 DC를 출력해야 할 DC에 그린다
+
     GdiAlphaBlend(hdc
         , SpritesBox.left, SpritesBox.top
         , boxSize.x, boxSize.y
         , m_pBlendImage->hMemDC
         , 0, 0
-        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_spritesWidth, m_spritesHeight
         , m_stBlendFunc);
 }
 

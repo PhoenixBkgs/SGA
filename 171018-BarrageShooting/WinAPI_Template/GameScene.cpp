@@ -35,6 +35,11 @@ void GameScene::Update()
     {
         *m_currGameState = GAME_CLEAR;
     }
+
+    if (m_pPlayer->GetHp() < 0.0f)
+    {
+        *m_currGameState = GAME_OVER;
+    }
     m_pPlayer->Update();
     m_pEnemy->Update();
     m_pMap->Update();
@@ -63,7 +68,7 @@ void GameScene::Update()
             if (m_iterBullets->GetTagName() == "enemy-bullet" &&
                 g_pPhxsHelper->IsCollision(m_iterBullets._Ptr, m_pPlayer))
             {
-                m_pPlayer->SumHp(m_iterBullets->GetDamage());
+                //m_pPlayer->SumHp(m_iterBullets->GetDamage());
                 m_iterBullets->SetDead();
             }
         }
@@ -108,21 +113,21 @@ void GameScene::Setup()
 {
     //  PLAYER
     m_pPlayer = new Player("player");
-    m_pPlayer->SetHBoxMargin(RectMargin{ 25, 15, 25, 35 });
-    m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
-    m_pPlayer->LockInWnd();
+    m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
     m_pPlayer->SetupForSprites(1, 3);
-    m_pPlayer->SetSpritesImg(g_pImgManager->FindImage("player"));
+    m_pPlayer->Setup(UnitPos{ PLAYER_INIT_POS_X, PLAYER_INIT_POS_Y }, UnitSize{ PLAYER_WIDTH, PLAYER_HEIGHT });
+    m_pPlayer->SetHBoxMargin(RectMargin{ 25, 15, 25, 35 });
+    m_pPlayer->LockInWnd();
     m_pPlayer->SetLife(10);
     m_pPlayer->SetupForProgressBar();
 
     //  ENEMY
     m_pEnemy = new Enemy("enemy");
-    m_pEnemy->SetHBoxMargin(RectMargin{ 100, 15, 100, 100 });
-    m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
+    m_pEnemy->SetBodyImg(g_pImgManager->FindImage("enemy"));
     m_pEnemy->SetupForSprites(1, 1);
+    m_pEnemy->Setup(UnitPos{ BOSS_INIT_POS_X, BOSS_INIT_POS_Y }, UnitSize{ BOSS_WIDTH, BOSS_HEIGHT });
+    m_pEnemy->SetHBoxMargin(RectMargin{ 100, 15, 100, 100 });
     m_pEnemy->LockInWnd();
-    m_pEnemy->SetSpritesImg(g_pImgManager->FindImage("enemy"));
     m_pEnemy->SetLife(10);
     m_pEnemy->SetupForProgressBar();
 
