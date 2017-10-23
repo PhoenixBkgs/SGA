@@ -7,7 +7,6 @@ class ImageObject;
 class SpritesObject : public GameObject
 {
 protected:
-    ImageObject*    m_spritesImg;
     int             m_currFrameX;           //  Current sprites X position
     int             m_currFrameY;           //  Current sprites Y position
     int             m_maxFrameX;            //  Current sprites max of X
@@ -22,7 +21,6 @@ public:
     ~SpritesObject();
 
 #pragma region GET
-    ImageObject* GetSpritesImg() { return m_spritesImg; }
     int     GetFrameX() { return m_currFrameX; }
     int     GetFrameY() { return m_currFrameY; }
     int     GetMaxFrameX() { return m_maxFrameX; }
@@ -31,9 +29,8 @@ public:
     double  GetFrameDelayStep() { return m_frameDelayStep; }
     bool    IsTriggerFrame();
 #pragma endregion
-
 #pragma region SET
-    void SetSpritesImg(ImageObject* Image) { m_spritesImg = Image; }
+    void SetupForSprites(int MaxFrameX, int MaxFrameY);
     void SetFrameX(int FrameX) { m_currFrameX = FrameX; }
     void SetFrameY(int FrameY) { m_currFrameY = FrameY; }
     void SetMaxFrameX(int MaxFrameX) { m_maxFrameX = MaxFrameX; }
@@ -45,14 +42,11 @@ public:
     void NextFrameY();
 #pragma endregion
 
-    void SetupForSprites(int MaxFrameX, int MaxFrameY);
-    void SetupDelay();          //  Ready for use delay
     void ValidateFramePos();    //  Frame position ceiling
 
 #pragma region OVERRIDE
     virtual void Update() override;
     virtual void Render() override;
 #pragma endregion
-
 };
 
