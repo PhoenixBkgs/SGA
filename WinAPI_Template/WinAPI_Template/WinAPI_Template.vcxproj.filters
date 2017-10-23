@@ -138,6 +138,9 @@
     <ClInclude Include="SoundManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationHelper.h">
+      <Filter>GameFramework2D\003-Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -223,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationHelper.cpp">
+      <Filter>GameFramework2D\003-Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

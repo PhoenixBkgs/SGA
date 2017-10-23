@@ -147,6 +147,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationHelper.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DrawHelper.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationHelper.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
     <ClCompile Include="GameoverScene.cpp" />

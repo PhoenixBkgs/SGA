@@ -1,26 +1,60 @@
 #include "stdafx.h"
 #include "DrawHelper.h"
 
-bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color)
+DrawHelper::DrawHelper()
 {
-    HPEN hPen = CreatePen(PS_SOLID, PenWidth, RGB(Color.R, Color.G, Color.B));
-    SelectObject(g_hDC, hPen);
+    m_pBrushRed = new HBRUSH;
+    m_pBrushGreen = new HBRUSH;
+    m_pBrushBlue = new HBRUSH;
+
+    *m_pBrushRed = CreateSolidBrush(RGB(255, 0, 0));
+    *m_pBrushGreen = CreateSolidBrush(RGB(0, 255, 0));
+    *m_pBrushBlue = CreateSolidBrush(RGB(0, 0, 255));
+}
+
+DrawHelper::~DrawHelper()
+{
+    SAFE_DELETE(m_pBrushRed);
+    SAFE_DELETE(m_pBrushGreen);
+    SAFE_DELETE(m_pBrushBlue);
+}
+
+bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode)
+{
+    HPEN* hPen = new HPEN; 
+    switch (ColorCode)
+    {
+    case 1:
+        *hPen = CreatePen(PS_SOLID, PenWidth, RGB(255, 0, 0));
+        break;
+    case 2:
+        *hPen = CreatePen(PS_SOLID, PenWidth, RGB(0, 255, 0));
+        break;
+    case 3:
+        *hPen = CreatePen(PS_SOLID, PenWidth, RGB(0, 0, 255));
+        break;
+    default:
+        *hPen = CreatePen(PS_SOLID, PenWidth, RGB(0, 0, 0));
+        break;
+    }
+    SelectObject(g_hDC, *hPen);
     MoveToEx(g_hDC, (int)Pos1.x, (int)Pos1.y, NULL);
     LineTo(g_hDC, (int)Pos2.x, (int)Pos2.y);
-    DeleteObject(hPen);
+    DeleteObject(*hPen);
+    SAFE_DELETE(hPen);
 
     return true;
 }
 
-void DrawHelper::DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color)
+void DrawHelper::DrawBoxLine2D(RECT rt, int LineWidth, int ColorCode)
 {
     UnitPos lt = { (double)rt.left, (double)rt.top };
     UnitPos rb = { (double)rt.right, (double)rt.bottom };
 
-    DrawLine2D(lt, UnitPos{ rb.x, lt.y }, LineWidth, Color);
-    DrawLine2D(lt, UnitPos{ lt.x, rb.y }, LineWidth, Color);
-    DrawLine2D(rb, UnitPos{ rb.x, lt.y }, LineWidth, Color);
-    DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, Color);
+    DrawLine2D(lt, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
+    DrawLine2D(lt, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
+    DrawLine2D(rb, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
+    DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
 }
 
 RECT DrawHelper::MakeRect(UnitPos Pos, UnitSize Size)
@@ -49,7 +83,7 @@ void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
         HBRUSH* pBrush = new HBRUSH;
         *pBrush = CreateSolidBrush(RGB(m_textBoxInfo.BoxColor.R, m_textBoxInfo.BoxColor.G, m_textBoxInfo.BoxColor.B));
         FillRect(hdc, &TxtBox, *pBrush);
-        delete pBrush;
+        SAFE_DELETE(pBrush);
     }
     DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));

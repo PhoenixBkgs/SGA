@@ -1,5 +1,4 @@
 #pragma once
-#include "EnumState.h"
 #include "SingletonBase.h"
 
 struct tagTextBoxInfo
@@ -12,18 +11,26 @@ struct tagTextBoxInfo
 
 class DrawHelper : public SingletonBase<DrawHelper>
 {
+private:
+    HBRUSH*     m_pBrushRed;
+    HBRUSH*     m_pBrushGreen;
+    HBRUSH*     m_pBrushBlue;
+
 public:
     tagTextBoxInfo  m_textBoxInfo;
 
 public:
+    DrawHelper();
+    ~DrawHelper();
+
 #pragma region SET
     void    SetColor(_RGBA FontColor, _RGBA BoxColor) { m_textBoxInfo.FontColor = FontColor; m_textBoxInfo.BoxColor = BoxColor; }
     void    SetBoxVisible() { m_textBoxInfo.IsVisibleBox = true; }
     void    SetBoxInvisible() { m_textBoxInfo.IsVisibleBox = false; }
 #pragma endregion
 
-    bool DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, _RGBA Color);
-    void DrawBoxLine2D(RECT rt, int LineWidth, _RGBA Color);
+    bool DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode);
+    void DrawBoxLine2D(RECT rt, int LineWidth, int ColorCode);
     RECT MakeRect(UnitPos Pos, UnitSize Size);
 
     void DrawTextBox(HDC hdc, RECT TxtBox, string TextString);

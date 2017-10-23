@@ -97,8 +97,8 @@ void GameObject::Render()
     {
         if (m_isVisible == true)
         {
-            g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, _RGBA{ 0, 0, 0, 0 });         //  Draw body rect
-            g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 2, _RGBA{ 0, 255, 0, 0 });     //  Draw hit box rect
+            g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, 2);         //  Draw body rect
+            g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 2, 2);     //  Draw hit box rect
         }
     }
 #endif // _DEBUG
