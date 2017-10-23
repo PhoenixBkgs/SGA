@@ -21,5 +21,8 @@ public:
 
     double GetDistance(UnitPos Pos1, UnitPos Pos2);
     UnitPos GetRotateCoord(UnitPos StartPos, UnitPos DestPos, double DeltaDegree);
+
+    void LinearInterpolation(OUT UnitPos& Pos, IN UnitPos FromPos, IN UnitPos ToPos, IN double t);
+    void BezierInterpolation(OUT UnitPos& Pos, IN UnitPos FromPos, IN UnitPos ViaPos, IN UnitPos ToPos, IN double t);
 };
 

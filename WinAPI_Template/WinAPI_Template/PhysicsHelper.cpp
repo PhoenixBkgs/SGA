@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "PhysicsHelper.h"
 
-template<class T>
-bool PhysicsHelper::IsCollision(T Unit1, T Unit2)
+bool PhysicsHelper::IsCollision(GameObject* Unit1, GameObject* Unit2)
 {
     RECT tempRt;
-    return IntersectRect(&tempRt, &Unit1.GetBodyRect(), &Unit2.GetBodyRect()) ? true : false;
+    return IntersectRect(&tempRt, &Unit1->GetHBoxRect(), &Unit2->GetHBoxRect());
 }
 
 template<class T>

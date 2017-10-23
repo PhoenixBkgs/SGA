@@ -64,14 +64,14 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_stBlendFunc.BlendFlags = 0;
     m_stBlendFunc.AlphaFormat = 0;
 
+    SetupForAlphaBlend();
+
     ReleaseDC(g_hWnd, hdc);
 }
 
 void ImageObject::SetupForAlphaBlend()
 {
     // 알파블렌드 구조체 초기화 (기본 값을 바꿀 일이 없음)
-    
-
     // DC 가져오기
     HDC hdc = GetDC(g_hWnd);
 
@@ -89,44 +89,105 @@ void ImageObject::SetupForAlphaBlend()
     ReleaseDC(g_hWnd, hdc);
 }
 
+void ImageObject::Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Ratio)
+{
+    GdiTransparentBlt(hdc
+        , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
+        , (int)(m_spritesWidth * Ratio), m_spritesHeight
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , (int)(m_spritesWidth * Ratio), m_spritesHeight
+        , m_transColor);
+}
+
 void ImageObject::Render(HDC hdc)
 {
     if (m_isTrans)
     {
-        GdiTransparentBlt(hdc, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
+        GdiTransparentBlt(hdc
+                        , 0, 0
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_pImageInfo->hMemDC
+                        , 0, 0
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_transColor);
     }
     else
     {
-        BitBlt(hdc, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_pImageInfo->hMemDC, 0, 0, SRCCOPY);
+        BitBlt(hdc
+            , 0, 0
+            , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+            , m_pImageInfo->hMemDC
+            , 0, 0
+            , SRCCOPY);
     }
+}
+
+void ImageObject::Render(HDC hdc, UnitPos Pos)
+{
+    GdiTransparentBlt(hdc
+                    , (int)(Pos.x - GetWidth() * 0.5f), (int)(Pos.y - GetHeight() * 0.5f)
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_transColor);
 }
 
 void ImageObject::Render(HDC hdc, int destX, int destY)
 {
     if (m_isTrans)
     {
-        GdiTransparentBlt(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
+        GdiTransparentBlt(hdc
+                        , destX, destY
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_pImageInfo->hMemDC
+                        , 0, 0
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_transColor);
     }
     else
     {
-        BitBlt(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_pImageInfo->hMemDC, 0, 0, SRCCOPY);
+        BitBlt(hdc
+            , destX, destY
+            , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+            , m_pImageInfo->hMemDC
+            , 0, 0
+            , SRCCOPY);
     }
 }
 
 void ImageObject::Render(HDC hdc, int destX, int destY, int destW, int destH)
 {
-    GdiTransparentBlt(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
+    GdiTransparentBlt(hdc
+                    , destX, destY
+                    , destW, destH
+                    , m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_transColor);
 }
 
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH)
 {
     if (m_isTrans)
     {
-        GdiTransparentBlt(hdc, destX, destY, srcW, srcH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_transColor);
+        GdiTransparentBlt(hdc
+                        , destX, destY
+                        , srcW, srcH
+                        , m_pImageInfo->hMemDC
+                        , srcX, srcY
+                        , srcW, srcH
+                        , m_transColor);
     }
     else
     {
-        BitBlt(hdc, destX, destY, srcW, srcH, m_pImageInfo->hMemDC, srcX, srcY, SRCCOPY);
+        BitBlt(hdc
+            , destX, destY
+            , srcW, srcH
+            , m_pImageInfo->hMemDC
+            , srcX, srcY
+            , SRCCOPY);
     }
 }
 
@@ -144,31 +205,45 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     if (m_isTrans)
     {
         //1. 출력해야 될 DC에 그려져 있는 내용을 블렌드이미지에 그려준다
-        BitBlt(m_pBlendImage->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
-            hdc, destX, destY, SRCCOPY);
+        BitBlt(m_pBlendImage->hMemDC
+            , 0, 0
+            , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+            , hdc
+            , destX, destY
+            , SRCCOPY);
         //2. 출력해야 될 이미지를 블렌드에 그려준다(마젠타 값을 없애준다)
-        GdiTransparentBlt(m_pBlendImage->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
-            m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_transColor);
+        GdiTransparentBlt(m_pBlendImage->hMemDC
+                        , 0, 0
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_pImageInfo->hMemDC
+                        , 0, 0
+                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                        , m_transColor);
         //3. 블렌드 DC를 출력해야 할 DC에 그린다
         
-        GdiAlphaBlend(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
-            m_pBlendImage->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_stBlendFunc);
+        GdiAlphaBlend(hdc
+                    , destX, destY
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_stBlendFunc);
     }
     else
     {
         // 알파블렌드 옵션 값을 사용해서 그린다.
-        GdiAlphaBlend(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight,
-            m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, m_stBlendFunc);
+        GdiAlphaBlend(hdc
+                    , destX, destY
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_stBlendFunc);
     }
 }
 
-void ImageObject::SetupForSprites(int MaxFrameX, int MaxFrameY, int SpritesWidth, int SpritesHeight, int SpritesDelay)
+void ImageObject::SetupForSprites(int SpritesWidth, int SpritesHeight, int SpritesDelay)
 {
-    m_currFrameX = 0;
-    m_spritesInitDelay = SpritesDelay;
-    m_spritesDelayCount = m_spritesInitDelay;
-    m_maxFrameX = MaxFrameX;
-    m_maxFrameY = MaxFrameY;
     m_spritesWidth = SpritesWidth;
     m_spritesHeight = SpritesHeight;
 }
@@ -182,23 +257,107 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
     }
 #endif
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top, 
-                           boxSize.x, boxSize.y, 
-                           m_pImageInfo->hMemDC, 
-                           m_spritesWidth * m_currFrameX, 0, 
-                           m_spritesWidth, m_spritesHeight
-                        , m_transColor);
+    GdiTransparentBlt(hdc
+                    , SpritesBox.left, SpritesBox.top
+                    , boxSize.x, boxSize.y
+                    , m_pImageInfo->hMemDC
+                    , m_spritesWidth * 0, m_spritesHeight * 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_transColor);
 }
 
 void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY)
 {
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc, SpritesBox.left, SpritesBox.top,
-        boxSize.x, boxSize.y,
-        m_pImageInfo->hMemDC,
-        m_spritesWidth * FrameX, m_spritesHeight * FrameY,
-        m_spritesWidth, m_spritesHeight
+    GdiTransparentBlt(hdc
+                         , SpritesBox.left, SpritesBox.top
+                         , boxSize.x, boxSize.y
+                         , m_pImageInfo->hMemDC
+                         , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+                         , m_spritesWidth, m_spritesHeight
+                         , m_transColor);
+}
+
+void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
+    BitBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , hdc
+        , SpritesBox.left, SpritesBox.top
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , m_spritesWidth, m_spritesHeight
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , m_spritesWidth, m_spritesHeight
         , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , SpritesBox.left, SpritesBox.top
+        , boxSize.x, boxSize.y
+        , m_pBlendImage->hMemDC
+        , 0, 0
+        , m_spritesWidth, m_spritesHeight
+        , m_stBlendFunc);
+}
+
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha)
+{
+    BitBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesWidth
+                    , hdc
+                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
+                    , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesHeight
+                    , m_transColor);
+    
+    GdiAlphaBlend(hdc
+                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
+                    , m_spritesWidth, m_spritesWidth
+                    , m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_spritesWidth, m_spritesWidth
+                    , m_stBlendFunc);
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY)
+{
+    GdiTransparentBlt(hdc
+        , (int)(DestPos.x - DestSize.w * 0.5f), (int)(DestPos.y - DestSize.h * 0.5f)
+        , DestSize.w, DestSize.h
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number)
+{
+    int tempScore = Number;
+    UnitPos renderPos = RightEndPos;
+
+    while (tempScore != 0)
+    {
+        int printNumber = tempScore % 10;
+
+        //  NUMBER RENDERER
+        SpritesRender(hdc, renderPos, EachSize, printNumber, 0);
+        renderPos.x -= (double)EachSize.w;
+        tempScore = tempScore / 10;
+    }
 }
 
 
@@ -243,34 +402,28 @@ void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
 
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
-    Render(hdc, destX, destY, m_pImageInfo->nWidth, m_pImageInfo->nHeight, srcX, srcY, srcW, srcH, alpha);
+    Render(hdc
+        , destX, destY
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , srcX, srcY
+        , srcW, srcH
+        , alpha);
 }
 
 void ImageObject::Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     m_stBlendFunc.SourceConstantAlpha = alpha;
-    GdiAlphaBlend(hdc, destX, destY, destW, destH, m_pImageInfo->hMemDC, srcX, srcY, srcW, srcH, m_stBlendFunc);
+    GdiAlphaBlend(hdc
+                , destX, destY
+                , destW, destH
+                , m_pImageInfo->hMemDC
+                , srcX, srcY
+                , srcW, srcH
+                , m_stBlendFunc);
 }
 
 void ImageObject::SetTransColor(bool isTrans, COLORREF transColor)
 {
     m_isTrans = isTrans;
     m_transColor = transColor;
-}
-
-void ImageObject::Refresh()
-{
-    m_spritesDelayCount++;
-    if (m_spritesDelayCount > m_spritesInitDelay)
-    {
-        m_spritesDelayCount = 0;
-        if (m_maxFrameX > 0)
-        {
-            m_currFrameX++;
-            if (m_currFrameX > m_maxFrameX - 1)
-            {
-                m_currFrameX = 0;
-            }
-        }
-    }
 }

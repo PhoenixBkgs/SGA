@@ -21,6 +21,7 @@
 #include <time.h>
 #include <chrono>
 #include <iostream>
+#include <assert.h>
 
 using namespace std;
 
@@ -30,8 +31,8 @@ using namespace std;
 #define W_NAME (LPCWSTR)(TEXT("TITLE"))
 #define W_START_POS_X		0
 #define W_START_POS_Y		0
-#define W_WIDTH		        1600
-#define W_HEIGHT		    1600
+#define W_WIDTH		        512
+#define W_HEIGHT		    1024
 #define WINDOW_STYLE		WS_CAPTION | WS_SYSMENU
 #define PURE			    = 0
 
@@ -56,11 +57,14 @@ using namespace std;
 #include "KeyManager.h"
 #include "LogManager.h"
 #include "ImageManager.h"
+#include "SceneManager.h"
+#include "TimerManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
 #define g_pLogManager LogManager::GetInstance()
 #define g_pImgManager ImageManager::GetInstance()
-
+#define g_pScnManager SceneManager::GetInstance()
+#define g_pTimerManager TimerManager::GetInstance()
 
 //==================================================================
 //		## Helper 추가 ##
@@ -72,6 +76,10 @@ using namespace std;
 #define g_pDrawHelper DrawHelper::GetInstance()
 #define g_pGeoHelper GeometryHelper::GetInstance()
 #define g_pPhxsHelper PhysicsHelper::GetInstance()
+
+#define GLOBAL_WIN_SIZE     UnitSize{W_WIDTH, W_HEIGHT}
+#define GLOBAL_WIN_HSIZE    UnitSize{W_WIDTH * 0.5f, W_HEIGHT * 0.5f}
+#define GLOBAL_CENTER_POS   UnitPos{W_WIDTH * 0.5f, W_HEIGHT * 0.5f}
 
 //==================================================================
 //		## 전역변수 ##
