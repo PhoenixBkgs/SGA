@@ -356,6 +356,7 @@ void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize,
         //  NUMBER RENDERER
         SpritesRender(hdc, renderPos, EachSize, printNumber, 0);
         renderPos.x -= (double)EachSize.w;
+        tempScore -= printNumber;
         tempScore = tempScore / 10;
     }
 }

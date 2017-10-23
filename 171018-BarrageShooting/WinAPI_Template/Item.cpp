@@ -15,6 +15,17 @@ void Item::Update()
 {
     SpritesObject::Update();
     m_nLife--;
+    if (m_dPos.x < m_nSize.w * 0.5f ||
+        m_dPos.x > W_WIDTH - m_nSize.w * 0.5f)
+    {
+        m_dSpeed.x = -m_dSpeed.x;
+    }
+    if (m_dPos.y < m_nSize.h * 0.5f ||
+        m_dPos.y > W_HEIGHT - m_nSize.h * 0.5f)
+    {
+        m_dSpeed.y = -m_dSpeed.y;
+    }
+
     if (m_nLife < 0)
     {
         m_isAlive = false;
