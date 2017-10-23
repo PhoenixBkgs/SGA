@@ -21,6 +21,7 @@ MainGame::~MainGame()
 void MainGame::Start()
 {
     m_szPlayerSelect = "";
+    m_nScore = 0;
     SetupScene();
 }
 
@@ -42,10 +43,12 @@ void MainGame::Update()
         break;
     case GAME_PLAYING:
         g_pScnManager->Update("game");
+        m_nScore = m_gameScn->GetScore();
         break;
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
+        m_clearScn->SetScore(m_nScore);
         g_pScnManager->Update("clear");
         break;
     case GAME_OVER:

@@ -6,6 +6,7 @@ class Player;
 class Enemy;
 class Bullet;
 class Item;
+class SpritesObject;
 class GameScene : public SceneObject
 {
 private:
@@ -13,6 +14,8 @@ private:
     MapObject*                  m_pMap;
     Player*                     m_pPlayer;
     Enemy*                      m_pEnemy;
+    int                         m_nScore;
+    SpritesObject*              m_scoreBoard;
 
     vector<Bullet>              m_vecBullets;
     vector<Bullet>::iterator    m_iterBullets;
@@ -25,6 +28,7 @@ public:
     ~GameScene();
 
 #pragma region GET
+    int     GetScore() { return m_nScore; }
 #pragma endregion
 #pragma region SET
     void    SetPlayerSelect(string szString) { m_szPlayerSelect = szString; }
@@ -38,5 +42,8 @@ public:
     virtual void Setup() override;
     virtual void LoadImageResources() override;
     virtual void DeleteScene() override;
+
+    void    GenItem();
+
 };
 

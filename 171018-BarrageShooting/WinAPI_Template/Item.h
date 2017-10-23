@@ -24,6 +24,6 @@ public:
     virtual void Update() override;
     virtual void Render() override;
 
-    Item GenItem();
+    Item GenItem(UnitPos GenPos, UnitSize Size);
 };
 

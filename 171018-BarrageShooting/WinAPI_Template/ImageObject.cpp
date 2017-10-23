@@ -344,6 +344,22 @@ void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int
         , m_transColor);
 }
 
+void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number)
+{
+    int tempScore = Number;
+    UnitPos renderPos = RightEndPos;
+
+    while (tempScore != 0)
+    {
+        int printNumber = tempScore % 10;
+
+        //  NUMBER RENDERER
+        SpritesRender(hdc, renderPos, EachSize, printNumber, 0);
+        renderPos.x -= (double)EachSize.w;
+        tempScore = tempScore / 10;
+    }
+}
+
 
 void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
 {

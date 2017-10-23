@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Item.h"
+#include "SpritesObject.h"
 
 GameScene::GameScene(E_GAME_STATE* State)
 {
@@ -31,6 +32,8 @@ void GameScene::SetPlayerImg(string szString)
 
 void GameScene::Update()
 {
+    m_nScore = m_pPlayer->GetScore();
+
     if (m_pEnemy->GetHp() < 0.0f)
     {
         *m_currGameState = GAME_CLEAR;
@@ -50,6 +53,20 @@ void GameScene::Update()
         iter->Update();
     }
 
+    //  Items move
+    for (auto iter = m_vecItems.begin(); iter != m_vecItems.end(); iter++)
+    {
+        iter->Update();
+        if (iter->IsAlive() == true)
+        {
+            if (g_pPhxsHelper->IsCollision(m_pPlayer, iter._Ptr))
+            {
+                m_pPlayer->SumScore(iter->GetScore());
+                iter->SetDead();
+            }
+        }
+    }
+
     //  Bullets collision
     m_iterBullets = m_vecBullets.begin();
     while (m_iterBullets != m_vecBullets.end())
@@ -67,6 +84,11 @@ void GameScene::Update()
                 else
                 {
                     m_pEnemy->SumHp(m_iterBullets->GetDamage());
+                    double genRand = (double)(rand() % 10000) * 0.01f;
+                    if (genRand > 75.0f)
+                    {
+                        GenItem();
+                    }
                 }
                 m_iterBullets->SetDead();
             }
@@ -102,6 +124,19 @@ void GameScene::Update()
             iter++;
         }
     }
+
+    //  Items expire
+    for (auto iter = m_vecItems.begin(); iter != m_vecItems.end();)
+    {
+        if (iter->IsAlive() == false)
+        {
+            iter = m_vecItems.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
+    }
 }
 
 void GameScene::Render()
@@ -115,9 +150,15 @@ void GameScene::Render()
         iter->Render();
     }
 
+    for (auto iter = m_vecItems.begin(); iter != m_vecItems.end(); iter++)
+    {
+        iter->Render();
+    }
+
+    m_scoreBoard->GetSpritesImg()->SpritesRender(g_hDC, m_scoreBoard->GetPos(), m_scoreBoard->GetSize(), m_nScore);
 #ifdef _DEBUG
     char infoMsg[128];
-    sprintf_s(infoMsg, "bullet count : %d", (int)m_vecBullets.size());
+    sprintf_s(infoMsg, "bullet count : %d // score : %d", (int)m_vecBullets.size(), m_nScore);
     TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 
@@ -125,6 +166,8 @@ void GameScene::Render()
 
 void GameScene::Setup()
 {
+    m_nScore = 0;
+
     //  PLAYER
     m_pPlayer = new Player("player");
     m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
@@ -134,6 +177,7 @@ void GameScene::Setup()
     m_pPlayer->LockInWnd();
     m_pPlayer->SetLife(10);
     m_pPlayer->SetupForProgressBar();
+    m_pPlayer->SetScore(0);
 
     //  ENEMY
     m_pEnemy = new Enemy("enemy");
@@ -160,6 +204,15 @@ void GameScene::Setup()
     m_pMap->SetMapArea(g_pDrawHelper->MakeRect(m_pMap->GetPos(), m_pMap->GetSize()));
     m_pPlayer->SetLockArea(m_pMap->GetMapArea());
     m_pEnemy->SetLockArea(m_pMap->GetMapArea());
+
+    //  SCORE BOARD
+    m_scoreBoard = new SpritesObject;
+    m_scoreBoard->SetBodyImg(g_pImgManager->FindImage("number"));
+    m_scoreBoard->SetupForSprites(10, 1);
+    m_scoreBoard->SetBodyPos(UnitPos{ W_WIDTH - 25.0f, 25.0f });
+    m_scoreBoard->SetBodySize(UnitSize{ 50, 50 });
+    m_scoreBoard->SetBodyRect(g_pDrawHelper->MakeRect(m_scoreBoard->GetPos(), m_scoreBoard->GetSize()));
+    m_scoreBoard->SetHBoxMargin(RectMargin{ 0, 0, 0, 0 });
 }
 
 void GameScene::LoadImageResources()
@@ -170,8 +223,16 @@ void GameScene::LoadImageResources()
     g_pImgManager->AddImage("bullet", "images/sprites-bullet.bmp", 64, 64);     //  32 x 32px _ 2 x 2
     g_pImgManager->AddImage("enemy", "images/sprites-boss.bmp", 480, 351);     //  480 x 351px _ 1 x 1
     g_pImgManager->AddImage("map", "images/img-map.bmp", 512, 1024);         //  512 x 1024px _ 1 x 1
+    g_pImgManager->AddImage("item", "images/img-item.bmp", 100, 100);   //  100 x 100px _ 1 x 1
+    g_pImgManager->AddImage("number", "images/sprites-number.bmp", 500, 50);    //  50 x 50px _ 10 x 1
 }
 
 void GameScene::DeleteScene()
 {
+}
+
+void GameScene::GenItem()
+{
+    Item genItem;
+    m_vecItems.push_back(genItem.GenItem(m_pEnemy->GetPos(), UnitSize{ 100, 100 }));
 }

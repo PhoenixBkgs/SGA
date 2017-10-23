@@ -26,6 +26,7 @@ private:
     E_GAME_STATE            m_currGameState;
     MapObject*              m_pMap;
     string                  m_szPlayerSelect;
+    int                     m_nScore;
 
 //  SCENE
     LoadingScene*           m_loadingScn;

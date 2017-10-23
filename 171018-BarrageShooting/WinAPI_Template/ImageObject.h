@@ -76,6 +76,7 @@ public:
     void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha);
     void SpritesRender(HDC hdc, UnitPos Pos, UnitSize Size, int FrameX, int FrameY);
+    void SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number);
 
     //  FOR TRANSPARENT
     void SetTransColor(bool isTrans, COLORREF transColor);

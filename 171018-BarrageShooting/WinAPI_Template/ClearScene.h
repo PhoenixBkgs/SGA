@@ -5,17 +5,20 @@ class SpritesObject;
 class ClearScene : public SceneObject
 {
 private:
+    int                 m_nScore;
+    SpritesObject*      m_scoreObject;
+
     SpritesObject*      m_clearBgImg;
     double              m_clearBgAlpha;
     SpritesObject*      m_continueImg;
     double              m_continueAlpha;
 
-    int*                m_pScore;
 public:
     ClearScene(E_GAME_STATE* State);
     ~ClearScene();
 
-    void SetScore(int* Score) { m_pScore = Score; }
+    void    SetScore(int Score) { m_nScore = Score; }
+    int     GetScore() { return m_nScore; }
 
     virtual void Update() override;
     virtual void Render() override;

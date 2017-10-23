@@ -24,7 +24,7 @@ private:
     ProgressBarObject   m_hpBar;
     int                 m_nShootDelay = 0;
     double              m_dHp;
-    int*                m_pScore;
+    int                 m_nScore;
 public:
     Player();
     Player(string szTagName);
@@ -32,7 +32,7 @@ public:
 
 #pragma region GET
     double  GetHp() { return m_dHp; }
-    int*    GetScore() { return m_pScore; }
+    int     GetScore() { return m_nScore; }
     E_WEAPON_TYPE   GetWeaponType() { return m_weaponType; }
 #pragma endregion
 #pragma region SET
@@ -41,8 +41,8 @@ public:
     void    SetBullet(vector<Bullet>* Bullets) { m_vecBullets = Bullets; }
     void    SetHp(double Hp) { m_dHp = Hp; }
     void    SumHp(double Hp) { m_dHp += Hp; }
-    void    SetScore(int Score) { *m_pScore = Score; }
-    void    SumScore(int Score) { *m_pScore += Score; }
+    void    SetScore(int Score) { m_nScore = Score; }
+    void    SumScore(int Score) { m_nScore += Score; }
     void    SetWeaponType(E_WEAPON_TYPE Type) { m_weaponType = Type; }
 #pragma endregion
 

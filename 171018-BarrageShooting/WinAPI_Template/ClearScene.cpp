@@ -60,10 +60,27 @@ void ClearScene::Render()
     rt.left = rt.left + 480;
     rt.right = rt.right + 480;
     m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
+
+#pragma region SCORE_RENDER
+    int numSize = 0;
+    int tScore = m_nScore;
+    while (true)
+    {
+        tScore = tScore / 10;
+        numSize++;
+        if (tScore == 0)
+        {
+            break;
+        }
+    }
+    m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC, UnitPos{ (W_WIDTH * 0.5f) + numSize * 25.0f, (W_HEIGHT * 0.5f) + 150.0f }, UnitSize{ 50, 50 }, m_nScore);
+#pragma endregion
 }
 
 void ClearScene::Setup()
 {
+    m_nScore = 0;
+
     g_pTimerManager->AddSimpleTimer("clear");
     m_clearBgAlpha = 0.0f;
     m_clearBgImg = new SpritesObject;
@@ -81,6 +98,14 @@ void ClearScene::Setup()
     m_continueImg->SetAlpha(m_continueAlpha);
     m_continueImg->SetupForSprites(1, 1);
     m_continueImg->SetBodySpeed({ -1.0f, 0.0f });
+
+    m_scoreObject = new SpritesObject;
+    m_scoreObject->SetBodyImg(g_pImgManager->FindImage("number"));
+    m_scoreObject->Setup(UnitPos{ W_WIDTH * 0.5f, 600.0f }, UnitSize{ W_WIDTH, 200 });
+    m_scoreObject->SetBodyRect(g_pDrawHelper->MakeRect(m_scoreObject->GetPos(), m_scoreObject->GetSize()));
+    m_scoreObject->SetupForSprites(10, 1);
+
+    m_nScore = 0;
 }
 
 void ClearScene::LoadImageResources()
