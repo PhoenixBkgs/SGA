@@ -26,5 +26,7 @@ public:
 #pragma endregion
 #pragma region CONTROLLER
     void    SystemController();
+    void    MouseLock();
+    void    MouseUnlock();
 #pragma endregion
 };

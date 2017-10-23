@@ -3,6 +3,7 @@
 
 MainGame::MainGame()
 {
+    MouseLock();
     LoadAllResources();
     Start();
 }
@@ -47,10 +48,33 @@ void MainGame::LoadSoundResources()
 
 void MainGame::SystemController()
 {
-    x3 = 0;
-    y3 = 0;
     if (g_pKeyManager->isOnceKeyDown(VK_ESCAPE))
     {
         PostQuitMessage(0);
     }
+
+    if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+    {
+        MouseLock();
+    }
+
+    if (g_pKeyManager->isStayKeyDown(VK_CONTROL))
+    {
+        if (g_pKeyManager->isOnceKeyDown(VK_MENU))
+        {
+            MouseUnlock();
+        }
+    }
+}
+
+void MainGame::MouseLock()
+{
+    RECT Rt;
+    GetWindowRect(g_hWnd, &Rt);
+    ClipCursor(&Rt);
+}
+
+void MainGame::MouseUnlock()
+{
+    ClipCursor(NULL);
 }
