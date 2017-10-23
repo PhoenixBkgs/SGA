@@ -134,6 +134,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,7 +157,6 @@
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MenuScene.h" />
-    <ClInclude Include="ProgressBarObject.h" />
     <ClInclude Include="ProjectileObject.h" />
     <ClInclude Include="RatingHelper.h" />
     <ClInclude Include="EnumState.h" />
@@ -173,6 +173,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SplashScene.h" />
     <ClInclude Include="SpritesObject.h" />
     <ClInclude Include="stdafx.h" />
@@ -190,7 +191,6 @@
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MenuScene.cpp" />
-    <ClCompile Include="ProgressBarObject.cpp" />
     <ClCompile Include="ProjectileObject.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
     <ClCompile Include="GameNode.cpp" />
@@ -204,6 +204,7 @@
     <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SplashScene.cpp" />
     <ClCompile Include="SpritesObject.cpp" />
     <ClCompile Include="stdafx.cpp">

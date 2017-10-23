@@ -3,12 +3,12 @@
 #include "DrawHelper.h"
 #include "GeometryHelper.h"
 
+#pragma region CONSTRUCTOR
 ImageObject::ImageObject()
     :m_pImageInfo(NULL)
     ,m_szFileName(NULL)
     ,m_isTrans(true)
     ,m_transColor(RGB(255, 0, 255))
-    ,m_drawHelper(NULL)
     ,m_pBlendImage(NULL)
 {
 }
@@ -28,7 +28,9 @@ ImageObject::~ImageObject()
         delete m_pImageInfo;
     }
 }
+#pragma endregion
 
+#pragma region SETUP
 void ImageObject::Setup(int width, int height)
 {
     Setup(NULL, width, height);
@@ -36,6 +38,7 @@ void ImageObject::Setup(int width, int height)
 
 void ImageObject::Setup(const char * FileName, int width, int height)
 {
+    //  Basic image
     HDC hdc = GetDC(g_hWnd);
 
     m_pImageInfo = new IMAGE_INFO;
@@ -57,70 +60,183 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_pImageInfo->nWidth = width;
     m_pImageInfo->nHeight = height;
 
+    ReleaseDC(g_hWnd, hdc);
+
+    //  For transparent
     m_isTrans = true;
     m_transColor = RGB(255, 0, 255);
 
+    //  For alpha blend
     m_stBlendFunc.BlendOp = AC_SRC_OVER;
     m_stBlendFunc.BlendFlags = 0;
     m_stBlendFunc.AlphaFormat = 0;
 
-    SetupForAlphaBlend();
-
-    ReleaseDC(g_hWnd, hdc);
-}
-
-void ImageObject::SetupForAlphaBlend()
-{
     // 알파블렌드 구조체 초기화 (기본 값을 바꿀 일이 없음)
     // DC 가져오기
-    HDC hdc = GetDC(g_hWnd);
+    HDC alphaHdc = GetDC(g_hWnd);
 
     // 이미지 정보 새로 생성 및 초기화
     m_pBlendImage = new IMAGE_INFO;
     m_pBlendImage->btLoadType = LOAD_EMPTY;
     m_pBlendImage->resID = 0;
-    m_pBlendImage->hMemDC = CreateCompatibleDC(hdc);
-    m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
+    m_pBlendImage->hMemDC = CreateCompatibleDC(alphaHdc);
+    m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(alphaHdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
     m_pBlendImage->hOldBit = (HBITMAP)SelectObject(m_pBlendImage->hMemDC, m_pBlendImage->hBit);
     m_pBlendImage->nWidth = W_WIDTH;
     m_pBlendImage->nHeight = W_HEIGHT;
 
     // DC 해제
-    ReleaseDC(g_hWnd, hdc);
+    ReleaseDC(g_hWnd, alphaHdc);
 }
+#pragma endregion
 
-void ImageObject::Render(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Ratio)
+#pragma region SPRITES
+void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)
 {
-    GdiTransparentBlt(hdc
-        , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
-        , (int)(m_spritesWidth * Ratio), m_spritesHeight
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
+    BitBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , hdc
+        , SpritesBox.left, SpritesBox.top
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , m_spritesWidth, m_spritesHeight
         , m_pImageInfo->hMemDC
         , m_spritesWidth * FrameX, m_spritesHeight * FrameY
-        , (int)(m_spritesWidth * Ratio), m_spritesHeight
+        , m_spritesWidth, m_spritesHeight
         , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , SpritesBox.left, SpritesBox.top
+        , boxSize.x, boxSize.y
+        , m_pBlendImage->hMemDC
+        , 0, 0
+        , m_spritesWidth, m_spritesHeight
+        , m_stBlendFunc);
 }
 
-void ImageObject::Render(HDC hdc)
+void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Alpha)
 {
-    if (m_isTrans)
+    RECT DestRt = g_pDrawHelper->MakeRect(DestPos, DestSize);
+    SpritesRender(hdc, DestRt, FrameX, FrameY, Alpha);
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number, double Alpha)
+{
+    int tempScore = Number;
+    UnitPos renderPos = RightEndPos;
+
+    while (tempScore != 0)
     {
-        GdiTransparentBlt(hdc
-                        , 0, 0
-                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-                        , m_pImageInfo->hMemDC
-                        , 0, 0
-                        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-                        , m_transColor);
+        int printNumber = tempScore % 10;
+
+        //  NUMBER RENDERER
+        SpritesRender(hdc, renderPos, EachSize, printNumber, 0, Alpha);
+        renderPos.x -= (double)EachSize.w;
+        tempScore -= printNumber;
+        tempScore = tempScore / 10;
     }
-    else
-    {
-        BitBlt(hdc
-            , 0, 0
-            , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-            , m_pImageInfo->hMemDC
-            , 0, 0
-            , SRCCOPY);
-    }
+}
+
+void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, UnitSize SrcSize, int FrameX, int FrameY, double Alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    BitBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , hdc
+        , 0, 0
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
+        , DestSize.w, DestSize.h
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
+        , DestSize.w, DestSize.h
+        , m_pBlendImage->hMemDC
+        , (int)(DestPos.x - m_spritesWidth * 0.5f), (int)(DestPos.y - m_spritesHeight * 0.5f)
+        , SrcSize.w, SrcSize.h
+        , m_stBlendFunc);
+}
+#pragma endregion
+
+#pragma region ROTATE
+void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
+{
+    UnitPos pt1 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
+    UnitPos pt2 = UnitPos{ (KeyPos.x + m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
+    UnitPos pt3 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y + m_pImageInfo->nHeight * 0.5f) };
+
+    pt1 = g_pGeoHelper->GetRotateCoord(KeyPos, pt1, Angle);
+    pt2 = g_pGeoHelper->GetRotateCoord(KeyPos, pt2, Angle);
+    pt3 = g_pGeoHelper->GetRotateCoord(KeyPos, pt3, Angle);
+
+    POINT Pt[3] = {
+          POINT{ (LONG)pt1.x, (LONG)pt1.y }
+        , POINT{ (LONG)pt2.x, (LONG)pt2.y }
+        , POINT{ (LONG)pt3.x, (LONG)pt3.y }
+    };
+
+    BitBlt(m_pBlendImage->hMemDC
+                    , 0, 0
+                    , W_WIDTH, W_HEIGHT
+                    , hdc
+                    , 0, 0
+                    , SRCCOPY);
+    
+    PlgBlt(m_pBlendImage->hMemDC, Pt, m_pImageInfo->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , NULL
+                    , 0, 0);
+    
+    GdiTransparentBlt(hdc
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_pBlendImage->hMemDC
+                    , 0, 0
+                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+                    , m_transColor);
+}
+#pragma endregion
+
+#pragma region NORMAL_RENDER
+//  Fullsize blit to (0, 0) from (0, 0)
+void ImageObject::FastRender(HDC hdc)
+{
+    BitBlt(hdc
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_pImageInfo->hMemDC
+        , 0, 0
+        , SRCCOPY);
+}
+
+//  Fullsize blit to (0, 0) from (X, Y) : this coordinates are not center point
+void ImageObject::FastRender(HDC hdc, UnitPos DestPos)
+{
+    FastRender(hdc, DestPos, UnitPos{ 0.0f, 0.0f });
+}
+
+//  FullSize blit to (dX, dY) from (sX, sY) : this coordinates are not center point
+void ImageObject::FastRender(HDC hdc, UnitPos DestPos, UnitPos SrcPos)
+{
+    BitBlt(hdc
+        , (int)DestPos.x, (int)DestPos.y
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_pImageInfo->hMemDC
+        , (int)DestPos.x, (int)DestPos.y
+        , SRCCOPY);
 }
 
 void ImageObject::Render(HDC hdc, UnitPos Pos)
@@ -193,12 +309,6 @@ void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int 
 
 void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
-    // 알파블렌드 처음 사용시 초기화
-    if (!m_pBlendImage)
-    {
-        SetupForAlphaBlend();
-    }
-
     // 알파값 초기화
     m_stBlendFunc.SourceConstantAlpha = alpha;
 
@@ -242,164 +352,6 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
 }
 
-void ImageObject::SetupForSprites(int SpritesWidth, int SpritesHeight, int SpritesDelay)
-{
-    m_spritesWidth = SpritesWidth;
-    m_spritesHeight = SpritesHeight;
-}
-
-void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, BYTE alpha)
-{
-#ifdef _DEBUG
-    if (m_drawHelper != NULL)
-    {
-        m_drawHelper->DrawBoxLine2D(SpritesBox, 5, _RGBA{ 0, 255, 0, 0 });
-    }
-#endif
-    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc
-                    , SpritesBox.left, SpritesBox.top
-                    , boxSize.x, boxSize.y
-                    , m_pImageInfo->hMemDC
-                    , m_spritesWidth * 0, m_spritesHeight * 0
-                    , m_spritesWidth, m_spritesHeight
-                    , m_transColor);
-}
-
-void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY)
-{
-    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    GdiTransparentBlt(hdc
-                         , SpritesBox.left, SpritesBox.top
-                         , boxSize.x, boxSize.y
-                         , m_pImageInfo->hMemDC
-                         , m_spritesWidth * FrameX, m_spritesHeight * FrameY
-                         , m_spritesWidth, m_spritesHeight
-                         , m_transColor);
-}
-
-void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)
-{
-    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
-    POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
-    BitBlt(m_pBlendImage->hMemDC
-        , 0, 0
-        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-        , hdc
-        , SpritesBox.left, SpritesBox.top
-        , SRCCOPY);
-
-    GdiTransparentBlt(m_pBlendImage->hMemDC
-        , 0, 0
-        , m_spritesWidth, m_spritesHeight
-        , m_pImageInfo->hMemDC
-        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
-        , m_spritesWidth, m_spritesHeight
-        , m_transColor);
-
-    GdiAlphaBlend(hdc
-        , SpritesBox.left, SpritesBox.top
-        , boxSize.x, boxSize.y
-        , m_pBlendImage->hMemDC
-        , 0, 0
-        , m_spritesWidth, m_spritesHeight
-        , m_stBlendFunc);
-}
-
-
-void ImageObject::SpritesRender(HDC hdc, UnitPos Pos, BYTE alpha)
-{
-    BitBlt(m_pBlendImage->hMemDC
-                    , 0, 0
-                    , m_spritesWidth, m_spritesWidth
-                    , hdc
-                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
-                    , SRCCOPY);
-
-    GdiTransparentBlt(m_pBlendImage->hMemDC
-                    , 0, 0
-                    , m_spritesWidth, m_spritesHeight
-                    , m_pImageInfo->hMemDC
-                    , 0, 0
-                    , m_spritesWidth, m_spritesHeight
-                    , m_transColor);
-    
-    GdiAlphaBlend(hdc
-                    , (int)Pos.x - m_spritesWidth, (int)Pos.y - m_spritesHeight
-                    , m_spritesWidth, m_spritesWidth
-                    , m_pBlendImage->hMemDC
-                    , 0, 0
-                    , m_spritesWidth, m_spritesWidth
-                    , m_stBlendFunc);
-}
-
-void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY)
-{
-    GdiTransparentBlt(hdc
-        , (int)(DestPos.x - DestSize.w * 0.5f), (int)(DestPos.y - DestSize.h * 0.5f)
-        , DestSize.w, DestSize.h
-        , m_pImageInfo->hMemDC
-        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
-        , m_spritesWidth, m_spritesHeight
-        , m_transColor);
-}
-
-void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number)
-{
-    int tempScore = Number;
-    UnitPos renderPos = RightEndPos;
-
-    while (tempScore != 0)
-    {
-        int printNumber = tempScore % 10;
-
-        //  NUMBER RENDERER
-        SpritesRender(hdc, renderPos, EachSize, printNumber, 0);
-        renderPos.x -= (double)EachSize.w;
-        tempScore = tempScore / 10;
-    }
-}
-
-
-void ImageObject::Render(HDC hdc, UnitPos KeyPos, double Angle)
-{
-    UnitPos pt1 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
-    UnitPos pt2 = UnitPos{ (KeyPos.x + m_pImageInfo->nWidth * 0.5f), (KeyPos.y - m_pImageInfo->nHeight * 0.5f) };
-    UnitPos pt3 = UnitPos{ (KeyPos.x - m_pImageInfo->nWidth * 0.5f), (KeyPos.y + m_pImageInfo->nHeight * 0.5f) };
-    m_geoHelper = new GeometryHelper;
-
-    pt1 = m_geoHelper->GetRotateCoord(KeyPos, pt1, Angle);
-    pt2 = m_geoHelper->GetRotateCoord(KeyPos, pt2, Angle);
-    pt3 = m_geoHelper->GetRotateCoord(KeyPos, pt3, Angle);
-
-    POINT Pt[3] = {
-          POINT{ (LONG)pt1.x, (LONG)pt1.y }
-        , POINT{ (LONG)pt2.x, (LONG)pt2.y }
-        , POINT{ (LONG)pt3.x, (LONG)pt3.y }
-    };
-
-    BitBlt(m_pBlendImage->hMemDC
-                    , 0, 0
-                    , W_WIDTH, W_HEIGHT
-                    , hdc
-                    , 0, 0
-                    , SRCCOPY);
-    
-    PlgBlt(m_pBlendImage->hMemDC, Pt, m_pImageInfo->hMemDC
-                    , 0, 0
-                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-                    , NULL
-                    , 0, 0);
-    
-    GdiTransparentBlt(hdc
-                    , 0, 0
-                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-                    , m_pBlendImage->hMemDC
-                    , 0, 0
-                    , m_pImageInfo->nWidth, m_pImageInfo->nHeight
-                    , m_transColor);
-}
-
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     Render(hdc
@@ -421,9 +373,20 @@ void ImageObject::Render(HDC hdc, int destX, int destY, int destW, int destH, in
                 , srcW, srcH
                 , m_stBlendFunc);
 }
+#pragma endregion
 
-void ImageObject::SetTransColor(bool isTrans, COLORREF transColor)
+#pragma region TRANSPARENT_RENDER
+//  No resize blit with Transparent
+void ImageObject::TransRender(HDC hdc)
 {
-    m_isTrans = isTrans;
-    m_transColor = transColor;
+    GdiTransparentBlt(hdc
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_pImageInfo->hMemDC
+        , 0, 0
+        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , m_transColor);
 }
+
+
+#pragma endregion

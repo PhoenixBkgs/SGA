@@ -57,12 +57,14 @@ using namespace std;
 #include "KeyManager.h"
 #include "LogManager.h"
 #include "ImageManager.h"
+#include "SoundManager.h"
 #include "SceneManager.h"
 #include "TimerManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
 #define g_pLogManager LogManager::GetInstance()
 #define g_pImgManager ImageManager::GetInstance()
+#define g_pSndManger  SoundManager::GetInstance()
 #define g_pScnManager SceneManager::GetInstance()
 #define g_pTimerManager TimerManager::GetInstance()
 

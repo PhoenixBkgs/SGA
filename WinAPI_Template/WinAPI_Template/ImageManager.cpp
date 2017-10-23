@@ -62,6 +62,6 @@ void ImageManager::Render(string Key, HDC hdc)
     ImageObject* image = FindImage(Key);
     if (image)
     {
-        image->Render(hdc);
+        image->FastRender(hdc);
     }
 }
