@@ -150,6 +150,9 @@
     <ClInclude Include="json.hpp">
       <Filter>GameFramework2D\999-ExtLibs</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBarObject.h">
+      <Filter>GameFramework2D\000-Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="FileDataManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBarObject.cpp">
+      <Filter>GameFramework2D\000-Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
