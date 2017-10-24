@@ -153,6 +153,9 @@
     <ClInclude Include="ProgressBarObject.h">
       <Filter>GameFramework2D\000-Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameFramework2D\100-Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="ProgressBarObject.cpp">
       <Filter>GameFramework2D\000-Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameFramework2D\100-Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

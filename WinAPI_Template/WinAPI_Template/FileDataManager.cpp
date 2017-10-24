@@ -74,16 +74,17 @@ vector<string> FileDataManager::TextLoad(char * LoadFilename)
 vector<string> FileDataManager::CharArraySeperation(char CharArray[])
 {
     vector<string> vecArray;
+    char* temp = NULL;
     char* separator = ",";
     char* token;
 
-    token = strtok(CharArray, separator);
+    token = strtok_s(CharArray, separator, &temp);
     if (token != NULL)
     {
         vecArray.push_back(token);
     }
 
-    while ((token = strtok(NULL, separator)) != NULL)
+    while ((token = strtok_s(NULL, separator, &temp)) != NULL)
     {
         vecArray.push_back(token);
     }

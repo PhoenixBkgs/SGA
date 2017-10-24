@@ -59,9 +59,14 @@ void ImageManager::DeleteImageAll()
 
 void ImageManager::Render(string Key, HDC hdc)
 {
+    Render(Key, hdc, UnitPos{ 0.0f, 0.0f });
+}
+
+void ImageManager::Render(string Key, HDC hdc, UnitPos DestPos)
+{
     ImageObject* image = FindImage(Key);
     if (image)
     {
-        image->FastRender(hdc);
+        image->FastRender(hdc, DestPos);
     }
 }

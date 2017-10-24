@@ -1,7 +1,11 @@
 #pragma once
 #include "GameNode.h"
-#include "SpritesObject.h"
 #include "json.hpp"
+
+#pragma region SCENE
+#include "GameScene.h"
+#pragma endregion
+
 
 using json = nlohmann::json;
 class MainGame : public GameNode
@@ -9,7 +13,9 @@ class MainGame : public GameNode
 //=======================================================
 //  VARIABLES
 private:
-    json j;
+    E_GAME_STATE    m_gameState;
+    GameScene*      m_scnGame;
+
 //=======================================================
 //  FUNCTIONS
 private:

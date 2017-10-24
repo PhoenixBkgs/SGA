@@ -235,7 +235,7 @@ void ImageObject::FastRender(HDC hdc, UnitPos DestPos, UnitPos SrcPos)
         , (int)DestPos.x, (int)DestPos.y
         , m_pImageInfo->nWidth, m_pImageInfo->nHeight
         , m_pImageInfo->hMemDC
-        , (int)DestPos.x, (int)DestPos.y
+        , (int)SrcPos.x, (int)SrcPos.y
         , SRCCOPY);
 }
 

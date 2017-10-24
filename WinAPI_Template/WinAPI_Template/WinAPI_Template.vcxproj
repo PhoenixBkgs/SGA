@@ -160,6 +160,7 @@
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MenuScene.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ProgressBarObject.h" />
     <ClInclude Include="ProjectileObject.h" />
     <ClInclude Include="RatingHelper.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MenuScene.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProgressBarObject.cpp" />
     <ClCompile Include="ProjectileObject.cpp" />
     <ClCompile Include="RatingHelper.cpp" />
