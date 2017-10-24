@@ -63,6 +63,15 @@ void MainGame::Update()
         g_pScnManager->Update("clear");
         break;
     case GAME_OVER:
+        if (m_isNewScore == true)
+        {
+            m_clearScn->SetScore(m_nScore);
+            char szTemp[128];
+            m_vecLeaderBoard.push_back(itoa(m_nScore, szTemp, 10));
+            m_vecLeaderBoard = SortVector(m_vecLeaderBoard);
+            m_clearScn->SetLeaderboard(&m_vecLeaderBoard);
+            m_isNewScore = false;
+        }
         g_pScnManager->Update("gameover");
         break;
     }
@@ -130,11 +139,23 @@ void MainGame::LoadSoundResources()
 void MainGame::LoadLeaderboard()
 {
     m_vecLeaderBoard = g_pFileManager->TextLoad("leaderboard/leaderboard.txt");
+    //m_jsonData = g_pFileManager.
 }
 
 void MainGame::SaveLeaderboard()
 {
     g_pFileManager->TextSave("leaderboard/leaderboard.txt", m_vecLeaderBoard);
+    string szJsonData = "";
+    char node[128];
+    json j;
+    int count = 0;
+    for (auto iter = m_vecLeaderBoard.begin(); iter != m_vecLeaderBoard.end(); iter++)
+    {
+        sprintf_s(node, "rank %d", count);
+        count++;
+        j[node]["score"] = iter->c_str();
+    }
+    g_pFileManager->JsonSave("jsontest.json", j.dump());
 }
 
 void MainGame::SetupScene()
@@ -215,7 +236,7 @@ vector<string> MainGame::SortVector(vector<string> VecData)
 {
     bool isExchange = false;
 
-    for (int i = 0; i < VecData.size(); i++)
+    for (int i = 0; i < VecData.size() - 1; i++)
     {
         for (int j = 1; j < VecData.size() - (i + 1); j++)
         {
@@ -233,18 +254,6 @@ vector<string> MainGame::SortVector(vector<string> VecData)
         if (!isExchange)
         {
             break;
-        }
-    }
-
-    while (true)
-    {
-        if (VecData.size() == 5)
-        {
-            break;
-        }
-        else
-        {
-            VecData.pop_back();
         }
     }
 

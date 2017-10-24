@@ -51,8 +51,8 @@ vector<string> FileDataManager::TextLoad(char * LoadFilename)
     char szBuffer[128];
     DWORD read;
 
-    ZeroMemory(szBuffer, strlen(szBuffer));
-
+    ZeroMemory(szBuffer, sizeof(szBuffer));
+    
     //  Create file Handle
     hFile = CreateFile(LoadFilename
         , GENERIC_READ
@@ -69,6 +69,19 @@ vector<string> FileDataManager::TextLoad(char * LoadFilename)
     CloseHandle(hFile);
 
     return CharArraySeperation(szBuffer);
+}
+
+void FileDataManager::JsonLoad(string szFilename)
+{
+    
+}
+
+void FileDataManager::JsonSave(string szFilename, string szJsonData)
+{
+    ofstream writeLog;
+    writeLog.open(szFilename, ios_base::out);
+    writeLog << szJsonData;
+    writeLog.close();
 }
 
 vector<string> FileDataManager::CharArraySeperation(char CharArray[])

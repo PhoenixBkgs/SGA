@@ -63,11 +63,20 @@ void ClearScene::Render()
     m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
 
 #pragma region SCORE_RENDER
+    m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC
+        , UnitPos{ (W_WIDTH)-25.0f, (W_HEIGHT * 0.5f) - 250.0f }
+        , UnitSize{ 100, 100 }
+    , m_nScore);
+
     if (m_vecLeaderboard != NULL)
     {
         int rowCount = 0;
         for (auto i = m_vecLeaderboard->begin(); i != m_vecLeaderboard->end(); i++)
         {
+            if (rowCount > 4)
+            {
+                return;
+            }
             int printNumber = atoi(i->c_str());
             m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC
                                 , UnitPos{ (W_WIDTH * 0.5f) + 150.0f, (W_HEIGHT * 0.5f) + 150.0f + rowCount * 50 }
@@ -75,11 +84,6 @@ void ClearScene::Render()
                                 , printNumber);
             rowCount++;
         }
-
-        m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC
-            , UnitPos{ (W_WIDTH) - 25.0f, (W_HEIGHT * 0.5f) - 250.0f }
-            , UnitSize{ 100, 100 }
-            , m_nScore);
     }
 #pragma endregion
 }

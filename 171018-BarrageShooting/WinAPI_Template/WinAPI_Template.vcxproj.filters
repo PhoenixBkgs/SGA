@@ -156,6 +156,9 @@
     <ClInclude Include="FileDataManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>GameFramework2D\003-Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinAPITemplate.cpp">

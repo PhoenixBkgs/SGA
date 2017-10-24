@@ -28,6 +28,7 @@ private:
     string                  m_szPlayerSelect;
     int                     m_nScore;
     bool                    m_isNewScore;
+    string                  m_jsonData;
 
 //  SCENE
     LoadingScene*           m_loadingScn;

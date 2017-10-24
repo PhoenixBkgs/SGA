@@ -349,7 +349,7 @@ void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize,
     int tempScore = Number;
     UnitPos renderPos = RightEndPos;
 
-    while (tempScore != 0)
+    do
     {
         int printNumber = tempScore % 10;
 
@@ -358,7 +358,7 @@ void ImageObject::SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize,
         renderPos.x -= (double)EachSize.w;
         tempScore -= printNumber;
         tempScore = tempScore / 10;
-    }
+    } while (tempScore != 0);
 }
 
 

@@ -4,8 +4,8 @@
 //
 
 #pragma once
-
 #include "targetver.h"
+#pragma comment(linker,"/entry:wWinMainCRTStartup /subsystem:console")
 
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용은 Windows 헤더에서 제외합니다.
 // Windows 헤더 파일:
@@ -22,8 +22,10 @@
 #include <chrono>
 #include <iostream>
 #include <assert.h>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 //==================================================================
 //		## 디파인문 - 메크로 ## (윈도우창 초기화)

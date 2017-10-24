@@ -5,10 +5,13 @@
 
 class FileDataManager : public SingletonBase<FileDataManager>
 {
+private:
+    char*   VectorArrayCombine(vector<string> VecArray);
+    vector<string>  CharArraySeperation(char CharArray[]);
 public:
     void    TextSave(char* SaveFilename, vector<string> VecString);
-    char*   VectorArrayCombine(vector<string> VecArray);
-
     vector<string>  TextLoad(char* LoadFilename);
-    vector<string>  CharArraySeperation(char CharArray[]);
+
+    void    JsonLoad(string szFilename);
+    void    JsonSave(string szFilename, string szJsonData);
 };
