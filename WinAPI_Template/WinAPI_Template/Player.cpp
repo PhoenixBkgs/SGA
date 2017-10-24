@@ -5,7 +5,9 @@
 Player::Player()
 {
     Setup();
+    m_playerState = 0;
     g_pTimerManager->AddSimpleTimer("player-idle");
+    g_pTimerManager->AddSimpleTimer("player-atk");
 }
 
 
@@ -15,13 +17,45 @@ Player::~Player()
 
 void Player::Update()
 {
+    switch (m_playerState)
+    {
+    case 0:
+    {
+        SetFrameY(0);
+        if (g_pTimerManager->TickSimpleTimer("player-idle") > 5)
+        {
+            g_pTimerManager->ResetSimpleTimer("player-idle");
+            NextFrameX();
+        }
+        break;
+    }
+    case 1:
+    {
+        SetFrameY(1);
+        if (g_pTimerManager->TickSimpleTimer("player-atk") > 10)
+        {
+            g_pTimerManager->ResetSimpleTimer("player-atk");
+            NextFrameX();
+            if (GetFrameX() > 1)
+            {
+                SetFrameX(0);
+            }
+        }
+        else
+        {
+            if (GetFrameX() > 1)
+            {
+                SetFrameX(0);
+            }
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    m_gameObj.Update();
     SpritesObject::Update();
     PlayerController();
-    if (g_pTimerManager->TickSimpleTimer("player-idle") > 5)
-    {
-        g_pTimerManager->ResetSimpleTimer("player-idle");
-        NextFrameX();
-    }
 }
 
 void Player::Render()
@@ -29,13 +63,14 @@ void Player::Render()
     SpritesObject::Render();
 #ifdef _DEBUG
     char infoMsg[128];
-    sprintf_s(infoMsg, "posx : %f / posy : %f", m_dPos.x, m_dPos.y);
+    sprintf_s(infoMsg, "posx : %f / posy : %f / framex : %d", m_dPos.x, m_dPos.y, GetFrameX());
     TextOut(g_hDC, 0, 10, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 }
 
 void Player::PlayerController()
 {
+    m_playerState = 0;
     UnitSpeed speed = { 0.0f, 0.0f };
     if (g_pKeyManager->isStayKeyDown(VK_UP))
     {
@@ -54,4 +89,9 @@ void Player::PlayerController()
         speed.x = 5.0f;
     }
     SetBodySpeed(speed);
+
+    if (g_pKeyManager->isStayKeyDown(VK_SPACE))
+    {
+        m_playerState = 1;
+    }
 }

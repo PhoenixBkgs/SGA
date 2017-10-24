@@ -5,8 +5,8 @@ class Player : public SpritesObject
 {
     //  vars
 private:
-    
-
+    GameObject  m_gameObj;
+    int         m_playerState;
 public:
     Player();
     ~Player();
