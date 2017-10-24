@@ -3,6 +3,7 @@
 
 MainGame::MainGame()
 {
+    LoadLeaderboard();
     m_currGameState = GAME_LOADING;
     LoadAllResources();
     Start();
@@ -16,12 +17,14 @@ MainGame::~MainGame()
     g_pTimerManager->DeleteTimerAll();
 
     ReleaseAllScene();
+    SaveLeaderboard();
 }
 
 void MainGame::Start()
 {
     m_szPlayerSelect = "";
     m_nScore = 0;
+    m_isNewScore = true;
     SetupScene();
 }
 
@@ -48,13 +51,19 @@ void MainGame::Update()
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
-        m_clearScn->SetScore(m_nScore);
+        if (m_isNewScore == true)
+        {
+            m_clearScn->SetScore(m_nScore);
+            char szTemp[128];
+            m_vecLeaderBoard.push_back(itoa(m_nScore, szTemp, 10));
+            m_vecLeaderBoard = SortVector(m_vecLeaderBoard);
+            m_clearScn->SetLeaderboard(&m_vecLeaderBoard);
+            m_isNewScore = false;
+        }
         g_pScnManager->Update("clear");
         break;
     case GAME_OVER:
         g_pScnManager->Update("gameover");
-        break;
-    default:
         break;
     }
     GameNode::Update();     //  InvalidRect()
@@ -116,6 +125,16 @@ void MainGame::LoadImageResources()
 void MainGame::LoadSoundResources()
 {
     
+}
+
+void MainGame::LoadLeaderboard()
+{
+    m_vecLeaderBoard = g_pFileManager->TextLoad("leaderboard/leaderboard.txt");
+}
+
+void MainGame::SaveLeaderboard()
+{
+    g_pFileManager->TextSave("leaderboard/leaderboard.txt", m_vecLeaderBoard);
 }
 
 void MainGame::SetupScene()
@@ -190,4 +209,44 @@ void MainGame::SystemController()
             break;
         }
     }
+}
+
+vector<string> MainGame::SortVector(vector<string> VecData)
+{
+    bool isExchange = false;
+
+    for (int i = 0; i < VecData.size(); i++)
+    {
+        for (int j = 1; j < VecData.size() - (i + 1); j++)
+        {
+            if (atoi(VecData[j - 1].c_str()) < atoi(VecData[j].c_str()))
+            {
+                //	switch data
+                string temp = VecData[j - 1];
+                VecData[j - 1] = VecData[j];
+                VecData[j] = temp;
+
+                isExchange = true;
+            }
+        }
+
+        if (!isExchange)
+        {
+            break;
+        }
+    }
+
+    while (true)
+    {
+        if (VecData.size() == 5)
+        {
+            break;
+        }
+        else
+        {
+            VecData.pop_back();
+        }
+    }
+
+    return VecData;
 }

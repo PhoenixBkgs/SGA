@@ -4,6 +4,7 @@
 
 ClearScene::ClearScene(E_GAME_STATE* State)
 {
+    m_vecLeaderboard = NULL;
     SyncGameState(State);
     LoadImageResources();
     Setup();
@@ -62,18 +63,24 @@ void ClearScene::Render()
     m_continueImg->GetSpritesImg()->SpritesRender(g_hDC, rt, 0, 0, m_continueAlpha);
 
 #pragma region SCORE_RENDER
-    int numSize = 0;
-    int tScore = m_nScore;
-    while (true)
+    if (m_vecLeaderboard != NULL)
     {
-        tScore = tScore / 10;
-        numSize++;
-        if (tScore == 0)
+        int rowCount = 0;
+        for (auto i = m_vecLeaderboard->begin(); i != m_vecLeaderboard->end(); i++)
         {
-            break;
+            int printNumber = atoi(i->c_str());
+            m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC
+                                , UnitPos{ (W_WIDTH * 0.5f) + 150.0f, (W_HEIGHT * 0.5f) + 150.0f + rowCount * 50 }
+                                , UnitSize{ 50, 50 }
+                                , printNumber);
+            rowCount++;
         }
+
+        m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC
+            , UnitPos{ (W_WIDTH) - 25.0f, (W_HEIGHT * 0.5f) - 250.0f }
+            , UnitSize{ 100, 100 }
+            , m_nScore);
     }
-    m_scoreObject->GetSpritesImg()->SpritesRender(g_hDC, UnitPos{ (W_WIDTH * 0.5f) + numSize * 25.0f, (W_HEIGHT * 0.5f) + 150.0f }, UnitSize{ 50, 50 }, m_nScore);
 #pragma endregion
 }
 

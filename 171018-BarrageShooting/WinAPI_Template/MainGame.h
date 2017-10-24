@@ -27,6 +27,7 @@ private:
     MapObject*              m_pMap;
     string                  m_szPlayerSelect;
     int                     m_nScore;
+    bool                    m_isNewScore;
 
 //  SCENE
     LoadingScene*           m_loadingScn;
@@ -36,6 +37,7 @@ private:
     GameScene*              m_gameScn;
     ClearScene*             m_clearScn;
     GameoverScene*          m_gameoverScn;
+    vector<string>          m_vecLeaderBoard;
 //=======================================================
 //  FUNCTIONS
 private:
@@ -51,9 +53,13 @@ public:
     void LoadAllResources();
     void LoadImageResources();
     void LoadSoundResources();
+    void LoadLeaderboard();
+    void SaveLeaderboard();
 
     void SetupScene();
     void ReleaseAllScene();
 
     void SystemController();
+
+    vector<string> SortVector(vector<string> VecData);
 };

@@ -59,6 +59,7 @@ using namespace std;
 #include "ImageManager.h"
 #include "SceneManager.h"
 #include "TimerManager.h"
+#include "FileDataManager.h"
 
 #define g_pKeyManager KeyManager::GetInstance()
 #define g_pLogManager LogManager::GetInstance()
