@@ -55,10 +55,10 @@ vector<string> FileDataManager::TextLoad(char * LoadFilename)
 
     //  Create file Handle
     hFile = CreateFile(LoadFilename
-        , GENERIC_WRITE
+        , GENERIC_READ
         , 0
         , NULL
-        , CREATE_ALWAYS
+        , OPEN_EXISTING 
         , FILE_ATTRIBUTE_NORMAL
         , NULL);
 
