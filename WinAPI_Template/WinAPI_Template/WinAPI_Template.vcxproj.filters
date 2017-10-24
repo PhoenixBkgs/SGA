@@ -34,6 +34,9 @@
     <Filter Include="GameFramework2D\100-Source">
       <UniqueIdentifier>{29244c4a-56cb-4285-8ecf-433ab4b5b5e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFramework2D\999-ExtLibs">
+      <UniqueIdentifier>{2b31ca71-e104-49d2-88c0-0f624ee90219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -143,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="FileDataManager.h">
       <Filter>GameFramework2D\002-Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>GameFramework2D\999-ExtLibs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

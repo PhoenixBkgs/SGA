@@ -155,6 +155,7 @@
     <ClInclude Include="GameoverScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LobbyScene.h" />
     <ClInclude Include="MapObject.h" />

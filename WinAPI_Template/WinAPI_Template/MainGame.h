@@ -1,12 +1,15 @@
 #pragma once
 #include "GameNode.h"
 #include "SpritesObject.h"
+#include "json.hpp"
 
+using json = nlohmann::json;
 class MainGame : public GameNode
 {
 //=======================================================
 //  VARIABLES
 private:
+    json j;
 //=======================================================
 //  FUNCTIONS
 private:

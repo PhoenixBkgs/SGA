@@ -21,13 +21,11 @@ void MainGame::Update()
 {
     SystemController();
     GameNode::Update();
-    m_player->Update();
 }
 
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
-    m_player->Render();
 }
 
 void MainGame::Reset()
@@ -85,7 +83,6 @@ void MainGame::SystemController()
     {
         speed.x = 5.0f;
     }
-    m_player->SetBodySpeed(speed);
 }
 
 void MainGame::MouseLock()
