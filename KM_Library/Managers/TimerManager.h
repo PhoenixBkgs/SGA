@@ -1,6 +1,7 @@
 #pragma once
 #include "SingletonBase.h"
 
+#define g_pTimerManager TimerManager::GetInstance()
 class TimerManager : public SingletonBase<TimerManager>
 {
     //  VARS

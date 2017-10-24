@@ -2,6 +2,7 @@
 #include "SingletonBase.h"
 #include "GameObject.h"
 
+#define g_pScnManager SceneManager::GetInstance()
 class SceneManager : public SingletonBase<SceneManager>
 {
 private:

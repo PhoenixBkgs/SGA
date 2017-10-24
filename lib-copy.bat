@@ -6,3 +6,5 @@ copy .\WinAPI_Template\WinAPI_Template\*Manager.h 	.\KM_Library\Managers\
 
 copy .\WinAPI_Template\WinAPI_Template\*Scene.cpp 	.\KM_Library\Scenes\
 copy .\WinAPI_Template\WinAPI_Template\*Scene.h 	.\KM_Library\Scenes\
+
+copy .\WinAPI_Template\WinAPI_Template\json.hpp     .\KM_Library\
