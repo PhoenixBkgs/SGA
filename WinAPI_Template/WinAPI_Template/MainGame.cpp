@@ -21,11 +21,13 @@ void MainGame::Update()
 {
     SystemController();
     GameNode::Update();
+    m_player->Update();
 }
 
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, WHITENESS);
+    m_player->Render();
 }
 
 void MainGame::Reset()
@@ -65,6 +67,25 @@ void MainGame::SystemController()
             MouseUnlock();
         }
     }
+
+    UnitSpeed speed = { 0.0f, 0.0f };
+    if (g_pKeyManager->isStayKeyDown(VK_UP))
+    {
+        speed.y = -5.0f;
+    }
+    else if (g_pKeyManager->isStayKeyDown(VK_DOWN))
+    {
+        speed.y = 5.0f;
+    }
+    if (g_pKeyManager->isStayKeyDown(VK_LEFT))
+    {
+        speed.x = -5.0f;
+    }
+    else if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
+    {
+        speed.x = 5.0f;
+    }
+    m_player->SetBodySpeed(speed);
 }
 
 void MainGame::MouseLock()

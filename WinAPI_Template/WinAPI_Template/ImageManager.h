@@ -2,6 +2,7 @@
 #include "SingletonBase.h"
 #include "ImageObject.h"
 
+#define g_pImgManager ImageManager::GetInstance()
 /*
 Map : dictionary(Key - Value)
 Key = first

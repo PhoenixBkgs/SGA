@@ -5,8 +5,6 @@ GameObject::GameObject()
     : m_bIsSetup(false)
     , m_isImmortal(false)
 {
-    Setup();
-    SetBodyImgAuto();
 }
 
 GameObject::GameObject(string szTagName)
@@ -97,8 +95,8 @@ void GameObject::Render()
     {
         if (m_isVisible == true)
         {
-            g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, 2);         //  Draw body rect
-            g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 2, 2);     //  Draw hit box rect
+            g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, 0);         //  Draw body rect
+            g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 3, 2);     //  Draw hit box rect
         }
     }
 #endif // _DEBUG

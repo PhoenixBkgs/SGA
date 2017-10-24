@@ -141,6 +141,9 @@
     <ClInclude Include="AnimationHelper.h">
       <Filter>GameFramework2D\003-Helper</Filter>
     </ClInclude>
+    <ClInclude Include="FileDataManager.h">
+      <Filter>GameFramework2D\002-Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="AnimationHelper.cpp">
       <Filter>GameFramework2D\003-Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="FileDataManager.cpp">
+      <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

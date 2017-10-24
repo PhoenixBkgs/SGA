@@ -3,6 +3,7 @@
 #include "SingletonBase.h"
 #include <bitset>
 
+#define g_pKeyManager KeyManager::GetInstance()
 #define KEYMAX 256
 
 class KeyManager : public SingletonBase<KeyManager>

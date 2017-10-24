@@ -5,6 +5,7 @@
 #include <cmath>
 #include <math.h>
 
+#define g_pGeoHelper GeometryHelper::GetInstance()
 inline double sq(double x) { return x * x; }
 
 class GeometryHelper : public SingletonBase<GeometryHelper>

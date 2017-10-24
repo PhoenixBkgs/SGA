@@ -1,6 +1,7 @@
 #pragma once
 #include "SingletonBase.h"
 
+#define g_pDrawHelper DrawHelper::GetInstance()
 struct tagTextBoxInfo
 {
     bool    IsVisibleBox;

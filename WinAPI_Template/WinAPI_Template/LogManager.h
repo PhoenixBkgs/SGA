@@ -3,6 +3,8 @@
 #include "SingletonBase.h"
 #include <fstream>
 
+#define g_pLogManager LogManager::GetInstance()
+
 enum LOG_LEVEL
 {
     EL_DEBUG = 0, EL_INFO, EL_ALERT

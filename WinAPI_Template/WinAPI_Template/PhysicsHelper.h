@@ -2,6 +2,7 @@
 #include "SingletonBase.h"
 #include "GameObject.h"
 
+#define g_pPhxsHelper PhysicsHelper::GetInstance()
 #define _PERFECTLY_ELASTIC_COLLISION
 
 #ifdef _PERFECTLY_ELASTIC_COLLISION             //  완전탄성충돌

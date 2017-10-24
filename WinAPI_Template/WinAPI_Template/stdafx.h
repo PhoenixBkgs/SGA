@@ -54,19 +54,14 @@ using namespace std;
 //==================================================================
 //		## 매니져 추가 ##
 //==================================================================
-#include "KeyManager.h"
-#include "LogManager.h"
+#include "FileDataManager.h"
 #include "ImageManager.h"
 #include "SoundManager.h"
+#include "KeyManager.h"
+#include "LogManager.h"
 #include "SceneManager.h"
 #include "TimerManager.h"
 
-#define g_pKeyManager KeyManager::GetInstance()
-#define g_pLogManager LogManager::GetInstance()
-#define g_pImgManager ImageManager::GetInstance()
-#define g_pSndManger  SoundManager::GetInstance()
-#define g_pScnManager SceneManager::GetInstance()
-#define g_pTimerManager TimerManager::GetInstance()
 
 //==================================================================
 //		## Helper 추가 ##
@@ -75,9 +70,6 @@ using namespace std;
 #include "GeometryHelper.h"
 #include "PhysicsHelper.h"
 
-#define g_pDrawHelper DrawHelper::GetInstance()
-#define g_pGeoHelper GeometryHelper::GetInstance()
-#define g_pPhxsHelper PhysicsHelper::GetInstance()
 
 #define GLOBAL_WIN_SIZE     UnitSize{W_WIDTH, W_HEIGHT}
 #define GLOBAL_WIN_HSIZE    UnitSize{W_WIDTH * 0.5f, W_HEIGHT * 0.5f}
