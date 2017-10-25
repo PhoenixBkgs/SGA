@@ -4,6 +4,7 @@
 
 GameNode::GameNode()
 {
+    cout << "GameNode()" << endl;
     g_pKeyManager->Setup();
     g_pLogManager->Setup("\\Log\\");
 

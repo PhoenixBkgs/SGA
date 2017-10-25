@@ -4,6 +4,7 @@
 //
 
 #pragma once
+#pragma comment(linker,"/entry:wWinMainCRTStartup /subsystem:console")
 
 #include "targetver.h"
 
