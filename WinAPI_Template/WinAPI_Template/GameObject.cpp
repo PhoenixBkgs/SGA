@@ -4,14 +4,14 @@
 GameObject::GameObject()
     : m_bIsSetup(false)
     , m_isImmortal(false)
+    , m_szTagName("none")
 {
+    Setup();
 }
 
 GameObject::GameObject(string szTagName)
-    : m_bIsSetup(false)
-    , m_isImmortal(false)
 {
-    Setup();
+    GameObject();
     SetTagName(szTagName);
 }
 
@@ -22,18 +22,53 @@ GameObject::~GameObject()
 void GameObject::Setup()
 {
     m_uId = -1;
-    m_szTagName = "none";
     m_imgBody = NULL;
     m_dPos = UnitPos{ W_WIDTH * 0.5f, W_HEIGHT * 0.5f };
     m_dSpeed = UnitPos{ 0.0f, 0.0f };
-    m_nSize = UnitSize{ 1, 1 };
+    m_nSize = UnitSize{ 10, 10 };
+    m_nMarginHBox = { 0, 0, 0, 0 };
     m_isVisible = true;
     m_isAlive = true;
     m_dAlpha = 255.0f;
     m_dAngle = 0.0f;
     m_isLockInWnd = false;
-    m_bIsSetup = true;
     m_rtLockArea = { 0, 0, W_WIDTH, W_HEIGHT };
+
+    SetHBox();
+
+    m_bIsSetup = true;
+}
+
+UnitPos GameObject::GetHBoxBotProbe()
+{
+    RECT hBox = GetHBoxRect();
+    double posX = (double)(hBox.right + hBox.left) * 0.5f;
+    double posY = (double)hBox.bottom;
+    return UnitPos{ posX, posY };
+}
+
+UnitPos GameObject::GetHBoxTopProbe()
+{
+    RECT hBox = GetHBoxRect();
+    double posX = (double)(hBox.right + hBox.left) * 0.5f;
+    double posY = (double)hBox.top;
+    return UnitPos{ posX, posY };
+}
+
+UnitPos GameObject::GetHBoxRightProbe()
+{
+    RECT hBox = GetHBoxRect();
+    double posX = (double)hBox.right;
+    double posY = (double)(hBox.top + hBox.bottom) * 0.5f;
+    return UnitPos{ posX, posY };
+}
+
+UnitPos GameObject::GetHBoxLeftProbe()
+{
+    RECT hBox = GetHBoxRect();
+    double posX = (double)hBox.left;
+    double posY = (double)(hBox.top + hBox.bottom) * 0.5f;
+    return UnitPos{ posX, posY };
 }
 
 void GameObject::SetBodyRect(RECT Rect)

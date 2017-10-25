@@ -53,7 +53,7 @@ void Player::Update()
     default:
         break;
     }
-    m_gameObj.Update();
+
     SpritesObject::Update();
     PlayerController();
 }
@@ -88,10 +88,28 @@ void Player::PlayerController()
     {
         speed.x = 5.0f;
     }
+    speed.y += 10.0f;
+
+    UnitPos probePos = GetPos();
+    probePos.y += GetSize().h * 0.5f;
+
+    while (g_pPixelManager->CheckPixel(g_pImgManager->FindImage("land"), probePos) == false)
+    {
+        probePos.y -= 1.0f;
+    }
+    
+    probePos.y -= GetSize().h * 0.5f;
+    SetBodyPos(probePos);
     SetBodySpeed(speed);
 
     if (g_pKeyManager->isStayKeyDown(VK_SPACE))
     {
         m_playerState = 1;
+    }
+
+    if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+    {
+        RECT rt = g_pDrawHelper->MakeRect({ (double)g_ptMouse.x, (double)g_ptMouse.y }, { 100, 150 });
+        g_pPixelManager->RemoveRect(g_pImgManager->FindImage("land"), rt);
     }
 }

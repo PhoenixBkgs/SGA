@@ -36,6 +36,11 @@ protected:
 //--------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------
+//      PROBE
+    UnitPos         m_probe;
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
 //      LOCK IN 
     RECT            m_rtLockArea;
     bool            m_isLockInWnd;      //  Never escape window
@@ -73,6 +78,15 @@ public:
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
+    //  Snap shot
+    UnitPos     GetStartPos()   { return m_startPos; }
+    UnitPos     GetDestPos()    { return m_destPos; }
+    UnitPos     GetTrvlPos()    { return m_trvlPos;}
+    //  Probe
+    UnitPos     GetHBoxBotProbe();
+    UnitPos     GetHBoxTopProbe();
+    UnitPos     GetHBoxRightProbe();
+    UnitPos     GetHBoxLeftProbe();
 
     bool        IsImmortal()    { return m_isImmortal; }
     bool        IsVisible()     { return m_isVisible; }

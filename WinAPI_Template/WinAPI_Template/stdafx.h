@@ -62,6 +62,7 @@ using namespace std;
 #include "LogManager.h"
 #include "SceneManager.h"
 #include "TimerManager.h"
+#include "PixelCollision.h"
 
 
 //==================================================================

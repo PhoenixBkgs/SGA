@@ -156,6 +156,9 @@
     <ClInclude Include="Player.h">
       <Filter>GameFramework2D\100-Source</Filter>
     </ClInclude>
+    <ClInclude Include="PixelCollision.h">
+      <Filter>GameFramework2D\002-Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameFramework2D\100-Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelCollision.cpp">
+      <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
