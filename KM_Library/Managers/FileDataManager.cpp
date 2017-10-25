@@ -1,14 +1,31 @@
 #include "stdafx.h"
 #include "FileDataManager.h"
 
+void FileDataManager::JsonSave(string Filename, string JsonString)
+{
+    ofstream fileOut;
+    fileOut.open(Filename, ios_base::out);
+    fileOut << JsonString;
+    fileOut.close();
+}
+
+void FileDataManager::FileAppend(string Filename, string StringData)
+{
+    ofstream fileOut;
+    fileOut.open(Filename, ios_base::app);
+    fileOut << StringData;
+    fileOut.close();
+}
+
 void FileDataManager::TextSave(char * SaveFilename, vector<string> VecString)
 {
     HANDLE hFile;
-    char szBuffer[128];
+    string szBuffer;
     DWORD write;
 
     //  String copy to buffer
-    strncpy_s(szBuffer, 128, VectorArrayCombine(VecString), 126);
+    //strncpy_s(szBuffer, 128, VectorArrayCombine(VecString), 126);
+    szBuffer = VectorArrayCombine(VecString);
 
     //  Create file Handle
     hFile = CreateFile(SaveFilename
@@ -20,13 +37,25 @@ void FileDataManager::TextSave(char * SaveFilename, vector<string> VecString)
                         , NULL);
 
     //  Write
-    WriteFile(hFile, szBuffer, (DWORD)strlen(szBuffer), &write, NULL);
+    WriteFile(hFile, szBuffer.c_str(), (DWORD)strlen(szBuffer.c_str()), &write, NULL);
 
     //  Close handle
     CloseHandle(hFile);
 }
 
-//  CSV format
+string FileDataManager::MakeCsvString(vector<string> VecArray)
+{
+    string szBuffer = "";
+
+    for (int i = 0; i < (int)VecArray.size(); i++)
+    {
+        szBuffer.append(VecArray[i]);
+        szBuffer.append(",");
+    }
+
+    return szBuffer;
+}
+
 char * FileDataManager::VectorArrayCombine(vector<string> VecArray)
 {
     char szBuffer[128];
@@ -74,16 +103,17 @@ vector<string> FileDataManager::TextLoad(char * LoadFilename)
 vector<string> FileDataManager::CharArraySeperation(char CharArray[])
 {
     vector<string> vecArray;
+    char* temp = NULL;
     char* separator = ",";
     char* token;
 
-    token = strtok(CharArray, separator);
+    token = strtok_s(CharArray, separator, &temp);
     if (token != NULL)
     {
         vecArray.push_back(token);
     }
 
-    while ((token = strtok(NULL, separator)) != NULL)
+    while ((token = strtok_s(NULL, separator, &temp)) != NULL)
     {
         vecArray.push_back(token);
     }

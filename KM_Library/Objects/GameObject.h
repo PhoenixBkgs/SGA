@@ -20,12 +20,24 @@ protected:
     UnitSize        m_nSize;            //  Width, Height of body rect
 //--------------------------------------------------------------------------
 
-
 //--------------------------------------------------------------------------
 //      HIT BOX
     RECT            m_rtHitBox;         //  Hit box for calc only
     UnitSize        m_nSizeHBox;        //  Hit box size
     RectMargin      m_nMarginHBox;      //  Hit box margin
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+//      SNAP SHOT
+    UnitPos         m_startPos;
+    UnitPos         m_trvlPos;
+    UnitPos         m_destPos;
+    double          m_dT;
+//--------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------
+//      PROBE
+    UnitPos         m_probe;
 //--------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------
@@ -66,6 +78,15 @@ public:
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
+    //  Snap shot
+    UnitPos     GetStartPos()   { return m_startPos; }
+    UnitPos     GetDestPos()    { return m_destPos; }
+    UnitPos     GetTrvlPos()    { return m_trvlPos;}
+    //  Probe
+    UnitPos     GetHBoxBotProbe();
+    UnitPos     GetHBoxTopProbe();
+    UnitPos     GetHBoxRightProbe();
+    UnitPos     GetHBoxLeftProbe();
 
     bool        IsImmortal()    { return m_isImmortal; }
     bool        IsVisible()     { return m_isVisible; }

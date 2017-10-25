@@ -25,4 +25,5 @@ public:
     void DeleteImageAll();
 
     void Render(string Key, HDC hdc);
+    void Render(string Key, HDC hdc, UnitPos DestPos);
 };

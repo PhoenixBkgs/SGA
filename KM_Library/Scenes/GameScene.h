@@ -1,9 +1,12 @@
 #pragma once
 #include "SceneObject.h"
+#include "SpritesObject.h"
+#include "Player.h"
 
 class GameScene : public SceneObject
 {
 private:
+    Player*     m_pPlayer;
 
 public:
     GameScene(E_GAME_STATE* State);
