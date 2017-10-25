@@ -19,6 +19,23 @@ bool PixelCollision::CheckPixel(ImageObject * ImageObj, UnitPos Pos)
     return false;
 }
 
+bool PixelCollision::CheckPixel(ImageObject * ImageObj, int x, int y)
+{
+    COLORREF color = GetPixel(ImageObj->GetMemDC(), x, y);
+    int r = GetRValue(color);
+    int g = GetGValue(color);
+    int b = GetBValue(color);
+
+    if (r == 255 &&
+        g == 0 &&
+        b == 255)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void PixelCollision::RemovePixel(ImageObject* ImageObj, UnitPos Pos)
 {
     SetPixel(ImageObj->GetMemDC(), (int)Pos.x, (int)Pos.y, RGB(255, 0, 255));

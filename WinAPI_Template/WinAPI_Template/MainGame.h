@@ -6,6 +6,28 @@
 #include "GameScene.h"
 #pragma endregion
 
+typedef struct tagimage
+{
+    DWORD   resID;
+    HDC     hMemDC;
+    HBITMAP hBit;
+    HBITMAP hOldBit;
+    int     nWidth;
+    int     nHeight;
+    BYTE    btLoadType;
+
+    tagimage()
+    {
+        resID = 0;
+        hMemDC = NULL;
+        hBit = NULL;
+        hOldBit = NULL;
+        nWidth = 0;
+        nHeight = 0;
+        btLoadType = 0;
+
+    }
+}  IMAGE_INFO, *LPIMAGE_INFO;
 
 using json = nlohmann::json;
 class MainGame : public GameNode
@@ -16,6 +38,8 @@ private:
     E_GAME_STATE    m_gameState;
     GameScene*      m_scnGame;
 
+    LPIMAGE_INFO	m_pBlendImage;
+    BLENDFUNCTION   m_stBlendFunc;
 //=======================================================
 //  FUNCTIONS
 private:

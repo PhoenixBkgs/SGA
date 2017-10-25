@@ -80,7 +80,7 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_pBlendImage->btLoadType = LOAD_EMPTY;
     m_pBlendImage->resID = 0;
     m_pBlendImage->hMemDC = CreateCompatibleDC(alphaHdc);
-    m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(alphaHdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
+    m_pBlendImage->hBit = (HBITMAP)CreateCompatibleBitmap(alphaHdc, W_WIDTH, W_HEIGHT);
     m_pBlendImage->hOldBit = (HBITMAP)SelectObject(m_pBlendImage->hMemDC, m_pBlendImage->hBit);
     m_pBlendImage->nWidth = W_WIDTH;
     m_pBlendImage->nHeight = W_HEIGHT;
@@ -94,17 +94,22 @@ void ImageObject::Setup(const char * FileName, int width, int height)
 void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)
 {
     m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    int top = SpritesBox.top;
+    if (SpritesBox.top < 0)
+    {
+        top = 0;
+    }
     POINT boxSize = { SpritesBox.right - SpritesBox.left, SpritesBox.bottom - SpritesBox.top };
     BitBlt(m_pBlendImage->hMemDC
-        , 0, 0
-        , m_pImageInfo->nWidth, m_pImageInfo->nHeight
+        , SpritesBox.left, top
+        , boxSize.x, boxSize.y
         , hdc
         , SpritesBox.left, SpritesBox.top
         , SRCCOPY);
 
     GdiTransparentBlt(m_pBlendImage->hMemDC
-        , 0, 0
-        , m_spritesWidth, m_spritesHeight
+        , SpritesBox.left, top
+        , boxSize.x, boxSize.y
         , m_pImageInfo->hMemDC
         , m_spritesWidth * FrameX, m_spritesHeight * FrameY
         , m_spritesWidth, m_spritesHeight
@@ -114,8 +119,8 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
         , SpritesBox.left, SpritesBox.top
         , boxSize.x, boxSize.y
         , m_pBlendImage->hMemDC
-        , 0, 0
-        , m_spritesWidth, m_spritesHeight
+        , SpritesBox.left, SpritesBox.top
+        , boxSize.x, boxSize.y
         , m_stBlendFunc);
 }
 

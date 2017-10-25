@@ -76,6 +76,7 @@ void GameObject::SetBodyRect(RECT Rect)
     m_rtBody = Rect;
     m_nSize = g_pDrawHelper->GetSizeFromRect(m_rtBody);
     m_dPos = g_pDrawHelper->GetPosFromRect(m_rtBody);
+    SetHBox();
 }
 
 void GameObject::SetBodyImgByKey(string Key, bool IsOverwrite)

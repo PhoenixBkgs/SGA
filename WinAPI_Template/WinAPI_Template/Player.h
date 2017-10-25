@@ -7,6 +7,9 @@ class Player : public SpritesObject
 private:
     GameObject  m_gameObj;
     int         m_playerState;
+
+    double      m_dJumpPower;
+    bool        m_bIsJump;
 public:
     Player();
     ~Player();

@@ -6,6 +6,8 @@ Player::Player()
 {
     Setup();
     m_playerState = 0;
+    m_dJumpPower = 0.0f;
+    m_bIsJump = false;
     g_pTimerManager->AddSimpleTimer("player-idle");
     g_pTimerManager->AddSimpleTimer("player-atk");
 }
@@ -88,28 +90,67 @@ void Player::PlayerController()
     {
         speed.x = 5.0f;
     }
-    speed.y += 10.0f;
-
-    UnitPos probePos = GetPos();
-    probePos.y += GetSize().h * 0.5f;
-
-    while (g_pPixelManager->CheckPixel(g_pImgManager->FindImage("land"), probePos) == false)
-    {
-        probePos.y -= 1.0f;
-    }
-    
-    probePos.y -= GetSize().h * 0.5f;
-    SetBodyPos(probePos);
-    SetBodySpeed(speed);
+    //speed.y += 10.0f;
 
     if (g_pKeyManager->isStayKeyDown(VK_SPACE))
     {
-        m_playerState = 1;
+        m_dJumpPower = 25.0f;
+        m_bIsJump = true;
     }
 
-    if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+    if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+    {
+        m_playerState = 1;
+    }
+    else if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
     {
         RECT rt = g_pDrawHelper->MakeRect({ (double)g_ptMouse.x, (double)g_ptMouse.y }, { 100, 150 });
         g_pPixelManager->RemoveRect(g_pImgManager->FindImage("land"), rt);
+    }
+
+    speed.y -= m_dJumpPower;
+    m_dJumpPower -= 1.0f;
+    m_dJumpPower = m_dJumpPower < 0.0f ? 0.0f : m_dJumpPower;
+    SetBodySpeed(speed);
+
+    ImageObject*    img = g_pImgManager->FindImage("land");
+    if (GetSpeed().y > 0.0f)
+    {
+        if (g_pPixelManager->CheckPixel(img, (int)GetPos().x, m_rtBody.top) == false)
+        {
+            
+        }
+        else
+        {
+            while (g_pPixelManager->CheckPixel(img, (int)GetPos().x, m_rtBody.bottom) == false)
+            {
+                UnitPos pos = GetPos();
+                pos.y -= 1.0f;
+                SetBodyPos(pos);
+                SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+            }
+        }
+    }
+    else
+    {
+
+    }
+    if (g_pPixelManager->CheckPixel(img, GetPos()) == true)     //  중점은 허공에 있을때
+    {
+        while (g_pPixelManager->CheckPixel(img, m_rtBody.left, (int)GetPos().y) == false)
+        {
+            UnitPos pos = GetPos();
+            pos.x += 1.0f;
+            SetBodyPos(pos);
+            SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+        }
+
+        while (g_pPixelManager->CheckPixel(img, m_rtBody.right, (int)GetPos().y) == false)
+        {
+            UnitPos pos = GetPos();
+            pos.x -= 1.0f;
+            SetBodyPos(pos);
+            SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+        }
     }
 }

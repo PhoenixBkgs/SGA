@@ -22,8 +22,8 @@ void GameScene::Update()
 void GameScene::Render()
 {
     g_pImgManager->FindImage("sky")->FastRender(g_hDC);
-    m_pPlayer->Render();
     g_pImgManager->FindImage("land")->SpritesRender(g_hDC, { 0, 0, W_WIDTH, W_HEIGHT }, 0, 0, 255);
+    m_pPlayer->Render();
 #ifdef _DEBUG
     /*
     char infoMsg[128];
@@ -38,7 +38,7 @@ void GameScene::Setup()
     m_pPlayer = new Player;
     m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
     m_pPlayer->SetBodySize({ 128, 128 });
-    m_pPlayer->SetBodyPos({ 100.0f, 50.0f });
+    m_pPlayer->SetBodyPos({ 150.0f, 150.0f });
     m_pPlayer->SetupForSprites(6, 3);
 }
 

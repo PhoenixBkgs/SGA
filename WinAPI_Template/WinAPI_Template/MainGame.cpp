@@ -45,7 +45,6 @@ void MainGame::Update()
 void MainGame::Render()
 {
     PatBlt(g_hDC, 0, 0, W_WIDTH, W_HEIGHT, BLACKNESS);
-
     switch (m_gameState)
     {
     case GAME_READY:
