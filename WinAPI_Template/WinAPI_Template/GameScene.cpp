@@ -37,7 +37,7 @@ void GameScene::Setup()
 {
     m_pPlayer = new Player;
     m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
-    m_pPlayer->SetBodySize({ 128, 128 });
+    m_pPlayer->SetBodySize({ 64, 64 });
     m_pPlayer->SetBodyPos({ 150.0f, 150.0f });
     m_pPlayer->SetupForSprites(6, 3);
 }

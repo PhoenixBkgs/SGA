@@ -10,6 +10,7 @@ private:
 
     double      m_dJumpPower;
     bool        m_bIsJump;
+    double      m_gravity;
 public:
     Player();
     ~Player();
