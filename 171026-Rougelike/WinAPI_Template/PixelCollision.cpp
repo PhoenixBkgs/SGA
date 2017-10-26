@@ -4,7 +4,7 @@
 
 bool PixelCollision::CheckPixel(ImageObject * ImageObj, UnitPos Pos)
 {
-    COLORREF color = GetPixel(ImageObj->GetMemDC(), Pos.x, Pos.y);
+    COLORREF color = GetPixel(ImageObj->GetMemDC(), (int)Pos.x, (int)Pos.y);
     int r = GetRValue(color);
     int g = GetGValue(color);
     int b = GetBValue(color);

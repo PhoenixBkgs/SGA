@@ -20,42 +20,33 @@ void GameScene::Update()
 	m_pPlayer->SetBodySpeed({ 0.0f, 0.0f });
 	if (g_pKeyManager->isStayKeyDown(VK_LEFT))
 	{
-		if (m_pPlayer->GetBodyPos().x > 175)
+		m_pPlayer->SetBodySpeedX(-5.0f);
+		if (m_pPlayer->GetBodyPos().x > W_WIDTH * 0.4f)
 		{
-			cout << "player go left" << endl;
-			m_pPlayer->SetBodySpeedX(-5.0f);
-			if (m_pPlayer->GetBodyPos().x > W_WIDTH * 0.4f)
-			{
 
-			}
-			else if (m_gameMap.GetBodyPos().x < 0.0f)
-			{
-				cout << "map go right" << endl;
-				m_gameMap.SetBodySpeedX(5.0f);
-				m_pPlayer->SetBodySpeedX(0.0f);
-			}
+		}
+		else if (m_gameMap.GetBodyPos().x < 0.0f)
+		{
+			m_gameMap.SetBodySpeedX(5.0f);
+			m_pPlayer->SetBodySpeedX(0.0f);
 		}
 	}
 	else if (g_pKeyManager->isStayKeyDown(VK_RIGHT))
 	{
-		if (m_pPlayer->GetBodyPos().x < W_WIDTH - 175)
+		m_pPlayer->SetBodySpeedX(5.0f);
+		if (m_pPlayer->GetBodyPos().x < W_WIDTH * 0.6f)
 		{
-			cout << "player go right" << endl;
-			m_pPlayer->SetBodySpeedX(5.0f);
-			if (m_pPlayer->GetBodyPos().x < W_WIDTH * 0.6f)
-			{
 
-			}
-			else if (m_gameMap.GetBodyPos().x > -1400.0f)
-			{
-				cout << "map go left" << endl;
-				m_gameMap.SetBodySpeedX(-5.0f);
-				m_pPlayer->SetBodySpeedX(0.0f);
-			}
+		}
+		else if (m_gameMap.GetBodyPos().x > -1400.0f)
+		{
+			m_gameMap.SetBodySpeedX(-5.0f);
+			m_pPlayer->SetBodySpeedX(0.0f);
 		}
 	}
 
 	m_gameMap.Update();
+	m_pPlayer->SetStartPos(m_gameMap.GetBodyPos());
 	m_pPlayer->Update();
 }
 
@@ -63,7 +54,10 @@ void GameScene::Render()
 {
 	m_gameMap.Render();
 	m_pPlayer->Render();
-	
+	g_pImgManager->Render("map-buffer", g_hDC);
+	int left = (int)(m_pPlayer->GetBodyPos().x - m_gameMap.GetBodyPos().x);
+	int top = (int)m_pPlayer->GetBodyPos().y;
+	Rectangle(g_pImgManager->FindImage("minimap")->GetMemDC(), left - 30, top - 30, left + 30, top + 30);
 #ifdef _DEBUG
     /*
     char infoMsg[128];

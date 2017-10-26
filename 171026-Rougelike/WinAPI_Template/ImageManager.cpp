@@ -73,3 +73,12 @@ void ImageManager::Render(string Key, HDC hdc, UnitPos DestPos)
         image->Render(hdc, (int)DestPos.x, (int)DestPos.y);
     }
 }
+
+void ImageManager::Render(string Key, HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha)
+{
+	ImageObject* image = FindImage(Key);
+	if (image)
+	{
+		image->Render(hdc, destX, destY, destW, destH, srcX, srcY, srcW, srcH, alpha);
+	}
+}

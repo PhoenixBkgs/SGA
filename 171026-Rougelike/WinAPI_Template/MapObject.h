@@ -13,6 +13,11 @@ private:
     ImageObject*            m_imgTile;
 	HBRUSH					m_brush;
 
+	ImageObject*			m_pSkyImg;
+	ImageObject*			m_pFogImg;
+	ImageObject*			m_pMinimap;
+	ImageObject*			m_pMapbuffer;
+
 public:
     MapObject();
     ~MapObject();

@@ -4,6 +4,7 @@
 MainGame::MainGame()
 {
     m_gameState = GAME_PLAYING;
+	m_brush = CreateSolidBrush(RGB(255, 0, 255));
     MouseLock();
     LoadAllResources();
     Start();
@@ -17,10 +18,9 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_pImgMinimap = g_pImgManager->AddImage("minimap", 3000, 900);
     m_scnGame = new GameScene(&m_gameState);
     g_pScnManager->AddGameObjToScn("game", m_scnGame);
-
-    m_pImgMinimap = g_pImgManager->AddImage("minimap", 3000, 900);
 }
 
 void MainGame::Update()
@@ -52,21 +52,17 @@ void MainGame::Render()
     case GAME_READY:
         break;
     case GAME_PLAYING:
+	{
+		PatBlt(m_pImgMinimap->GetMemDC(), 0, 0, 3000, 900, BLACKNESS);
         g_pScnManager->Render("game");
-		m_pImgBackBuffer->Render(m_pImgMinimap->GetMemDC(), 0, 0, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f));
-		/*
-		m_pImgMinimap->Render(m_pImgBackBuffer->GetMemDC(), (int)(W_WIDTH - 320), 0.0f
-															, 320, 180
-															, 0, 0
-															, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f)
-															, 255);
-		*/
-		m_pImgMinimap->Render(m_pImgBackBuffer->GetMemDC(), (int)(W_WIDTH - 320), 0.0f
-			, 320, 180
+		m_pImgMinimap->Render(g_hDC
+			, (int)(W_WIDTH - 500), 0
+			, 500, 150
 			, 0, 0
-			, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f)
+			, 3000, 900
 			, 255);
         break;
+	}
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:

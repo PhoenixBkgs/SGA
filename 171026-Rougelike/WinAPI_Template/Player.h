@@ -1,7 +1,7 @@
 #pragma once
 #include "SpritesObject.h"
 
-#define JUMP_POWER	15.0f;
+#define JUMP_POWER	25.0f;
 
 class TileObject;
 class Player : public SpritesObject
