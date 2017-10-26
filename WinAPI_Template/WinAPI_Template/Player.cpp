@@ -94,7 +94,7 @@ void Player::PlayerController()
 
     if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
     {
-        m_dJumpPower = 25.0f;
+        m_dJumpPower = 30.0f;
         m_bIsJump = true;
     }
 
@@ -119,7 +119,7 @@ void Player::PlayerController()
     {
         if (g_pPixelManager->CheckPixel(img, (int)GetPos().x, m_rtBody.top) == false)
         {
-            
+            sinf(5.0f);
         }
         else
         {
