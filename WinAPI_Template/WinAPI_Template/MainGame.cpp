@@ -19,6 +19,8 @@ void MainGame::Start()
 {
     m_scnGame = new GameScene(&m_gameState);
     g_pScnManager->AddGameObjToScn("game", m_scnGame);
+
+    m_pImgMinimap = g_pImgManager->AddImage("minimap", (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f));
 }
 
 void MainGame::Update()
@@ -51,6 +53,8 @@ void MainGame::Render()
         break;
     case GAME_PLAYING:
         g_pScnManager->Render("game");
+        m_pImgBackBuffer->Render(m_pImgMinimap->GetMemDC(), 0, 0, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f));
+        m_pImgMinimap->Render(m_pImgBackBuffer->GetMemDC(), (int)(W_WIDTH - 160), 0.0f, 160, 90, 0, 0, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f), 128);
         break;
     case GAME_PAUSE:
         break;

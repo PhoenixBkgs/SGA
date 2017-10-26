@@ -70,10 +70,10 @@ public:
     string      GetTagName()    { return m_szTagName; }
     //  Body
     RECT            GetBodyRect()   { return m_rtBody; }
-    UnitPos         GetPos()        { return m_dPos; }
-    UnitPos*        GetPosRef()     { return &m_dPos; }
-    UnitSize        GetSize()       { return m_nSize; }
-    UnitSpeed       GetSpeed()      { return m_dSpeed; }
+    UnitPos         GetBodyPos()        { return m_dPos; }
+    UnitPos*        GetBodyPosRef()     { return &m_dPos; }
+    UnitSize        GetBodySize()       { return m_nSize; }
+    UnitSpeed       GetBodySpeed()      { return m_dSpeed; }
     ImageObject*    GetBodyImg()   { return m_imgBody; }
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
@@ -106,6 +106,11 @@ public:
     void SetBodySize(UnitSize Size)     { m_nSize = Size; }
     void SetBodySpeed(UnitSpeed Speed)  { m_dSpeed = Speed; }
     void SetBodyPos(UnitPos Pos)        { m_dPos = Pos; }
+    void SetBodySpeedX(double SpeedX) { m_dSpeed.x = SpeedX; }
+    void SetBodySpeedY(double SpeedY) { m_dSpeed.y = SpeedY; }
+    void SumBodySpeed(UnitSpeed Speed) { m_dSpeed.x += Speed.x; m_dSpeed.y += Speed.y; }
+    void SumBodySpeedX(double SpeedX) { m_dSpeed.x += SpeedX; }
+    void SumBodySpeedY(double SpeedY) { m_dSpeed.y += SpeedY; }
     //  Body image
     void SetBodyImg(ImageObject* Image) { m_imgBody = Image; }
     void SetBodyImgAuto();

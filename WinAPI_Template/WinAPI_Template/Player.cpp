@@ -57,8 +57,22 @@ void Player::Update()
         break;
     }
 
-    SpritesObject::Update();
     PlayerController();
+    RECT rt;
+    if (IntersectRect(&rt, &GetBodyRect(), &m_pPad->GetBodyRect()))
+    {
+        if (m_pPad->GetBodyPos().y > m_dPos.y)
+        {
+            UnitSpeed speed = m_pPad->GetBodySpeed();
+            speed.x += GetBodySpeed().x;
+            m_gravity = 0.0f;
+
+            SumBodySpeedY(-m_dJumpPower);
+            SetBodySpeed(speed);
+        }
+    }
+
+    SpritesObject::Update();
 }
 
 void Player::Render()
@@ -115,21 +129,20 @@ void Player::PlayerController()
     m_dJumpPower = m_dJumpPower < 0.0f ? 0.0f : m_dJumpPower;
 
     ImageObject*    img = g_pImgManager->FindImage("land");
-    if (GetSpeed().y > 0.0f)
+    if (GetBodySpeed().y > 0.0f)
     {
-        if (g_pPixelManager->CheckPixel(img, (int)GetPos().x, m_rtBody.top) == false)
+        if (g_pPixelManager->CheckPixel(img, (int)GetBodyPos().x, m_rtBody.top) == false)
         {
-            sinf(5.0f);
         }
         else
         {
-            while (g_pPixelManager->CheckPixel(img, (int)GetPos().x, m_rtBody.bottom) == false)
+            while (g_pPixelManager->CheckPixel(img, (int)GetBodyPos().x, m_rtBody.bottom) == false)
             {
-                UnitPos pos = GetPos();
+                UnitPos pos = GetBodyPos();
                 pos.y -= 1.0f;
                 SetBodyPos(pos);
                 m_gravity = 0.0f;
-                SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+                SetBodyRect(g_pDrawHelper->MakeRect(GetBodyPos(), GetBodySize()));
             }
         }
     }
@@ -137,26 +150,26 @@ void Player::PlayerController()
     {
 
     }
-    if (g_pPixelManager->CheckPixel(img, GetPos()) == true)     //  중점은 허공에 있을때
+    if (g_pPixelManager->CheckPixel(img, GetBodyPos()) == true)     //  중점은 허공에 있을때
     {
         if (speed.x > 0.0f)
         {
-            while (g_pPixelManager->CheckPixel(img, m_rtBody.right, (int)GetPos().y) == false)
+            while (g_pPixelManager->CheckPixel(img, m_rtBody.right, (int)GetBodyPos().y) == false)
             {
-                UnitPos pos = GetPos();
+                UnitPos pos = GetBodyPos();
                 pos.x -= 1.0f;
                 SetBodyPos(pos);
-                SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+                SetBodyRect(g_pDrawHelper->MakeRect(GetBodyPos(), GetBodySize()));
             }
         }
         else if (speed.x < 0.0f)
         {
-            while (g_pPixelManager->CheckPixel(img, m_rtBody.left, (int)GetPos().y) == false)
+            while (g_pPixelManager->CheckPixel(img, m_rtBody.left, (int)GetBodyPos().y) == false)
             {
-                UnitPos pos = GetPos();
+                UnitPos pos = GetBodyPos();
                 pos.x += 1.0f;
                 SetBodyPos(pos);
-                SetBodyRect(g_pDrawHelper->MakeRect(GetPos(), GetSize()));
+                SetBodyRect(g_pDrawHelper->MakeRect(GetBodyPos(), GetBodySize()));
             }
         }
     }

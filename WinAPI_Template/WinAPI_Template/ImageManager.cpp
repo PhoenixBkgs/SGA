@@ -4,7 +4,10 @@
 
 ImageObject * ImageManager::AddImage(string Key, int Width, int Height)
 {
-    ImageObject* image = AddImage(Key, "", Width, Height);
+    ImageObject* image = new ImageObject;
+    image->Setup(Width, Height);
+
+    m_mapImage.insert(pair<string, ImageObject*>(Key, image));
 
     return image;
 }

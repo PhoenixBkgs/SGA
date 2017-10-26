@@ -8,8 +8,7 @@ GameNode::GameNode()
     g_pKeyManager->Setup();
     g_pLogManager->Setup("\\Log\\");
 
-    m_backBuffer = new ImageObject;
-    m_backBuffer->Setup(W_WIDTH, W_HEIGHT);
+    m_pImgBackBuffer = g_pImgManager->AddImage("back-buffer", W_WIDTH, W_HEIGHT);
 }
 
 
@@ -21,7 +20,7 @@ GameNode::~GameNode()
     g_pDrawHelper->ReleaseInstance();
     g_pGeoHelper->ReleaseInstance();
 
-    delete m_backBuffer;
+    delete m_pImgBackBuffer;
 }
 
 void GameNode::Update()
@@ -34,7 +33,7 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     PAINTSTRUCT ps;
     HDC hdc;
 
-    g_hDC = this->GetBackbuffer()->GetMemDC();
+    g_hDC = this->m_pImgBackBuffer->GetMemDC();
 
     switch (message)
     {
@@ -47,7 +46,7 @@ LRESULT GameNode::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
         this->Render();
-        this->GetBackbuffer()->FastRender(hdc);
+        this->m_pImgBackBuffer->FastRender(hdc);
         EndPaint(hWnd, &ps);
         break;
     case WM_MOUSEMOVE:
