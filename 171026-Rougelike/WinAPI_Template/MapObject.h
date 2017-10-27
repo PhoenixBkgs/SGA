@@ -33,5 +33,7 @@ public:
     void Start();
     virtual void Update() override;
     virtual void Render() override;
+
+	void SaveBmp(HDC hdc);
 };
 
