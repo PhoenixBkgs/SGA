@@ -8,11 +8,11 @@
 class MapObject : public GameObject
 {
 private:
-    string                  m_gameMapData;
     vector<TileObject>      m_vecTiles;
     ImageObject*            m_imgTile;
 	HBRUSH					m_brush;
 
+    ImageObject*            m_pWorldmap;
 	ImageObject*			m_pSkyImg;
 	ImageObject*			m_pFogImg;
 	ImageObject*			m_pMinimap;
@@ -33,7 +33,5 @@ public:
     void Start();
     virtual void Update() override;
     virtual void Render() override;
-
-	void SaveBmp(HDC hdc);
 };
 

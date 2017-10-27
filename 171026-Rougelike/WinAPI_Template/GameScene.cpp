@@ -6,7 +6,6 @@ GameScene::GameScene(E_GAME_STATE* State)
     SyncGameState(State);
     LoadImageResources();
     Setup();
-	m_gameMap.Start();
 }
 
 
@@ -59,11 +58,11 @@ void GameScene::Render()
 	int top = (int)m_pPlayer->GetBodyPos().y;
 	Rectangle(g_pImgManager->FindImage("minimap")->GetMemDC(), left - 30, top - 30, left + 30, top + 30);
 #ifdef _DEBUG
-    /*
     char infoMsg[128];
     sprintf_s(infoMsg, "");
     TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
-    */
+#else
+
 #endif // _DEBUG
 }
 
@@ -73,7 +72,7 @@ void GameScene::Setup()
 
     m_pPlayer = new Player;
     m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
-    m_pPlayer->SetBodySize({ 64, 64 });
+    m_pPlayer->SetBodySize({ 125, 125 });
     m_pPlayer->SetupForSprites(6, 3);
 	m_pPlayer->SetMapTiles(m_gameMap.GetMapTiles());
 }

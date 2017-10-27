@@ -18,7 +18,11 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
-    m_pImgMinimap = g_pImgManager->AddImage("minimap", 3000, 900);
+    m_mapGen.Setup("map");
+
+    m_pImgMinimap = g_pImgManager->AddImage("minimap"
+                                        , 300
+                                        , 90);
     m_scnGame = new GameScene(&m_gameState);
     g_pScnManager->AddGameObjToScn("game", m_scnGame);
 }
@@ -53,13 +57,13 @@ void MainGame::Render()
         break;
     case GAME_PLAYING:
 	{
-		PatBlt(m_pImgMinimap->GetMemDC(), 0, 0, 3000, 900, BLACKNESS);
+		PatBlt(m_pImgMinimap->GetMemDC(), 0, 0, m_pImgMinimap->GetWidth(), m_pImgMinimap->GetHeight(), BLACKNESS);
         g_pScnManager->Render("game");
 		m_pImgMinimap->Render(g_hDC
 			, (int)(W_WIDTH - 500), 0
 			, 500, 150
 			, 0, 0
-			, 3000, 900
+			, m_pImgMinimap->GetWidth(), m_pImgMinimap->GetHeight()
 			, 255);
         break;
 	}

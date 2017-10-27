@@ -16,6 +16,7 @@ public:
     GameScene(E_GAME_STATE* State);
     ~GameScene();
 
+    MapObject*      GetMapObj() { return &m_gameMap; }
 
     virtual void Update() override;
     virtual void Render() override;

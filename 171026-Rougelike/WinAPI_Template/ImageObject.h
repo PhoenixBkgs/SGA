@@ -83,6 +83,7 @@ public:
 //  Sprites
 #pragma region SPRITES_RENDER
     void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha);
+    void SpritesRender(HDC hdc, int DestX, int DestY, int DestW, int DestH, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number, double Alpha);
     void SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, UnitSize SrcSize, int FrameX, int FrameY, double Alpha);

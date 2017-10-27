@@ -1,6 +1,7 @@
 #pragma once
 #include "GameNode.h"
 #include "json.hpp"
+#include "MapGenerator.h"
 
 #pragma region SCENE
 #include "GameScene.h"
@@ -18,6 +19,7 @@ private:
     E_GAME_STATE    m_gameState;
     GameScene*      m_scnGame;
 
+    MapGenerator    m_mapGen;
 //=======================================================
 //  FUNCTIONS
 private:

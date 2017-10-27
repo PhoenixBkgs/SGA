@@ -124,6 +124,33 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
         , m_stBlendFunc);
 }
 
+void ImageObject::SpritesRender(HDC hdc, int DestX, int DestY, int DestW, int DestH, int FrameX, int FrameY, double Alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    BitBlt(m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , hdc
+        , DestX, DestY
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , DestX, DestY
+        , DestW, DestH
+        , m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , m_stBlendFunc);
+}
+
 void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Alpha)
 {
     RECT DestRt = g_pDrawHelper->MakeRect(DestPos, DestSize);
