@@ -384,6 +384,34 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
 }
 
+void ImageObject::TileRender(HDC hdc, int destX, int destY, int destW, int destH, int FrameX, int FrameY, BYTE alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = alpha;
+
+    BitBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , W_WIDTH, W_HEIGHT
+        , hdc
+        , destX, destY
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , destW, destH
+        , m_pImageInfo->hMemDC
+        , FrameX * m_spritesWidth, FrameY * m_spritesHeight
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , destX, destY
+        , destW, destH
+        , m_pBlendImage->hMemDC
+        , 0, 0
+        , destW, destH
+        , m_stBlendFunc);
+}
+
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     Render(hdc

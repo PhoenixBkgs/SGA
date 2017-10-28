@@ -5,7 +5,6 @@ GameScene::GameScene(E_GAME_STATE* State)
 {
     SyncGameState(State);
     LoadImageResources();
-    Setup();
 }
 
 
@@ -37,7 +36,7 @@ void GameScene::Update()
 		{
 
 		}
-		else if (m_gameMap.GetBodyPos().x > -1400.0f)
+		else if (m_gameMap.GetBodyPos().x > -(m_nMapSize.w - W_WIDTH))
 		{
 			m_gameMap.SetBodySpeedX(-5.0f);
 			m_pPlayer->SetBodySpeedX(0.0f);
@@ -51,6 +50,7 @@ void GameScene::Update()
 
 void GameScene::Render()
 {
+    g_pImgManager->Render("background", g_hDC, { m_gameMap.GetBodyPos().x, 0.0f });
 	m_gameMap.Render();
 	m_pPlayer->Render();
 	g_pImgManager->Render("map-buffer", g_hDC);
@@ -68,6 +68,7 @@ void GameScene::Render()
 
 void GameScene::Setup()
 {
+    m_gameMap.SetMapSize(m_nMapSize);
     m_gameMap.Start();
 
     m_pPlayer = new Player;
@@ -80,6 +81,7 @@ void GameScene::Setup()
 void GameScene::LoadImageResources()
 {
     g_pImgManager->AddImage("player", "images/player-sprites-sheet.bmp", 192, 96);  //  32 x 32px _ 6 x 3
+    g_pImgManager->AddImage("background", "images/bg.bmp", 3000, 900);
 }
 
 void GameScene::DeleteScene()

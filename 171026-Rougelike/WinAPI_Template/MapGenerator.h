@@ -10,6 +10,7 @@ class MapGenerator
 {
 private:
     HBRUSH          m_brushTransparent;
+    ImageObject*    m_imgBackground;
     ImageObject*    m_imgWorldMap;
 	string	        m_szMapData;
     string          m_szFilename;
@@ -41,5 +42,5 @@ public:
     void LoadImageResources();
     void Setup(string MapFilename);
 
-    void SaveMap(HDC hdc);
+    void SaveMap(HDC hdc, string Filename);
 };

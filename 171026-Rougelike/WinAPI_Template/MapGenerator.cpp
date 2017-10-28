@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MapGenerator.h"
 
-
 MapGenerator::MapGenerator()
 {
     m_brushTransparent = CreateSolidBrush(RGB(255, 0, 255));
@@ -26,57 +25,73 @@ void MapGenerator::LoadImageResources()
     m_sprObstacle->SetupForSprites(4, 1);
 
     m_sprGem = new SpritesObject;
-    g_pImgManager->AddImage("gem", "images/img-gem.bmp", 25, 9);
+    g_pImgManager->AddImage("gem", "images/img-gem.bmp", 100, 20);
     m_sprGem->SetBodyImg(g_pImgManager->FindImage("gem"));
     m_sprGem->SetupForSprites(5, 1);
 }
 
 void MapGenerator::Setup(string MapFilename)
 {
-    m_szFilename = MapFilename;
-    m_nMapSize = { 3000, 900 };
-    m_nMapCol = 20;
-    m_nMapRow = 6;
+    g_pLogManager->WriteLog(EL_INFO, "Load map data : " + MapFilename);
+    m_szFilename = MapFilename;;
+    string filepath = "data/";
+    filepath.append(m_szFilename);
+
+    m_nMapCol = 0;
+    m_nMapRow = 0;
+
     //  read map data
+    bool    isFirst = true;
     ifstream i;
-    i.open("data/map.txt", ios_base::in);
+    i.open(filepath, ios_base::in);
     string szTemp;
     while (i >> szTemp)
     {
+        if (isFirst)
+        {
+            m_nMapCol = szTemp.length();
+            isFirst = false;
+        }
+        m_nMapRow++;
         m_szMapData.append(szTemp);
     }
-    i.close();
 
+    char logMsg[128];
+    sprintf_s(logMsg, "Col : %d / Row : %d", m_nMapCol, m_nMapRow);
+    g_pLogManager->WriteLog(EL_INFO, logMsg);
+
+    i.close();
     m_nTileSize = 150;
+    m_nMapSize = { m_nMapCol * m_nTileSize, m_nMapRow * m_nTileSize };
 
     g_pImgManager->AddImage("worldmap"
-                            , 3000
-                            , 900);
+        , m_nMapSize.w
+        , m_nMapSize.h);
+
+    g_pImgManager->AddImage("background"
+        , m_nMapSize.w
+        , m_nMapSize.h);
 
     m_imgWorldMap = g_pImgManager->FindImage("worldmap");
+    m_imgBackground = g_pImgManager->FindImage("background");
+
     RECT rt = { 0, 0, m_imgWorldMap->GetWidth(), m_imgWorldMap->GetHeight() };
     FillRect(m_imgWorldMap->GetMemDC(), &rt, m_brushTransparent);
 
     //  bg tile setup "m_sprtile[4]"
-    for (int row = 0; row < m_nMapRow; row++)
+    for (int row = 0; row < 6; row++)
     {
-        for (int col = 0; col < m_nMapCol; col++)
+        for (int col = 0; col < 20; col++)
         {
-            m_sprTile->GetBodyImg()->SpritesRender(m_imgWorldMap->GetMemDC()
-                                        , col * m_nTileSize
-                                        , row * m_nTileSize
-                                        , m_nTileSize
-                                        , m_nTileSize
-                                        , 4, 0
-                                        , 255);
-            char logMsg[256];
-            sprintf(logMsg, "col : %d / row : %d", col, row);
-            g_pLogManager->WriteLog(EL_DEBUG, logMsg);
+            m_sprTile->GetBodyImg()->TileRender(m_imgBackground->GetMemDC()
+                , col * m_nTileSize, row * m_nTileSize
+                , m_nTileSize, m_nTileSize
+                , 4, 0
+                , 255);
         }
     }
 
     //  tile setup each case
-    /*
     TILE_TYPE tileType;
     int idx = 0;
     for (int row = 0; row < m_nMapRow; row++)
@@ -91,20 +106,20 @@ void MapGenerator::Setup(string MapFilename)
             idx++;
             switch (tileType)
             {
-            case TILE_EMPTY:
+            case TILE_EMPTY:    //  0
             {
                 break;
             }
-            case WALL:
+            case WALL:          //  1
             {
                 tImage = *m_sprTile;
                 tImage.SetFrameX(0);
                 break;
             }
-            case SPIKE_LEFT:
-            case SPIKE_TOP:
-            case SPIKE_RIGHT:
-            case SPIKE_BOTTOM:
+            case SPIKE_LEFT:    //  2
+            case SPIKE_TOP:     //  3
+            case SPIKE_RIGHT:   //  4
+            case SPIKE_BOTTOM:  //  5
             {
                 tImage = *m_sprObstacle;
                 switch (tileType)
@@ -124,10 +139,10 @@ void MapGenerator::Setup(string MapFilename)
                 }
                 break;
             }
-            case GEM_AMETHYST:
-            case GEM_GOLD:
-            case GEM_JADE:
-            case GEM_EMERALD:
+            case GEM_AMETHYST:  //  6
+            case GEM_GOLD:      //  7
+            case GEM_JADE:      //  8
+            case GEM_EMERALD:   //  9
             {
                 tImage = *m_sprGem;
                 switch (tileType)
@@ -150,31 +165,26 @@ void MapGenerator::Setup(string MapFilename)
             }
             if (tImage.GetBodyImg() != NULL)
             {
-                tImage.GetBodyImg()->SpritesRender(m_imgWorldMap->GetMemDC()
-                    , col * m_nTileSize * m_dMagnifier
-                    , row * m_nTileSize * m_dMagnifier
-                    , m_nTileSize * m_dMagnifier
-                    , m_nTileSize * m_dMagnifier
+                tImage.GetBodyImg()->TileRender(m_imgWorldMap->GetMemDC()
+                    , col * m_nTileSize, row * m_nTileSize
+                    , m_nTileSize, m_nTileSize
                     , tImage.GetFrameX(), tImage.GetFrameY()
                     , 255);
             }
-            else
-            {
-                break;
-            }
         }
     }
-    */
-    SaveMap(m_imgWorldMap->GetMemDC());
+
+    SaveMap(m_imgWorldMap->GetMemDC(), "map.bmp");     //  foreground image
+    SaveMap(m_imgBackground->GetMemDC(), "bg.bmp");   //  background image
 }
 
-void MapGenerator::SaveMap(HDC hdc)
+void MapGenerator::SaveMap(HDC hdc, string Filename)
 {
     HDC h_screen_dc = hdc;
 
     // 현재 맵의 해상도를 얻는다.
-    int width = 3000;
-    int height = 900;
+    int width = m_nMapSize.w;
+    int height = m_nMapSize.h;
 
     // DIB의 형식을 정의한다.
     BITMAPINFO dib_define;
@@ -220,8 +230,9 @@ void MapGenerator::SaveMap(HDC hdc)
     dib_format_layout.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 
     // DIB 파일을 생성한다.
-    string szFilename = "images/map.bmp";
-    FILE *p_file = fopen(szFilename.c_str(), "wb");
+    string szFilepath = "images/";
+    szFilepath.append(Filename);
+    FILE *p_file = fopen(szFilepath.c_str(), "wb");
     if (p_file != NULL) {
         fwrite(&dib_format_layout, 1, sizeof(BITMAPFILEHEADER), p_file);
         fwrite(&dib_define, 1, sizeof(BITMAPINFOHEADER), p_file);

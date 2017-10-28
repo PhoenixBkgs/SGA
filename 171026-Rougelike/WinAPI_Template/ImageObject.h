@@ -104,6 +104,5 @@ public:
     void Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha);
     void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 
-
+    void TileRender(HDC hdc, int destX, int destY, int destW, int destH, int FrameX, int FrameY, BYTE alpha);
 };
-

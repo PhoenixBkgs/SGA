@@ -20,6 +20,7 @@ private:
     GameScene*      m_scnGame;
 
     MapGenerator    m_mapGen;
+    UnitSize        m_nMapSize;
 //=======================================================
 //  FUNCTIONS
 private:

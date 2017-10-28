@@ -18,12 +18,14 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
-    m_mapGen.Setup("map");
-
+    m_mapGen.Setup("map.txt");
+    m_nMapSize = m_mapGen.GetMapSize();
     m_pImgMinimap = g_pImgManager->AddImage("minimap"
-                                        , 300
-                                        , 90);
+                                        , m_nMapSize.w * 0.10000f
+                                        , m_nMapSize.h * 0.1000f);
     m_scnGame = new GameScene(&m_gameState);
+    m_scnGame->SetMapSize(m_nMapSize);
+    m_scnGame->Setup();
     g_pScnManager->AddGameObjToScn("game", m_scnGame);
 }
 

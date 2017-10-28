@@ -9,7 +9,7 @@ class GameScene : public SceneObject
 private:
 	ImageObject*		m_pMinimap;
     MapObject           m_gameMap;
-
+    UnitSize            m_nMapSize;
     Player*             m_pPlayer;
 
 public:
@@ -17,6 +17,9 @@ public:
     ~GameScene();
 
     MapObject*      GetMapObj() { return &m_gameMap; }
+
+
+    void    SetMapSize(UnitSize MapSize) { m_nMapSize = MapSize; }
 
     virtual void Update() override;
     virtual void Render() override;
