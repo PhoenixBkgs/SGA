@@ -5,6 +5,7 @@
 class LoadingScene : public SceneObject
 {
 private:
+    SpritesObject      m_sprTitle;
 
 public:
     LoadingScene(E_GAME_STATE* State);

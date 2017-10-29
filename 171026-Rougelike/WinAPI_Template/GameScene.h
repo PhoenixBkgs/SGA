@@ -2,6 +2,7 @@
 #include "SceneObject.h"
 #include "SpritesObject.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "MapObject.h"
 
 class GameScene : public SceneObject
@@ -13,6 +14,7 @@ private:
     MapObject           m_gameMap;
     UnitSize            m_nMapSize;
     Player*             m_pPlayer;
+    Enemy*              m_pEnemy;
 
 public:
     GameScene(E_GAME_STATE* State);

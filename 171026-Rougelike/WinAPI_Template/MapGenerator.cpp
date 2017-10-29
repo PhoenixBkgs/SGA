@@ -128,8 +128,21 @@ void MapGenerator::Setup(string MapFilename)
                     tImage.SetFrameX(0);
                     break;
                 case SPIKE_TOP:
-                    tImage.SetFrameX(1);
+                {
+                    SpritesObject  gameObjSpike;
+                    gameObjSpike.SetTagName("spike");
+                    double posX = (col * m_nTileSize) + (m_nTileSize * 0.5f);
+                    double posY = (row * m_nTileSize) + (m_nTileSize * 0.5f);
+                    gameObjSpike.SetBodyPos({ posX, posY });
+                    gameObjSpike.SetBodySize({ m_nTileSize, m_nTileSize });
+                    gameObjSpike.SetBodyRect(g_pDrawHelper->MakeRect(gameObjSpike.GetBodyPos(), gameObjSpike.GetBodySize()));
+                    gameObjSpike.SetHBoxMargin({ 0, 0, 0, 80 });
+                    gameObjSpike.SetHBox();
+                    gameObjSpike.SetBodyImg(m_sprObstacle->GetBodyImg());
+                    gameObjSpike.SetFrameX(1);
+                    m_vecObjects.push_back(gameObjSpike);
                     break;
+                }
                 case SPIKE_RIGHT:
                     tImage.SetFrameX(2);
                     break;
@@ -161,8 +174,21 @@ void MapGenerator::Setup(string MapFilename)
                 switch (tileType)
                 {
                 case GEM_AMETHYST:
-                    tImage.SetFrameX(0);
+                {
+                    SpritesObject  gameObjJump;
+                    gameObjJump.SetTagName("item-dash");
+                    double posX = (col * m_nTileSize) + (m_nTileSize * 0.5f);
+                    double posY = (row * m_nTileSize) + (m_nTileSize * 0.5f);
+                    gameObjJump.SetBodyPos({ posX, posY });
+                    gameObjJump.SetBodySize({ m_nTileSize, m_nTileSize });
+                    gameObjJump.SetBodyRect(g_pDrawHelper->MakeRect(gameObjJump.GetBodyPos(), gameObjJump.GetBodySize()));
+                    gameObjJump.SetHBoxMargin({ 20, 0, 20, 0 });
+                    gameObjJump.SetHBox();
+                    gameObjJump.SetBodyImg(m_sprGem->GetBodyImg());
+                    gameObjJump.SetFrameX(1);
+                    m_vecObjects.push_back(gameObjJump);
                     break;
+                }
                 case GEM_GOLD:
                 {
                     SpritesObject  gameObjImmortal;

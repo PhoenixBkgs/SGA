@@ -1,7 +1,7 @@
 #pragma once
 #include "SpritesObject.h"
 
-#define JUMP_POWER	22.0f;
+#define JUMP_POWER	10.0f;
 
 class TileObject;
 class Player : public SpritesObject
@@ -20,13 +20,16 @@ private:
     double      m_gravity;
 
     bool        m_isClear;
-
+    bool        m_isBoosterOn;
+    double      m_dBoosterGauge;
 
 public:
     Player();
     ~Player();
 
     bool    IsClear() { return m_isClear; }
+
+    double  GetBoosterGauge() { return m_dBoosterGauge; }
 
 	void    SetMapTiles(vector<TileObject>* MapTile) { m_vecTiles = MapTile; }
     void    SetGameObjs(vector<SpritesObject>* GameObjs) { m_vecGameObjs = GameObjs; }

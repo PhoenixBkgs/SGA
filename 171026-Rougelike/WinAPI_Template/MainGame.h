@@ -4,6 +4,7 @@
 #include "MapGenerator.h"
 
 #pragma region SCENE
+#include "LoadingScene.h"
 #include "GameScene.h"
 #include "ClearScene.h"
 #include "GameoverScene.h"
@@ -19,6 +20,7 @@ private:
 	HBRUSH			m_brush;
 
     E_GAME_STATE    m_gameState;
+    LoadingScene*   m_scnLoading;
     GameScene*      m_scnGame;
     ClearScene*     m_scnClear;
     GameoverScene*  m_scnOver;

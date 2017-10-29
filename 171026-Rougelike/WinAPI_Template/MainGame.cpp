@@ -3,7 +3,7 @@
 
 MainGame::MainGame()
 {
-    m_gameState = GAME_PLAYING;
+    m_gameState = GAME_READY;
 	m_brush = CreateSolidBrush(RGB(255, 0, 255));
     MouseLock();
     LoadAllResources();
@@ -18,6 +18,9 @@ MainGame::~MainGame()
 
 void MainGame::Start()
 {
+    m_scnLoading = new LoadingScene(&m_gameState);
+    g_pScnManager->AddGameObjToScn("loading", m_scnLoading);
+
     m_mapGen.Setup("map.txt");
     m_nMapSize = m_mapGen.GetMapSize();
     vector<SpritesObject>  genGameObjs = m_mapGen.GetGameObjects();
@@ -45,6 +48,7 @@ void MainGame::Update()
     switch (m_gameState)
     {
     case GAME_READY:
+        g_pScnManager->Update("loading");
         break;
     case GAME_PLAYING:
         g_pScnManager->Update("game");
@@ -67,6 +71,7 @@ void MainGame::Render()
     switch (m_gameState)
     {
     case GAME_READY:
+        g_pScnManager->Render("loading");
         break;
     case GAME_PLAYING:
 	{
