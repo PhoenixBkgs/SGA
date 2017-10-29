@@ -3,6 +3,7 @@
 
 GameScene::GameScene(E_GAME_STATE* State)
 {
+    m_nGameTimer = 0;
     SyncGameState(State);
     LoadImageResources();
 }
@@ -15,6 +16,16 @@ GameScene::~GameScene()
 
 void GameScene::Update()
 {
+    if (m_pPlayer->IsAlive() == false)
+    {
+        *m_currGameState = GAME_OVER;
+    }
+
+    if (m_pPlayer->IsClear())
+    {
+        *m_currGameState = GAME_CLEAR;
+    }
+
 	m_pPlayer->SetBodySpeed({ 0.0f, 0.0f });
 	if (g_pKeyManager->isStayKeyDown(VK_LEFT))
 	{
@@ -43,9 +54,29 @@ void GameScene::Update()
 		}
 	}
 
+    for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end(); iter++)
+    {
+        iter->SetBodySpeedX(m_gameMap.GetBodySpeedX());
+        iter->Update();
+    }
+
+    m_nGameTimer++;
+
 	m_gameMap.Update();
 	m_pPlayer->SetStartPos(m_gameMap.GetBodyPos());
 	m_pPlayer->Update();
+
+    for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end();)
+    {
+        if (iter->IsAlive() == false)
+        {
+            iter = m_vecGameObjs.erase(iter);
+        }
+        else
+        {
+            iter++;
+        }
+    }
 }
 
 void GameScene::Render()
@@ -57,12 +88,18 @@ void GameScene::Render()
 	int left = (int)(m_pPlayer->GetBodyPos().x - m_gameMap.GetBodyPos().x);
 	int top = (int)m_pPlayer->GetBodyPos().y;
 	Rectangle(g_pImgManager->FindImage("minimap")->GetMemDC(), left - 30, top - 30, left + 30, top + 30);
+
+    for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end(); iter++)
+    {
+        char infoMsg[128];
+        sprintf_s(infoMsg, "%.0f, %.0f", iter->GetBodyPos().x, iter->GetBodyPos().y);
+        TextOut(g_hDC, iter->GetBodyPos().x, iter->GetBodyPos().y, infoMsg, (int)strlen(infoMsg));
+        iter->Render();
+    }
 #ifdef _DEBUG
     char infoMsg[128];
-    sprintf_s(infoMsg, "");
+    sprintf_s(infoMsg, "%d", m_nGameTimer);
     TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
-#else
-
 #endif // _DEBUG
 }
 
@@ -72,8 +109,10 @@ void GameScene::Setup()
     m_gameMap.Start();
 
     m_pPlayer = new Player;
+    m_pPlayer->SetGameObjs(&m_vecGameObjs);
     m_pPlayer->SetBodyImg(g_pImgManager->FindImage("player"));
-    m_pPlayer->SetBodySize({ 125, 125 });
+    m_pPlayer->SetBodySize({ 75, 75 });
+    m_pPlayer->SetBodyPos({ 200.0f, 200.0f });
     m_pPlayer->SetupForSprites(6, 3);
 	m_pPlayer->SetMapTiles(m_gameMap.GetMapTiles());
 }

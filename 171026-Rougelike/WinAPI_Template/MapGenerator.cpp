@@ -79,9 +79,9 @@ void MapGenerator::Setup(string MapFilename)
     FillRect(m_imgWorldMap->GetMemDC(), &rt, m_brushTransparent);
 
     //  bg tile setup "m_sprtile[4]"
-    for (int row = 0; row < 6; row++)
+    for (int row = 0; row < m_nMapRow; row++)
     {
-        for (int col = 0; col < 20; col++)
+        for (int col = 0; col < m_nMapCol; col++)
         {
             m_sprTile->GetBodyImg()->TileRender(m_imgBackground->GetMemDC()
                 , col * m_nTileSize, row * m_nTileSize
@@ -121,7 +121,7 @@ void MapGenerator::Setup(string MapFilename)
             case SPIKE_RIGHT:   //  4
             case SPIKE_BOTTOM:  //  5
             {
-                tImage = *m_sprObstacle;
+                //tImage = *m_sprObstacle;
                 switch (tileType)
                 {
                 case SPIKE_LEFT:
@@ -134,8 +134,21 @@ void MapGenerator::Setup(string MapFilename)
                     tImage.SetFrameX(2);
                     break;
                 case SPIKE_BOTTOM:
-                    tImage.SetFrameX(3);
+                {
+                    SpritesObject  gameObjSpike;
+                    gameObjSpike.SetTagName("spike");
+                    double posX = (col * m_nTileSize) + (m_nTileSize * 0.5f);
+                    double posY = (row * m_nTileSize) + (m_nTileSize * 0.5f);
+                    gameObjSpike.SetBodyPos({ posX, posY });
+                    gameObjSpike.SetBodySize({ m_nTileSize, m_nTileSize });
+                    gameObjSpike.SetBodyRect(g_pDrawHelper->MakeRect(gameObjSpike.GetBodyPos(), gameObjSpike.GetBodySize()));
+                    gameObjSpike.SetHBoxMargin({ 0, 80, 0, 0 });
+                    gameObjSpike.SetHBox();
+                    gameObjSpike.SetBodyImg(m_sprObstacle->GetBodyImg());
+                    gameObjSpike.SetFrameX(3);
+                    m_vecObjects.push_back(gameObjSpike);
                     break;
+                }
                 }
                 break;
             }
@@ -144,20 +157,44 @@ void MapGenerator::Setup(string MapFilename)
             case GEM_JADE:      //  8
             case GEM_EMERALD:   //  9
             {
-                tImage = *m_sprGem;
+                //tImage = *m_sprGem;
                 switch (tileType)
                 {
                 case GEM_AMETHYST:
                     tImage.SetFrameX(0);
                     break;
                 case GEM_GOLD:
-                    tImage.SetFrameX(1);
+                {
+                    SpritesObject  gameObjImmortal;
+                    gameObjImmortal.SetTagName("item-immortal");
+                    double posX = (col * m_nTileSize) + (m_nTileSize * 0.5f);
+                    double posY = (row * m_nTileSize) + (m_nTileSize * 0.5f);
+                    gameObjImmortal.SetBodyPos({ posX, posY });
+                    gameObjImmortal.SetBodySize({ m_nTileSize, m_nTileSize });
+                    gameObjImmortal.SetBodyRect(g_pDrawHelper->MakeRect(gameObjImmortal.GetBodyPos(), gameObjImmortal.GetBodySize()));
+                    gameObjImmortal.SetHBoxMargin({ 20, 0, 20, 0 });
+                    gameObjImmortal.SetHBox();
+                    gameObjImmortal.SetBodyImg(m_sprGem->GetBodyImg());
+                    gameObjImmortal.SetFrameX(1);
+                    m_vecObjects.push_back(gameObjImmortal);
                     break;
+                }
                 case GEM_JADE:
                     tImage.SetFrameX(2);
                     break;
                 case GEM_EMERALD:
-                    tImage.SetFrameX(3);
+                    SpritesObject  gameObjGoal;
+                    gameObjGoal.SetTagName("goal");
+                    double posX = (col * m_nTileSize) + (m_nTileSize * 0.5f);
+                    double posY = (row * m_nTileSize) + (m_nTileSize * 0.5f);
+                    gameObjGoal.SetBodyPos({ posX, posY });
+                    gameObjGoal.SetBodySize({ m_nTileSize, m_nTileSize });
+                    gameObjGoal.SetBodyRect(g_pDrawHelper->MakeRect(gameObjGoal.GetBodyPos(), gameObjGoal.GetBodySize()));
+                    gameObjGoal.SetHBoxMargin({ 20, 0, 20, 0 });
+                    gameObjGoal.SetHBox();
+                    gameObjGoal.SetBodyImg(m_sprGem->GetBodyImg());
+                    gameObjGoal.SetFrameX(3);
+                    m_vecObjects.push_back(gameObjGoal);
                     break;
                 }
                 break;

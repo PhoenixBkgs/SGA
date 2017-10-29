@@ -5,6 +5,8 @@
 
 #pragma region SCENE
 #include "GameScene.h"
+#include "ClearScene.h"
+#include "GameoverScene.h"
 #pragma endregion
 
 using json = nlohmann::json;
@@ -18,6 +20,8 @@ private:
 
     E_GAME_STATE    m_gameState;
     GameScene*      m_scnGame;
+    ClearScene*     m_scnClear;
+    GameoverScene*  m_scnOver;
 
     MapGenerator    m_mapGen;
     UnitSize        m_nMapSize;

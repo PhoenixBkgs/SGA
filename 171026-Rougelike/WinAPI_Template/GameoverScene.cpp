@@ -19,6 +19,9 @@ void GameoverScene::Update()
 
 void GameoverScene::Render()
 {
+    RECT rt = { 0, 200, W_WIDTH, 400 };
+    g_pDrawHelper->m_textBoxInfo.FontColor = { 0, 0, 0, 255 };
+    g_pDrawHelper->DrawTextBox(g_hDC, rt, "GAME OVER");
 }
 
 void GameoverScene::Setup()

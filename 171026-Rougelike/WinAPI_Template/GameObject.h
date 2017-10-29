@@ -75,6 +75,8 @@ public:
     UnitSize        GetBodySize()       { return m_nSize; }
     UnitSpeed       GetBodySpeed()      { return m_dSpeed; }
     ImageObject*    GetBodyImg()   { return m_imgBody; }
+    double          GetBodySpeedX() { return m_dSpeed.x; }
+    double          GetBodySpeedY() { return m_dSpeed.y; }
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
@@ -134,7 +136,7 @@ public:
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
     void SetAlive()     { m_isAlive = true; }
-    void SetDead()      { m_isAlive = false; }
+    void SetDead()      { if (!m_isImmortal) m_isAlive = false; }
     void SetLife(int Life) { m_nLife = Life; }
     void SumLife(int Deal) { m_nLife += Deal; }
 

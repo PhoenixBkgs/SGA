@@ -154,7 +154,9 @@
     <ClInclude Include="FileDataManager.h" />
     <ClInclude Include="GameoverScene.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="LobbyScene.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TileObject.h" />
     <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="Trap.h" />
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
@@ -196,7 +199,9 @@
     <ClCompile Include="FileDataManager.cpp" />
     <ClCompile Include="GameoverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="LobbyScene.cpp" />
     <ClCompile Include="MapGenerator.cpp" />
@@ -229,6 +234,7 @@
     </ClCompile>
     <ClCompile Include="TileObject.cpp" />
     <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="Trap.cpp" />
     <ClCompile Include="WinAPITemplate.cpp" />
   </ItemGroup>
   <ItemGroup>

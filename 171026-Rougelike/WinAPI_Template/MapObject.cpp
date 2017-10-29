@@ -42,12 +42,15 @@ void MapObject::Render()
 {
     //  minimap
     m_pWorldmap->Render(m_pMinimap->GetMemDC(), 0, 0, m_nMapSize.w * 0.1f, m_nMapSize.h * 0.1f);
-	m_pFogImg->Render(m_pMinimap->GetMemDC(), 0, 0, -(int)m_dPos.x, m_nMapSize.w * 0.1f, 0, 0, m_nMapSize.w * 0.1f, m_nMapSize.h * 0.1f, 128);
-	m_pFogImg->Render(m_pMinimap->GetMemDC(), -((int)m_dPos.x + W_WIDTH) * 0.1f, 0
-        , (m_nMapSize.w - (W_WIDTH - m_dPos.x)) * 0.1f, m_nMapSize.h * 0.1f
-        , 0, 0
-        , m_pFogImg->GetWidth(), m_pFogImg->GetHeight()
-        , 128);
+	m_pFogImg->Render(m_pMinimap->GetMemDC(), 0, 0
+                                            , -(int)m_dPos.x * 0.1f, m_nMapSize.h * 0.1f, 0
+                                            , 0, m_nMapSize.w * 0.1f, m_nMapSize.h * 0.1f
+                                            , 128);
+	m_pFogImg->Render(m_pMinimap->GetMemDC(), (-(int)m_dPos.x + W_WIDTH) * 0.1f, 0
+                                            , (m_nMapSize.w) * 0.1f, m_nMapSize.h * 0.1f
+                                            , 0, 0
+                                            , m_pFogImg->GetWidth(), m_pFogImg->GetHeight()
+                                            , 128);
 
     //  worldmap
     RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };

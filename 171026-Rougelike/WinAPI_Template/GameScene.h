@@ -7,6 +7,8 @@
 class GameScene : public SceneObject
 {
 private:
+    vector<SpritesObject>  m_vecGameObjs;
+    int                 m_nGameTimer;
 	ImageObject*		m_pMinimap;
     MapObject           m_gameMap;
     UnitSize            m_nMapSize;
@@ -18,8 +20,10 @@ public:
 
     MapObject*      GetMapObj() { return &m_gameMap; }
 
+    int     GetGameTimer() { return m_nGameTimer; }
 
     void    SetMapSize(UnitSize MapSize) { m_nMapSize = MapSize; }
+    void    SetGameObjs(vector<SpritesObject> GameObjs) { m_vecGameObjs = GameObjs; }
 
     virtual void Update() override;
     virtual void Render() override;

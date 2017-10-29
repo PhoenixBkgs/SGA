@@ -9,6 +9,7 @@ enum TILE_TYPE
 class MapGenerator
 {
 private:
+    vector<SpritesObject>  m_vecObjects;
     HBRUSH          m_brushTransparent;
     ImageObject*    m_imgBackground;
     ImageObject*    m_imgWorldMap;
@@ -33,6 +34,7 @@ public:
 	int		GetMapCol() { return m_nMapCol; }
 	int		GetMapRow() { return m_nMapRow; }
     UnitSize GetMapSize() { return m_nMapSize; }
+    vector<SpritesObject>  GetGameObjects() { return m_vecObjects; }
 #pragma endregion
 #pragma region SET
 	void	SetMapCol(int Col) { m_nMapCol = Col; }

@@ -20,13 +20,23 @@ void MainGame::Start()
 {
     m_mapGen.Setup("map.txt");
     m_nMapSize = m_mapGen.GetMapSize();
+    vector<SpritesObject>  genGameObjs = m_mapGen.GetGameObjects();
     m_pImgMinimap = g_pImgManager->AddImage("minimap"
                                         , m_nMapSize.w * 0.10000f
                                         , m_nMapSize.h * 0.1000f);
     m_scnGame = new GameScene(&m_gameState);
+    m_scnGame->SetGameObjs(genGameObjs);
     m_scnGame->SetMapSize(m_nMapSize);
     m_scnGame->Setup();
     g_pScnManager->AddGameObjToScn("game", m_scnGame);
+
+    m_scnClear = new ClearScene(&m_gameState);
+    m_scnClear->Setup();
+    g_pScnManager->AddGameObjToScn("clear", m_scnClear);
+
+    m_scnOver = new GameoverScene(&m_gameState);
+    m_scnOver->Setup();
+    g_pScnManager->AddGameObjToScn("over", m_scnOver);
 }
 
 void MainGame::Update()
@@ -42,6 +52,7 @@ void MainGame::Update()
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
+        m_scnClear->SetGameTimer(m_scnGame->GetGameTimer());
         break;
     case GAME_OVER:
         break;
@@ -72,8 +83,10 @@ void MainGame::Render()
     case GAME_PAUSE:
         break;
     case GAME_CLEAR:
+        g_pScnManager->Render("clear");
         break;
     case GAME_OVER:
+        g_pScnManager->Render("over");
         break;
     }
 }
