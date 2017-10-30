@@ -9,5 +9,6 @@ public:
     ~RatingHelper();
 
     void EloCalc(int* Rating1, int* Rating2, int Winner);
+    void QuickSort();
 };
 

@@ -12,15 +12,10 @@ MainGame::MainGame()
 
 MainGame::~MainGame()
 {
-    SAFE_DELETE(m_scnGame);
 }
 
 void MainGame::Start()
 {
-    m_scnGame = new GameScene(&m_gameState);
-    g_pScnManager->AddGameObjToScn("game", m_scnGame);
-
-    m_pImgMinimap = g_pImgManager->AddImage("minimap", (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f));
 }
 
 void MainGame::Update()
@@ -28,10 +23,11 @@ void MainGame::Update()
     SystemController();
     switch (m_gameState)
     {
+    case GAME_LOADING:
+        break;
     case GAME_READY:
         break;
     case GAME_PLAYING:
-        g_pScnManager->Update("game");
         break;
     case GAME_PAUSE:
         break;
@@ -52,9 +48,6 @@ void MainGame::Render()
     case GAME_READY:
         break;
     case GAME_PLAYING:
-        g_pScnManager->Render("game");
-        m_pImgBackBuffer->Render(m_pImgMinimap->GetMemDC(), 0, 0, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f));
-        m_pImgMinimap->Render(m_pImgBackBuffer->GetMemDC(), (int)(W_WIDTH - 160), 0.0f, 160, 90, 0, 0, (int)(W_WIDTH * 0.2f), (int)(W_HEIGHT * 0.2f), 128);
         break;
     case GAME_PAUSE:
         break;
@@ -77,8 +70,6 @@ void MainGame::LoadAllResources()
 
 void MainGame::LoadImageResources()
 {
-    g_pImgManager->AddImage("enemy", "images/enemy-sprites-sheet.bmp", 192, 128);
-    g_pImgManager->AddImage("tile", "images/tile-sprites-sheet.bmp", 256, 96);
 }
 
 void MainGame::LoadSoundResources()
