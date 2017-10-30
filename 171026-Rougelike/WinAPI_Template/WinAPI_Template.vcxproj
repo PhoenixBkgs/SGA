@@ -191,6 +191,7 @@
     <ClInclude Include="TileObject.h" />
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="Trap.h" />
+    <ClInclude Include="Vehicle.h" />
     <ClInclude Include="WinAPITemplate.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +238,7 @@
     <ClCompile Include="TileObject.cpp" />
     <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="Trap.cpp" />
+    <ClCompile Include="Vehicle.cpp" />
     <ClCompile Include="WinAPITemplate.cpp" />
   </ItemGroup>
   <ItemGroup>

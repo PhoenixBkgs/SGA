@@ -16,8 +16,11 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
+    m_dPos.x = m_startPos.x + m_destPos.x;
+    m_dPos.y = m_startPos.y + m_destPos.y;
+
     //  COLLISION BOTTOM
-    m_dSpeed.y = 2.0f;
+    m_startPos.y += m_dSpeed.y;
     if (g_pPixelManager->CheckPixel(m_destDC->GetMemDC()
         , (int)m_dPos.x, (int)m_dPos.y + (int)(m_nSize.h * 0.5f) + (int)(m_dSpeed.y)) == false)
     {
@@ -29,6 +32,7 @@ void Enemy::Update()
             , (int)(m_dPos.y + m_nSize.h * 0.6f)))
         {
             m_dSpeed.x = ENEMY_MOVE_SPEED;
+            //m_startPos.x += ENEMY_MOVE_SPEED;
             SetFrameY(1);
         }
         else if (g_pPixelManager->CheckPixel(m_destDC->GetMemDC()
@@ -36,6 +40,7 @@ void Enemy::Update()
             , (int)(m_dPos.y + m_nSize.h * 0.6f)))
         {
             m_dSpeed.x = -ENEMY_MOVE_SPEED;
+            //m_startPos.x += -ENEMY_MOVE_SPEED;
             SetFrameY(0);
         }
 
@@ -45,6 +50,7 @@ void Enemy::Update()
             , (int)(m_dPos.y)) == false)
         {
             m_dSpeed.x = ENEMY_MOVE_SPEED;
+            //m_startPos.x += ENEMY_MOVE_SPEED;
             SetFrameY(1);
         }
         else if (g_pPixelManager->CheckPixel(m_destDC->GetMemDC()
@@ -52,10 +58,16 @@ void Enemy::Update()
             , (int)(m_dPos.y)) == false)
         {
             m_dSpeed.x = -ENEMY_MOVE_SPEED;
+            //m_startPos.x += -ENEMY_MOVE_SPEED;
             SetFrameY(0);
         }
     }
+    else
+    {
+        m_dSpeed.y = 2.0f;
+    }
 
+    m_startPos.x += m_dSpeed.x;
 
     g_pTimerManager->AddSimpleTimer(m_szTagName);
     if (g_pTimerManager->TickSimpleTimer(m_szTagName) > 5)

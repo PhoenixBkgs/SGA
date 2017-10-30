@@ -3,6 +3,7 @@
 #include "SpritesObject.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Vehicle.h"
 #include "MapObject.h"
 
 class GameScene : public SceneObject
@@ -15,6 +16,7 @@ private:
     UnitSize            m_nMapSize;
     Player*             m_pPlayer;
     vector<Enemy>       m_vecEnemy;
+    vector<Vehicle>     m_vecVehicle;
 
 public:
     GameScene(E_GAME_STATE* State);

@@ -63,6 +63,8 @@ void GameScene::Update()
 
 	m_pPlayer->SetStartPos(m_gameMap.GetBodyPos());
 	m_pPlayer->Update();
+    m_pPlayer->SetBodySpeed({ 0.0f, 0.0f });
+
     for (auto iter = m_vecEnemy.begin(); iter != m_vecEnemy.end(); iter++)
     {
         RECT rt;
@@ -78,10 +80,24 @@ void GameScene::Update()
             }
         }
 
-        iter->SumBodySpeedX(m_gameMap.GetBodySpeedX());
+        iter->SetDestPos(m_gameMap.GetBodyPos());
         iter->Update();
     }
-    m_pPlayer->SetBodySpeed({ 0.0f, 0.0f });
+
+    for (auto iter = m_vecVehicle.begin(); iter != m_vecVehicle.end(); iter++)
+    {
+        RECT rt;
+        if (IntersectRect(&rt, &m_pPlayer->GetHBoxRect(), &iter->GetHBoxRect()))
+        {
+            if (m_pPlayer->GetBodyPos().y < iter->GetBodyPos().y)
+            {
+                m_pPlayer->SumBodySpeedX(iter->GetBodySpeedX());
+            }
+        }
+        
+        iter->SetDestPos(m_gameMap.GetBodyPos());
+        iter->Update();
+    }
 
     for (auto iter = m_vecEnemy.begin(); iter != m_vecEnemy.end();)
     {
@@ -114,6 +130,11 @@ void GameScene::Render()
 	m_gameMap.Render();
 	m_pPlayer->Render();
     for (auto iter = m_vecEnemy.begin(); iter != m_vecEnemy.end(); iter++)
+    {
+        iter->Render();
+    }
+
+    for (auto iter = m_vecVehicle.begin(); iter != m_vecVehicle.end(); iter++)
     {
         iter->Render();
     }
@@ -161,11 +182,21 @@ void GameScene::Setup()
     genEnemy.SetTagName("1");
     genEnemy.SetMapPos(m_gameMap.GetMapPosRef());
     genEnemy.SetBodyImg(g_pImgManager->FindImage("enemy"));
-    genEnemy.SetBodyPos({ 375.0f, 450.0f });
+    genEnemy.SetBodyPos({ 375.0f, 750.0f });
     genEnemy.SetBodySize({ 75, 75 });
-    genEnemy.SetStartPos({ 375.0f, 450.0f });
+    genEnemy.SetStartPos({ 375.0f, 650.0f });
     genEnemy.SetupForSprites(6, 6);
     m_vecEnemy.push_back(genEnemy);
+
+    Vehicle genVehicle;
+    genVehicle.SetTagName("vehicle");
+    genVehicle.Setup();
+    genVehicle.SetStartPos({ 3550.0f, 450.0f });
+    genVehicle.SetBodySize({ 300, 250 });
+    genVehicle.SetHBoxMargin({ 0, -15, 0, 0 });
+    genVehicle.SetBodyImg(g_pImgManager->FindImage("tile"));
+    genVehicle.SetupForSprites(1, 1);
+    m_vecVehicle.push_back(genVehicle);
 }
 
 void GameScene::LoadImageResources()
@@ -173,6 +204,7 @@ void GameScene::LoadImageResources()
     g_pImgManager->AddImage("player", "images/sprites-player.bmp", 160, 80);  //  32 x 32px
     g_pImgManager->AddImage("background", "images/bg.bmp", 3000, 900);
     g_pImgManager->AddImage("enemy", "images/enemy-sprites-sheet.bmp", 192, 192);
+    g_pImgManager->AddImage("tile", "images/tile.bmp", 32, 32);
 }
 
 void GameScene::DeleteScene()
