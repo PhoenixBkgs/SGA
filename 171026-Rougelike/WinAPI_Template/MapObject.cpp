@@ -53,7 +53,8 @@ void MapObject::Render()
                                             , 128);
 
     //  worldmap
-    RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
+    RECT rt = { 0, 0, m_pWorldmap->GetWidth(), m_pWorldmap->GetHeight() };
     FillRect(m_pMapbuffer->GetMemDC(), &rt, m_brush);
     m_pWorldmap->Render(m_pMapbuffer->GetMemDC(), m_dPos.x, m_dPos.y);
+    //m_pWorldmap->Render(m_pMapbuffer->GetMemDC(), 0, 0);
 }

@@ -4,7 +4,6 @@
 
 Enemy::Enemy()
 {
-    g_pTimerManager->AddSimpleTimer("enemy");
     g_pTimerManager->AddOnOffTimer("roaming", { 0.0f, 0.0f }, 0.01f, 2.0f);
     m_dSpeed.x = -ENEMY_MOVE_SPEED;
     m_destDC = g_pImgManager->FindImage("map-buffer");
@@ -17,12 +16,6 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
-    m_startPos.x += m_dSpeed.x;
-    m_startPos.y += m_dSpeed.y;
-
-    m_dPos.x = m_startPos.x + m_dMapPos->x;
-    m_dPos.y = m_startPos.y + m_dMapPos->y;
-    
     //  COLLISION BOTTOM
     m_dSpeed.y = 2.0f;
     if (g_pPixelManager->CheckPixel(m_destDC->GetMemDC()
@@ -63,22 +56,13 @@ void Enemy::Update()
         }
     }
 
-    if (g_pTimerManager->TickSimpleTimer("enemy") > 5)
+
+    g_pTimerManager->AddSimpleTimer(m_szTagName);
+    if (g_pTimerManager->TickSimpleTimer(m_szTagName) > 5)
     {
-        g_pTimerManager->ResetSimpleTimer("enemy");
+        g_pTimerManager->ResetSimpleTimer(m_szTagName);
         NextFrameX();
     }
-
-    /*
-    if (g_pTimerManager->TickOnOffTimer("roaming"))
-    {
-        m_dSpeed.x = -ENEMY_MOVE_SPEED;
-    }
-    else
-    {
-        m_dSpeed.x = ENEMY_MOVE_SPEED;
-    }
-    */
 
     SpritesObject::Update();
 }
@@ -92,11 +76,10 @@ void Enemy::Render()
             m_imgBody->SpritesRender(m_destDC->GetMemDC(), m_rtBody, m_currFrameX, m_currFrameY, m_dAlpha);
         }
     }
+
     GameObject::Render();
 
     char infoMsg[128];
-    sprintf_s(infoMsg, "%.0f, %.0f", GetBodyPos().x, GetBodyPos().y);
+    sprintf_s(infoMsg, "%.0f, %.0f, %.0f", GetBodyPos().x, GetBodyPos().y, m_dMapPos->x);
     TextOut(g_hDC, GetBodyPos().x, GetBodyPos().y, infoMsg, (int)strlen(infoMsg));
-    sprintf_s(infoMsg, "%.0f, %.0f", m_dSpeed.x, m_dSpeed.y);
-    TextOut(g_hDC, GetBodyPos().x, GetBodyPos().y + 20, infoMsg, (int)strlen(infoMsg));
 }
