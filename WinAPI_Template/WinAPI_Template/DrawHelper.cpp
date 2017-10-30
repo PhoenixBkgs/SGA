@@ -87,6 +87,7 @@ void DrawHelper::DrawTextBox(HDC hdc, RECT TxtBox, string TextString)
     }
     DrawText(g_hDC, TextString.data(), -1, &TxtBox, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     DeleteObject(SelectObject(g_hDC, hTmp));
+    SetBkMode(g_hDC, BKMODE_LAST);
 }
 
 UnitSize DrawHelper::GetSizeFromRect(RECT Rect)

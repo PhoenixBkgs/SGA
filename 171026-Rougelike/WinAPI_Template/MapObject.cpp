@@ -56,9 +56,4 @@ void MapObject::Render()
     RECT rt = { 0, 0, W_WIDTH, W_HEIGHT };
     FillRect(m_pMapbuffer->GetMemDC(), &rt, m_brush);
     m_pWorldmap->Render(m_pMapbuffer->GetMemDC(), m_dPos.x, m_dPos.y);
-#ifdef _DEBUG
-	char infoMsg[128];
-	sprintf_s(infoMsg, "posx : %f / posy : %f", m_dPos.x, m_dPos.y);
-	TextOut(g_hDC, 750, 450, infoMsg, (int)strlen(infoMsg));
-#endif // _DEBUG
 }

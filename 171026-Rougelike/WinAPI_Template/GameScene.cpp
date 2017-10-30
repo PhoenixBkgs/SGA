@@ -87,9 +87,8 @@ void GameScene::Update()
             m_pPlayer->SetBodySpeedY(0.0f);
         }
     }
-    */
-    /*
-    m_pEnemy->SetStartPos(m_gameMap.GetBodyPos());
+
+    m_pEnemy->SetDestPos(m_gameMap.GetBodyPos());
     m_pEnemy->Update();
     */
     for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end();)
@@ -118,9 +117,11 @@ void GameScene::Render()
 
     for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end(); iter++)
     {
+#ifdef _DEBUG
         char infoMsg[128];
         sprintf_s(infoMsg, "%.0f, %.0f", iter->GetBodyPos().x, iter->GetBodyPos().y);
         TextOut(g_hDC, iter->GetBodyPos().x, iter->GetBodyPos().y, infoMsg, (int)strlen(infoMsg));
+#endif // _DEBUG
         iter->Render();
     }
 
@@ -151,7 +152,7 @@ void GameScene::Setup()
     m_pEnemy = new Enemy;
     m_pEnemy->SetBodyImg(g_pImgManager->FindImage("enemy"));
     m_pEnemy->SetBodySize({ 75, 75 });
-    m_pEnemy->SetBodyPos({ 675.0f, 450.0f });
+    m_pEnemy->SetStartPos({ 675.0f, 450.0f });
     m_pEnemy->SetupForSprites(6, 6);
     */
 }

@@ -32,7 +32,6 @@ void GameObject::Setup()
     m_dAlpha = 255.0f;
     m_dAngle = 0.0f;
     m_isLockInWnd = false;
-    m_rtLockArea = { 0, 0, W_WIDTH, W_HEIGHT };
 
     SetHBox();
 

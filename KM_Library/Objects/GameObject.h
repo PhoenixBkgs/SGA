@@ -30,7 +30,7 @@ protected:
 //--------------------------------------------------------------------------
 //      SNAP SHOT
     UnitPos         m_startPos;
-    UnitPos         m_trvlPos;
+    UnitPos         m_viaPos;
     UnitPos         m_destPos;
     double          m_dT;
 //--------------------------------------------------------------------------
@@ -70,18 +70,20 @@ public:
     string      GetTagName()    { return m_szTagName; }
     //  Body
     RECT            GetBodyRect()   { return m_rtBody; }
-    UnitPos         GetPos()        { return m_dPos; }
-    UnitPos*        GetPosRef()     { return &m_dPos; }
-    UnitSize        GetSize()       { return m_nSize; }
-    UnitSpeed       GetSpeed()      { return m_dSpeed; }
+    UnitPos         GetBodyPos()        { return m_dPos; }
+    UnitPos*        GetBodyPosRef()     { return &m_dPos; }
+    UnitSize        GetBodySize()       { return m_nSize; }
+    UnitSpeed       GetBodySpeed()      { return m_dSpeed; }
     ImageObject*    GetBodyImg()   { return m_imgBody; }
+    double          GetBodySpeedX() { return m_dSpeed.x; }
+    double          GetBodySpeedY() { return m_dSpeed.y; }
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
     //  Snap shot
     UnitPos     GetStartPos()   { return m_startPos; }
     UnitPos     GetDestPos()    { return m_destPos; }
-    UnitPos     GetTrvlPos()    { return m_trvlPos;}
+    UnitPos     GetTrvlPos()    { return m_viaPos;}
     //  Probe
     UnitPos     GetHBoxBotProbe();
     UnitPos     GetHBoxTopProbe();
@@ -106,6 +108,11 @@ public:
     void SetBodySize(UnitSize Size)     { m_nSize = Size; }
     void SetBodySpeed(UnitSpeed Speed)  { m_dSpeed = Speed; }
     void SetBodyPos(UnitPos Pos)        { m_dPos = Pos; }
+    void SetBodySpeedX(double SpeedX) { m_dSpeed.x = SpeedX; }
+    void SetBodySpeedY(double SpeedY) { m_dSpeed.y = SpeedY; }
+    void SumBodySpeed(UnitSpeed Speed) { m_dSpeed.x += Speed.x; m_dSpeed.y += Speed.y; }
+    void SumBodySpeedX(double SpeedX) { m_dSpeed.x += SpeedX; }
+    void SumBodySpeedY(double SpeedY) { m_dSpeed.y += SpeedY; }
     //  Body image
     void SetBodyImg(ImageObject* Image) { m_imgBody = Image; }
     void SetBodyImgAuto();
@@ -113,6 +120,10 @@ public:
     //  HitBox
     void SetHBoxMargin(RectMargin HBoxMargin) { m_nMarginHBox = HBoxMargin; }
     void SetHBox();
+	//	Snap shot
+	void SetStartPos(UnitPos Pos) { m_startPos = Pos; }
+	void SetViaPos(UnitPos Pos) { m_viaPos = Pos; }
+	void SetDestPos(UnitPos Pos) { m_destPos = Pos; }
     //  Lock area
     void SetLockArea(RECT Area) { m_rtLockArea = Area; }
     void LockInWnd()    { m_isLockInWnd = true; }
@@ -125,7 +136,7 @@ public:
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
     void SetAlive()     { m_isAlive = true; }
-    void SetDead()      { m_isAlive = false; }
+    void SetDead()      { if (!m_isImmortal) m_isAlive = false; }
     void SetLife(int Life) { m_nLife = Life; }
     void SumLife(int Deal) { m_nLife += Deal; }
 

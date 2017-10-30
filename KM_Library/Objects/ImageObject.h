@@ -72,6 +72,7 @@ public:
 //  TransparentBlt
 #pragma region TRANSPARENT_RENDER
     void TransRender(HDC hdc);
+	void TransRender(HDC hdc, RECT DrawBox, double Alpha);
 #pragma endregion
 
 //  AlphaBlend
@@ -82,6 +83,7 @@ public:
 //  Sprites
 #pragma region SPRITES_RENDER
     void SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha);
+    void SpritesRender(HDC hdc, int DestX, int DestY, int DestW, int DestH, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Alpha);
     void SpritesRender(HDC hdc, UnitPos RightEndPos, UnitSize EachSize, int Number, double Alpha);
     void SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, UnitSize SrcSize, int FrameX, int FrameY, double Alpha);
@@ -102,6 +104,5 @@ public:
     void Render(HDC hdc, int destX, int destY, int destW, int destH, int srcX, int srcY, int srcW, int srcH, int alpha);
     void AlphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 
-
+    void TileRender(HDC hdc, int destX, int destY, int destW, int destH, int FrameX, int FrameY, BYTE alpha);
 };
-

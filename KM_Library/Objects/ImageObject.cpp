@@ -124,6 +124,33 @@ void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY
         , m_stBlendFunc);
 }
 
+void ImageObject::SpritesRender(HDC hdc, int DestX, int DestY, int DestW, int DestH, int FrameX, int FrameY, double Alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+    BitBlt(m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , hdc
+        , DestX, DestY
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , m_pImageInfo->hMemDC
+        , m_spritesWidth * FrameX, m_spritesHeight * FrameY
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , DestX, DestY
+        , DestW, DestH
+        , m_pBlendImage->hMemDC
+        , DestX, DestY
+        , DestW, DestH
+        , m_stBlendFunc);
+}
+
 void ImageObject::SpritesRender(HDC hdc, UnitPos DestPos, UnitSize DestSize, int FrameX, int FrameY, double Alpha)
 {
     RECT DestRt = g_pDrawHelper->MakeRect(DestPos, DestSize);
@@ -357,6 +384,34 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
 }
 
+void ImageObject::TileRender(HDC hdc, int destX, int destY, int destW, int destH, int FrameX, int FrameY, BYTE alpha)
+{
+    m_stBlendFunc.SourceConstantAlpha = alpha;
+
+    BitBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , W_WIDTH, W_HEIGHT
+        , hdc
+        , destX, destY
+        , SRCCOPY);
+
+    GdiTransparentBlt(m_pBlendImage->hMemDC
+        , 0, 0
+        , destW, destH
+        , m_pImageInfo->hMemDC
+        , FrameX * m_spritesWidth, FrameY * m_spritesHeight
+        , m_spritesWidth, m_spritesHeight
+        , m_transColor);
+
+    GdiAlphaBlend(hdc
+        , destX, destY
+        , destW, destH
+        , m_pBlendImage->hMemDC
+        , 0, 0
+        , destW, destH
+        , m_stBlendFunc);
+}
+
 void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int srcW, int srcH, int alpha)
 {
     Render(hdc
@@ -393,5 +448,16 @@ void ImageObject::TransRender(HDC hdc)
         , m_transColor);
 }
 
-
+void ImageObject::TransRender(HDC hdc, RECT DrawBox, double Alpha)
+{
+	m_stBlendFunc.SourceConstantAlpha = (BYTE)Alpha;
+	POINT boxSize = { DrawBox.right - DrawBox.left, DrawBox.bottom - DrawBox.top };
+	GdiTransparentBlt(hdc
+		, DrawBox.left, DrawBox.top
+		, boxSize.x, boxSize.y
+		, m_pImageInfo->hMemDC
+		, 0, 0
+		, m_pImageInfo->nWidth, m_pImageInfo->nHeight
+		, m_transColor);
+}
 #pragma endregion

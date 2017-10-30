@@ -72,7 +72,6 @@ void SpritesObject::Update()
 
 void SpritesObject::Render()
 {
-    GameObject::Render();
     if (m_isVisible == true)
     {
         if (m_imgBody != NULL)
@@ -80,4 +79,5 @@ void SpritesObject::Render()
             m_imgBody->SpritesRender(g_hDC, m_rtBody, m_currFrameX, m_currFrameY, m_dAlpha);
         }
     }
+    GameObject::Render();
 }

@@ -30,7 +30,7 @@ protected:
 //--------------------------------------------------------------------------
 //      SNAP SHOT
     UnitPos         m_startPos;
-    UnitPos         m_trvlPos;
+    UnitPos         m_viaPos;
     UnitPos         m_destPos;
     double          m_dT;
 //--------------------------------------------------------------------------
@@ -75,13 +75,15 @@ public:
     UnitSize        GetBodySize()       { return m_nSize; }
     UnitSpeed       GetBodySpeed()      { return m_dSpeed; }
     ImageObject*    GetBodyImg()   { return m_imgBody; }
+    double          GetBodySpeedX() { return m_dSpeed.x; }
+    double          GetBodySpeedY() { return m_dSpeed.y; }
     //  HitBox
     RECT        GetHBoxRect()   { return m_rtHitBox; }
     UnitSize    GetHBoxSize()   { return m_nSizeHBox; }
     //  Snap shot
     UnitPos     GetStartPos()   { return m_startPos; }
     UnitPos     GetDestPos()    { return m_destPos; }
-    UnitPos     GetTrvlPos()    { return m_trvlPos;}
+    UnitPos     GetTrvlPos()    { return m_viaPos;}
     //  Probe
     UnitPos     GetHBoxBotProbe();
     UnitPos     GetHBoxTopProbe();
@@ -118,6 +120,10 @@ public:
     //  HitBox
     void SetHBoxMargin(RectMargin HBoxMargin) { m_nMarginHBox = HBoxMargin; }
     void SetHBox();
+	//	Snap shot
+	void SetStartPos(UnitPos Pos) { m_startPos = Pos; }
+	void SetViaPos(UnitPos Pos) { m_viaPos = Pos; }
+	void SetDestPos(UnitPos Pos) { m_destPos = Pos; }
     //  Lock area
     void SetLockArea(RECT Area) { m_rtLockArea = Area; }
     void LockInWnd()    { m_isLockInWnd = true; }
@@ -130,7 +136,7 @@ public:
     void SetVisible()   { m_isVisible = true; }
     void SetInvisible() { m_isVisible = false; }
     void SetAlive()     { m_isAlive = true; }
-    void SetDead()      { m_isAlive = false; }
+    void SetDead()      { if (!m_isImmortal) m_isAlive = false; }
     void SetLife(int Life) { m_nLife = Life; }
     void SumLife(int Deal) { m_nLife += Deal; }
 

@@ -244,7 +244,7 @@ void Player::PlayerController()
     }
     else
     {
-        m_dBoosterGauge += 0.1f;
+        m_dBoosterGauge += 0.4f;
         if (m_dBoosterGauge > 50.0f)
         {
             m_isBoosterOn = true;

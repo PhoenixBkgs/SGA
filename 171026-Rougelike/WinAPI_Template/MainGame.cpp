@@ -86,6 +86,7 @@ void MainGame::Render()
         break;
 	}
     case GAME_PAUSE:
+        g_pScnManager->Render("game");
         break;
     case GAME_CLEAR:
         g_pScnManager->Render("clear");
@@ -119,6 +120,18 @@ void MainGame::SystemController()
     if (g_pKeyManager->isOnceKeyDown(VK_ESCAPE))
     {
         PostQuitMessage(0);
+    }
+    
+    if (g_pKeyManager->isOnceKeyDown(VK_RETURN))
+    {
+        if (m_gameState == GAME_PLAYING)
+        {
+            m_gameState = GAME_PAUSE;
+        }
+        else
+        {
+            m_gameState = GAME_PLAYING;
+        }
     }
 
     if (g_pKeyManager->isStayKeyDown(VK_CONTROL))

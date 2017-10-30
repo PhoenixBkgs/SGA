@@ -136,7 +136,7 @@ void MapGenerator::Setup(string MapFilename)
                     gameObjSpike.SetBodyPos({ posX, posY });
                     gameObjSpike.SetBodySize({ m_nTileSize, m_nTileSize });
                     gameObjSpike.SetBodyRect(g_pDrawHelper->MakeRect(gameObjSpike.GetBodyPos(), gameObjSpike.GetBodySize()));
-                    gameObjSpike.SetHBoxMargin({ 0, 0, 0, 80 });
+                    gameObjSpike.SetHBoxMargin({ 0, 0, 0, 130 });
                     gameObjSpike.SetHBox();
                     gameObjSpike.SetBodyImg(m_sprObstacle->GetBodyImg());
                     gameObjSpike.SetFrameX(1);
@@ -155,7 +155,7 @@ void MapGenerator::Setup(string MapFilename)
                     gameObjSpike.SetBodyPos({ posX, posY });
                     gameObjSpike.SetBodySize({ m_nTileSize, m_nTileSize });
                     gameObjSpike.SetBodyRect(g_pDrawHelper->MakeRect(gameObjSpike.GetBodyPos(), gameObjSpike.GetBodySize()));
-                    gameObjSpike.SetHBoxMargin({ 0, 80, 0, 0 });
+                    gameObjSpike.SetHBoxMargin({ 0, 130, 0, 0 });
                     gameObjSpike.SetHBox();
                     gameObjSpike.SetBodyImg(m_sprObstacle->GetBodyImg());
                     gameObjSpike.SetFrameX(3);
