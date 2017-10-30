@@ -1,7 +1,5 @@
 #pragma once
-#include "GameObject.h"
-
-class ProgressBarObject : public GameObject
+class ProgressBarObject
 {
 public:
     ProgressBarObject();
