@@ -15,7 +15,7 @@ void ProjectileObject::Update()
 {
 }
 
-void ProjectileObject::Render()
+void ProjectileObject::Render(HDC hdc)
 {
 }
 

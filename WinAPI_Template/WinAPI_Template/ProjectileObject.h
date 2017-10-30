@@ -14,7 +14,7 @@ public:
     ~ProjectileObject();
 
     virtual void Update() override;
-    virtual void Render() override;
+    virtual void Render(HDC hdc) override;
 
 #pragma region GET
 

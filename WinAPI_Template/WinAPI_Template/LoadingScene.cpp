@@ -18,7 +18,7 @@ void LoadingScene::Update()
 {
 }
 
-void LoadingScene::Render()
+void LoadingScene::Render(HDC hdc)
 {
 }
 

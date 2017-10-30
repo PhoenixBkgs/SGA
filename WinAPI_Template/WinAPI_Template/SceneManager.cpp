@@ -48,7 +48,7 @@ void SceneManager::DeleteAllScene()
     }
 }
 
-void SceneManager::Update(string Key)
+void SceneManager::Update(string Key, HDC hdc)
 {
     if (m_mapScene.find(Key) == m_mapScene.end())
     {
@@ -62,7 +62,7 @@ void SceneManager::Update(string Key)
     }
 }
 
-void SceneManager::Render(string Key)
+void SceneManager::Render(string Key, HDC hdc)
 {
     if (m_mapScene.find(Key) == m_mapScene.end())
     {
@@ -72,6 +72,6 @@ void SceneManager::Render(string Key)
     int size = (int)vecGameObj.size();
     for (int i = 0; i < size; i++)
     {
-        vecGameObj[i]->Render();
+        vecGameObj[i]->Render(hdc);
     }
 }

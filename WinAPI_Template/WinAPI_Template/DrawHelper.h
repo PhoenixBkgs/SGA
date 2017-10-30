@@ -30,8 +30,8 @@ public:
     void    SetBoxInvisible() { m_textBoxInfo.IsVisibleBox = false; }
 #pragma endregion
 
-    bool DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode);
-    void DrawBoxLine2D(RECT rt, int LineWidth, int ColorCode);
+    bool DrawLine2D(HDC hdc, UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode);
+    void DrawBoxLine2D(HDC hdc, RECT rt, int LineWidth, int ColorCode);
     RECT MakeRect(UnitPos Pos, UnitSize Size);
 
     void DrawTextBox(HDC hdc, RECT TxtBox, string TextString);

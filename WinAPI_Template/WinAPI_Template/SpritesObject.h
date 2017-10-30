@@ -46,7 +46,7 @@ public:
 
 #pragma region OVERRIDE
     virtual void Update() override;
-    virtual void Render() override;
+    virtual void Render(HDC hdc) override;
 #pragma endregion
 };
 

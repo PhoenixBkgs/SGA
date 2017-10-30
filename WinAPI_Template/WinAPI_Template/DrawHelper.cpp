@@ -19,7 +19,7 @@ DrawHelper::~DrawHelper()
     SAFE_DELETE(m_pBrushBlue);
 }
 
-bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode)
+bool DrawHelper::DrawLine2D(HDC hdc, UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorCode)
 {
     HPEN* hPen = new HPEN; 
     switch (ColorCode)
@@ -37,24 +37,24 @@ bool DrawHelper::DrawLine2D(UnitPos Pos1, UnitPos Pos2, int PenWidth, int ColorC
         *hPen = CreatePen(PS_SOLID, PenWidth, RGB(0, 0, 0));
         break;
     }
-    SelectObject(g_hDC, *hPen);
-    MoveToEx(g_hDC, (int)Pos1.x, (int)Pos1.y, NULL);
-    LineTo(g_hDC, (int)Pos2.x, (int)Pos2.y);
+    SelectObject(hdc, *hPen);
+    MoveToEx(hdc, (int)Pos1.x, (int)Pos1.y, NULL);
+    LineTo(hdc, (int)Pos2.x, (int)Pos2.y);
     DeleteObject(*hPen);
     SAFE_DELETE(hPen);
 
     return true;
 }
 
-void DrawHelper::DrawBoxLine2D(RECT rt, int LineWidth, int ColorCode)
+void DrawHelper::DrawBoxLine2D(HDC hdc, RECT rt, int LineWidth, int ColorCode)
 {
     UnitPos lt = { (double)rt.left, (double)rt.top };
     UnitPos rb = { (double)rt.right, (double)rt.bottom };
 
-    DrawLine2D(lt, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
-    DrawLine2D(lt, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
-    DrawLine2D(rb, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
-    DrawLine2D(rb, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
+    DrawLine2D(hdc, lt, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
+    DrawLine2D(hdc, lt, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
+    DrawLine2D(hdc, rb, UnitPos{ rb.x, lt.y }, LineWidth, ColorCode);
+    DrawLine2D(hdc, rb, UnitPos{ lt.x, rb.y }, LineWidth, ColorCode);
 }
 
 RECT DrawHelper::MakeRect(UnitPos Pos, UnitSize Size)

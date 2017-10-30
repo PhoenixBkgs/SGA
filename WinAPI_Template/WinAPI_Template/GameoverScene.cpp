@@ -17,7 +17,7 @@ void GameoverScene::Update()
 {
 }
 
-void GameoverScene::Render()
+void GameoverScene::Render(HDC hdc)
 {
 }
 

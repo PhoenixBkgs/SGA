@@ -18,7 +18,7 @@ void SplashScene::Update()
 {
 }
 
-void SplashScene::Render()
+void SplashScene::Render(HDC hdc)
 {
 }
 

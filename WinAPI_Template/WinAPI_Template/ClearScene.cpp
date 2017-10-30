@@ -17,7 +17,7 @@ void ClearScene::Update()
 {
 }
 
-void ClearScene::Render()
+void ClearScene::Render(HDC hdc)
 {
 }
 

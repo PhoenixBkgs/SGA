@@ -123,15 +123,15 @@ void GameObject::Update()
     }
 }
 
-void GameObject::Render()
+void GameObject::Render(HDC hdc)
 {
 #ifdef _DEBUG
     if (m_bIsSetup)
     {
         if (m_isVisible == true)
         {
-            g_pDrawHelper->DrawBoxLine2D(m_rtBody, 5, 0);         //  Draw body rect
-            g_pDrawHelper->DrawBoxLine2D(m_rtHitBox, 3, 2);     //  Draw hit box rect
+            g_pDrawHelper->DrawBoxLine2D(hdc, m_rtBody, 5, 0);         //  Draw body rect
+            g_pDrawHelper->DrawBoxLine2D(hdc, m_rtHitBox, 3, 2);     //  Draw hit box rect
         }
     }
 #endif // _DEBUG

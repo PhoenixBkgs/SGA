@@ -11,7 +11,7 @@ public:
     ~MenuScene();
 
     virtual void Update() override;
-    virtual void Render() override;
+    virtual void Render(HDC hdc) override;
 
     virtual void LoadImageResources() override;
     virtual void Setup() override;

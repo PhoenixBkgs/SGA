@@ -17,12 +17,12 @@ void GameScene::Update()
 {
 }
 
-void GameScene::Render()
+void GameScene::Render(HDC hdc)
 {
 #ifdef _DEBUG
     char infoMsg[128];
     sprintf_s(infoMsg, "");
-    TextOut(g_hDC, 0, 30, infoMsg, (int)strlen(infoMsg));
+    TextOut(hdc, 0, 30, infoMsg, (int)strlen(infoMsg));
 #endif // _DEBUG
 }
 

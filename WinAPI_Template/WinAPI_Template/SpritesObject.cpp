@@ -70,14 +70,14 @@ void SpritesObject::Update()
     GameObject::Update();
 }
 
-void SpritesObject::Render()
+void SpritesObject::Render(HDC hdc)
 {
     if (m_isVisible == true)
     {
         if (m_imgBody != NULL)
         {
-            m_imgBody->SpritesRender(g_hDC, m_rtBody, m_currFrameX, m_currFrameY, m_dAlpha);
+            m_imgBody->SpritesRender(hdc, m_rtBody, m_currFrameX, m_currFrameY, m_dAlpha);
         }
     }
-    GameObject::Render();
+    GameObject::Render(hdc);
 }

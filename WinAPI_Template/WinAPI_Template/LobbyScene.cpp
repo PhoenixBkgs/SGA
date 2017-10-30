@@ -17,7 +17,7 @@ void LobbyScene::Update()
 {
 }
 
-void LobbyScene::Render()
+void LobbyScene::Render(HDC hdc)
 {
 }
 

@@ -144,7 +144,7 @@ public:
 
     //  Update / Render
     virtual void Update();
-    virtual void Render();
+    virtual void Render(HDC hdc);
 
     //  Object move
     virtual void Move();

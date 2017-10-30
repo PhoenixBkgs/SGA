@@ -18,8 +18,8 @@ public:
     //  READ
     vector<GameObject*>* FindSceneByKey(string Key);
     //  UPDATE
-    void Update(string Key);
-    void Render(string Key);
+    void Update(string Key, HDC hdc);
+    void Render(string Key, HDC hdc);
     //  DELETE
     void DeleteSceneByKey(string Key);
     void DeleteAllScene();
