@@ -24,7 +24,7 @@ private:
 
 	SpritesObject*	m_sprTile;			//	20 x 20px _ 5 x 1
     SpritesObject*	m_sprObstacle;		//	20 x 20px _ 4 x 1
-    SpritesObject*	m_sprGem;			//	5 x 9px _ 5 x 1
+    SpritesObject*	m_sprGem;			//	20 x 20px _ 5 x 1
 
 public:
 	MapGenerator();

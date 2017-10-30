@@ -87,10 +87,11 @@ void GameScene::Update()
             m_pPlayer->SetBodySpeedY(0.0f);
         }
     }
-
-    m_pEnemy->SetDestPos(m_gameMap.GetBodyPos());
-    m_pEnemy->Update();
     */
+    for (auto iter = m_vecEnemy.begin(); iter != m_vecEnemy.end(); iter++)
+    {
+        iter->Update();
+    }
     for (auto iter = m_vecGameObjs.begin(); iter != m_vecGameObjs.end();)
     {
         if (iter->IsAlive() == false)
@@ -109,7 +110,10 @@ void GameScene::Render()
     g_pImgManager->Render("background", g_hDC, { m_gameMap.GetBodyPos().x, 0.0f });
 	m_gameMap.Render();
 	m_pPlayer->Render();
-    //m_pEnemy->Render();
+    for (auto iter = m_vecEnemy.begin(); iter != m_vecEnemy.end(); iter++)
+    {
+        iter->Render();
+    }
 	g_pImgManager->Render("map-buffer", g_hDC);
 	int left = (int)(m_pPlayer->GetBodyPos().x - m_gameMap.GetBodyPos().x);
 	int top = (int)m_pPlayer->GetBodyPos().y;
@@ -148,13 +152,16 @@ void GameScene::Setup()
     m_pPlayer->SetupForSprites(10, 5);
 	m_pPlayer->SetMapTiles(m_gameMap.GetMapTiles());
 
-    /*
-    m_pEnemy = new Enemy;
-    m_pEnemy->SetBodyImg(g_pImgManager->FindImage("enemy"));
-    m_pEnemy->SetBodySize({ 75, 75 });
-    m_pEnemy->SetStartPos({ 675.0f, 450.0f });
-    m_pEnemy->SetupForSprites(6, 6);
-    */
+    Enemy genEnemy;
+    genEnemy.SetMapPos(m_gameMap.GetMapPosRef());
+    genEnemy.SetBodyImg(g_pImgManager->FindImage("enemy"));
+    genEnemy.SetBodySize({ 75, 75 });
+    genEnemy.SetStartPos({ 375.0f, 450.0f });
+    genEnemy.SetupForSprites(6, 6);
+    m_vecEnemy.push_back(genEnemy);
+
+    genEnemy.SetStartPos({ 1375.0f, 250.0f });
+    m_vecEnemy.push_back(genEnemy);
 }
 
 void GameScene::LoadImageResources()

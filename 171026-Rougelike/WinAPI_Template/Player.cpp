@@ -126,7 +126,6 @@ void Player::Update()
         {
             m_dJumpPower = 10.0f;
         }
-        m_dPos.y -= 0.5f;
 		m_dSpeed.y = 0.0f;
 		m_gravity = 0.0f;
 	}

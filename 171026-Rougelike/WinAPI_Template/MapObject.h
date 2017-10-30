@@ -24,6 +24,7 @@ public:
 
 #pragma region GET
 	vector<TileObject>*		GetMapTiles() { return &m_vecTiles; }
+    UnitPos*    GetMapPosRef() { return &m_dPos; }
 #pragma endregion
 #pragma region SET
     void    SetMapSize(UnitSize MapSize) { m_nMapSize = MapSize; }

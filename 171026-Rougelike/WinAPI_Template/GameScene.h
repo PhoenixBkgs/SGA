@@ -14,7 +14,7 @@ private:
     MapObject           m_gameMap;
     UnitSize            m_nMapSize;
     Player*             m_pPlayer;
-    Enemy*              m_pEnemy;
+    vector<Enemy>       m_vecEnemy;
 
 public:
     GameScene(E_GAME_STATE* State);
