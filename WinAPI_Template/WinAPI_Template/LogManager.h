@@ -7,7 +7,7 @@
 
 enum LOG_LEVEL
 {
-    EL_DEBUG = 0, EL_INFO, EL_ALERT
+    EL_DEBUG = 0, EL_INFO, EL_WARNING, EL_ALERT
 };
 
 class LogManager : public SingletonBase<LogManager>

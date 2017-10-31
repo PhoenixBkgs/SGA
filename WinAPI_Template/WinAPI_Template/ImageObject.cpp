@@ -47,6 +47,7 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_pImageInfo->hMemDC = CreateCompatibleDC(hdc);
     if (FileName == NULL)
     {
+        g_pLogManager->WriteLog(EL_INFO, "Create blank image");
         m_pImageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, width, height);
     }
     else
@@ -55,6 +56,11 @@ void ImageObject::Setup(const char * FileName, int width, int height)
         int len = (int)strlen(FileName);
         m_szFileName = new char[len + 1];
         strcpy_s(m_szFileName, len + 1, FileName);
+        if (m_pImageInfo->hBit == NULL)
+        {
+            g_pLogManager->WriteLog(EL_WARNING, "No image");
+            g_pLogManager->WriteLog(EL_WARNING, FileName);
+        }
     }
     m_pImageInfo->hOldBit = (HBITMAP)SelectObject(m_pImageInfo->hMemDC, m_pImageInfo->hBit);
     m_pImageInfo->nWidth = width;
@@ -89,6 +95,17 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     ReleaseDC(g_hWnd, alphaHdc);
 }
 #pragma endregion
+
+void ImageObject::ViewportRender(HDC hdc, RECT ViewPort)
+{
+    GdiTransparentBlt(hdc
+        , 0, 0
+        , W_WIDTH, W_HEIGHT
+        , m_pImageInfo->hMemDC
+        , ViewPort.left, ViewPort.top
+        , ViewPort.right - ViewPort.left, ViewPort.bottom - ViewPort.top
+        , RGB(255, 0, 255));
+}
 
 #pragma region SPRITES
 void ImageObject::SpritesRender(HDC hdc, RECT SpritesBox, int FrameX, int FrameY, double Alpha)

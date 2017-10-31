@@ -62,6 +62,11 @@ public:
     void Setup(const char* FileName, int width, int height);
 #pragma endregion
 
+#pragma region VIEWPORT
+//  Viewport
+    void ViewportRender(HDC hdc, RECT ViewPort);
+#pragma endregion
+
 //  BitBlt
 #pragma region FAST_RENDER
     void FastRender(HDC hdc);

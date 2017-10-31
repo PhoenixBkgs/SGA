@@ -18,10 +18,16 @@ ImageObject * ImageManager::AddImage(string Key, const char * Filename, int Widt
     ImageObject* image = FindImage(Key);
     if (image == NULL)
     {
+        g_pLogManager->WriteLog(EL_INFO, "Add new image");
+        g_pLogManager->WriteLog(EL_INFO, Filename);
         image = new ImageObject;
         image->Setup(Filename, Width, Height);
         m_mapImage.insert(pair<string, ImageObject*>(Key, image));
         //m_mapImage.insert(make_pair(Key, image));     //  other way for insert
+    }
+    else
+    {
+        g_pLogManager->WriteLog(EL_DEBUG, "Return already exist image");
     }
 
     return image;
