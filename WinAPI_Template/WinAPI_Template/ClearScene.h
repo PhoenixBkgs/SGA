@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneObject.h"
 
 class SpritesObject;
@@ -13,7 +13,7 @@ public:
     virtual void Update() override;
     virtual void Render(HDC hdc) override;
 
-    // SceneObjectÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+    // SceneObjectì„(ë¥¼) í†µí•´ ìƒì†ë¨
     virtual void Setup() override;
     virtual void LoadImageResources() override;
     virtual void DeleteScene() override;

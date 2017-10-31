@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "SceneManager.h"
 
 void SceneManager::AddGameObjToScn(GameObject * GameObj)

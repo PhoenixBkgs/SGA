@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GeometryHelper.h"
 
 UnitPos GeometryHelper::GetCenterPointWindow()

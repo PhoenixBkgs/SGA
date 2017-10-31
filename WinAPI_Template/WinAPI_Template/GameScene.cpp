@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GameScene.h"
 
 GameScene::GameScene(E_GAME_STATE* State)

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "MainGame.h"
 
 MainGame::MainGame()
@@ -83,6 +83,7 @@ void MainGame::SystemController()
         PostQuitMessage(0);
     }
 
+    //  Ctrl + Alt 키 조합으로 마우스 가두기 해제
     if (g_pKeyManager->isStayKeyDown(VK_CONTROL))
     {
         if (g_pKeyManager->isOnceKeyDown(VK_MENU))
@@ -90,14 +91,10 @@ void MainGame::SystemController()
             MouseUnlock();
         }
     }
-    RECT Rt;
-    GetWindowRect(g_hWnd, &Rt);
-    if (PtInRect(&Rt, g_ptMouse))
+
+    if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
     {
-        if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
-        {
-            MouseLock();
-        }
+        MouseLock();    //  창 내부 클릭 시 마우스 가두기
     }
 }
 
@@ -105,7 +102,8 @@ void MainGame::MouseLock()
 {
     RECT Rt;
     GetWindowRect(g_hWnd, &Rt);
-    ClipCursor(&Rt);
+    if (PtInRect(&Rt, g_ptMouse))
+        ClipCursor(&Rt);
 }
 
 void MainGame::MouseUnlock()

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 //  Mutual Refernce
 class ImageObject;

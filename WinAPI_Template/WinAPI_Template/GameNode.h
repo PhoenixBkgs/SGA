@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ImageObject.h"
 
 class GameNode

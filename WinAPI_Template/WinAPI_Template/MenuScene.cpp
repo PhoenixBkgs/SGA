@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "MenuScene.h"
 
 MenuScene::MenuScene(E_GAME_STATE* State)

@@ -12,6 +12,7 @@ HINSTANCE	g_hInst;                                // 현재 인스턴스입니�
 HWND		g_hWnd;									// 윈도우 핸들
 POINT		g_ptMouse = { 0, 0 };					// 마우스 포지션
 HDC         g_hDC;
+RECT        g_rtViewPort = { 0, 0, W_WIDTH, W_HEIGHT };
 
 // 메인 게임 클래스
 MainGame	mg;

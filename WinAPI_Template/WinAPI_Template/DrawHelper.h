@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SingletonBase.h"
 
 #define g_pDrawHelper DrawHelper::GetInstance()

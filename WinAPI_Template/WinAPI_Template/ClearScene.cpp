@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ClearScene.h"
 
 ClearScene::ClearScene(E_GAME_STATE* State)

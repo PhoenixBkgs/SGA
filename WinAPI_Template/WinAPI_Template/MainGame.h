@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameNode.h"
 #include "json.hpp"
 

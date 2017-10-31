@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "LobbyScene.h"
 
 LobbyScene::LobbyScene(E_GAME_STATE* State)

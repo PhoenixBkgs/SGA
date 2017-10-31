@@ -1,49 +1,49 @@
-#pragma once
+ï»¿#pragma once
 
 /*
-½Ì±ÛÅæ ÆÐÅÏ : ´ÜÀÏ °´Ã¼ °ü¸® ¹æ¹ý
-ÀÎ½ºÅÏ½º¸¦ È£Ãâ ½Ã Ã³À½ È£Ãâ(ÀÎ½ºÅÏ½º°¡ »ý¼º µÇ±â Àü)ÀÌ µÇ¸é
-ÀÎ½ºÅÏ½º¸¦ »ý¼º ÇØ¼­ ¹ÝÈ¯ ÇÑ´Ù.
-ÀÎ½ºÅÏ½º°¡ »ý¼º µÈ ÀÌÈÄ È£Ãâ ÇÏ°Ô µÇ¸é ±âÁ¸¿¡ »ý¼º µÈ ÀÎ½ºÅÏ½º¸¦ ¹ÝÈ¯ÇÑ´Ù.
+ì‹±ê¸€í†¤ íŒ¨í„´ : ë‹¨ì¼ ê°ì²´ ê´€ë¦¬ ë°©ë²•
+ì¸ìŠ¤í„´ìŠ¤ë¥¼ í˜¸ì¶œ ì‹œ ì²˜ìŒ í˜¸ì¶œ(ì¸ìŠ¤í„´ìŠ¤ê°€ ìƒì„± ë˜ê¸° ì „)ì´ ë˜ë©´
+ì¸ìŠ¤í„´ìŠ¤ë¥¼ ìƒì„± í•´ì„œ ë°˜í™˜ í•œë‹¤.
+ì¸ìŠ¤í„´ìŠ¤ê°€ ìƒì„± ëœ ì´í›„ í˜¸ì¶œ í•˜ê²Œ ë˜ë©´ ê¸°ì¡´ì— ìƒì„± ëœ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë°˜í™˜í•œë‹¤.
 */
 
 template <class T> // template<typename T>
 class SingletonBase
 {
 protected:
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º ¼±¾ð
+    // ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ ì„ ì–¸
     static T* instance;
 
     SingletonBase() {};
     ~SingletonBase() {};
 
 public:
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º °¡Á®¿À±â
+    // ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ ê°€ì ¸ì˜¤ê¸°
     static T* GetInstance();
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º ÇØÁ¦ÇÏ±â
+    // ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ í•´ì œí•˜ê¸°
     void ReleaseInstance();
 };
 
-// ½Ì±ÛÅæ ÃÊ±âÈ­
+// ì‹±ê¸€í†¤ ì´ˆê¸°í™”
 template<typename T>
 T* SingletonBase<T>::instance = NULL;
 
-// ½Ì±ÛÅæ ÀÎ½ºÅÏ½º °¡Á®¿À±â
+// ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ ê°€ì ¸ì˜¤ê¸°
 template<typename T>
 T* SingletonBase<T>::GetInstance()
 {
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º°¡ »ý¼º µÇ¾î ÀÖÁö ¾Ê´Ù¸é »õ·Î »ý¼º
+    // ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ê°€ ìƒì„± ë˜ì–´ ìžˆì§€ ì•Šë‹¤ë©´ ìƒˆë¡œ ìƒì„±
     if (!instance)
         instance = new T;
 
     return instance;
 }
 
-// ½Ì±ÛÅæ ÀÎ½ºÅÏ½º ÇØÁ¦ÇÏ±â
+// ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ í•´ì œí•˜ê¸°
 template<typename T>
 void SingletonBase<T>::ReleaseInstance()
 {
-    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½º°¡ »ý¼ºµÇ¾î ÀÖ´Ù¸é ÇØÁ¦ ÇÑ´Ù.
+    // ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ê°€ ìƒì„±ë˜ì–´ ìžˆë‹¤ë©´ í•´ì œ í•œë‹¤.
     if (instance)
     {
         delete instance;

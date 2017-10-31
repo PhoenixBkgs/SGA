@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "FileDataManager.h"
 
 void FileDataManager::JsonSave(string Filename, string JsonString)
@@ -53,18 +53,18 @@ vector<string> FileDataManager::CharArraySeperation(char CharArray[])
 
 void FileDataManager::Tokenizer(const string & str, vector<string>& tokens, const string & token)
 {
-    // ¸Ç Ã¹ ±ÛÀÚ°¡ ±¸ºĞÀÚÀÎ °æ¿ì ¹«½Ã
+    // ë§¨ ì²« ê¸€ìê°€ êµ¬ë¶„ìì¸ ê²½ìš° ë¬´ì‹œ
     string::size_type lastPos = str.find_first_not_of(token, 0);
-    // ±¸ºĞÀÚ°¡ ¾Æ´Ñ Ã¹ ±ÛÀÚ¸¦ Ã£´Â´Ù
+    // êµ¬ë¶„ìê°€ ì•„ë‹Œ ì²« ê¸€ìë¥¼ ì°¾ëŠ”ë‹¤
     string::size_type pos = str.find_first_of(token, lastPos);
 
     while (string::npos != pos || string::npos != lastPos)
     {
-        // tokenÀ» Ã£¾ÒÀ¸´Ï vector¿¡ Ãß°¡ÇÑ´Ù
+        // tokenì„ ì°¾ì•˜ìœ¼ë‹ˆ vectorì— ì¶”ê°€í•œë‹¤
         tokens.push_back(str.substr(lastPos, pos - lastPos));
-        // ±¸ºĞÀÚ¸¦ ¶Ù¾î³Ñ´Â´Ù.  "not_of"¿¡ ÁÖÀÇÇÏ¶ó
+        // êµ¬ë¶„ìë¥¼ ë›°ì–´ë„˜ëŠ”ë‹¤.  "not_of"ì— ì£¼ì˜í•˜ë¼
         lastPos = str.find_first_not_of(token, pos);
-        // ´ÙÀ½ ±¸ºĞÀÚ°¡ ¾Æ´Ñ ±ÛÀÚ¸¦ Ã£´Â´Ù
+        // ë‹¤ìŒ êµ¬ë¶„ìê°€ ì•„ë‹Œ ê¸€ìë¥¼ ì°¾ëŠ”ë‹¤
         pos = str.find_first_of(token, lastPos);
     }
 }

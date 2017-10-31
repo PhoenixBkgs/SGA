@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SingletonBase.h"
 
 class RandomHelper : public SingletonBase<RandomHelper>

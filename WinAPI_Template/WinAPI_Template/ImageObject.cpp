@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ImageObject.h"
 #include "DrawHelper.h"
 #include "GeometryHelper.h"
@@ -71,11 +71,11 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_stBlendFunc.BlendFlags = 0;
     m_stBlendFunc.AlphaFormat = 0;
 
-    // ¾ËÆÄºí·»µå ±¸Á¶Ã¼ ÃÊ±âÈ­ (±âº» °ªÀ» ¹Ù²Ü ÀÏÀÌ ¾øÀ½)
-    // DC °¡Á®¿À±â
+    // ì•ŒíŒŒë¸”ë Œë“œ êµ¬ì¡°ì²´ ì´ˆê¸°í™” (ê¸°ë³¸ ê°’ì„ ë°”ê¿€ ì¼ì´ ì—†ìŒ)
+    // DC ê°€ì ¸ì˜¤ê¸°
     HDC alphaHdc = GetDC(g_hWnd);
 
-    // ÀÌ¹ÌÁö Á¤º¸ »õ·Î »ý¼º ¹× ÃÊ±âÈ­
+    // ì´ë¯¸ì§€ ì •ë³´ ìƒˆë¡œ ìƒì„± ë° ì´ˆê¸°í™”
     m_pBlendImage = new IMAGE_INFO;
     m_pBlendImage->btLoadType = LOAD_EMPTY;
     m_pBlendImage->resID = 0;
@@ -85,7 +85,7 @@ void ImageObject::Setup(const char * FileName, int width, int height)
     m_pBlendImage->nWidth = W_WIDTH;
     m_pBlendImage->nHeight = W_HEIGHT;
 
-    // DC ÇØÁ¦
+    // DC í•´ì œ
     ReleaseDC(g_hWnd, alphaHdc);
 }
 #pragma endregion
@@ -337,19 +337,19 @@ void ImageObject::Render(HDC hdc, int destX, int destY, int srcX, int srcY, int 
 
 void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
-    // ¾ËÆÄ°ª ÃÊ±âÈ­
+    // ì•ŒíŒŒê°’ ì´ˆê¸°í™”
     m_stBlendFunc.SourceConstantAlpha = alpha;
 
     if (m_isTrans)
     {
-        //1. Ãâ·ÂÇØ¾ß µÉ DC¿¡ ±×·ÁÁ® ÀÖ´Â ³»¿ëÀ» ºí·»µåÀÌ¹ÌÁö¿¡ ±×·ÁÁØ´Ù
+        //1. ì¶œë ¥í•´ì•¼ ë  DCì— ê·¸ë ¤ì ¸ ìžˆëŠ” ë‚´ìš©ì„ ë¸”ë Œë“œì´ë¯¸ì§€ì— ê·¸ë ¤ì¤€ë‹¤
         BitBlt(m_pBlendImage->hMemDC
             , 0, 0
             , m_pImageInfo->nWidth, m_pImageInfo->nHeight
             , hdc
             , destX, destY
             , SRCCOPY);
-        //2. Ãâ·ÂÇØ¾ß µÉ ÀÌ¹ÌÁö¸¦ ºí·»µå¿¡ ±×·ÁÁØ´Ù(¸¶Á¨Å¸ °ªÀ» ¾ø¾ÖÁØ´Ù)
+        //2. ì¶œë ¥í•´ì•¼ ë  ì´ë¯¸ì§€ë¥¼ ë¸”ë Œë“œì— ê·¸ë ¤ì¤€ë‹¤(ë§ˆì  íƒ€ ê°’ì„ ì—†ì• ì¤€ë‹¤)
         GdiTransparentBlt(m_pBlendImage->hMemDC
                         , 0, 0
                         , m_pImageInfo->nWidth, m_pImageInfo->nHeight
@@ -357,7 +357,7 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
                         , 0, 0
                         , m_pImageInfo->nWidth, m_pImageInfo->nHeight
                         , m_transColor);
-        //3. ºí·»µå DC¸¦ Ãâ·ÂÇØ¾ß ÇÒ DC¿¡ ±×¸°´Ù
+        //3. ë¸”ë Œë“œ DCë¥¼ ì¶œë ¥í•´ì•¼ í•  DCì— ê·¸ë¦°ë‹¤
         
         GdiAlphaBlend(hdc
                     , destX, destY
@@ -369,7 +369,7 @@ void ImageObject::AlphaRender(HDC hdc, int destX, int destY, BYTE alpha)
     }
     else
     {
-        // ¾ËÆÄºí·»µå ¿É¼Ç °ªÀ» »ç¿ëÇØ¼­ ±×¸°´Ù.
+        // ì•ŒíŒŒë¸”ë Œë“œ ì˜µì…˜ ê°’ì„ ì‚¬ìš©í•´ì„œ ê·¸ë¦°ë‹¤.
         GdiAlphaBlend(hdc
                     , destX, destY
                     , m_pImageInfo->nWidth, m_pImageInfo->nHeight

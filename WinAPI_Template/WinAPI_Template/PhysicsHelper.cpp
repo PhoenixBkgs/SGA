@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "PhysicsHelper.h"
 
 bool PhysicsHelper::IsCollision(GameObject* Unit1, GameObject* Unit2)

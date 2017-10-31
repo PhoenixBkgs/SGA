@@ -1,16 +1,16 @@
-#pragma once
+Ôªø#pragma once
 #include "SingletonBase.h"
 #include "GameObject.h"
 
 #define g_pPhxsHelper PhysicsHelper::GetInstance()
 #define _PERFECTLY_ELASTIC_COLLISION
 
-#ifdef _PERFECTLY_ELASTIC_COLLISION             //  øœ¿¸≈∫º∫√Êµπ
+#ifdef _PERFECTLY_ELASTIC_COLLISION             //  ÏôÑÏ†ÑÌÉÑÏÑ±Ï∂©Îèå
     #define RESTITUTION_COEF    1.0f
-#elif _PERFECTLY_INELASTIC_COLLISION            //  øœ¿¸∫Ò≈∫º∫√Êµπ
+#elif _PERFECTLY_INELASTIC_COLLISION            //  ÏôÑÏ†ÑÎπÑÌÉÑÏÑ±Ï∂©Îèå
     #define RESTITUTION_COEF    0.0f
 #else
-    #define RESTITUTION_COEF    0.75f           //  √Êµπ∞Ëºˆ
+    #define RESTITUTION_COEF    0.75f           //  Ï∂©ÎèåÍ≥ÑÏàò
 #endif
 
 class PhysicsHelper : public SingletonBase<PhysicsHelper>

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "TimerManager.h"
 
 bool TimerManager::AddSimpleTimer(string Key)
