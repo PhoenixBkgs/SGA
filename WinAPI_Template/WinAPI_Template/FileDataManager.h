@@ -11,4 +11,5 @@ public:
 
     string  MakeCsvString(vector<string> VecArray);
     vector<string>  CharArraySeperation(char CharArray[]);
+    void Tokenizer(const string& str, vector<string>& tokens, const string& token = ",");
 };
