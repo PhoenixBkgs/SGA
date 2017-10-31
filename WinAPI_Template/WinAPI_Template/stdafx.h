@@ -55,6 +55,7 @@ using namespace std;
 //==================================================================
 //		## 매니져 추가 ##
 //==================================================================
+#include "DbManager.h"
 #include "FileDataManager.h"
 #include "ImageManager.h"
 #include "SoundManager.h"

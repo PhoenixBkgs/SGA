@@ -3,8 +3,10 @@
 
 MainGame::MainGame()
 {
+    g_pLogManager->WriteLog(EL_INFO, "MainGame constructor");
     //  전체 맵 로딩
     m_pWorldMap = g_pImgManager->AddImage("world-map", "images/exia-repair.bmp", 4898, 3265);
+    m_pMiniMap = g_pImgManager->AddImage("mini-map", 160, 90);
     m_gameState = GAME_PLAYING;
     MouseLock();
     LoadAllResources();
@@ -14,6 +16,7 @@ MainGame::MainGame()
 
 MainGame::~MainGame()
 {
+    g_pLogManager->WriteLog(EL_INFO, "MainGame instance");
 }
 
 void MainGame::Start()
@@ -39,6 +42,11 @@ void MainGame::Update()
         break;
     }
 
+    g_rtViewPort.left = g_rtViewPort.left < 0 ? 0 : g_rtViewPort.left;
+    g_rtViewPort.right = g_rtViewPort.right > m_pWorldMap->GetWidth() ? m_pWorldMap->GetWidth() : g_rtViewPort.right;
+    g_rtViewPort.top = g_rtViewPort.top < 0 ? 0 : g_rtViewPort.top;
+    g_rtViewPort.bottom = g_rtViewPort.bottom > m_pWorldMap->GetHeight() ? m_pWorldMap->GetHeight() : g_rtViewPort.bottom;
+
     GameNode::Update();
 }
 
@@ -59,6 +67,7 @@ void MainGame::Render()
     case GAME_OVER:
         break;
     }
+    
 }
 
 void MainGame::Reset()

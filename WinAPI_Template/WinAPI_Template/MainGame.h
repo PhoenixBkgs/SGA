@@ -13,6 +13,7 @@ class MainGame : public GameNode
 //  VARIABLES
 private:
     ImageObject*    m_pWorldMap;
+    ImageObject*    m_pMiniMap;
 
     E_GAME_STATE    m_gameState;
     GameScene*      m_scnGame;

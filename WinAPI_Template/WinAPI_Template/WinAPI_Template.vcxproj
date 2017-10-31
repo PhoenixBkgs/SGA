@@ -150,6 +150,7 @@
     <ClInclude Include="AnimationHelper.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="DataStructure.h" />
+    <ClInclude Include="DbManager.h" />
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="FileDataManager.h" />
     <ClInclude Include="GameoverScene.h" />
@@ -189,6 +190,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationHelper.cpp" />
     <ClCompile Include="ClearScene.cpp" />
+    <ClCompile Include="DbManager.cpp" />
     <ClCompile Include="DrawHelper.cpp" />
     <ClCompile Include="FileDataManager.cpp" />
     <ClCompile Include="GameoverScene.cpp" />

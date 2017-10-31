@@ -156,6 +156,9 @@
     <ClInclude Include="PixelCollision.h">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClInclude>
+    <ClInclude Include="DbManager.h">
+      <Filter>GameFramework2D\002-Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -252,6 +255,9 @@
       <Filter>GameFramework2D\000-Objects</Filter>
     </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
+      <Filter>GameFramework2D\002-Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DbManager.cpp">
       <Filter>GameFramework2D\002-Manager</Filter>
     </ClCompile>
   </ItemGroup>
